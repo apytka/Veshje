@@ -15,6 +15,7 @@ public class UserDTOMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .userRole(user.getUserRole())
                 .createDate(user.getCreateDate())
                 .updateDate(user.getUpdateDate())
                 .build();

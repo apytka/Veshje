@@ -5,6 +5,7 @@ import com.agatap.veshje.controller.DTO.UpdateUserDTO;
 import com.agatap.veshje.controller.DTO.UserDTO;
 import com.agatap.veshje.controller.mapper.UserDTOMapper;
 import com.agatap.veshje.model.User;
+import com.agatap.veshje.model.UserRole;
 import com.agatap.veshje.repository.UserRepository;
 import com.agatap.veshje.service.exception.UserAlreadyExist;
 import com.agatap.veshje.service.exception.UserDataInvalid;
@@ -50,6 +51,7 @@ public class UserService {
         }
 
         User user = mapper.mappingToModel(createUserDTO);
+        user.setUserRole(UserRole.USER);
         user.setCreateDate(OffsetDateTime.now());
         User newUser = userRepository.save(user);
         return mapper.mappingToDTO(newUser);
@@ -61,6 +63,7 @@ public class UserService {
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
         user.setEmail(updateUserDTO.getEmail());
+        user.setUserRole(updateUserDTO.getUserRole());
         user.setUpdateDate(OffsetDateTime.now());
         User updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);

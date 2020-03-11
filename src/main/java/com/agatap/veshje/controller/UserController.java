@@ -4,6 +4,9 @@ import com.agatap.veshje.controller.DTO.CreateUserDTO;
 import com.agatap.veshje.controller.DTO.UpdateUserDTO;
 import com.agatap.veshje.controller.DTO.UserDTO;
 import com.agatap.veshje.service.UserService;
+import com.agatap.veshje.service.exception.UserAlreadyExist;
+import com.agatap.veshje.service.exception.UserDataInvalid;
+import com.agatap.veshje.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +24,22 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDTO finsUserDTOById(@PathVariable Integer id) {
+    public UserDTO finsUserDTOById(@PathVariable Integer id) throws UserNotFoundException {
         return userService.findUserDTOById(id);
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody CreateUserDTO createUserDTO) {
+    public UserDTO createUser(@RequestBody CreateUserDTO createUserDTO) throws UserDataInvalid, UserAlreadyExist {
         return userService.createUser(createUserDTO);
     }
 
     @PutMapping("/{id}")
-    public UserDTO updateUser(@RequestBody UpdateUserDTO updateUserDTO, @PathVariable Integer id) {
+    public UserDTO updateUser(@RequestBody UpdateUserDTO updateUserDTO, @PathVariable Integer id) throws UserNotFoundException {
         return userService.updateUser(updateUserDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public UserDTO deleteUser(@PathVariable Integer id) {
+    public UserDTO deleteUser(@PathVariable Integer id) throws UserNotFoundException {
         return userService.deleteUser(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
