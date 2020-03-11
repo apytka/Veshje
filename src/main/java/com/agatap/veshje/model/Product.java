@@ -21,7 +21,7 @@ public class Product {
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-
+//    private List<Picture> pictureList;
 //    private List<CompositionProduct> compositionList;
 //    private List<CareProduct> detailsProductList;
 //    private List<Category> categoryList;

@@ -16,9 +16,9 @@ import java.util.List;
 public class CareProduct {
     private Integer id;
     private String name;
-    private String picture;  //???
     private String description;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 //    private List<Product> productList;
+//    private List<Picture> pictureList;  //???
 }
