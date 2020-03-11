@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
@@ -18,14 +15,18 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 
 @Entity
-public class Payment {
+public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private BigDecimal amount;
-    private PaymentStatus paymentStatus;
+    private PaymentsStatus paymentStatus;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private User userId;
-//    private Order orderId;
+    @ManyToOne
+    private PaymentsType typePayment;
+    @OneToOne
+    private Orders orders;
+    @ManyToOne
+    private User users;
 }

@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateOrderDTO {
+public class CreateUpdateOrdersDTO {
     private OrderStatus orderStatus;
+
+    private Integer paymentIds;
+    private Integer deliveryIds;
+    private Integer ordersIds;
 }

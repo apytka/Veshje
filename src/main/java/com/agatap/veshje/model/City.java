@@ -5,17 +5,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Entity
 public class City {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private Address addressId;
-//    private Country countryId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Country country;
+    @OneToMany(mappedBy = "city")
+    @Builder.Default
+    private List<Address> address = new ArrayList<>();
 }

@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
@@ -24,5 +21,8 @@ public class Store {
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private Address addressId;
+
+    @OneToOne(mappedBy = "store")
+    private Address address;
+
 }

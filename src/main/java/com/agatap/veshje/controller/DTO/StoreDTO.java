@@ -5,10 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreDTO {
     private String name;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
+
+    private Integer addressIds;
 }

@@ -1,6 +1,6 @@
 package com.agatap.veshje.model;
 
-public enum PaymentStatus {
+public enum PaymentsStatus {
     PENDING,
     CLOSED
 }

@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,5 +25,8 @@ public class Delivery {
     private BigDecimal price;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private Order orderId;
+
+    @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Orders> deliveryOrders = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +20,8 @@ public class AddressDTO {
     private String phoneNumber;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+
+    private Integer cityId;
+    private Integer storeId;
+    private Integer usersId;
 }

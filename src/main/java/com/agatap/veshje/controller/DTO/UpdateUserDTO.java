@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,4 +17,9 @@ public class UpdateUserDTO {
     private String lastName;
     private String email;
     private UserRole userRole;
+
+    private List<Integer> paymentIds;
+    private List<Integer> addressesIds;
+    private Integer newsletterId;
+    private List<Integer> ordersId;
 }

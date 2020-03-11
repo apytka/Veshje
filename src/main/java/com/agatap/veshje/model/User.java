@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,8 +30,17 @@ public class User {
     private UserRole userRole;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private List<Address> addressId;
-//    private Newsletter newsletterId;
-//    private List<Payment> paymentsId;
-//    private List<Review> reviewList;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Payments> userPayments = new ArrayList<>();
+    @ManyToMany(mappedBy = "users")
+    @Builder.Default
+    private List<Address> addresses = new ArrayList<>();
+    @ManyToOne
+    private Newsletter newsletter;
+    @OneToMany(mappedBy = "orders")
+    @Builder.Default
+    private List<Orders> orders = new ArrayList<>();
+
 }

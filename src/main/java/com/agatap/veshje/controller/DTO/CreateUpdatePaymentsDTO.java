@@ -6,13 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentDTO {
-    private BigDecimal amount;
+public class CreateUpdatePaymentsDTO {
     private PaymentsStatus paymentStatus;
+
+    private Integer paymentTypeIds;
+    private Integer ordersIds;
+    private Integer userIds;
 }

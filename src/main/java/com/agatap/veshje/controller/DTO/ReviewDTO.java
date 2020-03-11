@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,4 +14,6 @@ import lombok.NoArgsConstructor;
 public class ReviewDTO {
     private String comment;
     private int rate;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 }

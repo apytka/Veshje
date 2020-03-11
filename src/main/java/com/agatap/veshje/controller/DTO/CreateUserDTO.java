@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,4 +18,9 @@ public class CreateUserDTO {
     private String firstName;
     private String lastName;
     private String email;
+
+    private List<Integer> paymentIds;
+    private List<Integer> addressesIds;
+    private Integer newsletterId;
+    private List<Integer> ordersId;
 }

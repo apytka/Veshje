@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class UserDTOMapper {
 
     public UserDTO mappingToDTO(User user) {
+        //todo - add foreign keys
         return UserDTO.builder()
                 .id(user.getId())
                 .login(user.getLogin())

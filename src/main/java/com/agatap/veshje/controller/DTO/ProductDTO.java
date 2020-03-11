@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -18,4 +19,6 @@ public class ProductDTO {
     private String description;
     private Size size;
     private TypeCollection typeCollection;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 }

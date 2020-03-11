@@ -1,12 +1,14 @@
 package com.agatap.veshje.controller.DTO;
 
 import com.agatap.veshje.model.UserRole;
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +24,7 @@ public class UserDTO {
     private UserRole userRole;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+
+    private List<Integer> paymentIds;
+    private List<Integer> addressesIds;
 }

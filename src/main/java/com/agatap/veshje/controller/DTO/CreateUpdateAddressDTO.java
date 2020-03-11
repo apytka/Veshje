@@ -14,4 +14,8 @@ public class CreateUpdateAddressDTO {
     private String no;
     private String postalCode;
     private String phoneNumber;
+
+    private Integer cityId;
+    private Integer storeId;
+    private Integer usersId;
 }

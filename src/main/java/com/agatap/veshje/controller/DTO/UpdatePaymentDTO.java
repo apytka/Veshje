@@ -1,17 +1,19 @@
 package com.agatap.veshje.controller.DTO;
 
-import com.agatap.veshje.model.PaymentStatus;
+import com.agatap.veshje.model.PaymentsStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePaymentDTO {
-    private PaymentStatus paymentStatus;
+    private PaymentsStatus paymentStatus;
+
+    private List<Integer> paymentIds;
 }

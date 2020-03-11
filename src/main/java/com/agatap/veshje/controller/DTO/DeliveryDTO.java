@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,4 +16,8 @@ import java.math.BigDecimal;
 public class DeliveryDTO {
     private String name;
     private BigDecimal price;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
+
+    private List<Integer> ordersIds;
 }

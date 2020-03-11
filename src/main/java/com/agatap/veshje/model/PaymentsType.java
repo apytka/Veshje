@@ -5,11 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,12 +16,14 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 
 @Entity
-public class TypePayment {
+public class PaymentsType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private Payment paymentId;
+    @OneToMany(mappedBy = "typePayment")
+    @Builder.Default
+    private List<Payments> payments = new ArrayList<>();
 }

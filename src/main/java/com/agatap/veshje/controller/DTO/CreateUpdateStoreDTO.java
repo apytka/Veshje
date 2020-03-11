@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateUpdateStoreDTO {
     private String name;
+
+    private Integer addressIds;
 }

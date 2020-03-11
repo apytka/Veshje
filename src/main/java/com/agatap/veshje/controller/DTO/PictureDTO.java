@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,4 +16,6 @@ public class PictureDTO {
     private String fileType;
     private long size;
     private byte[] data;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 }
