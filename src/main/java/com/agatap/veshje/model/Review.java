@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 
 @Data
 @Builder
@@ -25,6 +23,7 @@ public class Review {
     private int rate;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private User userId;
-//    private Product productId;
+
+    @ManyToOne
+    private Product product;
 }

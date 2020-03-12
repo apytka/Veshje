@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,4 +16,6 @@ public class CreateUpdateCompositionProductDTO {
     private MaterialType compositionType;
     private String description;
     private int compositionPercent;
+
+    private List<Integer> productsIds;
 }

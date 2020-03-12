@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,5 +18,7 @@ public class CareProductDTO {
     private String description;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private List<Picture> pictureList;  //???
+
+    private Integer productIds;
+    private List<Integer> pictureIds;
 }

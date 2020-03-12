@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,5 +17,6 @@ public class CreateUpdateOrdersDTO {
 
     private Integer paymentIds;
     private Integer deliveryIds;
-    private Integer ordersIds;
+    private Integer userOrdersIds;
+    private List<Integer> productIds;
 }

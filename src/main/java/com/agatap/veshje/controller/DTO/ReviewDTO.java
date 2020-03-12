@@ -16,4 +16,6 @@ public class ReviewDTO {
     private int rate;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+
+    private Integer productIds;
 }

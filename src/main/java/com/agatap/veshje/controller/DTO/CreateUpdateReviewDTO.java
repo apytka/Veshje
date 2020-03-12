@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateUpdateReviewDTO {
     private String comment;
     private int rate;
+
+    private Integer productIds;
 }

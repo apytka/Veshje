@@ -5,11 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -24,5 +23,8 @@ public class Category {
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private List<Product> productList;
+
+    @ManyToMany(mappedBy = "categories")
+    @Builder.Default
+    private List<Product> products = new ArrayList<>();
 }

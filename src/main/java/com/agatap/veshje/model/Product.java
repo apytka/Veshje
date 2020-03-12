@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,10 +28,22 @@ public class Product {
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-//    private List<Picture> pictureList;
-//    private List<CompositionProduct> compositionList;
-//    private List<CareProduct> detailsProductList;
-//    private List<Category> categoryList;
-//    private List<Product> productList;
-//    private List<Review> reviewList;
+
+    @ManyToMany(mappedBy = "products")
+    @Builder.Default
+    private List<Orders> orders = new ArrayList<>();
+    @ManyToMany
+    @Builder.Default
+    private List<CompositionProduct> composition = new ArrayList<>();
+    @ManyToMany
+    @Builder.Default
+    private List<Category> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
+    @OneToOne(mappedBy = "product")
+    private CareProduct careProduct;
+    @OneToMany(mappedBy = "product")
+    @Builder.Default
+    private List<Picture> pictures = new ArrayList<>();
 }

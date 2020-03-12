@@ -39,7 +39,7 @@ public class User {
     private List<Address> addresses = new ArrayList<>();
     @ManyToOne
     private Newsletter newsletter;
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "userOrders")
     @Builder.Default
     private List<Orders> orders = new ArrayList<>();
 

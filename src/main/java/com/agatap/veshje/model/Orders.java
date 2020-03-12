@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,11 +24,13 @@ public class Orders {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne
+    @OneToOne(mappedBy = "orders")
     private Payments payment;
     @ManyToOne(fetch = FetchType.EAGER)
     private Delivery delivery;
     @ManyToOne
-    private User orders;
-//    private Integer List<Product> products;
+    private User userOrders;
+    @ManyToMany
+    @Builder.Default
+    private List<Product> products = new ArrayList<>();
 }
