@@ -1,8 +1,6 @@
 package com.agatap.veshje.controller;
 
-import com.agatap.veshje.service.exception.UserAlreadyExist;
-import com.agatap.veshje.service.exception.UserDataInvalid;
-import com.agatap.veshje.service.exception.UserNotFoundException;
+import com.agatap.veshje.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,5 +22,25 @@ public class ControllerConfig {
     @ExceptionHandler(UserAlreadyExist.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleUserAlreadyExist() {
+    }
+
+    @ExceptionHandler(StoreDataInvalid.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleStoreBadRequest() {
+    }
+
+    @ExceptionHandler(StoreNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleStoreNotFoundException() {
+    }
+
+    @ExceptionHandler(ReviewDataInvalid.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleReviewBadRequest() {
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleReviewNotFoundException() {
     }
 }

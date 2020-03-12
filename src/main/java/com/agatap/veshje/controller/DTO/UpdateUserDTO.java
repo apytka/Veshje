@@ -22,4 +22,5 @@ public class UpdateUserDTO {
     private List<Integer> addressesIds;
     private Integer newsletterId;
     private List<Integer> ordersId;
+    private List<Integer> reviewsIds;
 }

@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.Review;
 import com.agatap.veshje.model.UserRole;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,9 @@ public class UserDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
+    private Integer newsletterId;
     private List<Integer> paymentIds;
     private List<Integer> addressesIds;
+    private List<Integer> orderIds;
+    private List<Integer> reviewsIds;
 }

@@ -18,4 +18,5 @@ public class ReviewDTO {
     private OffsetDateTime updateDate;
 
     private Integer productIds;
+    private Integer userId;
 }

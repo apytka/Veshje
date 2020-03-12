@@ -53,6 +53,7 @@ public class UserService {
         User user = mapper.mappingToModel(createUserDTO);
         user.setUserRole(UserRole.USER);
         user.setCreateDate(OffsetDateTime.now());
+        //todo bind to foreign tables
         User newUser = userRepository.save(user);
         return mapper.mappingToDTO(newUser);
 
@@ -65,6 +66,7 @@ public class UserService {
         user.setEmail(updateUserDTO.getEmail());
         user.setUserRole(updateUserDTO.getUserRole());
         user.setUpdateDate(OffsetDateTime.now());
+        //todo bind to foreign tables
         User updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);
     }

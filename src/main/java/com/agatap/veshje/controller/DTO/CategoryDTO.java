@@ -1,6 +1,5 @@
 package com.agatap.veshje.controller.DTO;
 
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -42,5 +42,7 @@ public class User {
     @OneToMany(mappedBy = "userOrders")
     @Builder.Default
     private List<Orders> orders = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
 }
