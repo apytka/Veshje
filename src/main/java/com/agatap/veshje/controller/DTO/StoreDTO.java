@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreDTO {
+    private Integer id;
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

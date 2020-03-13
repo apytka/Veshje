@@ -11,13 +11,13 @@ import java.time.OffsetDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDTO {
+public class DimensionDTO {
     private Integer id;
-    private String comment;
-    private int rate;
+    private Integer bust;
+    private Integer waist;
+    private Integer hips;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private Integer productIds;
-    private Integer userId;
+    private Integer sizeId;
 }

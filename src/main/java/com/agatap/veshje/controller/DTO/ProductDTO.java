@@ -1,8 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
-import com.agatap.veshje.model.Size;
 import com.agatap.veshje.model.TypeCollection;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
+    private Integer id;
+    private String name;
     private BigDecimal price;
     private String description;
-    private Size size;
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
@@ -29,4 +28,6 @@ public class ProductDTO {
     private List<Integer> categoriesIds;
     private List<Integer> reviewIds;
     private Integer careProductIds;
+    private List<Integer> picturesIds;
+    private List<Integer> sizeIds;
 }

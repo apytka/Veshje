@@ -15,6 +15,7 @@ public class ReviewDTOMapper {
         Integer userId = Optional.ofNullable(review.getUser())
                 .map(r -> review.getId()).orElse(null);
         return ReviewDTO.builder()
+                .id(review.getId())
                 .comment(review.getComment())
                 .rate(review.getRate())
                 .productIds(productId)

@@ -3,7 +3,7 @@ package com.agatap.veshje.controller;
 import com.agatap.veshje.controller.DTO.CreateUpdateReviewDTO;
 import com.agatap.veshje.controller.DTO.ReviewDTO;
 import com.agatap.veshje.service.ReviewService;
-import com.agatap.veshje.service.exception.ReviewDataInvalid;
+import com.agatap.veshje.service.exception.ReviewDataInvalidException;
 import com.agatap.veshje.service.exception.ReviewNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +27,12 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ReviewDTO createStoreDTO(@RequestBody CreateUpdateReviewDTO createReviewDTO) throws ReviewDataInvalid {
+    public ReviewDTO createStoreDTO(@RequestBody CreateUpdateReviewDTO createReviewDTO) throws ReviewDataInvalidException {
         return reviewService.createReviewDTO(createReviewDTO);
     }
 
     @PutMapping("/{id}")
-    public ReviewDTO updateStoreDTO(@RequestBody CreateUpdateReviewDTO updateReviewDTO, @PathVariable Integer id) throws ReviewNotFoundException, ReviewDataInvalid {
+    public ReviewDTO updateStoreDTO(@RequestBody CreateUpdateReviewDTO updateReviewDTO, @PathVariable Integer id) throws ReviewNotFoundException, ReviewDataInvalidException {
         return reviewService.updateReviewDTO(updateReviewDTO, id);
     }
 

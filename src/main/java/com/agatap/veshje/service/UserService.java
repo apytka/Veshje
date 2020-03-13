@@ -7,8 +7,8 @@ import com.agatap.veshje.controller.mapper.UserDTOMapper;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.UserRole;
 import com.agatap.veshje.repository.UserRepository;
-import com.agatap.veshje.service.exception.UserAlreadyExist;
-import com.agatap.veshje.service.exception.UserDataInvalid;
+import com.agatap.veshje.service.exception.UserAlreadyExistException;
+import com.agatap.veshje.service.exception.UserDataInvalidException;
 import com.agatap.veshje.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,13 +41,13 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
     }
 
-    public UserDTO createUser(CreateUserDTO createUserDTO) throws UserAlreadyExist, UserDataInvalid {
+    public UserDTO createUser(CreateUserDTO createUserDTO) throws UserAlreadyExistException, UserDataInvalidException {
         if (userRepository.existsByLogin(createUserDTO.getLogin())) {
-            throw new UserAlreadyExist();
+            throw new UserAlreadyExistException();
         }
         if(createUserDTO.getLogin() == null || createUserDTO.getLogin().length() < 3 ||
                 createUserDTO.getPassword() == null || createUserDTO.getPassword().length() < 3) {
-            throw new UserDataInvalid();
+            throw new UserDataInvalidException();
         }
 
         User user = mapper.mappingToModel(createUserDTO);

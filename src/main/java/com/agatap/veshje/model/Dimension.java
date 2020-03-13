@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
@@ -16,18 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-public class Size {
+public class Dimension {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private SizeType sizeType;
-    private Integer quantity; //??
+    private Integer bust;
+    private Integer waist;
+    private Integer hips;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @ManyToMany(mappedBy = "sizes")
-    @Builder.Default
-    private List<Product> products = new ArrayList<>();
-    @OneToOne
-    private Dimension dimension;
+    @OneToOne(mappedBy = "dimension")
+    private Size size;
 }

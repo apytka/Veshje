@@ -21,10 +21,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private String name;
     private BigDecimal price;
-    private String picture;  //???
     private String description;
-    private Size size;
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
@@ -46,4 +45,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @Builder.Default
     private List<Picture> pictures = new ArrayList<>();
+    @ManyToMany
+    @Builder.Default
+    private List<Size> sizes = new ArrayList<>();
 }

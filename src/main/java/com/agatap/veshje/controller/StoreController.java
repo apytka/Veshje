@@ -3,7 +3,7 @@ package com.agatap.veshje.controller;
 import com.agatap.veshje.controller.DTO.CreateUpdateStoreDTO;
 import com.agatap.veshje.controller.DTO.StoreDTO;
 import com.agatap.veshje.service.StoreService;
-import com.agatap.veshje.service.exception.StoreDataInvalid;
+import com.agatap.veshje.service.exception.StoreDataInvalidException;
 import com.agatap.veshje.service.exception.StoreNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class StoreController {
     }
 
     @PostMapping
-    public StoreDTO createStoreDTO(@RequestBody CreateUpdateStoreDTO createStoreDTO) throws StoreDataInvalid {
+    public StoreDTO createStoreDTO(@RequestBody CreateUpdateStoreDTO createStoreDTO) throws StoreDataInvalidException {
         return storeService.createStoreDTO(createStoreDTO);
     }
 

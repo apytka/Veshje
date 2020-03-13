@@ -14,6 +14,7 @@ public class StoreDTOMapper {
         Integer addressId = Optional.ofNullable(store.getAddress())
                 .map(s -> store.getId()).orElse(null);
         return StoreDTO.builder()
+                .id(store.getId())
                 .name(store.getName())
                 .addressIds(addressId)
                 .createDate(store.getCreateDate())

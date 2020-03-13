@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ControllerConfig {
 
-    @ExceptionHandler(UserDataInvalid.class)
+    @ExceptionHandler(UserDataInvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleUserBadRequest() {
     }
@@ -19,12 +19,12 @@ public class ControllerConfig {
         public void handleUserNotFoundException() {
     }
 
-    @ExceptionHandler(UserAlreadyExist.class)
+    @ExceptionHandler(UserAlreadyExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleUserAlreadyExist() {
     }
 
-    @ExceptionHandler(StoreDataInvalid.class)
+    @ExceptionHandler(StoreDataInvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleStoreBadRequest() {
     }
@@ -34,7 +34,7 @@ public class ControllerConfig {
     public void handleStoreNotFoundException() {
     }
 
-    @ExceptionHandler(ReviewDataInvalid.class)
+    @ExceptionHandler(ReviewDataInvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleReviewBadRequest() {
     }
@@ -42,5 +42,35 @@ public class ControllerConfig {
     @ExceptionHandler(ReviewNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleReviewNotFoundException() {
+    }
+
+    @ExceptionHandler(ProductDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleProductBadRequest() {
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleProductNotFoundException() {
+    }
+
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleProductAlreadyExist() {
+    }
+
+    @ExceptionHandler(DimensionDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleDimensionBadRequest() {
+    }
+
+    @ExceptionHandler(DimensionNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleDimensionNotFoundException() {
+    }
+
+    @ExceptionHandler(DimensionAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleDimensionAlreadyExists() {
     }
 }

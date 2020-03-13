@@ -5,7 +5,7 @@ import com.agatap.veshje.controller.DTO.StoreDTO;
 import com.agatap.veshje.controller.mapper.StoreDTOMapper;
 import com.agatap.veshje.model.Store;
 import com.agatap.veshje.repository.StoreRepository;
-import com.agatap.veshje.service.exception.StoreDataInvalid;
+import com.agatap.veshje.service.exception.StoreDataInvalidException;
 import com.agatap.veshje.service.exception.StoreNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +38,9 @@ public class StoreService {
                 .orElseThrow(() -> new StoreNotFoundException());
     }
 
-    public StoreDTO createStoreDTO(CreateUpdateStoreDTO createStoreDTO) throws StoreDataInvalid {
+    public StoreDTO createStoreDTO(CreateUpdateStoreDTO createStoreDTO) throws StoreDataInvalidException {
         if (createStoreDTO.getName() == null) {
-            throw new StoreDataInvalid();
+            throw new StoreDataInvalidException();
         }
         Store store = mapper.mappingToModel(createStoreDTO);
         store.setCreateDate(OffsetDateTime.now());
