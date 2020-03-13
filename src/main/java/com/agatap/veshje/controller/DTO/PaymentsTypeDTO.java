@@ -12,8 +12,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdatePaymentsDTOType {
+public class PaymentsTypeDTO {
+    private Integer id;
     private String name;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 
     private List<Integer> paymentIds;
 }

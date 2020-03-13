@@ -12,10 +12,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentsDTOType {
+public class CreateUpdatePaymentsTypeDTO {
     private String name;
-    private OffsetDateTime createDate;
-    private OffsetDateTime updateDate;
 
     private List<Integer> paymentIds;
 }

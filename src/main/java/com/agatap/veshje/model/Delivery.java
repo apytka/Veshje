@@ -28,5 +28,5 @@ public class Delivery {
 
     @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<Orders> deliveryOrders = new ArrayList<>();
+    private List<Orders> orders = new ArrayList<>();
 }

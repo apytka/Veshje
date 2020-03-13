@@ -17,12 +17,9 @@ public class SizeDTO {
     private Integer id;
     private SizeType sizeType;
     private Integer quantity; //??
-    private String dimensionBust;
-    private String dimensionWaist;
-    private String dimensionHips;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
     private List<Integer> productsIds;
-    private Integer sizeId;
+    private Integer dimensionIds;
 }

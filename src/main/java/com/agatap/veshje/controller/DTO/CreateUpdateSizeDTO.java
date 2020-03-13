@@ -15,10 +15,7 @@ import java.util.List;
 public class CreateUpdateSizeDTO {
     private SizeType sizeType;
     private Integer quantity; //??
-    private String dimensionBust;
-    private String dimensionWaist;
-    private String dimensionHips;
 
     private List<Integer> productsIds;
-    private Integer sizeId;
+    private Integer dimensionIds;
 }

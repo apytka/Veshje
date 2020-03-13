@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewsletterDTO {
+    private Integer id;
     private String email;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

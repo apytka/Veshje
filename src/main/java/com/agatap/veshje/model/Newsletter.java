@@ -27,4 +27,5 @@ public class Newsletter {
     @OneToMany(mappedBy = "newsletter")
     @Builder.Default
     private List<User> users = new ArrayList<>();
+    //todo think about
 }

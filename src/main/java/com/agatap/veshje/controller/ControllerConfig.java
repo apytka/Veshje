@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller;
 
+import com.agatap.veshje.model.PaymentsType;
 import com.agatap.veshje.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -72,5 +73,80 @@ public class ControllerConfig {
     @ExceptionHandler(DimensionAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleDimensionAlreadyExists() {
+    }
+
+    @ExceptionHandler(SizeDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleSizeBadRequest() {
+    }
+
+    @ExceptionHandler(SizeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleSizeNotFoundException() {
+    }
+
+    @ExceptionHandler(PaymentsTypeDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handlePaymentsTypeBadRequest() {
+    }
+
+    @ExceptionHandler(PaymentsTypeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handlePaymentsTypeNotFoundException() {
+    }
+
+    @ExceptionHandler(PaymentsTypeAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handlePaymentsTypeAlreadyExists() {
+    }
+
+    @ExceptionHandler(PaymentsDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handlePaymentsBadRequest() {
+    }
+
+    @ExceptionHandler(PaymentsNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handlePaymentsNotFoundException() {
+    }
+
+    @ExceptionHandler(OrdersDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleOrdersBadRequest() {
+    }
+
+    @ExceptionHandler(OrdersNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleOrdersNotFoundException() {
+    }
+
+    @ExceptionHandler(NewsletterDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleNewsletterBadRequest() {
+    }
+
+    @ExceptionHandler(NewsletterNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleNewsletterNotFoundException() {
+    }
+
+    @ExceptionHandler(NewsletterAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleNewsletterAlreadyExists() {
+    }
+
+    @ExceptionHandler(DeliveryDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleDeliveryBadRequest() {
+    }
+
+    @ExceptionHandler(DeliveryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleDeliveryNotFoundException() {
+    }
+
+    @ExceptionHandler(DeliveryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleDeliveryAlreadyExists() {
     }
 }

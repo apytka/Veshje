@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Data
@@ -13,6 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUpdatePaymentsDTO {
+    private BigDecimal amount;
     private PaymentsStatus paymentStatus;
 
     private Integer paymentTypeIds;

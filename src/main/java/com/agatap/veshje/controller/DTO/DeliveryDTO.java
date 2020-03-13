@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryDTO {
+    private Integer id;
     private String name;
     private BigDecimal price;
     private OffsetDateTime createDate;

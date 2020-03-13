@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdersDTO {
+    private Integer id;
     private OrderStatus orderStatus;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

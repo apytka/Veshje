@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentsDTO {
+    private Integer id;
     private BigDecimal amount;
     private PaymentsStatus paymentStatus;
     private OffsetDateTime createDate;
