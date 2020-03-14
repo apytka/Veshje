@@ -64,6 +64,7 @@ public class UserService {
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
         user.setEmail(updateUserDTO.getEmail());
+        updateUserDTO.setBirthDate(updateUserDTO.getBirthDate());
         user.setUserRole(updateUserDTO.getUserRole());
         user.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables

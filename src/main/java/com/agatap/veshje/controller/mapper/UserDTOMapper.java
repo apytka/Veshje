@@ -34,6 +34,7 @@ public class UserDTOMapper {
                 .login(user.getLogin())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .birthDate(user.getBirthDate())
                 .email(user.getEmail())
                 .userRole(user.getUserRole())
                 .newsletterId(newsletterId)
@@ -52,6 +53,7 @@ public class UserDTOMapper {
                 .password(createUserDTO.getPassword())
                 .firstName(createUserDTO.getFirstName())
                 .lastName(createUserDTO.getLastName())
+                .birthDate(createUserDTO.getBirthDate())
                 .email(createUserDTO.getEmail())
                 .build();
     }

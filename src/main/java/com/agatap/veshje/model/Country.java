@@ -26,5 +26,5 @@ public class Country {
 
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<City> cityList = new ArrayList<>();
+    private List<City> cities = new ArrayList<>();
 }

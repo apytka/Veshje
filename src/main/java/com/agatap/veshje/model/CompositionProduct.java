@@ -22,7 +22,7 @@ public class CompositionProduct {
     private Integer id;
     private MaterialType compositionType;
     private String description;
-    private int compositionPercent;
+    private Integer compositionPercent;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

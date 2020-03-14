@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,6 +27,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private Date birthDate;
     private String email;
     private UserRole userRole;
     private OffsetDateTime createDate;

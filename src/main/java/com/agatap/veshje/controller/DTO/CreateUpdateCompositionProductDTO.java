@@ -16,7 +16,7 @@ import java.util.List;
 public class CreateUpdateCompositionProductDTO {
     private MaterialType compositionType;
     private String description;
-    private int compositionPercent;
+    private Integer compositionPercent;
 
     private List<Integer> productsIds;
 }

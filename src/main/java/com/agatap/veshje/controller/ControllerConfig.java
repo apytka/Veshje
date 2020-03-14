@@ -149,4 +149,84 @@ public class ControllerConfig {
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleDeliveryAlreadyExists() {
     }
+
+    @ExceptionHandler(CountryDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCountryBadRequest() {
+    }
+
+    @ExceptionHandler(CountryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCountryNotFoundException() {
+    }
+
+    @ExceptionHandler(CountryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleCountryAlreadyExists() {
+    }
+
+    @ExceptionHandler(CompositionProductDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCompositionProductBadRequest() {
+    }
+
+    @ExceptionHandler(CompositionProductNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCompositionProductNotFoundException() {
+    }
+
+    @ExceptionHandler(CityDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCityBadRequest() {
+    }
+
+    @ExceptionHandler(CityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCityNotFoundException() {
+    }
+
+    @ExceptionHandler(CityAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleCityAlreadyExists() {
+    }
+
+    @ExceptionHandler(CategoryDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCategoryBadRequest() {
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCategoryNotFoundException() {
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleCategoryAlreadyExists() {
+    }
+
+    @ExceptionHandler(CareProductDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCareProductBadRequest() {
+    }
+
+    @ExceptionHandler(CareProductNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCareProductNotFoundException() {
+    }
+
+    @ExceptionHandler(CareProductAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleCareProductAlreadyExists() {
+    }
+
+    @ExceptionHandler(AddressDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleAddressBadRequest() {
+    }
+
+    @ExceptionHandler(AddressNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleAddressNotFoundException() {
+    }
 }

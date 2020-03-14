@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CityDTO {
+    private Integer id;
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

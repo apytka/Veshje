@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,14 @@ public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
+    private String fileName;
     private String fileType;
     private long size;
+    @Lob
     private byte[] data;
+
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 
     @ManyToOne
     private Product product;

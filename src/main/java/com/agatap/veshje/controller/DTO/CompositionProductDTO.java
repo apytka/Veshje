@@ -15,9 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 
 public class CompositionProductDTO {
+    private Integer id;
     private MaterialType compositionType;
     private String description;
-    private int compositionPercent;
+    private Integer compositionPercent;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

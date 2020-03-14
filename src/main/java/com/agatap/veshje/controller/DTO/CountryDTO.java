@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CountryDTO {
+    private Integer id;
     private String name;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

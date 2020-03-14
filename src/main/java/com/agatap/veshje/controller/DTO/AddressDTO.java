@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,5 +24,5 @@ public class AddressDTO {
 
     private Integer cityId;
     private Integer storeId;
-    private Integer usersId;
+    private List<Integer> usersId;
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,6 +22,7 @@ public class UserDTO {
 //    private String password;
     private String firstName;
     private String lastName;
+    private Date birthDate;
     private String email;
     private UserRole userRole;
     private OffsetDateTime createDate;
