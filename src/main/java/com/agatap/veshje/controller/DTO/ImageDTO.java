@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +13,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateCareProductDTO {
+public class ImageDTO {
+    private Integer id;
     private String name;
-    private String description;
+    private String type;
+    private long size;
+    private byte[] data;
+    private OffsetDateTime createDate;
+    private OffsetDateTime updateDate;
 
     private Integer productIds;
-    private List<Integer> imageIds;
+    private List<Integer> careIds;
 }

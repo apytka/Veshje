@@ -16,18 +16,18 @@ public class UserDTOMapper {
     public UserDTO mappingToDTO(User user) {
         //todo - add foreign keys
         Integer newsletterId = Optional.ofNullable(user.getNewsletter())
-                .map(u -> user.getId()).orElse(null);
+                .map(newsletter -> user.getId()).orElse(null);
         List<Integer> paymentsId = user.getUserPayments().stream()
-                .map(u -> user.getId())
+                .map(payment -> user.getId())
                 .collect(Collectors.toList());
         List<Integer> addressesId = user.getAddresses().stream()
-                .map(u -> user.getId())
+                .map(addresses -> user.getId())
                 .collect(Collectors.toList());
         List<Integer> ordersId = user.getOrders().stream()
-                .map(u -> user.getId())
+                .map(order -> user.getId())
                 .collect(Collectors.toList());
         List<Integer> reviewsId = user.getReviews().stream()
-                .map(u -> user.getId())
+                .map(reviews -> user.getId())
                 .collect(Collectors.toList());
         return UserDTO.builder()
                 .id(user.getId())

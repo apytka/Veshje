@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 public class SizeDTOMapper {
     public SizeDTO mappingToDTO(Size size) {
         List<Integer> productsId = size.getProducts().stream()
-                .map(p -> size.getId())
+                .map(product -> size.getId())
                 .collect(Collectors.toList());
         Integer dimensionId = Optional.ofNullable(size.getDimension())
-                .map(d -> size.getId()).orElse(null);
+                .map(dimension -> size.getId()).orElse(null);
         return SizeDTO.builder()
                 .id(size.getId())
                 .sizeType(size.getSizeType())

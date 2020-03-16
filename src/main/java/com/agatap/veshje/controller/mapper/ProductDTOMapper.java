@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 public class ProductDTOMapper {
     public ProductDTO mappingToDTO(Product product) {
         List<Integer> ordersId = product.getOrders().stream()
-                .map(o -> product.getId())
+                .map(order -> product.getId())
                 .collect(Collectors.toList());
         List<Integer> compositionsId = product.getComposition().stream()
-                .map(c -> product.getId())
+                .map(composition -> product.getId())
                 .collect(Collectors.toList());
         List<Integer> categoriesId = product.getCategories().stream()
-                .map(c -> product.getId())
+                .map(category -> product.getId())
                 .collect(Collectors.toList());
         List<Integer> reviewsId = product.getReviews().stream()
-                .map(r -> product.getId())
+                .map(review -> product.getId())
                 .collect(Collectors.toList());
         Integer careProductId = Optional.ofNullable(product.getCareProduct())
-                .map(c -> product.getId()).orElse(null);
-        List<Integer> picturesId = product.getPictures().stream()
-                .map(p -> product.getId())
+                .map(careProduct -> product.getId()).orElse(null);
+        List<Integer> imagesId = product.getImages().stream()
+                .map(image -> product.getId())
                 .collect(Collectors.toList());
         List<Integer> sizesId = product.getSizes().stream()
-                .map(s -> product.getId())
+                .map(size -> product.getId())
                 .collect(Collectors.toList());
         return ProductDTO.builder()
                 .id(product.getId())
@@ -43,7 +43,7 @@ public class ProductDTOMapper {
                 .categoriesIds(categoriesId)
                 .reviewIds(reviewsId)
                 .careProductIds(careProductId)
-                .picturesIds(picturesId)
+                .imagesIds(imagesId)
                 .sizeIds(sizesId)
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())

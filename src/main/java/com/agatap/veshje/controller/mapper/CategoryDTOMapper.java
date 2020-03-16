@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CategoryDTOMapper {
     public CategoryDTO mappingToDTO(Category category) {
         List<Integer> productsId = category.getProducts().stream()
-                .map(a -> category.getId())
+                .map(product -> category.getId())
                 .collect(Collectors.toList());
         return CategoryDTO.builder()
                 .id(category.getId())

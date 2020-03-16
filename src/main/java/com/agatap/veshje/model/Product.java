@@ -44,7 +44,7 @@ public class Product {
     private CareProduct careProduct;
     @OneToMany(mappedBy = "product")
     @Builder.Default
-    private List<Picture> pictures = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
     @ManyToMany
     @Builder.Default
     private List<Size> sizes = new ArrayList<>();

@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 @Component
 public class NewsletterDTOMapper {
     public NewsletterDTO mappingToDTO(Newsletter newsletter) {
-        List<Integer> userId = newsletter.getUsers().stream()
-                .map(u -> newsletter.getId())
+        List<Integer> usersId = newsletter.getUsers().stream()
+                .map(user -> newsletter.getId())
                 .collect(Collectors.toList());
         return NewsletterDTO.builder()
                 .id(newsletter.getId())
                 .email(newsletter.getEmail())
-                .userIds(userId)
+                .userIds(usersId)
                 .createDate(newsletter.getCreateDate())
                 .updateDate(newsletter.getUpdateDate())
                 .build();

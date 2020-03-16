@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 public class CityDTOMapper {
     public CityDTO mappingToDTO(City city) {
         Integer countriesId = Optional.ofNullable(city.getCountry())
-                .map(c -> city.getId()).orElse(null);
+                .map(country -> city.getId()).orElse(null);
         List<Integer> addressesId = city.getAddress().stream()
-                .map(a -> city.getId())
+                .map(address -> city.getId())
                 .collect(Collectors.toList());
         return CityDTO.builder()
                 .id(city.getId())

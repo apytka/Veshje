@@ -13,7 +13,7 @@ public class PaymentsTypeDTOMapper {
 
     public PaymentsTypeDTO mappingToDTO(PaymentsType paymentsTypes) {
         List<Integer> paymentsId = paymentsTypes.getPayments().stream()
-                .map(p -> paymentsTypes.getId())
+                .map(payment -> paymentsTypes.getId())
                 .collect(Collectors.toList());
         return PaymentsTypeDTO.builder()
                 .id(paymentsTypes.getId())

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +29,5 @@ public class CareProduct {
     private Product product;
     @ManyToMany(mappedBy = "cares")
     @Builder.Default
-    private List<Picture> pictures = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
 }

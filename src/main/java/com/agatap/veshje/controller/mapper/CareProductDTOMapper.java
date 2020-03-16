@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 public class CareProductDTOMapper {
     public CareProductDTO mappingToDTO(CareProduct careProduct) {
         Integer productId = Optional.ofNullable(careProduct.getProduct())
-                .map(p -> careProduct.getId()).orElse(null);
-        List<Integer> picturesId = careProduct.getPictures().stream()
-                .map(p -> careProduct.getId())
+                .map(product -> careProduct.getId()).orElse(null);
+        List<Integer> picturesId = careProduct.getImages().stream()
+                .map(picture -> careProduct.getId())
                 .collect(Collectors.toList());
         return CareProductDTO.builder()
                 .id(careProduct.getId())

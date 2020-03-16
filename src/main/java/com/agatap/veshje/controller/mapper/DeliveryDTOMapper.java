@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class DeliveryDTOMapper {
     public DeliveryDTO mappingToDTO(Delivery delivery) {
         List<Integer> ordersId = delivery.getOrders().stream()
-                .map(o -> delivery.getId())
+                .map(order -> delivery.getId())
                 .collect(Collectors.toList());
         return DeliveryDTO.builder()
                 .id(delivery.getId())

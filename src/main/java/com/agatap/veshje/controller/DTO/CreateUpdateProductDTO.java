@@ -24,6 +24,6 @@ public class CreateUpdateProductDTO {
     private List<Integer> categoriesIds;
     private List<Integer> reviewIds;
     private Integer careProductIds;
-    private List<Integer> picturesIds;
+    private List<Integer> imageIds;
     private List<Integer> sizeIds;
 }

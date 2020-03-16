@@ -1,6 +1,6 @@
 package com.agatap.veshje.controller;
 
-import com.agatap.veshje.model.PaymentsType;
+import com.agatap.veshje.service.exception.ImageAlreadyExistsException;
 import com.agatap.veshje.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -228,5 +228,20 @@ public class ControllerConfig {
     @ExceptionHandler(AddressNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleAddressNotFoundException() {
+    }
+
+    @ExceptionHandler(ImageDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handlePictureBadRequest() {
+    }
+
+    @ExceptionHandler(ImageNotFoundExceptions.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handlePictureNotFoundException() {
+    }
+
+    @ExceptionHandler(ImageAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handlePictureAlreadyExists() {
     }
 }
