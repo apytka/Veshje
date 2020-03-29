@@ -9,4 +9,9 @@ public class ViewController {
     public String displayHomepage() {
         return "index";
     }
+
+    @GetMapping({"/login", "/login.html"})
+    public String displayLogin() {
+        return "login";
+    }
 }

@@ -66,7 +66,7 @@ header {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
     top: 0;
     left: 0;
     background-color: #FFFFFF;
@@ -344,6 +344,11 @@ header {
     border-bottom: 1px solid #d9d9d9;
 }
 
+.input-div.two {
+    display: block;
+    padding: 9px 0;
+}
+
 .input-div:before, .input-div:after {
     content: '';
     position: absolute;
@@ -472,6 +477,12 @@ header {
 .newsletter-checkbox {
     font-size: 1.3rem;
     line-height: 15px;
+    margin: 20px 0;
+}
+
+.newsletter-checkbox > a {
+    color: #2b6044;
+    text-decoration: underline;
 }
 
 .accordion-container p {
@@ -483,18 +494,9 @@ header {
     font-size: 1.6rem;
 }
 
-.newsletter-checkbox {
-    margin: 20px 0;
-}
-
 .footer-newsletter > form > p {
     line-height: 20px;
     margin: 15px 0;
-}
-
-.newsletter-checkbox > a {
-    color: #2b6044;
-    text-decoration: underline;
 }
 
 .btn {
@@ -509,10 +511,11 @@ header {
     color: #f4f3f1;
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
-    margin: 20px 0;
+    margin: 10px 0;
     cursor: pointer;
     transition: 0.5s;
 }
+
 
 .btn:hover {
     background-position: right;
@@ -636,4 +639,149 @@ header {
         overflow: hidden;
         transition: max-height 0.2s ease-out;
     }
+}
+
+.panels-login-account {
+    border-top: 1px solid #f3f2f0;
+    overflow: hidden;
+    display: flex;
+}
+
+.panel-login-account {
+    min-height: calc(100vh - 60px);
+    text-align: center;
+    font-size: 1.4rem;
+    background-size: cover;
+    background-position: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 20px;
+}
+
+.panel-login-account a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+.newsletter-terms {
+    display: block;
+    width: 100%;
+    margin: 5px 5px;
+}
+
+.newsletter-terms h3 {
+    margin: 5px 5px;
+    text-decoration: unset;
+}
+
+.i-newsletter-terms {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.i-newsletter-terms img {
+    margin: 5px 5px;
+    width: 20px;
+}
+
+.panel-login-account h4 {
+    font-size: 1.6rem;
+}
+
+.panel-login-account1 {
+    background: #FFFFFF;
+}
+
+.panel-login-account2 {
+    background: #f4f3f1;
+}
+
+.form-popup {
+    display: none;
+    width: 90%;
+    z-index: 1;
+    position: relative;
+    align-items: center;
+    align-content: center;
+    transition: 0.7s ease-in-out;
+}
+
+.form-popup2 {
+    display: block;
+    width: 90%;
+    z-index: 1;
+    position: relative;
+    align-items: center;
+    align-content: center;
+    transition: 0.7s ease-in-out;
+}
+
+.btn-login {
+    display: none;
+}
+
+.btn-login, .btn-create-account{
+    width: 80%;
+    height: 40px;
+    outline: none;
+    border: 1px solid #444;
+    background: transparent;
+    background-size: 300%;
+    font-size: 1.2rem;
+    color: #444;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.btn-login:hover, .btn-create-account:hover {
+    background-position: right;
+}
+
+.account-container2 {
+    display: flex;
+    flex-direction: column;
+    min-width: 80vh;
+    padding: 10px;
+    background: #f4f3f1;
+    color: #444;
+}
+
+.fa-eye {
+    position: absolute;
+    font-size: 15px;
+    right: 20px;
+    bottom: 5px;
+    color: #2c6d50;
+    cursor: pointer;
+    margin-left: 20px;
+    opacity: 0.5;
+}
+
+.fa-eye:hover {
+    opacity: 1;
+}
+
+.fa-eye.active {
+    font-size: 18px;
+    background: transparent;
+}
+
+@media screen and (max-width: 700px){
+
+    .panels-login-account {
+        display: block;
+    }
+
+    .panel-login-account {
+        min-height: calc(70vh - 60px);
+    }
+
 }

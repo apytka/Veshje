@@ -1,10 +1,10 @@
 // SLIDE BAR
 function openSlideMenu() {
-    document.getElementById('side-menu').style.width = '300px';
+    document.getElementById("side-menu").style.width = '300px';
 }
 
 function closeSlideMenu() {
-    document.getElementById('side-menu').style.width = '0px';
+    document.getElementById("side-menu").style.width = '0px';
 
 }
 
@@ -81,4 +81,19 @@ for (i = 0; i < acc.length; i++) {
             panel.style.maxHeight = panel.scrollHeight + "px";
         }
     });
+}
+
+//LOGIN - CREATE ACCOUNT SECTION
+function openForm() {
+    document.getElementById("form-account-create").style.display = "block";
+    document.getElementById("btn-login-create-account").style.display = "none";
+    document.getElementById("account-container1").style.display = "none";
+    document.getElementById("btn-login-form").style.display = "block";
+}
+
+function closeForm() {
+    document.getElementById("form-account-create").style.display = "none";
+    document.getElementById("btn-login-create-account").style.display = "block";
+    document.getElementById("account-container1").style.display = "block";
+    document.getElementById("btn-login-form").style.display = "none";
 }
