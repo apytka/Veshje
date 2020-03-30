@@ -180,12 +180,16 @@
                     <div class="input-div two">
                         <div>
                             <h5>Confirm password</h5>
-                            <input name="confirm-password" type="password" class="input" id="password-confirm-inp" required autofocus>
+                            <input name="confirm-password" type="password" class="input" id="password-confirm-inp"
+                                   required autofocus>
                             <i class="fas fa-eye" id="password-confirm-eye"></i>
                         </div>
                     </div>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" value="accept">
+                    <div class="checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="accept-newsletter-checkbox" value="accept">
+                            <span class="checkmark"></span>
+                        </label>
                         Yes, I would like to sign up for the newsletter and receive -10% discount(optional). <a
                             href="/privacy-policy">Newsletter terms</a>
                     </div>
@@ -225,6 +229,7 @@
         passwordEye.classList.toggle('active');
         passwordInp.type === 'password' ? passwordInp.type = 'text' : passwordInp.type = 'password';
     }
+
     function togglePasswordConfirm() {
         passwordConfirmEye.classList.toggle('active');
         passwordConfirmInp.type === 'password' ? passwordConfirmInp.type = 'text' : passwordConfirmInp.type = 'password';
