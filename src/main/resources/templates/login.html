@@ -150,44 +150,44 @@
                 account
             </button>
             <div class="form-popup" id="form-account-create">
-                <form action="/login" method="post" id="account-container2">
+                <form action="#" th:action="@{login}" th:object="${createUser}" method="post" id="account-container2">
                     <div class="input-div two">
                         <div>
                             <h5>Name</h5>
-                            <input name="name" type="text" class="input" required autofocus>
+                            <input th:field="*{firstName}" type="text" class="input" required autofocus>
                         </div>
                     </div>
                     <div class="input-div two">
                         <div>
                             <h5>Surname</h5>
-                            <input name="surname" type="text" class="input" required autofocus>
+                            <input th:field="*{lastName}" type="text" class="input" required autofocus>
                         </div>
                     </div>
                     <div class="input-div two">
                         <div>
                             <h5>Email</h5>
-                            <input name="email" type="email" class="input" required autofocus>
+                            <input th:field="*{email}" type="email" class="input" required autofocus>
                         </div>
                     </div>
 
                     <div class="input-div two">
                         <div>
                             <h5>Password</h5>
-                            <input name="password" type="password" class="input" id="password-inp" required autofocus>
+                            <input th:field="*{password}" type="password" class="input" id="password-inp" required autofocus>
                             <i class="fas fa-eye" id="password-eye"></i>
                         </div>
                     </div>
                     <div class="input-div two">
                         <div>
                             <h5>Confirm password</h5>
-                            <input name="confirm-password" type="password" class="input" id="password-confirm-inp"
+                            <input th:field="*{confirmPassword}" type="password" class="input" id="password-confirm-inp"
                                    required autofocus>
                             <i class="fas fa-eye" id="password-confirm-eye"></i>
                         </div>
                     </div>
                     <div class="checkbox">
                         <label class="checkbox-container">
-                            <input type="checkbox" name="accept-newsletter-checkbox" value="accept">
+                            <input type="checkbox" th:field="*{subscribedNewsletter}" value="accept">
                             <span class="checkmark"></span>
                         </label>
                         Yes, I would like to sign up for the newsletter and receive -10% discount(optional). <a

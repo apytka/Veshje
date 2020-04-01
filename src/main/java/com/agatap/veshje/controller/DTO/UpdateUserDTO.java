@@ -16,9 +16,9 @@ import java.util.List;
 public class UpdateUserDTO {
     private String firstName;
     private String lastName;
-    private Date birthDate;
     private String email;
     private UserRole userRole;
+    private Boolean subscribedNewsletter;
 
     private List<Integer> paymentIds;
     private List<Integer> addressesIds;

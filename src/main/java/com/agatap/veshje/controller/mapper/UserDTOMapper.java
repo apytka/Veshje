@@ -31,10 +31,8 @@ public class UserDTOMapper {
                 .collect(Collectors.toList());
         return UserDTO.builder()
                 .id(user.getId())
-                .login(user.getLogin())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .birthDate(user.getBirthDate())
                 .email(user.getEmail())
                 .userRole(user.getUserRole())
                 .newsletterId(newsletterId)
@@ -42,6 +40,7 @@ public class UserDTOMapper {
                 .addressesIds(addressesId)
                 .orderIds(ordersId)
                 .reviewsIds(reviewsId)
+                .subscribedNewsletter(user.getSubscribedNewsletter())
                 .createDate(user.getCreateDate())
                 .updateDate(user.getUpdateDate())
                 .build();
@@ -49,12 +48,11 @@ public class UserDTOMapper {
 
     public User mappingToModel(CreateUserDTO createUserDTO) {
         return User.builder()
-                .login(createUserDTO.getLogin())
                 .password(createUserDTO.getPassword())
                 .firstName(createUserDTO.getFirstName())
                 .lastName(createUserDTO.getLastName())
-                .birthDate(createUserDTO.getBirthDate())
                 .email(createUserDTO.getEmail())
+                .subscribedNewsletter(createUserDTO.getSubscribedNewsletter())
                 .build();
     }
 }

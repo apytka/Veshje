@@ -18,12 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO {
     private Integer id;
-    private String login;
-//    private String password;
+    private String email;
+    private Boolean subscribedNewsletter;
     private String firstName;
     private String lastName;
-    private Date birthDate;
-    private String email;
     private UserRole userRole;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

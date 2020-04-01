@@ -34,8 +34,13 @@ public class NewsletterService {
                 .orElseThrow(() -> new NewsletterNotFoundException());
     }
 
-    public Newsletter findNewsletterOById(Integer id) throws NewsletterNotFoundException {
+    public Newsletter findNewsletterById(Integer id) throws NewsletterNotFoundException {
         return newsletterRepository.findById(id)
+                .orElseThrow(() -> new NewsletterNotFoundException());
+    }
+
+    public Newsletter findNewsletterByEmail(String email) throws NewsletterNotFoundException {
+        return newsletterRepository.findByEmail(email)
                 .orElseThrow(() -> new NewsletterNotFoundException());
     }
 
@@ -54,7 +59,7 @@ public class NewsletterService {
     }
 
     public NewsletterDTO updateNewsletterDTO(CreateUpdateNewsletterDTO updateNewsletterDTO, Integer id) throws NewsletterNotFoundException {
-        Newsletter newsletter = findNewsletterOById(id);
+        Newsletter newsletter = findNewsletterById(id);
         newsletter.setEmail(updateNewsletterDTO.getEmail());
         newsletter.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
@@ -63,7 +68,7 @@ public class NewsletterService {
     }
 
     public NewsletterDTO deleteNewsletterDTO(Integer id) throws NewsletterNotFoundException {
-        Newsletter newsletter = findNewsletterOById(id);
+        Newsletter newsletter = findNewsletterById(id);
         newsletterRepository.delete(newsletter);
         return mapper.mappingToDTO(newsletter);
     }

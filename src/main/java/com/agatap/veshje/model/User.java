@@ -22,13 +22,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotBlank
-    private String login;
-    @NotBlank
     private String password;
+    @Transient
+    private String confirmPassword;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    @NotBlank
     private String email;
+    private Boolean subscribedNewsletter;
     private UserRole userRole;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

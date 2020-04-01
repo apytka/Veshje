@@ -14,12 +14,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserDTO {
-    private String login;
+    private String email;
     private String password;
+    private String confirmPassword;
     private String firstName;
     private String lastName;
-    private Date birthDate;
-    private String email;
+    private Boolean subscribedNewsletter;
 
     private List<Integer> paymentIds;
     private List<Integer> addressesIds;
