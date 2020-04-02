@@ -1,21 +1,31 @@
 package com.agatap.veshje.controller.DTO;
 
-import com.agatap.veshje.model.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserDTO {
+    @NotBlank(message = "This field is required")
+    @Email(message = "Please enter a valid email address")
     private String email;
+    @NotBlank(message = "This field is required")
+    @Pattern(regexp="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,}",
+            message = "You password must be at least 5 characters as well as contain at least one uppercase, one lowercase, and one number.")
     private String password;
+    @NotBlank(message = "This field is required")
+    @Pattern(regexp="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,}",
+            message = "You password must be at least 5 characters as well as contain at least one uppercase, one lowercase, and one number.")
     private String confirmPassword;
     private String firstName;
     private String lastName;

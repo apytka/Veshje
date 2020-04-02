@@ -8,16 +8,19 @@ import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.UserRole;
 import com.agatap.veshje.repository.NewsletterRepository;
 import com.agatap.veshje.repository.UserRepository;
-import com.agatap.veshje.service.exception.NewsletterNotFoundException;
+import com.agatap.veshje.service.exception.AddressDataInvalidException;
 import com.agatap.veshje.service.exception.UserAlreadyExistException;
 import com.agatap.veshje.service.exception.UserDataInvalidException;
 import com.agatap.veshje.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +33,8 @@ public class UserService {
     private NewsletterDTOMapper newsletterDTOMapper;
     @Autowired
     private NewsletterRepository newsletterRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
@@ -48,12 +53,13 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
     }
 
-    public UserDTO createUser(CreateUserDTO createUserDTO) throws UserAlreadyExistException, UserDataInvalidException, NewsletterNotFoundException {
+    public UserDTO createUser(CreateUserDTO createUserDTO) throws UserAlreadyExistException, UserDataInvalidException, AddressDataInvalidException {
+        validatePattern(createUserDTO);
+
         if (userRepository.existsByEmail(createUserDTO.getEmail())) {
             throw new UserAlreadyExistException();
         }
-        if(createUserDTO.getEmail() == null || createUserDTO.getPassword() == null || createUserDTO.getPassword().length() < 3
-        || createUserDTO.getConfirmPassword() == null || createUserDTO.getConfirmPassword().length() < 3) {
+        if(createUserDTO.getEmail() == null) {
             throw new UserDataInvalidException();
         }
 
@@ -63,7 +69,8 @@ public class UserService {
 
         User user = mapper.mappingToModel(createUserDTO);
         user.setUserRole(UserRole.USER);
-        user.setSubscribedNewsletter(false);
+        user.setSubscribedNewsletter(createUserDTO.getSubscribedNewsletter());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(OffsetDateTime.now());
 
         if(createUserDTO.getSubscribedNewsletter()) {
@@ -75,6 +82,20 @@ public class UserService {
         User newUser = userRepository.save(user);
         return mapper.mappingToDTO(newUser);
 
+    }
+
+    private void validatePattern(CreateUserDTO createUserDTO) throws AddressDataInvalidException {
+        String pattern = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
+        Pattern password = Pattern.compile(pattern);
+        Matcher matcherPassword = password.matcher(createUserDTO.getPassword());
+        boolean passwordCheck = matcherPassword.matches();
+        Pattern passwordConfirm = Pattern.compile(pattern);
+        Matcher matcherPasswordConfirm = passwordConfirm.matcher(createUserDTO.getPassword());
+        boolean passwordConfirmCheck = matcherPasswordConfirm.matches();
+
+        if (!passwordCheck || !passwordConfirmCheck) {
+            throw new AddressDataInvalidException();
+        }
     }
 
     private Newsletter addNewsletterForUser(User user) {
@@ -104,5 +125,16 @@ public class UserService {
         User user = findUserById(id);
         userRepository.delete(user);
         return mapper.mappingToDTO(user);
+    }
+
+    public User findUserByEmail(String email) throws UserNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException());
+    }
+
+    public static void main(String[] args) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode("Agata90@@");
+        System.out.println(encode);
     }
 }

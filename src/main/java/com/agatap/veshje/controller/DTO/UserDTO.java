@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO {
     private Integer id;
+    @NotBlank(message = "This field is required")
+    @Email(message = "Please enter a valid email address")
     private String email;
     private Boolean subscribedNewsletter;
     private String firstName;

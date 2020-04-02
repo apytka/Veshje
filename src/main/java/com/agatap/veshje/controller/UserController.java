@@ -8,6 +8,7 @@ import com.agatap.veshje.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody CreateUserDTO createUserDTO) throws UserDataInvalidException, UserAlreadyExistException, NewsletterNotFoundException, NewsletterDataInvalidException, NewsletterAlreadyExistsException {
+    public UserDTO createUser(@Valid @RequestBody CreateUserDTO createUserDTO) throws UserDataInvalidException, UserAlreadyExistException, NewsletterNotFoundException, NewsletterDataInvalidException, NewsletterAlreadyExistsException, AddressDataInvalidException {
         return userService.createUser(createUserDTO);
     }
 

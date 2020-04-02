@@ -121,37 +121,13 @@
 
 <main>
     <div class="panels-login-account">
-        <div class="panel-login-account panel-login-account1">
-            <h4>Are you a user?</h4>
-            <button type="button" class="btn-login" id="btn-login-form" onclick="closeForm()">Sign in</button>
-            <div class="form-popup2" id="form-account-login">
-                <form method="post" action="/login" id="account-container1">
-                    <div class="input-div two">
-                        <div>
-                            <h5>Email</h5>
-                            <input name="username" type="email" class="input" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="input-div two">
-                        <div>
-                            <h5>Password</h5>
-                            <input name="password" type="password" class="input" required autofocus>
-                        </div>
-                    </div>
-                    <a href="/forgot-password">I forgot my password</a>
-                    <input type="submit" class="btn" value="Sign in">
-                </form>
-
-            </div>
-        </div>
         <div class="panel-login-account panel-login-account2">
             <h4>Is this your first visit?</h4>
             <button type="button" class="btn-create-account" id="btn-login-create-account" onclick="openForm()">Create
                 account
             </button>
             <div class="form-popup" id="form-account-create">
-                <form action="#" th:action="@{login}" th:object="${createUser}" method="post" id="account-container2">
+                <form action="#" th:action="@{register}" th:object="${createUser}" method="post" id="account-container2">
                     <div class="input-div two">
                         <div>
                             <h5>Name</h5>

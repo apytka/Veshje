@@ -229,9 +229,10 @@
                         </div>
                         <div>
                             <h5>Email</h5>
-                            <input th:field="*{email}" class="input" type="email" required>
+                            <input type="email" th:field="*{email}" class="input" required>
                         </div>
                     </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                     <div class="newsletter-checkbox">
                         <input type="checkbox" name="accept-newsletter-checkbox" required>
                         I accept <a href="/privacy-policy">newsletter terms</a>
