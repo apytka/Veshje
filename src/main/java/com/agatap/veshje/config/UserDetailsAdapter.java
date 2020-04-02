@@ -22,7 +22,7 @@ public class UserDetailsAdapter implements UserDetailsService {
             return org.springframework.security.core.userdetails.User.builder()
                     .username(email)
                     .password(user.getPassword())
-                    .roles(String.valueOf(user.getUserRole() != null ? user.getUserRole() : UserRole.USER))
+                    .roles(String.valueOf(user.getUserRole()))
                     .build();
         } catch (UserNotFoundException e) {
             throw new UsernameNotFoundException("User with login '" + email + "' does not exist!");
