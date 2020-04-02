@@ -5,6 +5,7 @@
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VESHJE</title>
@@ -21,7 +22,7 @@
         </svg>
         </a>
     </span>
-        <a href="#" class="image-logo" title="Veshje - go to homepage">
+        <a href="/" class="image-logo" title="Veshje - go to homepage">
             <img src="/img/veshje-logo.svg" alt="Veshje online shop - logo">
         </a>
         <ul class="navbar-nav">
@@ -91,7 +92,7 @@
         </ul>
     </nav>
     <div id="side-menu" class="side-nav">
-        <a href="#" class="btn-close" onclick="closeSlideMenu()">&times;</a>
+        <a href="/" class="btn-close" onclick="closeSlideMenu()">&times;</a>
         <div class="side-nav-search">
             <form action="/search" method="get" class="side-nav-search-form">
                 <input type="text" placeholder="Search" class="side-nav-search-input">
@@ -120,100 +121,97 @@
 </header>
 
 <main>
-    <div class="panels-login-account">
-        <div class="panel-login-account panel-login-account2">
-            <h4>Is this your first visit?</h4>
-            <button type="button" class="btn-create-account" id="btn-login-create-account" onclick="openForm()">Create
-                account
-            </button>
-            <div class="form-popup" id="form-account-create">
-                <form action="#" th:action="@{register}" th:object="${createUser}" method="post" id="account-container2">
-                    <div class="input-div two">
-                        <div>
-                            <h5>Name</h5>
-                            <input th:field="*{firstName}" type="text" class="input" required autofocus>
+    <h1>Hello <span th:text="${user.firstName}"></span></h1>
+    <span th:text="${user.id}"></span>
+    <span th:text="${user.email}"></span>
+    <span th:text="${user.firstName}"></span>
+    <span th:text="${user.lastName}"></span>
+    <span th:text="${user.userRole}"></span>
+</main>
+<footer class="footer-container">
+    <div class="accordion-container">
+        <div class="accordion-cart">
+            <!--        <h4 class="accordion-main">Shop</h4>-->
+            <h4 class="accordion">Shop</h4>
+            <ul class="panel">
+                <li><a href="#" title="New collection">New in</a></li>
+                <li><a href="#" title="Mini dresses">Mini</a></li>
+                <li><a href="#" title="Midi dresses">Midi</a></li>
+                <li><a href="#" title="Long dresses">Long</a></li>
+                <li><a href="#" title="Sale dresses">Sale</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Help</h4>
+            <ul class="panel">
+                <li><a href="#" title="Shop at veshje">Shop at veshje</a></li>
+                <li><a href="#" title="Product">Product</a></li>
+                <li><a href="#" title="Gift cards">Gift cards</a></li>
+                <li><a href="#" title="Payment">Payment</a></li>
+                <li><a href="#" title="Shipping">Shipping</a></li>
+                <li><a href="#" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="#" title="My account">My account</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Corporate info</h4>
+            <ul class="panel">
+                <li><a href="#" title="About Veshje">About</a></li>
+                <li><a href="#" title="Career at Veshje">Career</a></li>
+                <li><a href="#" title="Shops and company">Shops and company</a></li>
+                <li><a href="#" title="Contact">Contact</a></li>
+                <li><a href="#" title="Legal and privacy">Legal and privacy</a></li>
+            </ul>
+        </div>
+
+        <div class="accordion-cart" id="newsletter">
+            <h4 class="accordion">Newsletter</h4>
+            <ul class="panel">
+                <form action="#" th:action="@{account}" th:object="${addNewsletterAccount}" method="post" class="newsletter-container">
+                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                    <div class="input-div one">
+                        <div class="i">
+                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                <g id="Shopicon">
+	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                </g>
+                            </svg>
                         </div>
-                    </div>
-                    <div class="input-div two">
-                        <div>
-                            <h5>Surname</h5>
-                            <input th:field="*{lastName}" type="text" class="input" required autofocus>
-                        </div>
-                    </div>
-                    <div class="input-div two">
                         <div>
                             <h5>Email</h5>
-                            <input th:field="*{email}" type="email" class="input" required>
+                            <input type="email" th:field="*{email}" class="input" required>
                         </div>
                     </div>
                     <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="input-div two">
-                        <div>
-                            <h5>Password</h5>
-                            <input th:field="*{password}" min="5" type="password" class="input" id="password-inp" required>
-                            <i class="fas fa-eye" id="password-eye"></i>
-                        </div>
+                    <div class="newsletter-checkbox">
+                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                        I accept <a href="/privacy-policy">newsletter terms</a>
                     </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                    <div class="input-div two">
-                        <div>
-                            <h5>Confirm password</h5>
-                            <input th:field="*{confirmPassword}" min="5" type="password" class="input" id="password-confirm-inp" required>
-                            <i class="fas fa-eye" id="password-confirm-eye"></i>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
-                    <div class="checkbox">
-                        <label class="checkbox-container">
-                            <input type="checkbox" th:field="*{subscribedNewsletter}" value="accept">
-                            <span class="checkmark"></span>
-                        </label>
-                        Yes, I would like to sign up for the newsletter and receive -10% discount(optional). <a
-                            href="/privacy-policy">Newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Create account">
-                    <p>Clicking create account button you agree to our <a href="/privacy-policy">Privacy Policy</a>
-                    </p>
+                    <input type="submit" class="btn" value="Send">
                 </form>
-            </div>
-            <div class="newsletter-terms">
-                <h3>You'll gain</h3>
-                <div class="i-newsletter-terms">
-                    <img src="/icon/shopicons_Light_Letter.svg" title="Shopping letter">
-                    <p>10% discount for newsletter sign up</p>
-                </div>
-                <div class="i-newsletter-terms">
-                    <img src="/icon/shopicons_Light_Search.svg" title="Shopping search">
-                    <p>Convenient way to track your order</p>
-                </div>
-                <div class="i-newsletter-terms">
-                    <img src="/icon/shopicons_Light_Clock.svg" title="Shopping clock">
-                    <p>Easy access to order history</p>
-                </div>
-            </div>
+            </ul>
         </div>
     </div>
-</main>
-<script>
-    var passwordInp = document.getElementById('password-inp');
-    var passwordEye = document.getElementById('password-eye');
-    var passwordConfirmInp = document.getElementById('password-confirm-inp');
-    var passwordConfirmEye = document.getElementById('password-confirm-eye');
-
-    passwordEye.addEventListener('click', togglePassword);
-    passwordConfirmEye.addEventListener('click', togglePasswordConfirm);
-
-    function togglePassword() {
-        passwordEye.classList.toggle('active');
-        passwordInp.type === 'password' ? passwordInp.type = 'text' : passwordInp.type = 'password';
-    }
-
-    function togglePasswordConfirm() {
-        passwordConfirmEye.classList.toggle('active');
-        passwordConfirmInp.type === 'password' ? passwordConfirmInp.type = 'text' : passwordConfirmInp.type = 'password';
-
-    }
-</script>
+    <div class="footer-container-socials">
+        <div class="socials">
+            <a href="#" title="facebook" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-facebook"></i></a>
+            <a href="#" title="twitter" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-twitter-square"></i></a>
+            <a href="#" title="instagram" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-instagram"></i></a>
+            <a href="#" title="youtube" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="copyright">
+            <p>Veshje © 2020 All rights reserved</p>
+        </div>
+    </div>
+</footer>
 <script type="text/javascript" src="/js/js.js"></script>
 </body>
 </html>
