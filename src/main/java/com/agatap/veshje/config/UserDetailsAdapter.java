@@ -18,12 +18,7 @@ public class UserDetailsAdapter implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            User user = userService.findUserByEmail(email);
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(email)
-                    .password(user.getPassword())
-                    .roles(String.valueOf(user.getUserRole()))
-                    .build();
+            return userService.findUserByEmail(email);
         } catch (UserNotFoundException e) {
             throw new UsernameNotFoundException("User with login '" + email + "' does not exist!");
         }
