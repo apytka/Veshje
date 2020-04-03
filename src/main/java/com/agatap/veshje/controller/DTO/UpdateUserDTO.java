@@ -23,6 +23,7 @@ public class UpdateUserDTO {
     private String email;
     private UserRole userRole;
     private Boolean subscribedNewsletter;
+    private boolean enabled;
 
     private List<Integer> paymentIds;
     private List<Integer> addressesIds;

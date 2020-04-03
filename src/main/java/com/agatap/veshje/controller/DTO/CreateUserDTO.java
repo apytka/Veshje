@@ -30,6 +30,7 @@ public class CreateUserDTO {
     private String firstName;
     private String lastName;
     private Boolean subscribedNewsletter;
+    private boolean enabled;
 
     private List<Integer> paymentIds;
     private List<Integer> addressesIds;

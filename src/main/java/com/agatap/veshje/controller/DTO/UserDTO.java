@@ -27,6 +27,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private UserRole userRole;
+    private boolean enabled;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

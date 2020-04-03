@@ -41,6 +41,7 @@ public class UserDTOMapper {
                 .orderIds(ordersId)
                 .reviewsIds(reviewsId)
                 .subscribedNewsletter(user.getSubscribedNewsletter())
+                .enabled(user.isEnabled())
                 .createDate(user.getCreateDate())
                 .updateDate(user.getUpdateDate())
                 .build();
@@ -53,6 +54,7 @@ public class UserDTOMapper {
                 .lastName(createUserDTO.getLastName())
                 .email(createUserDTO.getEmail())
                 .subscribedNewsletter(createUserDTO.getSubscribedNewsletter())
+                .enabled(createUserDTO.isEnabled())
                 .build();
     }
 }

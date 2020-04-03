@@ -6,8 +6,10 @@ import com.agatap.veshje.controller.mapper.UserDTOMapper;
 import com.agatap.veshje.model.Newsletter;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.UserRole;
+import com.agatap.veshje.model.VerificationToken;
 import com.agatap.veshje.repository.NewsletterRepository;
 import com.agatap.veshje.repository.UserRepository;
+import com.agatap.veshje.repository.VerificationTokenRepository;
 import com.agatap.veshje.service.exception.AddressDataInvalidException;
 import com.agatap.veshje.service.exception.UserAlreadyExistException;
 import com.agatap.veshje.service.exception.UserDataInvalidException;
@@ -17,8 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,6 +31,10 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+    @Autowired
+    private MailSenderService mailSenderService;
     @Autowired
     private UserDTOMapper mapper;
     @Autowired
@@ -80,8 +88,24 @@ public class UserService {
         }
 
         User newUser = userRepository.save(user);
+        sendToken(newUser);
         return mapper.mappingToDTO(newUser);
+    }
 
+    private void sendToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+        verificationToken.setUser(user);
+        verificationTokenRepository.save(verificationToken);
+
+        String url = "http://localhost:8080/register?token=" + token;
+        try {
+            mailSenderService.sendMail(user.getEmail(), "Veshje shop - confirmation link",
+                    url, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void validatePattern(CreateUserDTO createUserDTO) throws AddressDataInvalidException {
@@ -114,6 +138,7 @@ public class UserService {
         user.setEmail(updateUserDTO.getEmail());
         user.setUserRole(updateUserDTO.getUserRole());
         user.setSubscribedNewsletter(updateUserDTO.getSubscribedNewsletter());
+        user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
         User updateUser = userRepository.save(user);
@@ -132,9 +157,4 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
     }
 
-    public static void main(String[] args) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encode = passwordEncoder.encode("Agata90@@");
-        System.out.println(encode);
-    }
 }

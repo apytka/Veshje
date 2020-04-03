@@ -9,6 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewController {
 
+    @GetMapping("/confirm-registration")
+    public ModelAndView displayConfirmRegistration() {
+        return new ModelAndView("confirm-registration");
+    }
+
     @GetMapping({"", "/", "/index"})
     public ModelAndView displayMainSite() {
         ModelAndView modelAndView = new ModelAndView("index");
