@@ -90,6 +90,9 @@
         }
 
         .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 60px;
             width: 300px;
             outline: none;
@@ -101,7 +104,6 @@
             font-family: 'Poppins', sans-serif;
             text-transform: uppercase;
             margin: 40px 0;
-            /*padding: 20px;*/
             cursor: pointer;
             transition: 0.5s;
         }
@@ -116,16 +118,16 @@
             text-decoration: none;
         }
 
-        .panels-login-account {
+        .panels-container {
             border-top: 1px solid #f3f2f0;
             overflow: hidden;
             display: flex;
         }
 
-        .panel-login-account {
+        .panel {
             min-height: 60vh;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.0rem;
             background-size: cover;
             background-position: center;
             flex: 1;
@@ -136,6 +138,18 @@
             padding: 20px 20px;
         }
 
+        .panel > h5 {
+            font-size: 2.3rem;
+            padding: 10px;
+        }
+
+        .panel > span {
+            padding: 5px 5px;
+        }
+
+        .text {
+            color: #2c6d50;
+        }
     </style>
 </head>
 <body>
@@ -147,15 +161,18 @@
     </nav>
 </header>
 <main>
-    <div class="panels-login-account">
-        <div class="panel-login-account">
-            <h1>Welcome to Veshje online shop!</h1>
-            <span>Thanks fpr signing up. Confirm your email address to get started on Veshje</span>
-            <div class="panels-login-account">
+    <div class="panels-container">
+        <div class="panel">
+            <h5>Welcome to Veshje online shop!</h5>
+            <h4>Thanks for signing up. Confirm your email address to get started on Veshje</h4>
+            <div class="panels-container">
                 <button class="btn"><a th:href="${message}">Active yor account and log in</a></button>
             </div>
             <span>If you can't click on the button, use this link instead:</span>
-            <a></a><span th:text="${message}"></span></a>
+            <span th:text="${message}"></span>
+            <span>If you do not receive a confirmation email, please check your spam folder.
+                Also, please verify that you entered a valid email address in our sign-up form.</span>
+            <span>If you need assistance, please <a href="/contact" class="text">contact us.</a></span>
         </div>
     </div>
 </main>

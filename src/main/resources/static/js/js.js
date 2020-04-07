@@ -97,3 +97,10 @@ function closeForm() {
     document.getElementById("account-container1").style.display = "block";
     document.getElementById("btn-login-form").style.display = "none";
 }
+
+
+function closeAlert() {
+    var x = document.getElementsByClassName("alert");
+    x[0].style.display = "none";
+    x[1].style.display = "none";
+}

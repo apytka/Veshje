@@ -877,7 +877,34 @@ header {
     transform: rotate(45deg);
 }
 
-/*OTHERS*/
+/*ALERT*/
+
+.alert {
+    width: 100%;
+    min-height: 30px;
+    background: #ffc7b9;
+    color: black;
+    text-align: center;
+    font-size: 1.4rem;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+}
+
+.alert-close {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 2.0rem;
+    color: #211f1b;
+    text-decoration: none;
+}
+
 .error-info {
     color: darkred;
 }
+
+/*OTHERS*/
