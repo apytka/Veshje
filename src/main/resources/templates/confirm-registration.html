@@ -149,11 +149,13 @@
 <main>
     <div class="panels-login-account">
         <div class="panel-login-account">
-            <h1>Hi to Veshje online shop!</h1>
-            <span>Confirm your email address to get started on Veshje</span>
+            <h1>Welcome to Veshje online shop!</h1>
+            <span>Thanks fpr signing up. Confirm your email address to get started on Veshje</span>
             <div class="panels-login-account">
-                <button class="btn"><a th:href="${message}">Confirm registration</a></button>
+                <button class="btn"><a th:href="${message}">Active yor account and log in</a></button>
             </div>
+            <span>If you can't click on the button, use this link instead:</span>
+            <a></a><span th:text="${message}"></span></a>
         </div>
     </div>
 </main>

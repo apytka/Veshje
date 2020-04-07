@@ -39,13 +39,13 @@ public class UsersViewController {
     @PostMapping("/register")
     public ModelAndView createUser(@Valid @ModelAttribute(name="createUser") CreateUserDTO createUserDTO, BindingResult bindingResult)
             throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        ModelAndView modelAndView = new ModelAndView("login");
         if(bindingResult.hasErrors()) {
-            return new ModelAndView();
+            return modelAndView;
         }
         userService.createUser(createUserDTO);
-        return new ModelAndView("redirect:index");
+        modelAndView.addObject("successMessage", "User has been registered successfully");
+        return new ModelAndView("redirect:account-not-active");
     }
 
     @GetMapping("/account")
@@ -76,6 +76,6 @@ public class UsersViewController {
         User user = byToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
-        return new ModelAndView("redirect:index");
+        return new ModelAndView("redirect:login");
     }
 }

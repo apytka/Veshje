@@ -157,4 +157,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
     }
 
+    public boolean isUserEmailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
