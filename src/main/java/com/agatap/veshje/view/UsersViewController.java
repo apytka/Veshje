@@ -86,7 +86,7 @@ public class UsersViewController {
     }
 
     @GetMapping("/register")
-    public ModelAndView registerVerificationToken(@RequestParam String token) {
+    public ModelAndView registerVerificationToken(@RequestParam(value = "token", required = false) String token) {
         VerificationToken byToken = verificationTokenRepository.findByToken(token);
         User user = byToken.getUser();
         user.setEnabled(true);

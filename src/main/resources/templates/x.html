@@ -45,7 +45,7 @@
         }
 
         hr {
-            width: 400px;
+            width: 350px;
             margin: 30px auto;
         }
 
@@ -54,7 +54,7 @@
         }
 
         .expectation img {
-            width: 30px;
+            width: 50px;
             float: left;
             margin-left: 100px;
         }
@@ -65,7 +65,7 @@
         }
 
         .expectation h4 {
-            font-size: 0.8em;
+            font-size: 1.0em;
             text-align: left;
             display: inline;
         }
@@ -95,13 +95,11 @@
         h5{
             font-size: 2.0em;
             letter-spacing: .8px;
-            color: black;
         }
 
         h4 {
             font-size: 1.0em;
             letter-spacing: .5px;
-            color: black;
         }
 
         .text {
@@ -113,9 +111,9 @@
 
 <body style="text-align: center;background-color: #FFFFFF;font-family:Quicksand,Arial,serif; padding: 20px 0">
 <a href="http://localhost:8080/" class="image-logo" title="Veshje - go to homepage">
-    <img id="veshje-img" src="http://localhost:8080/img/veshje-logo.svg"
-         style="display: block;margin: 0 auto 20px auto;width: 211px;height: 49px; margin-top:20px; padding-top: 5px"></a>
-<div id="container" style="padding-top: 30px;padding-bottom: 30px;background-color: #FFF;width: 500px;margin: 0 auto;">
+<img id="veshje-img" src="http://localhost:8080/img/veshje-logo.svg"
+     style="display: block;margin: 0 auto 20px auto;width: 211px;height: 49px; margin-top:40px; padding-top: 5px"></a>
+<div id="container" style="padding-top: 60px;padding-bottom: 30px;background-color: #FFF;width: 500px;margin: 0 auto;">
     <h5>Welcome to Veshje online shop!</h5>
     <h4>Thanks for signing up. Confirm your email address to get started on Veshje</h4>
 
@@ -130,14 +128,14 @@
         If you can't click on the button, use this link instead:
     </h3>
     <h3 style="font-size:0.9em; color:#211f1b; margin: 2em 0;">
-        <span th:text="${message}" style="color:#2b6044"></span>
+        <span th:text="${message}"></span>
     </h3>
     <h3 style="font-size:0.9em; color:#211f1b; margin: 2em 0;">
         If you do not receive a confirmation email, please check your spam folder.
         Also, please verify that you entered a valid email address in our sign-up form.
-        If you need assistance, please <a href="/contact" class="text" style="color:#2b6044">contact us.</a>
+        <span>If you need assistance, please <a href="/contact" class="text" style="color:#2b6044">contact us.</a>
     </h3>
-    <hr style="width: 350px;margin: 30px auto; height: 0;
+    <hr style="width: 350px;margin: 60px auto; height: 0;
     border: 0;border-top: 1px solid #eee;">
     <h3 style="font-size:1.5em; color:#6d6d6d; margin: 2em 0;">
         You'll gain:
@@ -147,7 +145,7 @@
         <img src="http://localhost:8080/icon/shopicons_Light_Letter.svg"
              style="width: 30px;float: left;margin-left: 40px; margin-top: 0;">
         <div class="description" style="margin-left: 120px;text-align: left;">
-            <h4 style="text-align: left;display: inline;font-size: 1.1em;font-weight: 100;letter-spacing: .5px;">
+            <h4 style="text-align: left;display: inline;font-size: 1.35em;font-weight: 100;letter-spacing: .5px;">
                 10% discount for newsletter sign up</h4>
         </div>
     </div>
@@ -155,7 +153,7 @@
         <img src="http://localhost:8080/icon/shopicons_Light_Search.svg"
              style="width: 30px;float: left;margin-left: 40px; margin-top: 0;">
         <div class="description" style="margin-left: 120px;text-align: left;">
-            <h4 style="text-align: left;display: inline;font-size: 1.1em;font-weight: 100;letter-spacing: .5px;">
+            <h4 style="text-align: left;display: inline;font-size: 1.35em;font-weight: 100;letter-spacing: .5px;">
                 Convenient way to track your order</h4>
         </div>
     </div>
@@ -163,15 +161,15 @@
         <img src="http://localhost:8080/icon/shopicons_Light_Clock.svg"
              style="width: 30px;float: left;margin-left: 40px; margin-top: 0;">
         <div class="description" style="margin-left: 120px;text-align: left;">
-            <h4 style="text-align: left;display: inline;font-size: 1.1em;font-weight: 100;letter-spacing: .5px;">
-                Easy access to order history</h4>
+            <h4 style="text-align: left;display: inline;font-size: 1.35em;font-weight: 100;letter-spacing: .5px;">
+                1Easy access to order history</h4>
 
         </div>
     </div>
-    <hr style="width: 350px;margin: 30px auto; height: 0;
+    <hr style="width: 350px;margin: 60px auto; height: 0;
     border: 0;border-top: 1px solid #eee;">
 </div>
-<div class="social" style="margin-bottom: 20px;justify-content: center;align-items: center">
+<div class="social" style="margin-bottom: 20px;">
     <a href="http://localhost:8080/#" style="margin: 0 10px;text-decoration:none;">
         <img src="https://s3.amazonaws.com/socialps-assets/join/ig.png?a=2" style="max-height: 25px;">
     </a>
@@ -188,10 +186,11 @@
         <img src="https://s3.amazonaws.com/socialps-assets/join/youtube.png?a=2" style="max-height: 25px;">
     </a>
 
-    <div class="address" style="font-size: 13px;color: #f6f6f6; margin-top:30px; font-weight: 100;">
-        <div style="margin-bottom: 4px;">Veshje © 2020 All rights reserved</div>
-    </div>
+<div class="address" style="font-size: 13px;color: #f6f6f6; margin-top:30px; font-weight: 100;">
+    <div style="margin-bottom: 4px;">Veshje © 2020 All rights reserved</div>
+</div>
 </div>
 </body>
 
 </html>
+

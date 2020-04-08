@@ -2,19 +2,17 @@ package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateNewsletterDTO;
 import com.agatap.veshje.controller.DTO.CreateUserDTO;
-import com.agatap.veshje.model.User;
-import com.agatap.veshje.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ViewController {
+
+    static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
 
     @GetMapping({"", "/", "/index"})
     public ModelAndView displayMainSite() {
@@ -24,8 +22,13 @@ public class ViewController {
     }
 
     @GetMapping("/login")
-    public ModelAndView displayLoginAndRegister() {
+    public ModelAndView displayLoginAndRegister(@RequestParam(value = "error", required = false) String error) {
         ModelAndView modelAndView = new ModelAndView("login");
+        if(error != null) {
+            LOG.warn("Invalid username or password is incorrect or your account is not activeted");
+            modelAndView.addObject("message", "Invalid username or password is incorrect or your account is not activeted.");
+        }
+
         modelAndView.addObject("createUser", new CreateUserDTO());
         return modelAndView;
     }
