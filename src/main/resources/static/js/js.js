@@ -29,8 +29,6 @@ inputs.forEach(input => {
 });
 
 // SLIDESHOW
-
-
 var slideIndex = 1;
 showSlides(slideIndex);
 

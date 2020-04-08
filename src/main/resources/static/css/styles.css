@@ -567,6 +567,7 @@ header {
         display: none;
     }
 }
+
 @media screen and (min-width: 607px) {
     .side-nav-search {
         display: none;
@@ -641,13 +642,22 @@ header {
     }
 }
 
-.panels-login-account, .panels-general {
+.panels-login-account,
+.panels-general,
+.panels-account {
     border-top: 1px solid #f3f2f0;
     overflow: hidden;
     display: flex;
 }
 
-.panel-login-account, .panel-general {
+.panels-account {
+    background: #f4f3f1;
+}
+
+
+.panel-login-account,
+.panel-general,
+.panel-account {
     min-height: calc(100vh - 60px);
     text-align: center;
     font-size: 1.4rem;
@@ -661,6 +671,65 @@ header {
     padding: 20px 20px;
 }
 
+.panels-account-header {
+    display: flex;
+    height: 90px;
+    width: 100%;
+    background: #f4f3f1;
+}
+
+.panels-account-header > h5 {
+    margin: 10px 50px;
+    padding: 20px 10px;
+    font-size: 2.4rem;
+    color: #44423e;
+    text-transform: uppercase;
+    border-bottom: 1px solid #d6d6d6;
+    width: 100%;
+}
+
+.panel-account {
+    min-height: calc(100vh - 120px);
+    align-items: flex-start;
+    justify-content: left;
+    text-align: left;
+}
+
+.panel-account-links {
+    width: 25vw;
+    text-transform: uppercase;
+}
+
+.panel-account-data {
+    flex: 55vw;
+}
+
+.panel-account-links > ul {
+    list-style: none;
+}
+
+.a-account-links {
+    margin: 0 50px;
+    padding: 15px 40px 0 0;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #62605c;
+    background: #f4f3f1;
+    display: block;
+    transition: 0.6s;
+}
+
+.active {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.a-account-links:hover {
+    color: #211f1b;
+}
+
+
 .panel-login-account a {
     color: #000000;
     text-decoration: underline;
@@ -673,6 +742,11 @@ header {
 
 .panel-general > span {
     padding: 15px 15px;
+}
+
+.panels-account-footer {
+    height: 60px;
+    background: #FFFFFF;
 }
 
 .newsletter-terms {
@@ -734,7 +808,7 @@ header {
     display: none;
 }
 
-.btn-login, .btn-create-account, .btn-general{
+.btn-login, .btn-create-account, .btn-general {
     width: 80%;
     height: 40px;
     outline: none;
@@ -802,7 +876,7 @@ header {
     background: transparent;
 }
 
-@media screen and (max-width: 700px){
+@media screen and (max-width: 700px) {
 
     .panels-login-account {
         display: block;

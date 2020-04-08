@@ -121,13 +121,23 @@
 </header>
 
 <main>
-    <h1>Hello <span th:text="${user.firstName}"></span></h1>
-    <span th:text="${user.id}"></span>
-    <span th:text="${user.email}"></span>
-    <span th:text="${user.firstName}"></span>
-    <span th:text="${user.lastName}"></span>
-    <span th:text="${user.userRole}"></span>
-    <span th:text="${user.enabled}"></span>
+    <div class="panels-account-header">
+        <h5>MY ACCOUNT</h5>
+    </div>
+    <div class="panels-account">
+        <div class="panel-account panel-account-links">
+            <ul id="panel">
+                <li><a href="#" class="a-account-links" title="User orders">My orders</a></li>
+                <li><a href="/account" class="a-account-links active" title="My data">My data</a></li>
+                <li><a href="#" class="a-account-links" title="My address">My address</a></li>
+                <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
+            </ul>
+        </div>
+        <div class="panel-account panel-account-data">
+            <h4>Is this your first visit?</h4>
+        </div>
+    </div>
+    <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">
@@ -213,5 +223,17 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
+<script>
+    var panel = document.getElementById("panel");
+    var aAccountLinks = panel.getElementsByClassName("a-account-links");
+    for (var i = 0; i < aAccountLinks.length; i++) {
+        aAccountLinks[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+</script>
+
 </body>
 </html>
