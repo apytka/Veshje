@@ -126,7 +126,7 @@
     </div>
     <div class="panels-account">
         <div class="panel-account panel-account-links">
-            <ul id="panel">
+            <ul id="account-links">
                 <li><a href="#" class="a-account-links" title="User orders">My orders</a></li>
                 <li><a href="/account" class="a-account-links active" title="My data">My data</a></li>
                 <li><a href="#" class="a-account-links" title="My address">My address</a></li>
@@ -134,7 +134,90 @@
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <h4>Is this your first visit?</h4>
+            <div class="account-data">
+                <form action="#" method="post" class="account-data-container">
+                    <div class="account-text">
+                        <h4>My data</h4>
+                        <span>* required fields </span>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>Name*</h3>
+                            <input type="text" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>Last name*</h3>
+                            <input type="text" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>Email*</h3>
+                            <input type="email" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div><input type="submit" class="btn btn-data-account" value="Update data"></div>
+                </form>
+            </div>
+            <div class="account-data">
+                <form action="#" method="post" class="account-data-container">
+                    <div class="account-text">
+                        <h4>Change password</h4>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>Current password</h3>
+                            <input type="password" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>New password</h3>
+                            <input type="password" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
+                            <h3>Confirm password</h3>
+                            <input type="password" class="account-input" placeholder="whatever" required autofocus>
+                        </div>
+                    </div>
+                    <div><input type="submit" class="btn btn-data-account" value="Change password"></div>
+                </form>
+            </div>
+            <div class="account-data account-data-small">
+                <div class="account-data-container">
+                    <div class="account-text account-text-small">
+                        <h4>Deleting your account</h4>
+                        <span class="account-description">Start the account deletion procedure</span>
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-data-account" value="Delete account">
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-data account-data-small-2">
+                <div class="account-data-container">
+                    <form action="#" method="post" class="account-data-container">
+                        <div class="account-text account-text-small">
+                            <h4>Newsletter</h4>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-container">
+                                <input type="checkbox" value="accept">
+                                <span class="checkmark"></span>
+                            </label>
+                            <span class="account-description">
+                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
+                            <a href="/privacy-policy">Newsletter terms</a></span>
+                        </div>
+                        <div><input type="submit" class="btn btn-data-account" value="Send"></div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="panels-account-footer"></div>
@@ -144,65 +227,65 @@
         <div class="accordion-cart">
             <h4 class="accordion">Shop</h4>
             <ul class="panel">
-                <li><a href="#" title="New collection">New in</a></li>
-                <li><a href="#" title="Mini dresses">Mini</a></li>
-                <li><a href="#" title="Midi dresses">Midi</a></li>
-                <li><a href="#" title="Long dresses">Long</a></li>
-                <li><a href="#" title="Sale dresses">Sale</a></li>
+                <li><a href="/product/new-in" title="New collection">New in</a></li>
+                <li><a href="/product/mini-dresses" title="Mini dresses">Mini</a></li>
+                <li><a href="/product/midi-dresses" title="Midi dresses">Midi</a></li>
+                <li><a href="/product/long-dresses" title="Long dresses">Long</a></li>
+                <li><a href="/product/sale-dresses" title="Sale dresses">Sale</a></li>
             </ul>
         </div>
         <div class="accordion-cart">
             <h4 class="accordion">Help</h4>
             <ul class="panel">
-                <li><a href="#" title="Shop at veshje">Shop at veshje</a></li>
-                <li><a href="#" title="Product">Product</a></li>
-                <li><a href="#" title="Gift cards">Gift cards</a></li>
-                <li><a href="#" title="Payment">Payment</a></li>
-                <li><a href="#" title="Shipping">Shipping</a></li>
-                <li><a href="#" title="Exchange and returns">Exchange and returns</a></li>
-                <li><a href="#" title="My account">My account</a></li>
+                <li><a href="/shop-at-veshje" title="Shop at veshje">Shop at veshje</a></li>
+                <li><a href="/about-product" title="Product">Product</a></li>
+                <li><a href="/gift-cards" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" title="Payment">Payment</a></li>
+                <li><a href="/shipping" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="/account" title="My account">My account</a></li>
             </ul>
         </div>
         <div class="accordion-cart">
             <h4 class="accordion">Corporate info</h4>
             <ul class="panel">
-                <li><a href="#" title="About Veshje">About</a></li>
-                <li><a href="#" title="Career at Veshje">Career</a></li>
-                <li><a href="#" title="Shops and company">Shops and company</a></li>
-                <li><a href="#" title="Contact">Contact</a></li>
-                <li><a href="#" title="Legal and privacy">Legal and privacy</a></li>
+                <li><a href="/about" title="About Veshje">About</a></li>
+                <li><a href="/career" title="Career at Veshje">Career</a></li>
+                <li><a href="/shops-and-company" title="Shops and company">Shops and company</a></li>
+                <li><a href="/contact" title="Contact">Contact</a></li>
+                <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
             </ul>
         </div>
 
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{account}" th:object="${addNewsletterAccount}" method="post" class="newsletter-container">
-                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                    <div class="input-div one">
-                        <div class="i">
-                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                <g id="Shopicon">
-	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <input type="email" th:field="*{email}" class="input" required>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                        I accept <a href="/privacy-policy">newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Send">
-                </form>
+<!--                <form action="#" th:action="@{index}" th:object="${addNewsletter}" method="post" class="newsletter-container">-->
+<!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+<!--                    <div class="input-div one">-->
+<!--                        <div class="i">-->
+<!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+<!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+<!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+<!--                                <g id="Shopicon">-->
+<!--	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+<!--		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+<!--		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+<!--                                </g>-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <h5>Email</h5>-->
+<!--                            <input type="email" th:field="*{email}" class="input" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+<!--                    <div class="newsletter-checkbox">-->
+<!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+<!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+<!--                    </div>-->
+<!--                    <input type="submit" class="btn" value="Send">-->
+<!--                </form>-->
             </ul>
         </div>
     </div>
@@ -223,14 +306,29 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
-<script>
-    var panel = document.getElementById("panel");
+<script type="text/javascript">
+    var panel = document.getElementById("account-links");
     var aAccountLinks = panel.getElementsByClassName("a-account-links");
     for (var i = 0; i < aAccountLinks.length; i++) {
-        aAccountLinks[i].addEventListener("click", function() {
+        aAccountLinks[i].addEventListener("click", function () {
             var current = document.getElementsByClassName("active");
             current[0].className = current[0].className.replace(" active", "");
             this.className += " active";
+        });
+    }
+
+    var acc = document.getElementsByClassName("accordion");
+    var j;
+
+    for (j = 0; j < acc.length; j++) {
+        acc[j].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
         });
     }
 </script>

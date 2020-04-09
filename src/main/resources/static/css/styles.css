@@ -652,12 +652,12 @@ header {
 
 .panels-account {
     background: #f4f3f1;
+    padding: 0 0 30px 0;
 }
 
 
 .panel-login-account,
-.panel-general,
-.panel-account {
+.panel-general {
     min-height: calc(100vh - 60px);
     text-align: center;
     font-size: 1.4rem;
@@ -669,6 +669,47 @@ header {
     justify-content: center;
     flex-direction: column;
     padding: 20px 20px;
+}
+
+.a-account-links {
+    margin: 0 50px;
+    padding: 15px 0 0 0;
+    text-decoration: none;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: #62605c;
+    background: #f4f3f1;
+    display: block;
+    transition: 0.6s;
+}
+
+.active {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.a-account-links:hover {
+    color: #211f1b;
+}
+
+.panel-login-account a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+.panel-general > h5 {
+    font-size: 2.8rem;
+    margin: 20px 20px;
+}
+
+.panel-general > span {
+    padding: 15px 15px;
+}
+
+.panels-account-footer {
+    height: 60px;
+    background: #FFFFFF;
 }
 
 .panels-account-header {
@@ -688,65 +729,87 @@ header {
     width: 100%;
 }
 
-.panel-account {
-    min-height: calc(100vh - 120px);
-    align-items: flex-start;
-    justify-content: left;
-    text-align: left;
-}
-
 .panel-account-links {
-    width: 25vw;
+    width: 250px;
     text-transform: uppercase;
 }
 
 .panel-account-data {
-    flex: 55vw;
+    flex: 55%;
+    padding: 20px 40px 0 0;
+}
+
+.account-data {
+    display: block;
+    font-size: 1.4rem;
+    padding: 10px;
+    height: 400px;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.account-data a {
+    color: #2b6044;
+}
+
+.account-data-small {
+    height: 160px;
+}
+
+.account-data-small-2 {
+    height: 220px;
 }
 
 .panel-account-links > ul {
     list-style: none;
 }
 
-.a-account-links {
-    margin: 0 50px;
-    padding: 15px 40px 0 0;
-    text-decoration: none;
-    font-size: 1.5rem;
-    color: #62605c;
-    background: #f4f3f1;
-    display: block;
-    transition: 0.6s;
-}
-
-.active {
-    color: #000000;
+.account-text > h4 {
+    color: #44423e;
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    padding: 0 0 10px 0;
 }
 
-.a-account-links:hover {
-    color: #211f1b;
+.account-description {
+    font-size: 1.4rem;
+    padding: 0 0 0 10px;
 }
 
-
-.panel-login-account a {
-    color: #000000;
-    text-decoration: underline;
+.account-data-input > div > h3 {
+    color: #44423e;
+    font-weight: bold;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    padding: 8px 0 3px 0;
 }
 
-.panel-general > h5 {
-    font-size: 2.8rem;
-    margin: 20px 20px;
+.account-text {
+    margin: 0 0 20px 0;
 }
 
-.panel-general > span {
-    padding: 15px 15px;
+.account-text-small {
+    margin: 0 0 10px 0;
 }
 
-.panels-account-footer {
-    height: 60px;
-    background: #FFFFFF;
+.btn-data-account {
+    width: 35%;
+    margin: 20px 0 20px 0;
+    display: flex;
+    justify-content: right;
+    float: right;
+}
+
+.account-input {
+    margin: 5px;
+    padding: 20px;
+    background: #fff;
+    height: 40px;
+    width: 300px;
+    color: #7c7875;
+    font-size: 16px;
+    border: 1px #d7d4d1 solid;
+    /*outline: 0;*/
 }
 
 .newsletter-terms {
@@ -878,14 +941,28 @@ header {
 
 @media screen and (max-width: 700px) {
 
-    .panels-login-account {
+    .panels-login-account,
+    .panels-account {
         display: block;
+    }
+
+    .panel-account-links{
+        width: 100%;
+    }
+
+    #account-links {
+        margin: 0 40px 0 40px;
+        padding: 0 0 20px 0;
+        border-bottom: 1px solid #d9d9d9;
+    }
+
+    .panel-account-data {
+        padding: 40px 40px 40px 40px;
     }
 
     .panel-login-account {
         min-height: calc(70vh - 60px);
     }
-
 }
 
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     @Builder.Default
     private List<Payments> userPayments = new ArrayList<>();
     @ManyToMany(mappedBy = "users")
@@ -50,6 +51,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToOne(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER,mappedBy="user", orphanRemoval=true)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+//    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade=javax.persistence.CascadeType.ALL)
+    private VerificationToken verificationToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

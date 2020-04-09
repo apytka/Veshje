@@ -17,7 +17,7 @@ import com.agatap.veshje.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import javax.transaction.Transactional;
 
 import javax.mail.MessagingException;
 import java.time.OffsetDateTime;
@@ -92,6 +92,42 @@ public class UserService {
         return mapper.mappingToDTO(newUser);
     }
 
+    public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id) throws UserNotFoundException {
+        User user = findUserById(id);
+        user.setFirstName(updateUserDTO.getFirstName());
+        user.setLastName(updateUserDTO.getLastName());
+        user.setEmail(updateUserDTO.getEmail());
+        user.setUserRole(updateUserDTO.getUserRole());
+        user.setSubscribedNewsletter(updateUserDTO.getSubscribedNewsletter());
+        user.setEnabled(updateUserDTO.isEnabled());
+        user.setUpdateDate(OffsetDateTime.now());
+
+        if(updateUserDTO.getSubscribedNewsletter()) {
+            Newsletter newsletter = addNewsletterForUser(user);
+            user.setNewsletter(newsletter);
+            newsletter.getUsers().add(user);
+        }
+
+        User updateUser = userRepository.save(user);
+        return mapper.mappingToDTO(updateUser);
+    }
+
+    @Transactional
+    public UserDTO deleteUser(Integer id) throws UserNotFoundException {
+        User user = findUserById(id);
+        userRepository.delete(user);
+        return mapper.mappingToDTO(user);
+    }
+
+    public User findUserByEmail(String email) throws UserNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException());
+    }
+
+    public boolean isUserEmailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     private void sendToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
@@ -129,35 +165,5 @@ public class UserService {
         newsletter.setCreateDate(OffsetDateTime.now());
         newsletterRepository.save(newsletter);
         return newsletter;
-    }
-
-    public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id) throws UserNotFoundException {
-        User user = findUserById(id);
-        user.setFirstName(updateUserDTO.getFirstName());
-        user.setLastName(updateUserDTO.getLastName());
-        user.setEmail(updateUserDTO.getEmail());
-        user.setUserRole(updateUserDTO.getUserRole());
-        user.setSubscribedNewsletter(updateUserDTO.getSubscribedNewsletter());
-        user.setEnabled(updateUserDTO.isEnabled());
-        user.setUpdateDate(OffsetDateTime.now());
-        //todo bind to foreign tables
-        User updateUser = userRepository.save(user);
-        return mapper.mappingToDTO(updateUser);
-    }
-
-    @Transactional
-    public UserDTO deleteUser(Integer id) throws UserNotFoundException {
-        User user = findUserById(id);
-        userRepository.delete(user);
-        return mapper.mappingToDTO(user);
-    }
-
-    public User findUserByEmail(String email) throws UserNotFoundException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException());
-    }
-
-    public boolean isUserEmailExists(String email) {
-        return userRepository.existsByEmail(email);
     }
 }

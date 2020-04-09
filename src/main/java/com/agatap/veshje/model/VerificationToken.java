@@ -26,7 +26,7 @@ public class VerificationToken {
 //    @Transient
 //    private Date expiryDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
 //    private Date calculateExpiryDate(int expiryTimeInMinutes) {

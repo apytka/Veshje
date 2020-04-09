@@ -10,6 +10,7 @@ import com.agatap.veshje.service.exception.NewsletterDataInvalidException;
 import com.agatap.veshje.service.exception.NewsletterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
