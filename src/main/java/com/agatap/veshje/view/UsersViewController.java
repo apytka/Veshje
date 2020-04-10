@@ -89,7 +89,7 @@ public class UsersViewController {
             return modelAndView;
         }
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
-        return modelAndView;
+        return new ModelAndView("redirect:account");
     }
 
     @GetMapping("/register")
@@ -121,6 +121,6 @@ public class UsersViewController {
         User user = userService.findUserByEmail(authentication.getName());
         Integer id = user.getId();
         userService.updateUser(updateUserDTO, id);
-        return modelAndView;
+        return new ModelAndView("redirect:account");
     }
 }

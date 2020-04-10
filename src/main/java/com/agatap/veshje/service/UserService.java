@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 import javax.mail.MessagingException;
@@ -63,11 +64,11 @@ public class UserService {
         if (userRepository.existsByEmail(createUserDTO.getEmail())) {
             throw new UserAlreadyExistException();
         }
-        if(createUserDTO.getEmail() == null) {
+        if (createUserDTO.getEmail() == null) {
             throw new UserDataInvalidException();
         }
 
-        if(!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
+        if (!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
             throw new UserDataInvalidException();
         }
 
@@ -96,13 +97,13 @@ public class UserService {
         user.setUpdateDate(OffsetDateTime.now());
 
 
-            if(user.getSubscribedNewsletter()) {
-                Newsletter newsletter = addNewsletterForUser(user);
-                user.setNewsletter(newsletter);
-                newsletter.setUsers(user);
-            } else {
-                newsletterService.deleteNewsletterByEmail(user.getEmail());
-            }
+        if (user.getSubscribedNewsletter()) {
+            Newsletter newsletter = addNewsletterForUser(user);
+            user.setNewsletter(newsletter);
+            newsletter.setUsers(user);
+        } else {
+            newsletterService.deleteNewsletterByEmail(user.getEmail());
+        }
 
 
         User updateUser = userRepository.save(user);
