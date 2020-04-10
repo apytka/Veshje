@@ -1029,9 +1029,12 @@ header {
 }
 
 /*ALERT*/
-
+.alert-container {
+    z-index: 998;
+}
 .alert {
     width: 100%;
+    z-index: 998;
     min-height: 30px;
     background: #ffc7b9;
     color: black;

@@ -10,10 +10,8 @@ import com.agatap.veshje.model.VerificationToken;
 import com.agatap.veshje.repository.NewsletterRepository;
 import com.agatap.veshje.repository.UserRepository;
 import com.agatap.veshje.repository.VerificationTokenRepository;
-import com.agatap.veshje.service.exception.AddressDataInvalidException;
-import com.agatap.veshje.service.exception.UserAlreadyExistException;
-import com.agatap.veshje.service.exception.UserDataInvalidException;
-import com.agatap.veshje.service.exception.UserNotFoundException;
+import com.agatap.veshje.service.exception.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,19 +26,16 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserService {
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
     private VerificationTokenRepository verificationTokenRepository;
-    @Autowired
     private MailSenderService mailSenderService;
-    @Autowired
     private UserDTOMapper mapper;
-    @Autowired
     private NewsletterDTOMapper newsletterDTOMapper;
-    @Autowired
     private NewsletterRepository newsletterRepository;
+    private NewsletterService newsletterService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -61,7 +56,8 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
     }
 
-    public UserDTO createUser(CreateUserDTO createUserDTO) throws UserAlreadyExistException, UserDataInvalidException, AddressDataInvalidException {
+    public UserDTO createUser(CreateUserDTO createUserDTO)
+            throws UserAlreadyExistException, UserDataInvalidException, AddressDataInvalidException, NewsletterNotFoundException {
         validatePattern(createUserDTO);
 
         if (userRepository.existsByEmail(createUserDTO.getEmail())) {
@@ -81,18 +77,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(OffsetDateTime.now());
 
-        if(createUserDTO.getSubscribedNewsletter()) {
-            Newsletter newsletter = addNewsletterForUser(user);
-            user.setNewsletter(newsletter);
-            newsletter.setUsers(user);
-        }
+        placeNewsletterToUser(user, createUserDTO.getSubscribedNewsletter(), createUserDTO.getEmail());
 
         User newUser = userRepository.save(user);
         sendToken(newUser);
         return mapper.mappingToDTO(newUser);
     }
 
-    public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id) throws UserNotFoundException {
+    public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id)
+            throws UserNotFoundException, NewsletterNotFoundException {
         User user = findUserById(id);
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
@@ -102,14 +95,21 @@ public class UserService {
         user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
 
-        if(updateUserDTO.getSubscribedNewsletter()) {
+        placeNewsletterToUser(user, updateUserDTO.getSubscribedNewsletter(), updateUserDTO.getEmail());
+
+        User updateUser = userRepository.save(user);
+        return mapper.mappingToDTO(updateUser);
+    }
+
+    private void placeNewsletterToUser(User user, Boolean subscribedNewsletter, String email) throws NewsletterNotFoundException {
+        if (subscribedNewsletter) {
+            if (newsletterService.isNewsletterEmailExists(email)) {
+                newsletterService.deleteNewsletterByEmail(email);
+            }
             Newsletter newsletter = addNewsletterForUser(user);
             user.setNewsletter(newsletter);
             newsletter.setUsers(user);
         }
-
-        User updateUser = userRepository.save(user);
-        return mapper.mappingToDTO(updateUser);
     }
 
     @Transactional

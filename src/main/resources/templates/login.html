@@ -121,17 +121,7 @@
 </header>
 
 <main>
-
-    <div th:if="${param.error}" class="alert">
-        <strong>Error! Wrong data</strong>
-        <div th:text="${message}"></div>
-        <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
-    </div>
-    <div th:if="${message}" class="alert">
-        <strong>Error! Wrong data</strong>
-        <div th:text="${message}"></div>
-        <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
-    </div>
+    <div class="alert-container" th:insert="/index.html :: error-info"></div>
     <div class="panels-login-account">
         <div class="panel-login-account panel-login-account1">
             <h4>Are you a user?</h4>
@@ -170,12 +160,14 @@
                             <input th:field="*{firstName}" type="text" class="input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                     <div class="input-div two">
                         <div>
                             <h5>Surname</h5>
                             <input th:field="*{lastName}" type="text" class="input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                     <div class="input-div two">
                         <div>
                             <h5>Email</h5>

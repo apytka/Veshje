@@ -9,9 +9,9 @@ import com.agatap.veshje.repository.VerificationTokenRepository;
 import com.agatap.veshje.service.NewsletterService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.*;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,23 +25,20 @@ import javax.validation.Valid;
 
 
 @Controller
+@AllArgsConstructor
 public class UsersViewController {
 
     private final Logger LOG = LoggerFactory.getLogger(UsersViewController.class);
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private NewsletterService newsletterService;
-    @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
     @PostMapping("/register")
     public ModelAndView createUser(@Valid @ModelAttribute(name="createUser")
                                    CreateUserDTO createUserDTO, BindingResult bindingResult)
-            throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException {
+            throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException, NewsletterAlreadyExistsException, NewsletterNotFoundException {
         ModelAndView modelAndView = new ModelAndView("login");
         if(bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
@@ -74,15 +71,24 @@ public class UsersViewController {
         return modelAndView;
     }
 
+
     @PostMapping("/account")
     public ModelAndView addNewsletterInAccount(
             @Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account");
         if(bindingResult.hasErrors()) {
-            return new ModelAndView("account");
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return modelAndView;
+        }
+        if(newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return modelAndView;
         }
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
-        return new ModelAndView("redirect:account");
+        return modelAndView;
     }
 
     @GetMapping("/register")
@@ -93,4 +99,5 @@ public class UsersViewController {
         userRepository.save(user);
         return new ModelAndView("redirect:login");
     }
+
 }

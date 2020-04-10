@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserDTO {
+    @NotBlank(message = "This field is required")
     private String firstName;
+    @NotBlank(message = "This field is required")
     private String lastName;
     @NotBlank(message = "This field is required")
     @Email(message = "Please enter a valid email address")

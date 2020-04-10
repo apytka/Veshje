@@ -45,6 +45,10 @@ public class NewsletterService {
                 .orElseThrow(() -> new NewsletterNotFoundException());
     }
 
+    public boolean isNewsletterEmailExists(String email) {
+        return newsletterRepository.existsByEmail(email);
+    }
+
     public NewsletterDTO createNewsletterDTO(CreateUpdateNewsletterDTO createNewsletterDTO) throws NewsletterDataInvalidException, NewsletterAlreadyExistsException {
         if(newsletterRepository.existsByEmail(createNewsletterDTO.getEmail())) {
             throw new NewsletterAlreadyExistsException();
@@ -70,6 +74,12 @@ public class NewsletterService {
 
     public NewsletterDTO deleteNewsletterDTO(Integer id) throws NewsletterNotFoundException {
         Newsletter newsletter = findNewsletterById(id);
+        newsletterRepository.delete(newsletter);
+        return mapper.mappingToDTO(newsletter);
+    }
+
+    public NewsletterDTO deleteNewsletterByEmail(String email) throws NewsletterNotFoundException {
+        Newsletter newsletter = findNewsletterByEmail(email);
         newsletterRepository.delete(newsletter);
         return mapper.mappingToDTO(newsletter);
     }

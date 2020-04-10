@@ -24,7 +24,9 @@ public class UserDTO {
     @Email(message = "Please enter a valid email address")
     private String email;
     private Boolean subscribedNewsletter;
+    @NotBlank(message = "This field is required")
     private String firstName;
+    @NotBlank(message = "This field is required")
     private String lastName;
     private UserRole userRole;
     private boolean enabled;

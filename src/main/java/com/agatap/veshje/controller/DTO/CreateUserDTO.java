@@ -27,7 +27,9 @@ public class CreateUserDTO {
     @Pattern(regexp="(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,}",
             message = "You password must be at least 5 characters as well as contain at least one uppercase, one lowercase, and one number.")
     private String confirmPassword;
+    @NotBlank(message = "This field is required")
     private String firstName;
+    @NotBlank(message = "This field is required")
     private String lastName;
     private Boolean subscribedNewsletter;
     private boolean enabled;

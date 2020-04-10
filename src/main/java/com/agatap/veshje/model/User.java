@@ -27,7 +27,9 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String confirmPassword;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
     @NotBlank
     private String email;
