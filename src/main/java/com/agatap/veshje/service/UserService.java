@@ -98,6 +98,9 @@ public class UserService {
 
 
         if (user.getSubscribedNewsletter()) {
+            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
+                newsletterService.deleteNewsletterByEmail(updateUserDTO.getEmail());
+            }
             Newsletter newsletter = addNewsletterForUser(user);
             user.setNewsletter(newsletter);
             newsletter.setUsers(user);
