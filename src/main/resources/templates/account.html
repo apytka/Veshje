@@ -134,8 +134,8 @@
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <div class="account-data">
-                <form action="#" method="post" class="account-data-container">
+            <div class="account-data account-data-large">
+                <form action="#" th:action="@{'/update-user/'}" th:object="${updateUser}" method="post"class="account-data-container">
                     <div class="account-text">
                         <h4>My data</h4>
                         <span>* required fields </span>
@@ -143,22 +143,37 @@
                     <div class="account-data-input">
                         <div>
                             <h3>Name*</h3>
-                            <input type="text" class="account-input" required autofocus>
+                            <input type="text" th:field="*{firstName}" class="account-input" required autofocus>
                         </div>
                     </div>
                     <div class="account-data-input">
                         <div>
                             <h3>Last name*</h3>
-                            <input type="text" class="account-input" required autofocus>
+                            <input type="text" th:field="*{lastName}" class="account-input" required autofocus>
                         </div>
                     </div>
                     <div class="account-data-input">
                         <div>
                             <h3>Email*</h3>
-                            <input type="email" class="account-input" required autofocus>
+                            <input type="email" th:field="*{email}" class="account-input" required autofocus>
                         </div>
                     </div>
-                    <div><input type="submit" class="btn btn-data-account" value="Update data"></div>
+                    <input type="hidden" th:field="*{enabled}">
+                    <input type="hidden" th:field="*{userRole}">
+                    <br/>
+                    <div class="account-text account-text-small">
+                        <h4>Newsletter</h4>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" th:field="*{subscribedNewsletter}">
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="account-description">
+                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
+                            <a href="/privacy-policy">Newsletter terms</a></span>
+                    </div>
+                    <div><input type="submit" class="btn btn-data-account" value="Send"></div>
                 </form>
             </div>
             <div class="account-data">
@@ -194,28 +209,9 @@
                         <span class="account-description">Start the account deletion procedure</span>
                     </div>
                     <div>
-                        <input type="submit" class="btn btn-data-account" value="Delete account">
+                        <a th:href="'delete-user'">
+                            <input type="submit" class="btn btn-data-account" value="Delete account"></a>
                     </div>
-                </div>
-            </div>
-
-            <div class="account-data account-data-small-2">
-                <div class="account-data-container">
-                    <form action="#" method="post" class="account-data-container">
-                        <div class="account-text account-text-small">
-                            <h4>Newsletter</h4>
-                        </div>
-                        <div class="checkbox">
-                            <label class="checkbox-container">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            <span class="account-description">
-                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
-                            <a href="/privacy-policy">Newsletter terms</a></span>
-                        </div>
-                        <div><input type="submit" class="btn btn-data-account" value="Send"></div>
-                    </form>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateNewsletterDTO;
 import com.agatap.veshje.controller.DTO.CreateUserDTO;
+import com.agatap.veshje.controller.DTO.UpdateUserDTO;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.VerificationToken;
 import com.agatap.veshje.repository.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
@@ -65,7 +67,7 @@ public class UsersViewController {
             throws UserNotFoundException {
         User user = userService.findUserByEmail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("account");
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("updateUser", user);
         modelAndView.addObject("addNewsletterAccount", new CreateUpdateNewsletterDTO());
         return modelAndView;
     }
@@ -99,4 +101,25 @@ public class UsersViewController {
         return new ModelAndView("redirect:login");
     }
 
+    @GetMapping("/delete-user")
+    public ModelAndView deleteUser(Authentication authentication, HttpSession session) throws UserNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("redirect:index");
+        User user = userService.findUserByEmail(authentication.getName());
+        Integer id = user.getId();
+        userService.deleteUser(id);
+        session.invalidate();
+        return modelAndView;
+    }
+
+
+
+    @PostMapping("/update-user")
+    public ModelAndView updateUser(@Valid @ModelAttribute(name="updateUser")
+                                               UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication)
+            throws UserNotFoundException, NewsletterNotFoundException {
+        User user = userService.findUserByEmail(authentication.getName());
+        Integer id = user.getId();
+        userService.updateUser(updateUserDTO, id);
+        return new ModelAndView("account");
+    }
 }

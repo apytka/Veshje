@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/confirm-registration").permitAll()
                 .antMatchers("/account-not-active").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/update-user").hasRole("USER")
+                .antMatchers("/delete-user").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

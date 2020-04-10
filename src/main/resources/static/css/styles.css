@@ -734,6 +734,11 @@ header {
     text-transform: uppercase;
 }
 
+.account-data-container > div > a {
+    align-items: center;
+    justify-content: center;
+}
+
 .panel-account-data {
     flex: 55%;
     padding: 20px 40px 0 0;
@@ -749,6 +754,10 @@ header {
 
 .account-data a {
     color: #2b6044;
+}
+
+.account-data-large {
+    height: 520px;
 }
 
 .account-data-small {

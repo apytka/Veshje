@@ -72,12 +72,14 @@ public class NewsletterService {
         return mapper.mappingToDTO(updateNewsletter);
     }
 
+    @Transactional
     public NewsletterDTO deleteNewsletterDTO(Integer id) throws NewsletterNotFoundException {
         Newsletter newsletter = findNewsletterById(id);
         newsletterRepository.delete(newsletter);
         return mapper.mappingToDTO(newsletter);
     }
 
+    @Transactional
     public NewsletterDTO deleteNewsletterByEmail(String email) throws NewsletterNotFoundException {
         Newsletter newsletter = findNewsletterByEmail(email);
         newsletterRepository.delete(newsletter);

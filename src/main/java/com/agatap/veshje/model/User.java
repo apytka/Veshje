@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users")
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Newsletter newsletter;
     @OneToMany(mappedBy = "userOrders")
     @Builder.Default

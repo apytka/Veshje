@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -24,7 +25,9 @@ public class Newsletter {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne(mappedBy = "newsletter")
+    @OneToOne(mappedBy="newsletter")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+
     private User users;
     //todo think about
 }
