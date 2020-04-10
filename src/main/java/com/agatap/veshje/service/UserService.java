@@ -88,6 +88,7 @@ public class UserService {
     public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id)
             throws UserNotFoundException, NewsletterNotFoundException {
         User user = findUserById(id);
+        User updateUser;
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
         user.setEmail(updateUserDTO.getEmail());
@@ -104,12 +105,13 @@ public class UserService {
             Newsletter newsletter = addNewsletterForUser(user);
             user.setNewsletter(newsletter);
             newsletter.setUsers(user);
+            updateUser = userRepository.save(user);
         } else {
+            user.setNewsletter(null);
+            updateUser = userRepository.save(user);
             newsletterService.deleteNewsletterByEmail(user.getEmail());
         }
 
-
-        User updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);
     }
 

@@ -26,8 +26,6 @@ public class Newsletter {
     private OffsetDateTime updateDate;
 
     @OneToOne(mappedBy="newsletter")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-
     private User users;
     //todo think about
 }

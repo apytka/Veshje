@@ -117,7 +117,7 @@ public class UsersViewController {
     public ModelAndView updateUser(@Valid @ModelAttribute(name="updateUser")
                                                UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication)
             throws UserNotFoundException, NewsletterNotFoundException {
-        ModelAndView modelAndView = new ModelAndView("account");
+//        ModelAndView modelAndView = new ModelAndView("account");
         User user = userService.findUserByEmail(authentication.getName());
         Integer id = user.getId();
         userService.updateUser(updateUserDTO, id);
