@@ -24,8 +24,7 @@ public class Newsletter {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToMany(mappedBy = "newsletter")
-    @Builder.Default
-    private List<User> users = new ArrayList<>();
+    @OneToOne(mappedBy = "newsletter")
+    private User users;
     //todo think about
 }

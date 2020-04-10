@@ -84,7 +84,7 @@ public class UserService {
         if(createUserDTO.getSubscribedNewsletter()) {
             Newsletter newsletter = addNewsletterForUser(user);
             user.setNewsletter(newsletter);
-            newsletter.getUsers().add(user);
+            newsletter.setUsers(user);
         }
 
         User newUser = userRepository.save(user);
@@ -105,7 +105,7 @@ public class UserService {
         if(updateUserDTO.getSubscribedNewsletter()) {
             Newsletter newsletter = addNewsletterForUser(user);
             user.setNewsletter(newsletter);
-            newsletter.getUsers().add(user);
+            newsletter.setUsers(user);
         }
 
         User updateUser = userRepository.save(user);

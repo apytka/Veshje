@@ -19,5 +19,5 @@ public class CreateUpdateNewsletterDTO {
     @Email(message = "Please enter a valid email address")
     private String email;
 
-    private List<Integer> userIds;
+    private Integer userId;
 }

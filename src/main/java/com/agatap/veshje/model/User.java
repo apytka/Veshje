@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users")
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
-    @ManyToOne
+    @OneToOne
     private Newsletter newsletter;
     @OneToMany(mappedBy = "userOrders")
     @Builder.Default

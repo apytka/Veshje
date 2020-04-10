@@ -22,5 +22,5 @@ public class NewsletterDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> userIds;
+    private Integer userId;
 }
