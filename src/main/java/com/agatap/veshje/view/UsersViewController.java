@@ -61,20 +61,19 @@ public class UsersViewController {
     }
 
     @GetMapping("/account")
-    public ModelAndView displayAccountUser(@ModelAttribute(name = "addNewsletterAccount")
-            CreateUpdateNewsletterDTO createUpdateNewsletterDTO, Authentication authentication)
+    public ModelAndView displayAccountUser(Authentication authentication)
             throws UserNotFoundException {
         User user = userService.findUserByEmail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("account");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("createAccountDto", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("addNewsletterAccount", new CreateUpdateNewsletterDTO());
         return modelAndView;
     }
 
 
     @PostMapping("/account")
-    public ModelAndView addNewsletterInAccount(
-            @Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult)
+    public ModelAndView addNewsletterInAccount(@Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
+                                               BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account");
         if(bindingResult.hasErrors()) {
