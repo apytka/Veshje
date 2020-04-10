@@ -95,7 +95,7 @@ public class UserService {
         user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
 
-        if(updateUserDTO.getSubscribedNewsletter()) {
+
             if(user.getSubscribedNewsletter()) {
                 Newsletter newsletter = addNewsletterForUser(user);
                 user.setNewsletter(newsletter);
@@ -104,7 +104,6 @@ public class UserService {
                 newsletterService.deleteNewsletterByEmail(user.getEmail());
             }
 
-        }
 
         User updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);
