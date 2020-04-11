@@ -12,10 +12,10 @@ import com.agatap.veshje.repository.UserRepository;
 import com.agatap.veshje.repository.VerificationTokenRepository;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import javax.mail.MessagingException;
@@ -78,7 +78,14 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(OffsetDateTime.now());
 
-        placeNewsletterToUser(user, createUserDTO.getSubscribedNewsletter(), createUserDTO.getEmail());
+        if(createUserDTO.getSubscribedNewsletter() != null) {
+            if(newsletterService.isNewsletterEmailExists(createUserDTO.getEmail())) {
+                newsletterService.deleteNewsletterByEmail(user.getEmail());
+            }
+            Newsletter newsletter = addNewsletterForUser(user);
+            user.setNewsletter(newsletter);
+            newsletter.setUsers(user);
+        }
 
         User newUser = userRepository.save(user);
         sendToken(newUser);
@@ -97,33 +104,15 @@ public class UserService {
         user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
 
-
-        if (user.getSubscribedNewsletter()) {
-            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
-                newsletterService.deleteNewsletterByEmail(updateUserDTO.getEmail());
-            }
-            Newsletter newsletter = addNewsletterForUser(user);
-            user.setNewsletter(newsletter);
-            newsletter.setUsers(user);
-            updateUser = userRepository.save(user);
-        } else {
+        if (!user.getSubscribedNewsletter()) {
             user.setNewsletter(null);
             updateUser = userRepository.save(user);
             newsletterService.deleteNewsletterByEmail(user.getEmail());
+        } else {
+            updateUser = userRepository.save(user);
         }
 
         return mapper.mappingToDTO(updateUser);
-    }
-
-    private void placeNewsletterToUser(User user, Boolean subscribedNewsletter, String email) throws NewsletterNotFoundException {
-        if (subscribedNewsletter) {
-            if (newsletterService.isNewsletterEmailExists(email)) {
-                newsletterService.deleteNewsletterByEmail(email);
-            }
-            Newsletter newsletter = addNewsletterForUser(user);
-            user.setNewsletter(newsletter);
-            newsletter.setUsers(user);
-        }
     }
 
     @Transactional

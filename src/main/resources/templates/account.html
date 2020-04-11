@@ -142,22 +142,24 @@
                     </div>
                     <div class="account-data-input">
                         <div>
+                            <h3>Email</h3>
+                            <input type="email" th:field="*{email}" class="account-input" readonly style="background-color: #d6d6d6">
+                        </div>
+                    </div>
+                    <div class="account-data-input">
+                        <div>
                             <h3>Name*</h3>
                             <input type="text" th:field="*{firstName}" class="account-input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                     <div class="account-data-input">
                         <div>
                             <h3>Last name*</h3>
                             <input type="text" th:field="*{lastName}" class="account-input" required autofocus>
                         </div>
                     </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Email*</h3>
-                            <input type="email" th:field="*{email}" class="account-input" required autofocus>
-                        </div>
-                    </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                     <input type="hidden" th:field="*{enabled}">
                     <input type="hidden" th:field="*{userRole}">
                     <br/>

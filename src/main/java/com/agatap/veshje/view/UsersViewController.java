@@ -45,17 +45,17 @@ public class UsersViewController {
         if(bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the registration");
-            return modelAndView;
+            return new ModelAndView("redirect:login?error");
         }
         if(userService.isUserEmailExists(createUserDTO.getEmail())) {
             LOG.warn("User " + createUserDTO.getEmail() + " already exists in data base");
             modelAndView.addObject("message", "There is already a user registered with the email provided");
-            return modelAndView;
+            return new ModelAndView("redirect:login?error");
         }
         if(!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
             LOG.warn("Error! Passwords do not match");
             modelAndView.addObject("message", "Incorrectly entered data, passwords do not match");
-            return modelAndView;
+            return new ModelAndView("redirect:login?error");
         }
 
         userService.createUser(createUserDTO);
@@ -81,15 +81,15 @@ public class UsersViewController {
         if(bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
-            return modelAndView;
+            return new ModelAndView("redirect:account?error");
         }
         if(newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
             LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
             modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
-            return modelAndView;
+            return new ModelAndView("redirect:account?error");
         }
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
-        return new ModelAndView("redirect:account");
+        return new ModelAndView("redirect:account?success");
     }
 
     @GetMapping("/register")
@@ -115,12 +115,18 @@ public class UsersViewController {
 
     @PostMapping("/update-user")
     public ModelAndView updateUser(@Valid @ModelAttribute(name="updateUser")
-                                               UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication)
+                                               UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication, HttpSession httpSession)
             throws UserNotFoundException, NewsletterNotFoundException {
-//        ModelAndView modelAndView = new ModelAndView("account");
+        ModelAndView modelAndView = new ModelAndView("account");
+        if(bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the update user");
+            return new ModelAndView("redirect:account?error");
+        }
         User user = userService.findUserByEmail(authentication.getName());
         Integer id = user.getId();
+
         userService.updateUser(updateUserDTO, id);
-        return new ModelAndView("redirect:account");
+        return new ModelAndView("redirect:account?success");
     }
 }
