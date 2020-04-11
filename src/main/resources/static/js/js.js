@@ -67,10 +67,10 @@ function showSlides(n) {
 
 //ACCORDION MENU
 var acc = document.getElementsByClassName("accordion");
-var j;
+var accAccordion;
 
-for (j = 0; j < acc.length; j++) {
-    acc[j].addEventListener("click", function () {
+for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
+    acc[accAccordion].addEventListener("click", function () {
         this.classList.toggle("active");
         var panel = this.nextElementSibling;
         if (panel.style.maxHeight) {
@@ -97,8 +97,9 @@ function closeForm() {
 }
 
 
+//ALERT
 function closeAlert() {
-    var x = document.getElementsByClassName("alert");
-    x[0].style.display = "none";
-    x[1].style.display = "none";
+    var closeAlert = document.getElementsByClassName("alert");
+    closeAlert[0].style.display = "none";
+    closeAlert[1].style.display = "none";
 }

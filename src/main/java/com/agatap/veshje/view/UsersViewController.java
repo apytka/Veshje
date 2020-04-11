@@ -18,10 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -78,7 +75,7 @@ public class UsersViewController {
 
 
     @PostMapping("/account")
-    public ModelAndView addNewsletterInAccount(@Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
+    public ModelAndView accountUser(@Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
                                                BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account");
@@ -158,7 +155,32 @@ public class UsersViewController {
             modelAndView.addObject("message", "Wrong current password!");
             return new ModelAndView("redirect:account?error");
         }
+    }
 
-//        return new ModelAndView("redirect:acount?success");
+    @GetMapping("/account-removal")
+    public ModelAndView displayAccountRemoval(Authentication authentication) throws UserNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("account-removal");
+        User user = userService.findUserByEmail(authentication.getName());
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("addNewsletterAccountRemoval", new CreateUpdateNewsletterDTO());
+        return modelAndView;
+    }
+
+    @PostMapping("/account-removal")
+    public ModelAndView accountRemoval(@Valid @ModelAttribute(name = "addNewsletterAccountRemoval")
+                                                   CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account-removal");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:account-removal?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:account-removal?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:account-removal?success");
     }
 }

@@ -1,5 +1,6 @@
 package com.agatap.veshje.config;
 
+import com.agatap.veshje.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update-user").permitAll()
                 .antMatchers("/delete-user").permitAll()
                 .antMatchers("/change-password").permitAll()
+                .antMatchers("/account-removal").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -785,6 +785,21 @@ header {
     padding: 0 0 0 10px;
 }
 
+.account-removal-list {
+    padding: 0 0 0 20px;
+}
+
+.account-removal-list > li {
+    font-size: 1.5rem;
+    padding: 10px 0 10px 20px;
+}
+
+.account-removal-description {
+    display: block;
+    font-size: 1.5rem;
+    margin: 20px 0 10px 10px;
+}
+
 .account-data-input > div > h3 {
     color: #44423e;
     font-weight: bold;

@@ -79,8 +79,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(OffsetDateTime.now());
 
-        if(createUserDTO.getSubscribedNewsletter() != null) {
-            if(newsletterService.isNewsletterEmailExists(createUserDTO.getEmail())) {
+        if(createUserDTO.getSubscribedNewsletter()) {
+            if (newsletterService.isNewsletterEmailExists(createUserDTO.getEmail())) {
                 newsletterService.deleteNewsletterByEmail(user.getEmail());
             }
             Newsletter newsletter = addNewsletterForUser(user);
@@ -110,6 +110,11 @@ public class UserService {
             updateUser = userRepository.save(user);
             newsletterService.deleteNewsletterByEmail(user.getEmail());
         } else {
+            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
+                newsletterService.deleteNewsletterByEmail(user.getEmail());
+            }
+            Newsletter newsletter = addNewsletterForUser(user);
+            user.setNewsletter(newsletter);
             updateUser = userRepository.save(user);
         }
 
@@ -172,10 +177,10 @@ public class UserService {
     }
 
     public UserDTO updatePassword(User user, ChangePasswordDTO changePasswordDTO) throws UserNotFoundException, UserDataInvalidException {
-//        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
-//                || !user.getPassword().equals(changePasswordDTO.getCurrentPassword())) {
-//            throw new UserDataInvalidException();
-//        }
+        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
+                || passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
+            throw new UserDataInvalidException();
+        }
         Integer id = user.getId();
         User userById = findUserById(id);
         userById.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
