@@ -59,6 +59,7 @@ public class UserService {
 
     public UserDTO createUser(CreateUserDTO createUserDTO)
             throws UserAlreadyExistException, UserDataInvalidException, AddressDataInvalidException, NewsletterNotFoundException {
+
         validatePattern(createUserDTO);
 
         if (userRepository.existsByEmail(createUserDTO.getEmail())) {
@@ -168,5 +169,18 @@ public class UserService {
         newsletter.setCreateDate(OffsetDateTime.now());
         newsletterRepository.save(newsletter);
         return newsletter;
+    }
+
+    public UserDTO updatePassword(User user, ChangePasswordDTO changePasswordDTO) throws UserNotFoundException, UserDataInvalidException {
+//        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
+//                || !user.getPassword().equals(changePasswordDTO.getCurrentPassword())) {
+//            throw new UserDataInvalidException();
+//        }
+        Integer id = user.getId();
+        User userById = findUserById(id);
+        userById.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        userById.setUpdateDate(OffsetDateTime.now());
+        User updateUser = userRepository.save(userById);
+        return mapper.mappingToDTO(updateUser);
     }
 }

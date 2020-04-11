@@ -135,7 +135,7 @@
         </div>
         <div class="panel-account panel-account-data">
             <div class="account-data account-data-large">
-                <form action="#" th:action="@{update-user}" th:object="${updateUser}" method="post"class="account-data-container">
+                <form action="#" th:action="@{update-user}" th:object="${updateUser}" method="post" class="account-data-container">
                     <div class="account-text">
                         <h4>My data</h4>
                         <span>* required fields </span>
@@ -179,28 +179,31 @@
                 </form>
             </div>
             <div class="account-data">
-                <form action="#" method="post" class="account-data-container">
+                <form action="#" th:action="@{change-password}" th:object="${changePassword}" method="post" class="account-data-container">
                     <div class="account-text">
                         <h4>Change password</h4>
                     </div>
                     <div class="account-data-input">
                         <div>
                             <h3>Current password</h3>
-                            <input type="password" class="account-input" required autofocus>
+                            <input type="password" th:field="*{currentPassword}" class="account-input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:field="${#fields.errors('currentPassword')}" th:errors="*{currentPassword}"></span>
                     <div class="account-data-input">
                         <div>
                             <h3>New password</h3>
-                            <input type="password" class="account-input" required autofocus>
+                            <input type="password"th:field="*{newPassword}" class="account-input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:field="${#fields.errors('newPassword')}" th:errors="*{newPassword}"></span>
                     <div class="account-data-input">
                         <div>
                             <h3>Confirm password</h3>
-                            <input type="password" class="account-input" required autofocus>
+                            <input type="password" th:field="*{confirmPassword}" class="account-input" required autofocus>
                         </div>
                     </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
                     <div><input type="submit" class="btn btn-data-account" value="Change password"></div>
                 </form>
             </div>

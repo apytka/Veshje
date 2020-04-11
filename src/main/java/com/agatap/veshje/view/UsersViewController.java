@@ -1,5 +1,6 @@
 package com.agatap.veshje.view;
 
+import com.agatap.veshje.controller.DTO.ChangePasswordDTO;
 import com.agatap.veshje.controller.DTO.CreateUpdateNewsletterDTO;
 import com.agatap.veshje.controller.DTO.CreateUserDTO;
 import com.agatap.veshje.controller.DTO.UpdateUserDTO;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,7 @@ import javax.validation.Valid;
 public class UsersViewController {
 
     private final Logger LOG = LoggerFactory.getLogger(UsersViewController.class);
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private UserService userService;
     private UserRepository userRepository;
@@ -38,21 +41,21 @@ public class UsersViewController {
     private VerificationTokenRepository verificationTokenRepository;
 
     @PostMapping("/register")
-    public ModelAndView createUser(@Valid @ModelAttribute(name="createUser")
-                                   CreateUserDTO createUserDTO, BindingResult bindingResult)
+    public ModelAndView createUser(@Valid @ModelAttribute(name = "createUser")
+                                           CreateUserDTO createUserDTO, BindingResult bindingResult)
             throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException, NewsletterAlreadyExistsException, NewsletterNotFoundException {
         ModelAndView modelAndView = new ModelAndView("login");
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the registration");
             return new ModelAndView("redirect:login?error");
         }
-        if(userService.isUserEmailExists(createUserDTO.getEmail())) {
+        if (userService.isUserEmailExists(createUserDTO.getEmail())) {
             LOG.warn("User " + createUserDTO.getEmail() + " already exists in data base");
             modelAndView.addObject("message", "There is already a user registered with the email provided");
             return new ModelAndView("redirect:login?error");
         }
-        if(!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
+        if (!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
             LOG.warn("Error! Passwords do not match");
             modelAndView.addObject("message", "Incorrectly entered data, passwords do not match");
             return new ModelAndView("redirect:login?error");
@@ -69,6 +72,7 @@ public class UsersViewController {
         ModelAndView modelAndView = new ModelAndView("account");
         modelAndView.addObject("updateUser", user);
         modelAndView.addObject("addNewsletterAccount", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("changePassword", new ChangePasswordDTO());
         return modelAndView;
     }
 
@@ -78,12 +82,12 @@ public class UsersViewController {
                                                BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account");
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
             return new ModelAndView("redirect:account?error");
         }
-        if(newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
             LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
             modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
             return new ModelAndView("redirect:account?error");
@@ -111,14 +115,12 @@ public class UsersViewController {
         return modelAndView;
     }
 
-
-
     @PostMapping("/update-user")
-    public ModelAndView updateUser(@Valid @ModelAttribute(name="updateUser")
-                                               UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication, HttpSession httpSession)
+    public ModelAndView updateUser(@Valid @ModelAttribute(name = "updateUser")
+                                           UpdateUserDTO updateUserDTO, BindingResult bindingResult, Authentication authentication)
             throws UserNotFoundException, NewsletterNotFoundException {
         ModelAndView modelAndView = new ModelAndView("account");
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the update user");
             return new ModelAndView("redirect:account?error");
@@ -128,5 +130,35 @@ public class UsersViewController {
 
         userService.updateUser(updateUserDTO, id);
         return new ModelAndView("redirect:account?success");
+    }
+
+    @PostMapping("/change-password")
+    public ModelAndView changePassword(@Valid @ModelAttribute(name = "changePassword") ChangePasswordDTO changePasswordDTO,
+                                       BindingResult bindingResult, Authentication authentication) throws UserNotFoundException, UserDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the change user password");
+            return new ModelAndView("redirect:account?error");
+        }
+
+        User user = userService.findUserByEmail(authentication.getName());
+
+        if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
+            LOG.warn("New password and confirmation password do not match.");
+            modelAndView.addObject("message", "New password and confirm password must be the same!");
+            return new ModelAndView("redirect:account?error");
+        }
+
+        if (passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
+            userService.updatePassword(user, changePasswordDTO);
+            return new ModelAndView("redirect:account?success");
+        } else {
+            LOG.warn("Current password do not match.");
+            modelAndView.addObject("message", "Wrong current password!");
+            return new ModelAndView("redirect:account?error");
+        }
+
+//        return new ModelAndView("redirect:acount?success");
     }
 }
