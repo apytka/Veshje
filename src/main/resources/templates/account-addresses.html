@@ -128,115 +128,47 @@
         <div class="panel-account panel-account-links">
             <ul id="account-links">
                 <li><a href="#" class="a-account-links" title="User orders">My orders</a></li>
-                <li><a href="/account" class="a-account-links active" title="My data">My data</a></li>
-                <li><a href="/addresses" class="a-account-links" title="My address">My address</a></li>
+                <li><a href="/account" class="a-account-links" title="My data">My data</a></li>
+                <li><a href="/addresses" class="a-account-links active" title="My address">My address</a></li>
                 <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
             </ul>
         </div>
         <div class="panel-account panel-account-data">
             <div class="account-data">
-                <form action="#" th:action="@{update-user}" th:object="${updateUser}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>My data</h4>
-                        <span>* required fields </span>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Email</h3>
-                            <input type="email" th:field="*{email}" class="account-input" readonly
-                                   style="background-color: #d6d6d6">
-                        </div>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Name*</h3>
-                            <input type="text" th:field="*{firstName}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Last name*</h3>
-                            <input type="text" th:field="*{lastName}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-                    <input type="hidden" th:field="*{enabled}">
-                    <input type="hidden" th:field="*{userRole}">
-                    <input type="hidden" th:field="*{subscribedNewsletter}">
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Change data">
-                    </div>
-                </form>
-            </div>
-            <div class="account-data">
-                <form action="#" th:action="@{change-password}" th:object="${changePassword}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>Change password</h4>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Current password</h3>
-                            <input type="password" th:field="*{currentPassword}" class="account-input" required
-                                   autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:field="${#fields.errors('currentPassword')}"
-                          th:errors="*{currentPassword}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>New password</h3>
-                            <input type="password" th:field="*{newPassword}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:field="${#fields.errors('newPassword')}"
-                          th:errors="*{newPassword}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Confirm password</h3>
-                            <input type="password" th:field="*{confirmPassword}" class="account-input" required
-                                   autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('confirmPassword')}"
-                          th:errors="*{confirmPassword}"></span>
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Change password">
-                    </div>
-                </form>
-            </div>
-            <div class="account-data">
-                <div class="account-data-container">
-                    <div class="account-text account-text-small">
-                        <h4>Deleting your account</h4>
-                        <span class="account-description">Start the account deletion procedure</span>
-                    </div>
-                    <div class="btn-to-right">
-                        <a href="/account-removal" class="btn btn-data-account">Delete account</a>
-                    </div>
+                <div class="account-text">
+                    <h4>Addresses</h4>
                 </div>
-            </div>
-            <div class="account-data">
-                <form action="#" th:action="@{update-user-newsletter}" th:object="${updateUser}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>Newsletter</h4>
-                    </div>
-                    <div class="checkbox">
-                        <label class="checkbox-container">
-                            <input type="checkbox" th:field="*{subscribedNewsletter}">
-                            <span class="checkmark"></span>
-                        </label>
-                        <span class="account-description">
-                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
-                            <a href="/privacy-policy">Newsletter terms</a></span>
-                    </div>
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Send">
-                    </div>
-                </form>
+                <table>
+                    <tr th:each="address: ${addresses}">
+                        <td>
+                            <table class="inside-table">
+                                <tr>
+                                    <td th:text="${address.firstName} + ' ' + ${address.lastName}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${address.street} + ' ' + ${address.no} + ', ' + ${address.city}"></td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td th:text="${address.phoneNumber}"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <a th:href="'update-address?id=' + ${address.id}">
+                                <button class="changes-button">Modify</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="'delete-address?id=' + ${address.id}">
+                            <button class="changes-button">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btn-to-right">
+                    <a href="/add-address" class="btn btn-data-account">Add address</a>
+                </div>
             </div>
         </div>
     </div>
@@ -277,38 +209,38 @@
             </ul>
         </div>
 
-        <div class="accordion-cart" id="newsletter">
-            <h4 class="accordion">Newsletter</h4>
-            <ul class="panel">
-                <form action="#" th:action="@{account}" th:object="${addNewsletterAccount}" method="post"
-                      class="newsletter-container">
-                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                    <div class="input-div one">
-                        <div class="i">
-                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                <g id="Shopicon">
-	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <input type="email" th:field="*{email}" class="input" required>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                        I accept <a href="/privacy-policy">newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Send">
-                </form>
-            </ul>
-        </div>
+        <!--        <div class="accordion-cart" id="newsletter">-->
+        <!--            <h4 class="accordion">Newsletter</h4>-->
+        <!--            <ul class="panel">-->
+        <!--                <form action="#" th:action="@{addresses}" th:object="${addNewsletterAddresses}" method="post"-->
+        <!--                      class="newsletter-container">-->
+        <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+        <!--                    <div class="input-div one">-->
+        <!--                        <div class="i">-->
+        <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+        <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+        <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+        <!--                                <g id="Shopicon">-->
+        <!--	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+        <!--		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+        <!--		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+        <!--                                </g>-->
+        <!--                            </svg>-->
+        <!--                        </div>-->
+        <!--                        <div>-->
+        <!--                            <h5>Email</h5>-->
+        <!--                            <input type="email" th:field="*{email}" class="input" required>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+        <!--                    <div class="newsletter-checkbox">-->
+        <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+        <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+        <!--                    </div>-->
+        <!--                    <input type="submit" class="btn" value="Send">-->
+        <!--                </form>-->
+        <!--            </ul>-->
+        <!--        </div>-->
     </div>
     <div class="footer-container-socials">
         <div class="socials">

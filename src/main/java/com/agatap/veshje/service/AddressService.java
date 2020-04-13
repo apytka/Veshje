@@ -35,7 +35,7 @@ public class AddressService {
                 .orElseThrow(() -> new AddressNotFoundException());
     }
 
-    public Address findAddressOById(Integer id) throws AddressNotFoundException {
+    public Address findAddressById(Integer id) throws AddressNotFoundException {
         return addressRepository.findById(id)
                 .orElseThrow(() -> new AddressNotFoundException());
     }
@@ -52,7 +52,7 @@ public class AddressService {
 
     public AddressDTO updateAddressDTO(CreateUpdateAddressDTO updateAddressDTO, Integer id) throws AddressNotFoundException, AddressDataInvalidException {
         invalidData(updateAddressDTO);
-        Address address = findAddressOById(id);
+        Address address = findAddressById(id);
         address.setStreet(updateAddressDTO.getStreet());
         address.setNo(updateAddressDTO.getNo());
         address.setPostalCode(updateAddressDTO.getPostalCode());
@@ -64,7 +64,7 @@ public class AddressService {
     }
 
     public AddressDTO deleteAddressDTO(Integer id) throws AddressNotFoundException {
-        Address address = findAddressOById(id);
+        Address address = findAddressById(id);
         addressRepository.delete(address);
         return mapper.mappingToDTO(address);
     }

@@ -5,6 +5,7 @@ import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.VerificationToken;
 import com.agatap.veshje.repository.UserRepository;
 import com.agatap.veshje.repository.VerificationTokenRepository;
+import com.agatap.veshje.service.AddressDataService;
 import com.agatap.veshje.service.NewsletterService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.*;
@@ -20,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 
 @Controller
 @AllArgsConstructor
