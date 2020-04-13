@@ -134,7 +134,7 @@
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <div class="account-data account-data-large">
+            <div class="account-data account-removal-data-large">
                 <div class="account-text">
                     <h4>What will you miss out on?</h4>
                     <span class="account-removal-description">Remember that by deleting your account you will lose:</span>
@@ -152,11 +152,15 @@
                         <li>deleting your account doesn't cancel your newsletter subscription</li>
                     </ul>
                     <span class="account-removal-description">Are you sure you want to delete your account?</span>
-                    <span class="account-removal-description">Click here to delete your account</span>
+                    <span class="account-removal-description">Click here to delete your account
+                        <span th:text="${user.email}"
+                              style="color: black;letter-spacing: 1px;font-weight: bold">
+                        </span></span>
                 </div>
-                <div>
+                <div class="btn-to-right">
                     <a th:href="'delete-user'">
-                        <input type="submit" class="btn btn-data-account" value="Delete account"></a>
+                        <input type="submit" class="btn btn-data-account" value="Delete account">
+                    </a>
                 </div>
             </div>
         </div>
@@ -259,20 +263,20 @@
         });
     }
 
-    // var acc = document.getElementsByClassName("accordion");
-    // var accAccordion;
-    //
-    // for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
-    //     acc[accAccordion].addEventListener("click", function () {
-    //         this.classList.toggle("active");
-    //         var panel = this.nextElementSibling;
-    //         if (panel.style.maxHeight) {
-    //             panel.style.maxHeight = null;
-    //         } else {
-    //             panel.style.maxHeight = panel.scrollHeight + "px";
-    //         }
-    //     });
-    // }
+    var acc = document.getElementsByClassName("accordion");
+    var accAccordion;
+
+    for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
+        acc[accAccordion].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
 </script>
 
 </body>

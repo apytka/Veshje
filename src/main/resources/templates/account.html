@@ -177,7 +177,9 @@
                             I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
                             <a href="/privacy-policy">Newsletter terms</a></span>
                     </div>
-                    <div><input type="submit" class="btn btn-data-account" value="Send"></div>
+                    <div class="btn-to-right">
+                        <input type="submit" class="btn btn-data-account" value="Change data">
+                    </div>
                 </form>
             </div>
             <div class="account-data">
@@ -212,7 +214,9 @@
                     </div>
                     <span class="error-info" th:if="${#fields.hasErrors('confirmPassword')}"
                           th:errors="*{confirmPassword}"></span>
-                    <div><input type="submit" class="btn btn-data-account" value="Change password"></div>
+                    <div class="btn-to-right">
+                        <input type="submit" class="btn btn-data-account" value="Change password">
+                    </div>
                 </form>
             </div>
             <div class="account-data account-data-small">
@@ -221,9 +225,10 @@
                         <h4>Deleting your account</h4>
                         <span class="account-description">Start the account deletion procedure</span>
                     </div>
-                    <div>
+                    <div class="btn-to-right">
                         <a href="/account-removal">
-                            <input type="submit" class="btn btn-data-account" value="Delete account"></a>
+                            <input type="submit" class="btn btn-data-account" value="Delete account">
+                        </a>
                     </div>
                 </div>
             </div>

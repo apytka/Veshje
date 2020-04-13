@@ -748,24 +748,12 @@ header {
     display: block;
     font-size: 1.4rem;
     padding: 10px;
-    height: 400px;
+    min-height: 20vh;
     border-bottom: 1px solid #d6d6d6;
 }
 
 .account-data a {
     color: #2b6044;
-}
-
-.account-data-large {
-    height: 520px;
-}
-
-.account-data-small {
-    height: 160px;
-}
-
-.account-data-small-2 {
-    height: 220px;
 }
 
 .panel-account-links > ul {
@@ -791,7 +779,7 @@ header {
 
 .account-removal-list > li {
     font-size: 1.5rem;
-    padding: 10px 0 10px 20px;
+    padding: 8px 0 8px 20px;
 }
 
 .account-removal-description {
@@ -816,12 +804,19 @@ header {
     margin: 0 0 10px 0;
 }
 
-.btn-data-account {
-    width: 35%;
-    margin: 20px 0 20px 0;
+.btn-to-right {
     display: flex;
-    justify-content: right;
-    float: right;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.btn-to-right > a {
+    text-decoration: none;
+}
+
+.btn-data-account {
+    width: 300px;
+    margin: 20px 0 20px 0;
 }
 
 .account-input {
@@ -970,7 +965,7 @@ header {
         display: block;
     }
 
-    .panel-account-links{
+    .panel-account-links {
         width: 100%;
     }
 
@@ -1056,6 +1051,7 @@ header {
 .alert-container {
     z-index: 998;
 }
+
 .alert {
     width: 100%;
     z-index: 998;
