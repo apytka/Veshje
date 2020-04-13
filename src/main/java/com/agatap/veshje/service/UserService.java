@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import javax.mail.MessagingException;
@@ -105,19 +104,19 @@ public class UserService {
         user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
 
-        if (!user.getSubscribedNewsletter()) {
-            user.setNewsletter(null);
-            updateUser = userRepository.save(user);
-            newsletterService.deleteNewsletterByEmail(user.getEmail());
-        } else {
-            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
-                newsletterService.deleteNewsletterByEmail(user.getEmail());
-            }
-            Newsletter newsletter = addNewsletterForUser(user);
-            user.setNewsletter(newsletter);
-            updateUser = userRepository.save(user);
-        }
-
+//        if (!user.getSubscribedNewsletter()) {
+//            user.setNewsletter(null);
+//            updateUser = userRepository.save(user);
+//            newsletterService.deleteNewsletterByEmail(user.getEmail());
+//        } else {
+//            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
+//                newsletterService.deleteNewsletterByEmail(user.getEmail());
+//            }
+//            Newsletter newsletter = addNewsletterForUser(user);
+//            user.setNewsletter(newsletter);
+//            updateUser = userRepository.save(user);
+//        }
+        updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);
     }
 
@@ -153,6 +152,37 @@ public class UserService {
         }
     }
 
+    public UserDTO updatePassword(User user, ChangePasswordDTO changePasswordDTO) throws UserNotFoundException, UserDataInvalidException {
+        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
+                || !passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
+            throw new UserDataInvalidException();
+        }
+        Integer id = user.getId();
+        User userById = findUserById(id);
+        userById.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        userById.setUpdateDate(OffsetDateTime.now());
+        User updateUser = userRepository.save(userById);
+        return mapper.mappingToDTO(updateUser);
+    }
+
+    public UserDTO updateSubscriptionNewsletter(UserUpdateNewsletterDTO userUpdateNewsletter, Integer id) throws UserNotFoundException, NewsletterNotFoundException {
+        User user = findUserById(id);
+        User updateUser;
+        user.setSubscribedNewsletter(userUpdateNewsletter.getSubscribedNewsletter());
+        user.setUpdateDate(OffsetDateTime.now());
+
+        if (!user.getSubscribedNewsletter()) {
+            user.setNewsletter(null);
+            updateUser = userRepository.save(user);
+            newsletterService.deleteNewsletterByEmail(user.getEmail());
+        } else {
+            Newsletter newsletter = addNewsletterForUser(user);
+            user.setNewsletter(newsletter);
+            updateUser = userRepository.save(user);
+        }
+        return mapper.mappingToDTO(updateUser);
+    }
+
     private void validatePattern(CreateUserDTO createUserDTO) throws AddressDataInvalidException {
         String pattern = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
         Pattern password = Pattern.compile(pattern);
@@ -174,18 +204,5 @@ public class UserService {
         newsletter.setCreateDate(OffsetDateTime.now());
         newsletterRepository.save(newsletter);
         return newsletter;
-    }
-
-    public UserDTO updatePassword(User user, ChangePasswordDTO changePasswordDTO) throws UserNotFoundException, UserDataInvalidException {
-        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
-                || passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
-            throw new UserDataInvalidException();
-        }
-        Integer id = user.getId();
-        User userById = findUserById(id);
-        userById.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
-        userById.setUpdateDate(OffsetDateTime.now());
-        User updateUser = userRepository.save(userById);
-        return mapper.mappingToDTO(updateUser);
     }
 }

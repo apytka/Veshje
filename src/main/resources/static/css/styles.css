@@ -714,12 +714,13 @@ header {
 
 .panels-account-header {
     display: flex;
-    height: 90px;
+    min-height: 10vh;
     width: 100%;
     background: #f4f3f1;
 }
 
 .panels-account-header > h5 {
+    display: block;
     margin: 10px 50px;
     padding: 20px 10px;
     font-size: 2.4rem;
@@ -810,8 +811,12 @@ header {
     justify-content: flex-end;
 }
 
-.btn-to-right > a {
+.btn-to-right a {
+    display: flex;
     text-decoration: none;
+    align-content: center;
+    justify-items: center;
+    color: #f4f3f1;
 }
 
 .btn-data-account {

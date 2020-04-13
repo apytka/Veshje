@@ -56,7 +56,6 @@ public class User implements UserDetails {
 
     @OneToOne(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER,mappedBy="user", orphanRemoval=true)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-//    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade=javax.persistence.CascadeType.ALL)
     private VerificationToken verificationToken;
 
     @Override

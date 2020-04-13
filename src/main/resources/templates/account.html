@@ -164,19 +164,7 @@
                     <span class="error-info" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                     <input type="hidden" th:field="*{enabled}">
                     <input type="hidden" th:field="*{userRole}">
-                    <br/>
-                    <div class="account-text account-text-small">
-                        <h4>Newsletter</h4>
-                    </div>
-                    <div class="checkbox">
-                        <label class="checkbox-container">
-                            <input type="checkbox" th:field="*{subscribedNewsletter}">
-                            <span class="checkmark"></span>
-                        </label>
-                        <span class="account-description">
-                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
-                            <a href="/privacy-policy">Newsletter terms</a></span>
-                    </div>
+                    <input type="hidden" th:field="*{subscribedNewsletter}">
                     <div class="btn-to-right">
                         <input type="submit" class="btn btn-data-account" value="Change data">
                     </div>
@@ -226,11 +214,32 @@
                         <span class="account-description">Start the account deletion procedure</span>
                     </div>
                     <div class="btn-to-right">
-                        <a href="/account-removal">
-                            <input type="submit" class="btn btn-data-account" value="Delete account">
-                        </a>
+<!--                        <a href="/account-removal">-->
+<!--                            <input type="submit" class="btn btn-data-account" value="Delete account">-->
+<!--                        </a>-->
+                        <a href="/account-removal" class="btn btn-data-account">Delete account</a>
                     </div>
                 </div>
+            </div>
+            <div class="account-data account-data-large">
+                <form action="#" th:action="@{update-user-newsletter}" th:object="${updateUser}" method="post"
+                      class="account-data-container">
+                    <div class="account-text">
+                        <h4>Newsletter</h4>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" th:field="*{subscribedNewsletter}">
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="account-description">
+                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
+                            <a href="/privacy-policy">Newsletter terms</a></span>
+                    </div>
+                    <div class="btn-to-right">
+                        <input type="submit" class="btn btn-data-account" value="Send">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

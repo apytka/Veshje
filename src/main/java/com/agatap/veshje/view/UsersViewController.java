@@ -1,9 +1,6 @@
 package com.agatap.veshje.view;
 
-import com.agatap.veshje.controller.DTO.ChangePasswordDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateNewsletterDTO;
-import com.agatap.veshje.controller.DTO.CreateUserDTO;
-import com.agatap.veshje.controller.DTO.UpdateUserDTO;
+import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.VerificationToken;
 import com.agatap.veshje.repository.UserRepository;
@@ -70,13 +67,14 @@ public class UsersViewController {
         modelAndView.addObject("updateUser", user);
         modelAndView.addObject("addNewsletterAccount", new CreateUpdateNewsletterDTO());
         modelAndView.addObject("changePassword", new ChangePasswordDTO());
+        modelAndView.addObject("updateUserNewsletter", new UpdateUserDTO());
         return modelAndView;
     }
 
 
     @PostMapping("/account")
     public ModelAndView accountUser(@Valid @ModelAttribute(name = "addNewsletterAccount") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
-                                               BindingResult bindingResult)
+                                    BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account");
         if (bindingResult.hasErrors()) {
@@ -157,6 +155,18 @@ public class UsersViewController {
         }
     }
 
+    @PostMapping("/update-user-newsletter")
+    public ModelAndView changeSubscriptionNewsletter(@Valid @ModelAttribute(name = "updateUserNewsletter")
+                                                             UserUpdateNewsletterDTO userUpdateNewsletter, Authentication authentication)
+            throws UserNotFoundException, NewsletterNotFoundException {
+
+        User user = userService.findUserByEmail(authentication.getName());
+        Integer id = user.getId();
+
+        userService.updateSubscriptionNewsletter(userUpdateNewsletter, id);
+        return new ModelAndView("redirect:account?success");
+    }
+
     @GetMapping("/account-removal")
     public ModelAndView displayAccountRemoval(Authentication authentication) throws UserNotFoundException {
         ModelAndView modelAndView = new ModelAndView("account-removal");
@@ -168,7 +178,7 @@ public class UsersViewController {
 
     @PostMapping("/account-removal")
     public ModelAndView accountRemoval(@Valid @ModelAttribute(name = "addNewsletterAccountRemoval")
-                                                   CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+                                               CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account-removal");
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
