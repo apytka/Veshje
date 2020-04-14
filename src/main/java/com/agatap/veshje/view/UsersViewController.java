@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+
 @Controller
 @AllArgsConstructor
 public class UsersViewController {
@@ -37,7 +38,7 @@ public class UsersViewController {
     @PostMapping("/register")
     public ModelAndView createUser(@Valid @ModelAttribute(name = "createUser")
                                            CreateUserDTO createUserDTO, BindingResult bindingResult)
-            throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException, NewsletterAlreadyExistsException, NewsletterNotFoundException {
+            throws UserDataInvalidException, UserAlreadyExistException, AddressDataInvalidException, NewsletterNotFoundException {
         ModelAndView modelAndView = new ModelAndView("login");
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");

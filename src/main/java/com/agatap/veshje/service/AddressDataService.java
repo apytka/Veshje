@@ -109,4 +109,18 @@ public class AddressDataService {
                 .map(addressData -> mapper.mappingToDTO(addressData))
                 .collect(Collectors.toList());
     }
+
+    public AddressDataDTO createAddressFromUser(CreateUpdateAddressDataDTO createUpdateAddressDataDTO, Integer id) throws AddressDataInvalidException, UserNotFoundException {
+        invalidData(createUpdateAddressDataDTO);
+
+        AddressData addressData = mapper.mappingToModel(createUpdateAddressDataDTO);
+        addressData.setCreateDate(OffsetDateTime.now());
+
+            User user = userService.findUserById(id);
+            addressData.setUser(user);
+            user.getAddressData().add(addressData);
+
+        AddressData saveAddressData = addressDataRepository.save(addressData);
+        return mapper.mappingToDTO(saveAddressData);
+    }
 }

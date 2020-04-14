@@ -131,6 +131,11 @@
             <div th:text="${message}"></div>
             <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
         </div>
+        <div th:if="${message}" class="alert">
+            <strong>Error! Wrong data</strong>
+            <div th:text="${message}"></div>
+            <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
+        </div>
     </div>
     <div class="slideshow-container">
         <div class="slides fade">

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -38,7 +39,7 @@ public class AddressData {
     @Pattern(regexp = "\\+\\d{11}")
     @NotBlank
     private String phoneNumber;
-    @Max(50)
+    @Length(max = 50)
     private String information;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
