@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserDTO updateUser(@RequestBody UpdateUserDTO updateUserDTO, @PathVariable Integer id) throws UserNotFoundException, NewsletterAlreadyExistsException, NewsletterNotFoundException {
+    public UserDTO updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO, @PathVariable Integer id) throws UserNotFoundException, NewsletterAlreadyExistsException, NewsletterNotFoundException {
         return userService.updateUser(updateUserDTO, id);
     }
 
