@@ -43,17 +43,17 @@ public class UsersViewController {
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the registration");
-            return new ModelAndView("redirect:login?error");
+            return modelAndView;
         }
         if (userService.isUserEmailExists(createUserDTO.getEmail())) {
             LOG.warn("User " + createUserDTO.getEmail() + " already exists in data base");
             modelAndView.addObject("message", "There is already a user registered with the email provided");
-            return new ModelAndView("redirect:login?error");
+            return modelAndView;
         }
         if (!createUserDTO.getPassword().equals(createUserDTO.getConfirmPassword())) {
             LOG.warn("Error! Passwords do not match");
             modelAndView.addObject("message", "Incorrectly entered data, passwords do not match");
-            return new ModelAndView("redirect:login?error");
+            return modelAndView;
         }
 
         userService.createUser(createUserDTO);

@@ -116,7 +116,7 @@ public class AddressViewController {
     @PostMapping("/add-address-newsletter")
     public ModelAndView addAddressNewsletter(@Valid @ModelAttribute(name = "addNewsletterAddAddress")
                                                CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
-        ModelAndView modelAndView = new ModelAndView("add-address");
+        ModelAndView modelAndView = new ModelAndView("account-add-address");
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
