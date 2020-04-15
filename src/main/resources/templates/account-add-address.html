@@ -206,6 +206,90 @@
     </div>
     <div class="panels-account-footer"></div>
 </main>
+<footer class="footer-container">
+    <div class="accordion-container">
+        <div class="accordion-cart">
+            <h4 class="accordion">Shop</h4>
+            <ul class="panel">
+                <li><a href="/product/new-in" title="New collection">New in</a></li>
+                <li><a href="/product/mini-dresses" title="Mini dresses">Mini</a></li>
+                <li><a href="/product/midi-dresses" title="Midi dresses">Midi</a></li>
+                <li><a href="/product/long-dresses" title="Long dresses">Long</a></li>
+                <li><a href="/product/sale-dresses" title="Sale dresses">Sale</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Help</h4>
+            <ul class="panel">
+                <li><a href="/shop-at-veshje" title="Shop at veshje">Shop at veshje</a></li>
+                <li><a href="/about-product" title="Product">Product</a></li>
+                <li><a href="/gift-cards" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" title="Payment">Payment</a></li>
+                <li><a href="/shipping" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="/account" title="My account">My account</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Corporate info</h4>
+            <ul class="panel">
+                <li><a href="/about" title="About Veshje">About</a></li>
+                <li><a href="/career" title="Career at Veshje">Career</a></li>
+                <li><a href="/shops-and-company" title="Shops and company">Shops and company</a></li>
+                <li><a href="/contact" title="Contact">Contact</a></li>
+                <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
+            </ul>
+        </div>
+
+        <div class="accordion-cart" id="newsletter">
+            <h4 class="accordion">Newsletter</h4>
+            <ul class="panel">
+                <form action="#" th:action="@{add-address-newsletter}" th:object="${addNewsletterAddAddress}" method="post"
+                      class="newsletter-container">
+                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                    <div class="input-div one">
+                        <div class="i">
+                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                <g id="Shopicon">
+	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div>
+                            <h5>Email</h5>
+                            <input type="email" th:field="*{email}" class="input" required>
+                        </div>
+                    </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    <div class="newsletter-checkbox">
+                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                        I accept <a href="/privacy-policy">newsletter terms</a>
+                    </div>
+                    <input type="submit" class="btn" value="Send">
+                </form>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-container-socials">
+        <div class="socials">
+            <a href="#" title="facebook" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-facebook"></i></a>
+            <a href="#" title="twitter" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-twitter-square"></i></a>
+            <a href="#" title="instagram" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-instagram"></i></a>
+            <a href="#" title="youtube" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="copyright">
+            <p>Veshje © 2020 All rights reserved</p>
+        </div>
+    </div>
+</footer>
 <script type="text/javascript" src="/js/js.js"></script>
 <script type="text/javascript">
     var panel = document.getElementById("account-links");

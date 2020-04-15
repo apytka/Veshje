@@ -94,6 +94,7 @@ public class AddressViewController {
     public ModelAndView displayAddAddress() {
         ModelAndView modelAndView = new ModelAndView("account-add-address");
         modelAndView.addObject("createAddress", new CreateUpdateAddressDataDTO());
+        modelAndView.addObject("addNewsletterAddAddress", new CreateUpdateNewsletterDTO());
         return modelAndView;
     }
 
@@ -105,11 +106,29 @@ public class AddressViewController {
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
             modelAndView.addObject("message", "Incorrectly entered data in the change user password");
-            return modelAndView;
+            return new ModelAndView("redirect:add-address?error");
         }
         User user = userService.findUserByEmail(authentication.getName());
         addressDataService.createAddressFromUser(createUpdateAddressDataDTO, user.getId());
         return new ModelAndView("redirect:addresses?success");
+    }
+
+    @PostMapping("/add-address-newsletter")
+    public ModelAndView addAddressNewsletter(@Valid @ModelAttribute(name = "addNewsletterAddAddress")
+                                               CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("add-address");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:add-address?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:add-address?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:add-address?success");
     }
 
 }
