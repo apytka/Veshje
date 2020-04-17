@@ -25,58 +25,70 @@ function checkInputs() {
     const cityValue = city.value.trim();
     const postalCodeValue = postalCode.value.trim();
     const informationValue = information.value.trim();
+    let inputValidator = true;
 
     if (firstNameValue === '') {
         setErrorFor(firstName, 'First name cannot be blank');
+        inputValidator = false;
     } else {
         setSuccessFor(firstName);
     }
 
     if (lastNameValue === '') {
         setErrorFor(lastName, 'Last name cannot be blank');
+        inputValidator = false;
     } else {
         setSuccessFor(lastName);
     }
 
     if (phoneNumberValue === '') {
-        setErrorFor(phoneNumber, 'Phone number cannot be blank')
+        setErrorFor(phoneNumber, 'Phone number cannot be blank');
+        inputValidator = false;
     } else if (!validatePhoneNumber(phoneNumberValue)) {
         setErrorFor(phoneNumber, 'Wrong format. Example: +48888111000');
+        inputValidator = false;
     } else {
-        setSuccessFor(phoneNumber)
+        setSuccessFor(phoneNumber);
     }
 
     if (streetValue === '') {
-        setErrorFor(street, 'Street cannot be blank')
+        setErrorFor(street, 'Street cannot be blank');
+        inputValidator = false;
     } else {
-        setSuccessFor(street)
+        setSuccessFor(street);
     }
 
     if (numberValue === '') {
         setErrorFor(number, 'Number street cannot be blank')
+        inputValidator = false;
     } else {
-        setSuccessFor(number)
+        setSuccessFor(number);
     }
 
     if (cityValue === '') {
-        setErrorFor(city, 'City cannot be blank')
+        setErrorFor(city, 'City cannot be blank');
+        inputValidator = false;
     } else {
-        setSuccessFor(city)
+        setSuccessFor(city);
     }
 
     if (postalCodeValue === '') {
-        setErrorFor(postalCode, 'Postal code cannot be blank')
+        setErrorFor(postalCode, 'Postal code cannot be blank');
+        inputValidator = false;
     } else if (!validatePostalCode(postalCodeValue)) {
-        setErrorFor(postalCode, 'Wrong format, example: 51-250')
+        setErrorFor(postalCode, 'Wrong format, example: 51-250');
+        inputValidator = false;
     } else {
         setSuccessFor(postalCode);
     }
 
     if (informationValue.length > 50) {
-        setErrorFor(information, 'The maximum number of characters is 50')
+        setErrorFor(information, 'The maximum number of characters is 50');
+        inputValidator = false;
     } else {
         setSuccessFor(information)
     }
+    return inputValidator;
 }
 
 function setErrorFor(input, message) {
