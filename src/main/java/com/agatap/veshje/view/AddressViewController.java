@@ -105,7 +105,7 @@ public class AddressViewController {
 
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
-            modelAndView.addObject("message", "Incorrectly entered data in the change user password");
+            modelAndView.addObject("message", "Incorrectly entered data in the add user address");
             return new ModelAndView("redirect:add-address?error");
         }
         User user = userService.findUserByEmail(authentication.getName());

@@ -795,7 +795,7 @@ header {
     margin: 20px 0 10px 10px;
 }
 
-.account-data-input > div > h3 {
+.account-data-input h3 {
     color: #44423e;
     font-weight: bold;
     font-size: 1.4rem;
@@ -1134,4 +1134,75 @@ table.general-table tr {
 
 }
 
-/*OTHERS*/
+/*VALIDATE-ADDRESS*/
+.account-data-input {
+    margin: 0 20px 0 0;
+    width: 305px;
+}
+.account-data-input.success input {
+    box-shadow: -1px 1px 1px -1px #2c6d50;
+}
+
+.account-data-input.error input {
+    box-shadow: -1px 1px 1px -1px #890e10;
+}
+
+.account-data-input i {
+    visibility: hidden;
+    position: absolute;
+    top: 48px;
+    right: 10px;
+    font-size: 1.7rem;
+}
+
+.account-data-input.success i.fa-check-square {
+    visibility: visible;
+    color: #2c6d50;
+}
+
+.account-data-input.error i.fa-minus-square {
+    visibility: visible;
+    color: #211f1b;
+}
+
+.account-data-input small {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+}
+
+.account-data-input.error small {
+    color: #890e10;
+    visibility: visible;
+}
+
+.account-data-input {
+    margin-bottom: 5px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.account-data-input label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+/*ERROR PAGE*/
+.error-page {
+    font-size: 5.5em;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.error-page-small {
+    font-size: 2.5em;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 0 40px 0;
+}
+
+.container-x-x {
+    display: flex;
+    flex-wrap: wrap;
+}
