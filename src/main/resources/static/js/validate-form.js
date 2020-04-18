@@ -104,9 +104,11 @@ function setSuccessFor(input) {
 }
 
 function validatePhoneNumber(phoneNumber) {
-    return /\+\d{11}/.test(phoneNumber);
+    return /^\+\d{11}$/.test(phoneNumber);
 }
 
 function validatePostalCode(postalCode) {
-    return /\d{2}-\d{3}/.test(postalCode);
+    return /^\d{2}-\d{3}$/.test(postalCode);
 }
+
+/*ADD NEWSLETTER*/

@@ -26,9 +26,9 @@ public class CreateUpdateAddressDataDTO {
     @NotBlank(message = "This field is required")
     private String city;
     @NotBlank(message = "This field is required")
-    @Pattern(regexp = "\\d{2}-\\d{3}", message = "Example format postal code: 51-250")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Example format postal code: 51-250")
     private String postalCode;
-    @Pattern(regexp = "\\+\\d{11}", message = "Example format phone number: +48000111000")
+    @Pattern(regexp = "^\\+\\d{11}$", message = "Example format phone number: +48000111000")
     @NotBlank(message = "This field is required")
     private String phoneNumber;
     @Length(max = 50, message = "The maximum number of characters is 50")

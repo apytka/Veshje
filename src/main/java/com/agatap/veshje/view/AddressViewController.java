@@ -41,7 +41,7 @@ public class AddressViewController {
     }
 
     @PostMapping("/addresses")
-    public ModelAndView accountUser(@Valid @ModelAttribute(name = "addNewsletterAddresses") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
+    public ModelAndView addressAddNewsletter(@Valid @ModelAttribute(name = "addNewsletterAddresses") CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
                                     BindingResult bindingResult)
             throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account-addresses");
@@ -67,7 +67,7 @@ public class AddressViewController {
     }
 
     @GetMapping("/modify-address/{id}")
-    public ModelAndView displayModelUpdateUser(@PathVariable Integer id) throws AddressNotFoundException {
+    public ModelAndView displayModelUpdateAddress(@PathVariable Integer id) throws AddressNotFoundException {
         ModelAndView modelAndView = new ModelAndView("account-modify-address");
 
         AddressDataDTO updateAddress = addressDataService.findAddressDataDTOById(id);
@@ -78,13 +78,13 @@ public class AddressViewController {
     }
 
     @PostMapping("/modify-address/{id}")
-    public ModelAndView updateUser(@PathVariable Integer id, @Valid @ModelAttribute(name = "updateAddress") CreateUpdateAddressDataDTO createUpdateAddressDataDTO,
-                                   @ModelAttribute(name = "addNewsletterModifyAddress") CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws UserNotFoundException, AddressNotFoundException, AddressDataInvalidException {
+    public ModelAndView updateAddress(@PathVariable Integer id, @Valid @ModelAttribute(name = "updateAddress") CreateUpdateAddressDataDTO createUpdateAddressDataDTO,
+                                    BindingResult bindingResult) throws UserNotFoundException, AddressNotFoundException, AddressDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account-modify-address");
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
-            modelAndView.addObject("message", "Incorrectly entered data in the save new address");
-            return modelAndView;
+            modelAndView.addObject("message", "Incorrectly entered data in the add user address");
+            return new ModelAndView("redirect:/modify-address/" + id + "?error");
         }
         addressDataService.updateAddressDTO(createUpdateAddressDataDTO, id);
         return new ModelAndView("redirect:/addresses?success");
@@ -131,4 +131,21 @@ public class AddressViewController {
         return new ModelAndView("redirect:add-address?success");
     }
 
+    @PostMapping("/modify-address-newsletter/{id}")
+    public ModelAndView updateAddressNewsletter(@PathVariable Integer id, @Valid @ModelAttribute(name = "addNewsletterModifyAddress")
+                                                     CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account-modify-address");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:/modify-address/" + id + "?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:/modify-address/" + id + "?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:/modify-address/" + id + "?success");
+    }
 }

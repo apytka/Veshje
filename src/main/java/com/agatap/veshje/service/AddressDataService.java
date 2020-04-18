@@ -89,8 +89,8 @@ public class AddressDataService {
     }
 
     private void invalidData(CreateUpdateAddressDataDTO createUpdateAddressDataDTO) throws AddressDataInvalidException {
-        String postalCodePattern = "\\d{2}-\\d{3}";
-        String phoneNumberPattern = "\\+\\d{11}";
+        String postalCodePattern = "^\\d{2}-\\d{3}$";
+        String phoneNumberPattern = "^\\+\\d{11}$";
         Pattern patternPostalCode = Pattern.compile(postalCodePattern);
         Matcher matcherPostalCode = patternPostalCode.matcher(createUpdateAddressDataDTO.getPostalCode());
         boolean postalCodeCheck = matcherPostalCode.matches();

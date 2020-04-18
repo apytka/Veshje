@@ -34,9 +34,9 @@ public class AddressData {
     @NotBlank
     private String city;
     @NotBlank
-    @Pattern(regexp = "\\d{2}-\\d{3}")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$")
     private String postalCode;
-    @Pattern(regexp = "\\+\\d{11}")
+    @Pattern(regexp = "^\\+\\d{11}$")
     @NotBlank
     private String phoneNumber;
     @Length(max = 50)
