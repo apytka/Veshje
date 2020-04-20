@@ -1,6 +1,7 @@
 package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUserDTO;
+import com.agatap.veshje.controller.DTO.TokenDTO;
 import com.agatap.veshje.controller.DTO.UpdateUserDTO;
 import com.agatap.veshje.controller.DTO.UserDTO;
 import com.agatap.veshje.service.UserService;
@@ -42,5 +43,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public UserDTO deleteUser(@PathVariable Integer id) throws UserNotFoundException {
         return userService.deleteUser(id);
+    }
+
+    @GetMapping("/token/{id}")
+    public TokenDTO getTokenByUserId(@PathVariable Integer id) throws UserNotFoundException {
+        return userService.getTokenByUserId(id);
     }
 }

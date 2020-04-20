@@ -19,12 +19,13 @@ public class MailSenderService {
     public void sendMail(String to,
                          String subject,
                          String text,
-                         boolean isHtmlContent) throws MessagingException {
+                         boolean isHtmlContent,
+                         String htmlPage) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
-        String content = mailContentService.contentBuilder(text);
+        String content = mailContentService.contentBuilder(text, htmlPage);
         mimeMessageHelper.setText(content, isHtmlContent);
         javaMailSender.send(mimeMessage);
     }

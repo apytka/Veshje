@@ -2,14 +2,15 @@ package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.controller.mapper.NewsletterDTOMapper;
+import com.agatap.veshje.controller.mapper.TokenDTOMapper;
 import com.agatap.veshje.controller.mapper.UserDTOMapper;
 import com.agatap.veshje.model.Newsletter;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.model.UserRole;
-import com.agatap.veshje.model.VerificationToken;
+import com.agatap.veshje.model.Token;
 import com.agatap.veshje.repository.NewsletterRepository;
 import com.agatap.veshje.repository.UserRepository;
-import com.agatap.veshje.repository.VerificationTokenRepository;
+import com.agatap.veshje.repository.TokenRepository;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +19,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import javax.mail.MessagingException;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -30,12 +34,13 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private UserRepository userRepository;
-    private VerificationTokenRepository verificationTokenRepository;
+    private TokenRepository verificationTokenRepository;
     private MailSenderService mailSenderService;
     private UserDTOMapper mapper;
     private NewsletterDTOMapper newsletterDTOMapper;
     private NewsletterRepository newsletterRepository;
     private NewsletterService newsletterService;
+    private TokenDTOMapper tokenDTOMapper;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -78,7 +83,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(OffsetDateTime.now());
 
-        if(createUserDTO.getSubscribedNewsletter()) {
+        if (createUserDTO.getSubscribedNewsletter()) {
             if (newsletterService.isNewsletterEmailExists(createUserDTO.getEmail())) {
                 newsletterService.deleteNewsletterByEmail(user.getEmail());
             }
@@ -88,12 +93,13 @@ public class UserService {
         }
 
         User newUser = userRepository.save(user);
-        sendToken(newUser);
+        sendToken(newUser, "register?token=", "Veshje shop - confirmation link",
+                "confirm-registration", 60 * 24);
         return mapper.mappingToDTO(newUser);
     }
 
     public UserDTO updateUser(UpdateUserDTO updateUserDTO, Integer id)
-            throws UserNotFoundException, NewsletterNotFoundException {
+            throws UserNotFoundException {
         User user = findUserById(id);
         User updateUser;
         user.setFirstName(updateUserDTO.getFirstName());
@@ -104,18 +110,6 @@ public class UserService {
         user.setEnabled(updateUserDTO.isEnabled());
         user.setUpdateDate(OffsetDateTime.now());
 
-//        if (!user.getSubscribedNewsletter()) {
-//            user.setNewsletter(null);
-//            updateUser = userRepository.save(user);
-//            newsletterService.deleteNewsletterByEmail(user.getEmail());
-//        } else {
-//            if(newsletterService.isNewsletterEmailExists(updateUserDTO.getEmail())) {
-//                newsletterService.deleteNewsletterByEmail(user.getEmail());
-//            }
-//            Newsletter newsletter = addNewsletterForUser(user);
-//            user.setNewsletter(newsletter);
-//            updateUser = userRepository.save(user);
-//        }
         updateUser = userRepository.save(user);
         return mapper.mappingToDTO(updateUser);
     }
@@ -136,24 +130,31 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    private void sendToken(User user) {
-        String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setToken(token);
-        verificationToken.setUser(user);
-        verificationTokenRepository.save(verificationToken);
+    public void sendToken(User user, String path, String subjectEmail, String htmlPage, int expiryTime) {
+        String tokenValue = UUID.randomUUID().toString();
+        Token token = new Token();
+        token.setToken(tokenValue);
+        token.setUser(user);
+        token.setExpiryDate(expiryTimeInMinutes(expiryTime));
+        verificationTokenRepository.save(token);
 
-        String url = "http://localhost:8080/register?token=" + token;
+        String url = "http://localhost:8080/" + path + tokenValue;
         try {
-            mailSenderService.sendMail(user.getEmail(), "Veshje shop - confirmation link",
-                    url, true);
+            mailSenderService.sendMail(user.getEmail(), subjectEmail, url, true, htmlPage);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
+    private Date expiryTimeInMinutes(int expiryTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        calendar.add(Calendar.MINUTE, expiryTime);
+        return new Date(calendar.getTime().getTime());
+    }
+
     public UserDTO updatePassword(User user, ChangePasswordDTO changePasswordDTO) throws UserNotFoundException, UserDataInvalidException {
-        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
+        if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())
                 || !passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
             throw new UserDataInvalidException();
         }
@@ -204,5 +205,10 @@ public class UserService {
         newsletter.setCreateDate(OffsetDateTime.now());
         newsletterRepository.save(newsletter);
         return newsletter;
+    }
+
+    public TokenDTO getTokenByUserId(Integer id) throws UserNotFoundException {
+        User user = findUserById(id);
+        return tokenDTOMapper.mapperUserToken(user.getToken());
     }
 }

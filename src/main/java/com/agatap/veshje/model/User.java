@@ -59,7 +59,7 @@ public class User implements UserDetails {
 
     @OneToOne(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER,mappedBy="user", orphanRemoval=true)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private VerificationToken verificationToken;
+    private Token token;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

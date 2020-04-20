@@ -10,10 +10,10 @@ public class MailContentService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public String contentBuilder(String message) {
+    public String contentBuilder(String message, String htmlPage) {
         Context context = new Context();
         context.setVariable("message", message);
-        return templateEngine.process("confirm-registration", context);
+        return templateEngine.process(htmlPage, context);
     }
 
 }

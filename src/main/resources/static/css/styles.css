@@ -746,6 +746,10 @@ header {
     padding: 20px 40px 0 0;
 }
 
+.form-forgot-password {
+    width: 300px;
+}
+
 .account-data {
     display: block;
     font-size: 1.4rem;
@@ -1202,7 +1206,7 @@ table.general-table tr {
     margin: 0 0 40px 0;
 }
 
-.container-x-x {
+.account-address-container {
     display: flex;
     flex-wrap: wrap;
 }

@@ -2,11 +2,11 @@ package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.model.User;
-import com.agatap.veshje.model.VerificationToken;
+import com.agatap.veshje.model.Token;
 import com.agatap.veshje.repository.UserRepository;
-import com.agatap.veshje.repository.VerificationTokenRepository;
-import com.agatap.veshje.service.AddressDataService;
+import com.agatap.veshje.repository.TokenRepository;
 import com.agatap.veshje.service.NewsletterService;
+import com.agatap.veshje.service.TokenService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,8 @@ public class UsersViewController {
     private UserService userService;
     private UserRepository userRepository;
     private NewsletterService newsletterService;
-    private VerificationTokenRepository verificationTokenRepository;
+    private TokenService tokenService;
+    private TokenRepository tokenRepository;
 
     @PostMapping("/register")
     public ModelAndView createUser(@Valid @ModelAttribute(name = "createUser")
@@ -93,11 +94,14 @@ public class UsersViewController {
     }
 
     @GetMapping("/register")
-    public ModelAndView registerVerificationToken(@RequestParam(value = "token", required = false) String token) {
-        VerificationToken byToken = verificationTokenRepository.findByToken(token);
+    public ModelAndView registerVerificationToken(@RequestParam(value = "token", required = false) String token) throws TokenNotFoundException {
+        Token byToken = tokenService.findByToken(token);
         User user = byToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
+        if (user.isEnabled()) {
+            tokenService.deleteToken(token);
+        }
         return new ModelAndView("redirect:login");
     }
 
@@ -193,5 +197,28 @@ public class UsersViewController {
         }
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
         return new ModelAndView("redirect:account-removal?success");
+    }
+
+    @GetMapping("/login/forgot-password")
+    public ModelAndView displayForgotPassword() {
+        ModelAndView modelAndView = new ModelAndView("account-forgot-password");
+        modelAndView.addObject("addNewsletterAccountRemoval", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("forgotPasswordDTO", new ForgotPasswordDTO());
+        return modelAndView;
+    }
+
+    @PostMapping("/login/forgot-password")
+    public ModelAndView forgotPassword(@Valid @ModelAttribute(name = "forgotPasswordDTO") ForgotPasswordDTO forgotPasswordDTO) throws UserNotFoundException {
+        if (!userService.isUserEmailExists(forgotPasswordDTO.getEmail())) {
+            return new ModelAndView("redirect:/login/forgot-password?error");
+        }
+        User user = userService.findUserByEmail(forgotPasswordDTO.getEmail());
+        TokenDTO tokenDTO = userService.getTokenByUserId(user.getId());
+
+
+
+        userService.sendToken(user, "login/resetPassword?token=",
+                "Veshje shop - reset password", "account-reset-password",60);
+        return new ModelAndView("redirect:/login/forgot-password?success");
     }
 }
