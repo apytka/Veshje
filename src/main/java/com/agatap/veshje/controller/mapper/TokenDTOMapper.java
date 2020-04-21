@@ -10,13 +10,13 @@ import java.util.Optional;
 @Component
 public class TokenDTOMapper {
     public TokenDTO mappingToDTO(Token token) {
-        Integer userId = Optional.ofNullable(token.getUser())
-                .map(tokenValue -> tokenValue.getId()).orElse(null);
+//        Integer userId = Optional.ofNullable(token.getUser())
+//                .map(tokenValue -> token.getId()).orElse(null);
         return TokenDTO.builder()
                 .id(token.getId())
                 .token(token.getToken())
                 .expiryDate(token.getExpiryDate())
-                .userId(userId)
+                .userId(token.getUser() != null ? token.getUser().getId() : null)
                 .createDate(token.getCreateDate())
                 .updateDate(token.getUpdateDate())
                 .build();

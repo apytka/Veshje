@@ -222,6 +222,4 @@ public class UserService {
         User user = findUserById(id);
         return tokenDTOMapper.mapperUserToken(user.getToken());
     }
-
-
 }

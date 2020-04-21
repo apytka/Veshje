@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Calendar;
 
 
 @Controller
@@ -94,7 +95,7 @@ public class UsersViewController {
     }
 
     @GetMapping("/register")
-    public ModelAndView registerVerificationToken(@RequestParam(value = "token", required = false) String token) throws TokenNotFoundException {
+    public ModelAndView registerVerificationToken(@RequestParam(value = "token", required = false) String token) {
         Token byToken = tokenService.findByToken(token);
         User user = byToken.getUser();
         user.setEnabled(true);
@@ -208,22 +209,24 @@ public class UsersViewController {
     }
 
     @PostMapping("/login/forgot-password")
-    public ModelAndView forgotPassword(@Valid @ModelAttribute(name = "forgotPasswordDTO") ForgotPasswordDTO forgotPasswordDTO) throws UserNotFoundException {
+    public ModelAndView forgotPassword(@Valid @ModelAttribute(name = "forgotPasswordDTO") ForgotPasswordDTO forgotPasswordDTO) throws UserNotFoundException, TokenNotFoundException {
         User user = userService.findUserByEmail(forgotPasswordDTO.getEmail());
         if (!userService.isUserEmailExists(forgotPasswordDTO.getEmail()) || !user.isEnabled()) {
             LOG.warn("The email account does not exist or account is not activated");
             return new ModelAndView("redirect:/login/forgot-password?errorForgotPassword");
         }
-//        TokenDTO tokenDTO = userService.getTokenByUserId(user.getId());
 
-        userService.sendToken(user, "login/reset-password?token=",
-                "Veshje shop - reset password", "reset-password",60);
+        if(!tokenRepository.existsByUserId(user.getId())) {
+            userService.sendToken(user, "login/reset-password?token=",
+                    "Veshje shop - reset password", "reset-password", 60);
+        }
+
         return new ModelAndView("redirect:/login/forgot-password?successForgotPassword");
     }
 
     @PostMapping("/login/forgot-password-newsletter")
     public ModelAndView forgotPasswordNewsletter(@Valid @ModelAttribute(name = "addNewsletterForgotPassword")
-                                               CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+                                                         CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("forgot-password");
         if (bindingResult.hasErrors()) {
             LOG.warn("Binding results has errors!");
@@ -252,14 +255,19 @@ public class UsersViewController {
         ModelAndView modelAndView = new ModelAndView("account-reset-password");
         Token tokenValue = tokenService.findByToken(token);
         modelAndView.addObject("token", tokenValue);
-        if (changeForgotPasswordDTO.getNewPassword().equals(changeForgotPasswordDTO.getConfirmPassword())) {
-            Integer userId = tokenValue.getUser().getId();
-            userService.changeForgotPassword(userId, changeForgotPasswordDTO);
+        Calendar calendar = Calendar.getInstance();
+        if (tokenValue.getExpiryDate().getTime() - calendar.getTime().getTime() <= 0) {
+            LOG.warn("Token has expired");
             tokenService.deleteToken(token);
-            return new ModelAndView("redirect:reset-password?successResetPassword");
-        } else {
+            return new ModelAndView("redirect:reset-password?errorExpired");
+        }
+        if (!changeForgotPasswordDTO.getNewPassword().equals(changeForgotPasswordDTO.getConfirmPassword())) {
             LOG.warn("New password and confirmation password do not match.");
             return new ModelAndView("redirect:reset-password?token=" + token + "&errorResetPassword");
         }
+        Integer userId = tokenValue.getUser().getId();
+        userService.changeForgotPassword(userId, changeForgotPasswordDTO);
+        tokenService.deleteToken(token);
+        return new ModelAndView("redirect:reset-password?successResetPassword");
     }
 }

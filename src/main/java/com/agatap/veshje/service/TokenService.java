@@ -8,7 +8,7 @@ import com.agatap.veshje.model.User;
 import com.agatap.veshje.repository.TokenRepository;
 import com.agatap.veshje.service.exception.TokenNotFoundException;
 import com.agatap.veshje.service.exception.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -17,12 +17,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TokenService {
-    @Autowired
+
     private TokenRepository tokenRepository;
-    @Autowired
     private TokenDTOMapper mapper;
-    @Autowired
     private UserService userService;
 
     public List<TokenDTO> getAllTokens() {
