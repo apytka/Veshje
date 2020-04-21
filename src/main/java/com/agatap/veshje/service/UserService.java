@@ -166,6 +166,17 @@ public class UserService {
         return mapper.mappingToDTO(updateUser);
     }
 
+    public UserDTO changeForgotPassword(Integer userId, ChangeForgotPasswordDTO changeForgotPasswordDTO) throws UserDataInvalidException, UserNotFoundException {
+        if (!changeForgotPasswordDTO.getNewPassword().equals(changeForgotPasswordDTO.getConfirmPassword())) {
+            throw new UserDataInvalidException();
+        }
+        User user = findUserById(userId);
+        user.setPassword(passwordEncoder.encode(changeForgotPasswordDTO.getNewPassword()));
+        user.setUpdateDate(OffsetDateTime.now());
+        User updateUser = userRepository.save(user);
+        return mapper.mappingToDTO(updateUser);
+    }
+
     public UserDTO updateSubscriptionNewsletter(UserUpdateNewsletterDTO userUpdateNewsletter, Integer id) throws UserNotFoundException, NewsletterNotFoundException {
         User user = findUserById(id);
         User updateUser;
@@ -211,4 +222,6 @@ public class UserService {
         User user = findUserById(id);
         return tokenDTOMapper.mapperUserToken(user.getToken());
     }
+
+
 }

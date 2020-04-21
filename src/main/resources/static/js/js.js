@@ -28,6 +28,26 @@ inputs.forEach(input => {
     input.addEventListener("blur", blurFunc);
 });
 
+// SHOW PASSWORD
+var passwordInp = document.getElementById('password-inp');
+var passwordEye = document.getElementById('password-eye');
+var passwordConfirmInp = document.getElementById('password-confirm-inp');
+var passwordConfirmEye = document.getElementById('password-confirm-eye');
+
+passwordEye.addEventListener('click', togglePassword);
+passwordConfirmEye.addEventListener('click', togglePasswordConfirm);
+
+function togglePassword() {
+    passwordEye.classList.toggle('active');
+    passwordInp.type === 'password' ? passwordInp.type = 'text' : passwordInp.type = 'password';
+}
+
+function togglePasswordConfirm() {
+    passwordConfirmEye.classList.toggle('active');
+    passwordConfirmInp.type === 'password' ? passwordConfirmInp.type = 'text' : passwordConfirmInp.type = 'password';
+
+}
+
 // SLIDESHOW
 var slideIndex = 1;
 showSlides(slideIndex);
@@ -100,6 +120,12 @@ function closeForm() {
 //ALERT
 function closeAlert() {
     var closeAlert = document.getElementsByClassName("alert");
+    closeAlert[0].style.display = "none";
+    closeAlert[1].style.display = "none";
+}
+
+function closeButtonInformation() {
+    var closeAlert = document.getElementsByClassName("alert-information");
     closeAlert[0].style.display = "none";
     closeAlert[1].style.display = "none";
 }

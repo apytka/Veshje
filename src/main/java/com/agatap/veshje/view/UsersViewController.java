@@ -202,23 +202,64 @@ public class UsersViewController {
     @GetMapping("/login/forgot-password")
     public ModelAndView displayForgotPassword() {
         ModelAndView modelAndView = new ModelAndView("account-forgot-password");
-        modelAndView.addObject("addNewsletterAccountRemoval", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("addNewsletterForgotPassword", new CreateUpdateNewsletterDTO());
         modelAndView.addObject("forgotPasswordDTO", new ForgotPasswordDTO());
         return modelAndView;
     }
 
     @PostMapping("/login/forgot-password")
     public ModelAndView forgotPassword(@Valid @ModelAttribute(name = "forgotPasswordDTO") ForgotPasswordDTO forgotPasswordDTO) throws UserNotFoundException {
-        if (!userService.isUserEmailExists(forgotPasswordDTO.getEmail())) {
-            return new ModelAndView("redirect:/login/forgot-password?error");
-        }
         User user = userService.findUserByEmail(forgotPasswordDTO.getEmail());
-        TokenDTO tokenDTO = userService.getTokenByUserId(user.getId());
+        if (!userService.isUserEmailExists(forgotPasswordDTO.getEmail()) || !user.isEnabled()) {
+            LOG.warn("The email account does not exist or account is not activated");
+            return new ModelAndView("redirect:/login/forgot-password?errorForgotPassword");
+        }
+//        TokenDTO tokenDTO = userService.getTokenByUserId(user.getId());
 
+        userService.sendToken(user, "login/reset-password?token=",
+                "Veshje shop - reset password", "reset-password",60);
+        return new ModelAndView("redirect:/login/forgot-password?successForgotPassword");
+    }
 
+    @PostMapping("/login/forgot-password-newsletter")
+    public ModelAndView forgotPasswordNewsletter(@Valid @ModelAttribute(name = "addNewsletterForgotPassword")
+                                               CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("forgot-password");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:forgot-password?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:forgot-password?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:forgot-password?success");
+    }
 
-        userService.sendToken(user, "login/resetPassword?token=",
-                "Veshje shop - reset password", "account-reset-password",60);
-        return new ModelAndView("redirect:/login/forgot-password?success");
+    @GetMapping("/login/reset-password")
+    public ModelAndView displayResetPassword(@RequestParam(value = "token", required = false) String token) {
+        ModelAndView modelAndView = new ModelAndView("account-reset-password");
+        modelAndView.addObject("token", token);
+        modelAndView.addObject("changeForgotPasswordDTO", new ChangeForgotPasswordDTO());
+        return modelAndView;
+    }
+
+    @PostMapping("/login/reset-password")
+    public ModelAndView resetPassword(@RequestParam(value = "token", required = false) String token, @ModelAttribute ChangeForgotPasswordDTO changeForgotPasswordDTO) throws UserDataInvalidException, UserNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("account-reset-password");
+        Token tokenValue = tokenService.findByToken(token);
+        modelAndView.addObject("token", tokenValue);
+        if (changeForgotPasswordDTO.getNewPassword().equals(changeForgotPasswordDTO.getConfirmPassword())) {
+            Integer userId = tokenValue.getUser().getId();
+            userService.changeForgotPassword(userId, changeForgotPasswordDTO);
+            tokenService.deleteToken(token);
+            return new ModelAndView("redirect:reset-password?successResetPassword");
+        } else {
+            LOG.warn("New password and confirmation password do not match.");
+            return new ModelAndView("redirect:reset-password?token=" + token + "&errorResetPassword");
+        }
     }
 }

@@ -42,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account-not-active").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/login/forgot-password").permitAll()
+                .antMatchers("/login/forgot-password-newsletter").permitAll()
+                .antMatchers("/login/reset-password*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
