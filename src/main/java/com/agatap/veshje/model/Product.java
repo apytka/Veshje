@@ -22,7 +22,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private BigDecimal price;
+    private Double price;
     private String description;
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;

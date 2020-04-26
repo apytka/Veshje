@@ -20,5 +20,4 @@ public class CareProductDTO {
     private OffsetDateTime updateDate;
 
     private Integer productIds;
-    private List<Integer> pictureIds;
 }

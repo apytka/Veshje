@@ -2,14 +2,18 @@ package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateProductDTO;
 import com.agatap.veshje.controller.DTO.ProductDTO;
+import com.agatap.veshje.controller.mapper.CategoryDTOMapper;
 import com.agatap.veshje.controller.mapper.ProductDTOMapper;
-import com.agatap.veshje.model.Product;
-import com.agatap.veshje.model.TypeCollection;
+import com.agatap.veshje.controller.mapper.SizeDTOMapper;
+import com.agatap.veshje.model.*;
+import com.agatap.veshje.repository.CategoryRepository;
 import com.agatap.veshje.repository.ProductRepository;
+import com.agatap.veshje.repository.SizeRepository;
 import com.agatap.veshje.service.exception.ProductAlreadyExistException;
 import com.agatap.veshje.service.exception.ProductDataInvalidException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -17,11 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ProductService {
-    @Autowired
+
     private ProductRepository productRepository;
-    @Autowired
     private ProductDTOMapper mapper;
+    private CategoryRepository categoryRepository;
+    private CategoryDTOMapper categoryDTOMapper;
+    private SizeRepository sizeRepository;
+    private SizeDTOMapper sizeDTOMapper;
 
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
@@ -49,6 +57,7 @@ public class ProductService {
         }
         Product product = mapper.mappingToModel(createProductDTO);
         product.setCreateDate(OffsetDateTime.now());
+        product.setTypeCollection(TypeCollection.NEW);
         //todo bind to foreign tables
         Product newProduct = productRepository.save(product);
         return mapper.mappingToDTO(newProduct);
@@ -71,4 +80,39 @@ public class ProductService {
         productRepository.delete(product);
         return mapper.mappingToDTO(product);
     }
+
+    public List<ProductDTO> findProductsBySize(SizeType sizeType) {
+        List<Size> collectBySizeType = sizeRepository.findAllBySizeType(sizeType);
+
+        return collectBySizeType.stream()
+                .flatMap(product -> product.getProducts().stream())
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductsByTypeCollection(TypeCollection type) {
+        return productRepository.findByTypeCollection(type).stream()
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+    public List<ProductDTO> findProductsByPrice(Double minPrice, Double maxPrice) {
+        return productRepository.findAll().stream()
+                .filter(product -> product.getPrice() >= minPrice)
+                .filter(product -> product.getPrice() <= maxPrice)
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductOrderByPriceAsc() {
+        return productRepository.findByOrderByPriceAsc().stream()
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductOrderByPriceDsc() {
+        return productRepository.findByOrderByPriceDesc().stream()
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
 }

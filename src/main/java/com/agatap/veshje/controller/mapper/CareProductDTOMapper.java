@@ -14,15 +14,11 @@ public class CareProductDTOMapper {
     public CareProductDTO mappingToDTO(CareProduct careProduct) {
         Integer productId = Optional.ofNullable(careProduct.getProduct())
                 .map(product -> careProduct.getId()).orElse(null);
-        List<Integer> picturesId = careProduct.getImages().stream()
-                .map(picture -> careProduct.getId())
-                .collect(Collectors.toList());
         return CareProductDTO.builder()
                 .id(careProduct.getId())
                 .name(careProduct.getName())
                 .description(careProduct.getDescription())
                 .productIds(productId)
-                .pictureIds(picturesId)
                 .createDate(careProduct.getCreateDate())
                 .updateDate(careProduct.getUpdateDate())
                 .build();

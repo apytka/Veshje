@@ -16,9 +16,7 @@ public class ImageDTOMapper {
     public ImageDTO mappingToDTO(Image image) {
         Integer productsId = Optional.ofNullable(image.getProduct())
                 .map(product -> image.getId()).orElse(null);
-        List<Integer> careIds = image.getCares().stream()
-                .map(care -> image.getId())
-                .collect(Collectors.toList());
+
         return ImageDTO.builder()
                 .id(image.getId())
                 .name(image.getName())
@@ -26,7 +24,6 @@ public class ImageDTOMapper {
                 .size(image.getSize())
                 .data(image.getData())
                 .productIds(productsId)
-                .careIds(careIds)
                 .createDate(image.getCreateDate())
                 .updateDate(image.getUpdateDate())
                 .build();

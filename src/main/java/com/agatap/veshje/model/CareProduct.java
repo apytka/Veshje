@@ -27,7 +27,4 @@ public class CareProduct {
 
     @OneToOne
     private Product product;
-    @ManyToMany(mappedBy = "cares")
-    @Builder.Default
-    private List<Image> images = new ArrayList<>();
 }

@@ -17,5 +17,4 @@ public class CreateUpdateCareProductDTO {
     private String description;
 
     private Integer productIds;
-    private List<Integer> imageIds;
 }

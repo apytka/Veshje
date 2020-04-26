@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateUpdateProductDTO {
     private String name;
-    private BigDecimal price;
+    private Double price;
     private String description;
     private TypeCollection typeCollection;
 
