@@ -247,6 +247,7 @@ public class UsersViewController {
         ModelAndView modelAndView = new ModelAndView("account-reset-password");
         modelAndView.addObject("token", token);
         modelAndView.addObject("changeForgotPasswordDTO", new ChangeForgotPasswordDTO());
+        modelAndView.addObject("addNewsletterResetPassword", new CreateUpdateNewsletterDTO());
         return modelAndView;
     }
 
@@ -269,5 +270,24 @@ public class UsersViewController {
         userService.changeForgotPassword(userId, changeForgotPasswordDTO);
         tokenService.deleteToken(token);
         return new ModelAndView("redirect:reset-password?successResetPassword");
+    }
+
+    @PostMapping("/login/reset-password-newsletter")
+    public ModelAndView resetPasswordNewsletter(@Valid @ModelAttribute(name = "addNewsletterResetPassword")
+                                               CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult,
+                                                @RequestParam(value = "token", required = false) String token) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account-reset-password");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:reset-password?token=" + token + "&error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:reset-password?token=" + token + "&error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:reset-password?token=" + token + "&success");
     }
 }

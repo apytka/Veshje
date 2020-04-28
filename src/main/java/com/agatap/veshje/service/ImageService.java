@@ -18,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +60,7 @@ public class ImageService {
         }
         Image image = mapper.mappingToModel(file);
         image.setCreateDate(OffsetDateTime.now());
+
         Image newImage = imageRepository.save(image);
         return mapper.mappingToDTO(newImage);
     }

@@ -1,8 +1,10 @@
 package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateProductDTO;
+import com.agatap.veshje.controller.DTO.ImageDTO;
 import com.agatap.veshje.controller.DTO.ProductDTO;
 import com.agatap.veshje.controller.mapper.CategoryDTOMapper;
+import com.agatap.veshje.controller.mapper.ImageDTOMapper;
 import com.agatap.veshje.controller.mapper.ProductDTOMapper;
 import com.agatap.veshje.controller.mapper.SizeDTOMapper;
 import com.agatap.veshje.model.*;
@@ -13,7 +15,6 @@ import com.agatap.veshje.service.exception.ProductAlreadyExistException;
 import com.agatap.veshje.service.exception.ProductDataInvalidException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -26,10 +27,9 @@ public class ProductService {
 
     private ProductRepository productRepository;
     private ProductDTOMapper mapper;
+    private ImageDTOMapper imageDTOMapper;
     private CategoryRepository categoryRepository;
-    private CategoryDTOMapper categoryDTOMapper;
     private SizeRepository sizeRepository;
-    private SizeDTOMapper sizeDTOMapper;
 
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
@@ -43,16 +43,16 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException());
     }
 
-    public Product findProductOById(Integer id) throws ProductNotFoundException {
+    public Product findProductById(Integer id) throws ProductNotFoundException {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException());
     }
 
     public ProductDTO createProductDTO(CreateUpdateProductDTO createProductDTO) throws ProductDataInvalidException, ProductAlreadyExistException {
-        if(productRepository.existsByName(createProductDTO.getName())) {
+        if (productRepository.existsByName(createProductDTO.getName())) {
             throw new ProductAlreadyExistException();
         }
-        if(createProductDTO.getPrice() == null || createProductDTO.getPrice().doubleValue() <= 0) {
+        if (createProductDTO.getPrice() == null || createProductDTO.getPrice().doubleValue() <= 0) {
             throw new ProductDataInvalidException();
         }
         Product product = mapper.mappingToModel(createProductDTO);
@@ -64,7 +64,7 @@ public class ProductService {
     }
 
     public ProductDTO updateProductDTO(CreateUpdateProductDTO updateProductDTO, Integer id) throws ProductNotFoundException {
-        Product product = findProductOById(id);
+        Product product = findProductById(id);
         product.setName(updateProductDTO.getName());
         product.setPrice(updateProductDTO.getPrice());
         product.setDescription(updateProductDTO.getDescription());
@@ -76,7 +76,7 @@ public class ProductService {
     }
 
     public ProductDTO deleteProductDTO(Integer id) throws ProductNotFoundException {
-        Product product = findProductOById(id);
+        Product product = findProductById(id);
         productRepository.delete(product);
         return mapper.mappingToDTO(product);
     }
@@ -95,10 +95,19 @@ public class ProductService {
                 .map(product -> mapper.mappingToDTO(product))
                 .collect(Collectors.toList());
     }
+
     public List<ProductDTO> findProductsByPrice(Double minPrice, Double maxPrice) {
         return productRepository.findAll().stream()
                 .filter(product -> product.getPrice() >= minPrice)
                 .filter(product -> product.getPrice() <= maxPrice)
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductsByCategoryName(String name) {
+        List<Category> collectByCategory = categoryRepository.findAllByName(name);
+        return collectByCategory.stream()
+                .flatMap(product -> product.getProducts().stream())
                 .map(product -> mapper.mappingToDTO(product))
                 .collect(Collectors.toList());
     }
@@ -112,6 +121,13 @@ public class ProductService {
     public List<ProductDTO> findProductOrderByPriceDsc() {
         return productRepository.findByOrderByPriceDesc().stream()
                 .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<ImageDTO> findImageByProductId(Integer id) throws ProductNotFoundException {
+        Product productId = findProductById(id);
+        return productId.getImages().stream()
+                .map(image -> imageDTOMapper.mappingToDTO(image))
                 .collect(Collectors.toList());
     }
 

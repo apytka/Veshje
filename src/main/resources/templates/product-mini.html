@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VESHJE</title>
@@ -34,7 +32,8 @@
                             <a href="/search">
                                 <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                     viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                     viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;"
+                                     xml:space="preserve">
                 <g id="Shopicon">
 	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
 		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
@@ -122,126 +121,52 @@
 </header>
 <main>
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
-    <div class="panels-account-header">
-        <h5>My account</h5>
-    </div>
-    <div class="panels-account">
-        <div class="panel-account panel-account-links">
-            <ul id="account-links">
-                <li><a href="/orders" class="a-account-links" title="User orders">My orders</a></li>
-                <li><a href="/account" class="a-account-links active" title="My data">My data</a></li>
-                <li><a href="/addresses" class="a-account-links" title="My address">My address</a></li>
-                <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
-            </ul>
+    <div class="alert-information-container" th:fragment="error-info">
+        <div th:if="${param.errorResetPassword}" class="alert-information">
+            <div class="alert-information-error">
+                <h5>Error!</h5>
+                <span>Password doesn't change. New password and confirmation password do not match.</span>
+                <button type="submit" class="btn" onclick="closeButtonInformation()">Accept</button>
+            </div>
         </div>
-        <div class="panel-account panel-account-data">
-            <div class="account-data">
-                <form action="#" th:action="@{update-user}" th:object="${updateUser}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>My data</h4>
-                        <span>* required fields </span>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Email</h3>
-                            <input type="email" th:field="*{email}" class="account-input" readonly
-                                   style="background-color: #d6d6d6">
-                        </div>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Name*</h3>
-                            <input type="text" th:field="*{firstName}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Last name*</h3>
-                            <input type="text" th:field="*{lastName}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-                    <input type="hidden" th:field="*{enabled}">
-                    <input type="hidden" th:field="*{userRole}">
-                    <input type="hidden" th:field="*{subscribedNewsletter}">
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Change data">
-                    </div>
-                </form>
+        <div th:if="${param.errorExpired}" class="alert-information">
+            <div class="alert-information-error">
+                <h5>Error!</h5>
+                <span>The link you followed has expired.</span>
+                <a href="/login/forgot-password">
+                    <button type="submit" class="btn">Retrieve password</button>
+                </a>
             </div>
-            <div class="account-data">
-                <form action="#" th:action="@{change-password}" th:object="${changePassword}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>Change password</h4>
-                    </div>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Current password</h3>
-                            <input type="password" th:field="*{currentPassword}" class="account-input" required
-                                   autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:field="${#fields.errors('currentPassword')}"
-                          th:errors="*{currentPassword}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>New password</h3>
-                            <input type="password" th:field="*{newPassword}" class="account-input" required autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:field="${#fields.errors('newPassword')}"
-                          th:errors="*{newPassword}"></span>
-                    <div class="account-data-input">
-                        <div>
-                            <h3>Confirm password</h3>
-                            <input type="password" th:field="*{confirmPassword}" class="account-input" required
-                                   autofocus>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('confirmPassword')}"
-                          th:errors="*{confirmPassword}"></span>
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Change password">
-                    </div>
-                </form>
+        </div>
+        <div th:if="${param.successResetPassword}" class="alert-information">
+            <div class="alert-information-error">
+                <h5>Success!</h5>
+                <span>Password change! Go to login.</span>
+                <a href="/login">
+                    <button type="submit" class="btn">Accept</button>
+                </a>
             </div>
-            <div class="account-data">
-                <div class="account-data-container">
-                    <div class="account-text account-text-small">
-                        <h4>Deleting your account</h4>
-                        <span class="account-description">Start the account deletion procedure</span>
-                    </div>
-                    <div class="btn-to-right">
-                        <a href="/account-removal" class="btn btn-data-account">Delete account</a>
-                    </div>
+        </div>
+    </div>
+    <div class="panels-general">
+        <div class="panel-general">
+            <div class="products-container">
+                <div class="product-container" th:each="product: ${products}">
+
+                    <table class="inside-table">
+                        <tr th:each="image: ${test}">
+                            <td th:text="${image}"/>
+                        </tr>
+                    </table>
+<!--                    <img th:src="|data:image/png;base64,${byteImageList.get(0)}|" style="width: 300px"/>-->
+<!--                    <img th:src="|data:image/png;base64,${byteImageList.get(1)}|" style="width: 300px"/>-->
+                    <a th:href="'/products/mini-dresses/' + ${product.id}"><span
+                            th:text="${product.name}"></span></a>
+                    <span th:text="${product.price}"></span>
                 </div>
             </div>
-            <div class="account-data">
-                <form action="#" th:action="@{update-user-newsletter}" th:object="${updateUser}" method="post"
-                      class="account-data-container">
-                    <div class="account-text">
-                        <h4>Newsletter</h4>
-                    </div>
-                    <div class="checkbox">
-                        <label class="checkbox-container">
-                            <input type="checkbox" th:field="*{subscribedNewsletter}">
-                            <span class="checkmark"></span>
-                        </label>
-                        <span class="account-description">
-                            I'd like to receive the latest fashion news and Veshje updates direct to my inbox.
-                            <a href="/privacy-policy">Newsletter terms</a></span>
-                    </div>
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Send">
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
-    <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">
@@ -263,7 +188,8 @@
                 <li><a href="/gift-cards" title="Gift cards">Gift cards</a></li>
                 <li><a href="/payment" title="Payment">Payment</a></li>
                 <li><a href="/shipping" title="Shipping">Shipping</a></li>
-                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a>
+                </li>
                 <li><a href="/account" title="My account">My account</a></li>
             </ul>
         </div>
@@ -277,37 +203,37 @@
                 <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
             </ul>
         </div>
-
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{account}" th:object="${addNewsletterAccount}" method="post"
-                      class="newsletter-container">
-                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                    <div class="input-div one">
-                        <div class="i">
-                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                <g id="Shopicon">
-	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <input type="email" th:field="*{email}" class="input" required>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                        I accept <a href="/privacy-policy">newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Send">
-                </form>
+                <!--                <form action="#" th:action="@{'/login/reset-password-newsletter?token=' + ${token}}" th:object="${addNewsletterResetPassword}"-->
+                <!--                      method="post"-->
+                <!--                      class="newsletter-container">-->
+                <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+                <!--                    <div class="input-div one">-->
+                <!--                        <div class="i">-->
+                <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+                <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+                <!--                                                <g id="Shopicon">-->
+                <!--                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+                <!--                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+                <!--                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+                <!--                                                </g>-->
+                <!--                                            </svg>-->
+                <!--                        </div>-->
+                <!--                        <div>-->
+                <!--                            <h5>Email</h5>-->
+                <!--                            <input type="email" th:field="*{email}" class="input" required>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+                <!--                    <div class="newsletter-checkbox">-->
+                <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+                <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+                <!--                    </div>-->
+                <!--                    <input type="submit" class="btn" value="Send">-->
+                <!--                </form>-->
             </ul>
         </div>
     </div>
@@ -328,17 +254,7 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
-<script type="text/javascript">
-    var panel = document.getElementById("account-links");
-    var aAccountLinks = panel.getElementsByClassName("a-account-links");
-    for (var i = 0; i < aAccountLinks.length; i++) {
-        aAccountLinks[i].addEventListener("click", function () {
-            var current = document.getElementsByClassName("active");
-            current[0].className = current[0].className.replace(" active", "");
-            this.className += " active";
-        });
-    }
-
+<script>
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;
 
@@ -354,6 +270,5 @@
         });
     }
 </script>
-
 </body>
 </html>

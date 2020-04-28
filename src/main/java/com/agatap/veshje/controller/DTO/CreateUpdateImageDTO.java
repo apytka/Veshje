@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdatePictureDTO {
+public class CreateUpdateImageDTO {
     private String name;
     private String fileType;
 

@@ -1,6 +1,7 @@
 package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateProductDTO;
+import com.agatap.veshje.controller.DTO.ImageDTO;
 import com.agatap.veshje.controller.DTO.ProductDTO;
 import com.agatap.veshje.model.Category;
 import com.agatap.veshje.model.SizeType;
@@ -46,6 +47,11 @@ public class ProductController {
         return productService.deleteProductDTO(id);
     }
 
+    @GetMapping("/images/{id}")
+    public List<ImageDTO> findImageByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+        return productService.findImageByProductId(id);
+    }
+
     @GetMapping(value = "/price", params = {"minPrice", "maxPrice"})
     public List<ProductDTO> findProductsByPrice(@RequestParam(required = false) Double minPrice, Double maxPrice) {
         return productService.findProductsByPrice(minPrice, maxPrice);
@@ -57,8 +63,13 @@ public class ProductController {
     }
 
     @GetMapping(value = "/size", params = {"sizeType"})
-    public List<ProductDTO> findProductsBySize(@RequestParam(required = false) SizeType sizeType) {
+    public List<ProductDTO> findProductsBySize(@MatrixVariable @RequestParam(required = false) SizeType sizeType) {
         return productService.findProductsBySize(sizeType);
+    }
+
+    @GetMapping(value = "/category", params = {"name"})
+    public List<ProductDTO> findProductsByCategoryName(@RequestParam(required = false) String name) {
+        return productService.findProductsByCategoryName(name);
     }
 
     @GetMapping("/asc")

@@ -136,6 +136,7 @@ public class UserService {
         token.setToken(tokenValue);
         token.setUser(user);
         token.setExpiryDate(expiryTimeInMinutes(expiryTime));
+        token.setCreateDate(OffsetDateTime.now());
         verificationTokenRepository.save(token);
 
         String url = "http://localhost:8080/" + path + tokenValue;
