@@ -16,7 +16,9 @@ import java.util.List;
 public class CreateUpdateProductDTO {
     private String name;
     private Double price;
+    private String color;
     private String description;
+    private String complementDescription;
     private TypeCollection typeCollection;
 
     private List<Integer> orderIds;

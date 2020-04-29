@@ -15,7 +15,7 @@ public class ImageDTOMapper {
 
     public ImageDTO mappingToDTO(Image image) {
         Integer productsId = Optional.ofNullable(image.getProduct())
-                .map(product -> image.getId()).orElse(null);
+                .map(product -> product.getId()).orElse(null);
 
         return ImageDTO.builder()
                 .id(image.getId())
@@ -23,7 +23,7 @@ public class ImageDTOMapper {
                 .type(image.getType())
                 .size(image.getSize())
                 .data(image.getData())
-                .productIds(productsId)
+                .productId(productsId)
                 .createDate(image.getCreateDate())
                 .updateDate(image.getUpdateDate())
                 .build();

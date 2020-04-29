@@ -646,7 +646,7 @@ header {
 .panels-general,
 .panels-account {
     border-top: 1px solid #f3f2f0;
-    overflow: hidden;
+    /*overflow: auto;*/
     display: flex;
 }
 
@@ -1145,6 +1145,7 @@ table.general-table tr {
     margin: 0 20px 0 0;
     width: 305px;
 }
+
 .account-data-input.success input {
     box-shadow: -1px 1px 1px -1px #2c6d50;
 }
@@ -1263,4 +1264,119 @@ table.general-table tr {
 
 .alert-information-error a {
     text-decoration: none;
+}
+
+/*PRODUCT PAGES*/
+.product-container img {
+    margin: 0;
+    width: 100%;
+}
+
+.panel-product,
+.panel-product-cart {
+    min-height: calc(100vh - 60px);
+    text-align: center;
+    font-size: 1.4rem;
+    background-size: cover;
+    background-position: center;
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.panel-product-cart {
+    padding: 20px;
+    flex: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    width: 100%;
+    height: 100%;
+}
+
+/* Chrome, Safari and Opera */
+.modal::-webkit-scrollbar {
+    display: none;
+}
+
+/* IE and Edge */
+.modal {
+    -ms-overflow-style: none;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+}
+
+.close-zoom {
+    z-index: 1001;
+    cursor: pointer;
+    position: fixed;
+    right: 25px;
+    color: #000000;
+    font-size: 60px;
+    transition: 0.3s;
+}
+
+.close-zoom:hover {
+    opacity: 0.9;
+}
+
+
+.next-zoom, .prev-zoom {
+    cursor: pointer;
+    position: fixed;
+    top: 40%;
+    transform: translateY(50%);
+    width: auto;
+    padding: 16px;
+    color: #000000;
+    font-size: 50px;
+    font-weight: 100;
+    transition: 0.9s ease;
+    user-select: none;
+}
+
+.next-zoom {
+    right: 0;
+}
+
+.prev-zoom {
+    left: 0;
+}
+
+.prev-zoom:hover, .next-zoom:hover {
+    background-color: transparent;
+    opacity: 0.9;
+}
+
+#xxx {
+    display: flex;
+    top: 20px;
+    height: 100%;
+    width: 500px;
+    background: blue;
+
+}
+
+#xx {
+    position: sticky;
+    position: -webkit-sticky;
+    /*overflow: scroll;*/
+    top: 0;
+    height: 100px;
+    width: 500px;
+    background: red;
+
 }

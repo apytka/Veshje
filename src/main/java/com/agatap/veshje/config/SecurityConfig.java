@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/forgot-password-newsletter").permitAll()
                 .antMatchers("/login/reset-password*").permitAll()
                 .antMatchers("/products/mini-dresses").permitAll()
-                .antMatchers("/products/mini-dresses/*").permitAll()
+                .antMatchers("/products/mini-dresses/dress/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

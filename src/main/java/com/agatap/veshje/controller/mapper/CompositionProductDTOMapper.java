@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CompositionProductDTOMapper {
     public CompositionProductDTO mappingToDTO(CompositionProduct compositionProduct) {
         List<Integer> productsId = compositionProduct.getProducts().stream()
-                .map(product -> compositionProduct.getId())
+                .map(product -> product.getId())
                 .collect(Collectors.toList());
         return CompositionProductDTO.builder()
                 .id(compositionProduct.getId())

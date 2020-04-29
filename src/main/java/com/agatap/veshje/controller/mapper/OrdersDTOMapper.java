@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 public class OrdersDTOMapper {
     public OrdersDTO mappingToDTO(Orders orders) {
         Integer paymentId = Optional.ofNullable(orders.getPayment())
-                .map(payment -> orders.getId()).orElse(null);
+                .map(payment -> payment.getId()).orElse(null);
         Integer deliveryId = Optional.ofNullable(orders.getDelivery())
-                .map(delivery -> orders.getId()).orElse(null);
+                .map(delivery -> delivery.getId()).orElse(null);
         Integer userId = Optional.ofNullable(orders.getUserOrders())
-                .map(user -> orders.getId()).orElse(null);
+                .map(user -> user.getId()).orElse(null);
         List<Integer> productsId = orders.getProducts().stream()
-                .map(product -> orders.getId())
+                .map(product -> product.getId())
                 .collect(Collectors.toList());
         return OrdersDTO.builder()
                 .id(orders.getId())

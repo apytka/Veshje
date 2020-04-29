@@ -14,11 +14,11 @@ public class AddressDTOMapper {
 
     public AddressDTO mappingToDTO(Address address) {
         Integer cityId = Optional.ofNullable(address.getCity())
-                .map(city -> address.getId()).orElse(null);
+                .map(city -> city.getId()).orElse(null);
         Integer storeId = Optional.ofNullable(address.getStore())
-                .map(story -> address.getId()).orElse(null);
+                .map(story -> story.getId()).orElse(null);
         List<Integer> usersId = address.getUsers().stream()
-                .map(user -> address.getId())
+                .map(user -> user.getId())
                 .collect(Collectors.toList());
         return AddressDTO.builder()
                 .id(address.getId())

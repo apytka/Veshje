@@ -68,6 +68,8 @@ public class ProductService {
         product.setName(updateProductDTO.getName());
         product.setPrice(updateProductDTO.getPrice());
         product.setDescription(updateProductDTO.getDescription());
+        product.setComplementDescription(updateProductDTO.getComplementDescription());
+        product.setColor(updateProductDTO.getColor());
         product.setTypeCollection(updateProductDTO.getTypeCollection());
         product.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables

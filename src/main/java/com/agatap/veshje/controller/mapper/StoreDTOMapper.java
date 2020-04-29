@@ -12,7 +12,7 @@ public class StoreDTOMapper {
 
     public StoreDTO mappingToDTO(Store store) {
         Integer addressId = Optional.ofNullable(store.getAddress())
-                .map(address -> store.getId()).orElse(null);
+                .map(address -> address.getId()).orElse(null);
         return StoreDTO.builder()
                 .id(store.getId())
                 .name(store.getName())

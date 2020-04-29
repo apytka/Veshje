@@ -152,15 +152,16 @@
         <div class="panel-general">
             <div class="products-container">
                 <div class="product-container" th:each="product: ${products}">
-
-                    <table class="inside-table">
-                        <tr th:each="image: ${test}">
-                            <td th:text="${image}"/>
-                        </tr>
-                    </table>
+                    <span th:each="im: ${product.imagesIds}">
+                        <span th:text="${im}"></span>
+                    </span>
+<!--                    <span th:text="${}"></span>-->
+<!--                    <div class="product-container" th:each="imagesx: ${images}">-->
+<!--                    <span th:text="${images}"></span>-->
+<!--                    </div>-->
 <!--                    <img th:src="|data:image/png;base64,${byteImageList.get(0)}|" style="width: 300px"/>-->
 <!--                    <img th:src="|data:image/png;base64,${byteImageList.get(1)}|" style="width: 300px"/>-->
-                    <a th:href="'/products/mini-dresses/' + ${product.id}"><span
+                    <a th:href="'/products/mini-dresses/dress/' + ${product.id}"><span
                             th:text="${product.name}"></span></a>
                     <span th:text="${product.price}"></span>
                 </div>

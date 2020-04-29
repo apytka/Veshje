@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CountryDTOMapper {
     public CountryDTO mappingToDTO(Country country) {
         List<Integer> citiesId = country.getCities().stream()
-                .map(city -> country.getId())
+                .map(city -> city.getId())
                 .collect(Collectors.toList());
         return CountryDTO.builder()
                 .id(country.getId())

@@ -11,7 +11,7 @@ import java.util.Optional;
 public class DimensionDTOMapper {
     public DimensionDTO mappingToDTO(Dimension dimension) {
         Integer sizeId = Optional.ofNullable(dimension.getSize())
-                .map(size -> dimension.getId()).orElse(null);
+                .map(size -> size.getId()).orElse(null);
         return DimensionDTO.builder()
                 .id(dimension.getId())
                 .bust(dimension.getBust())

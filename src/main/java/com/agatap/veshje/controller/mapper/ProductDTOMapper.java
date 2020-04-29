@@ -13,30 +13,32 @@ import java.util.stream.Collectors;
 public class ProductDTOMapper {
     public ProductDTO mappingToDTO(Product product) {
         List<Integer> ordersId = product.getOrders().stream()
-                .map(order -> product.getId())
+                .map(order -> order.getId())
                 .collect(Collectors.toList());
         List<Integer> compositionsId = product.getComposition().stream()
-                .map(composition -> product.getId())
+                .map(composition -> composition.getId())
                 .collect(Collectors.toList());
         List<Integer> categoriesId = product.getCategories().stream()
-                .map(category -> product.getId())
+                .map(category -> category.getId())
                 .collect(Collectors.toList());
         List<Integer> reviewsId = product.getReviews().stream()
-                .map(review -> product.getId())
+                .map(review -> review.getId())
                 .collect(Collectors.toList());
         Integer careProductId = Optional.ofNullable(product.getCareProduct())
-                .map(careProduct -> product.getId()).orElse(null);
+                .map(careProduct -> careProduct.getId()).orElse(null);
         List<Integer> imagesId = product.getImages().stream()
-                .map(image -> product.getId())
+                .map(image -> image.getId())
                 .collect(Collectors.toList());
         List<Integer> sizesId = product.getSizes().stream()
-                .map(size -> product.getId())
+                .map(size -> size.getId())
                 .collect(Collectors.toList());
         return ProductDTO.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
+                .color(product.getColor())
                 .description(product.getDescription())
+                .complementDescription(product.getComplementDescription())
                 .typeCollection(product.getTypeCollection())
                 .orderIds(ordersId)
                 .compositionIds(compositionsId)
@@ -54,7 +56,9 @@ public class ProductDTOMapper {
         return Product.builder()
                 .name(createProductDTO.getName())
                 .price(createProductDTO.getPrice())
+                .color(createProductDTO.getColor())
                 .description(createProductDTO.getDescription())
+                .complementDescription(createProductDTO.getComplementDescription())
                 .typeCollection(createProductDTO.getTypeCollection())
                 .build();
     }

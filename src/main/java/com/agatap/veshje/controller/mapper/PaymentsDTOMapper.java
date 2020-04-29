@@ -11,11 +11,11 @@ import java.util.Optional;
 public class PaymentsDTOMapper {
     public PaymentsDTO mappingToDTO(Payments payments) {
         Integer typePaymentId = Optional.ofNullable(payments.getTypePayment())
-                .map(typePayment -> payments.getId()).orElse(null);
+                .map(typePayment -> typePayment.getId()).orElse(null);
         Integer orderId = Optional.ofNullable(payments.getOrders())
-                .map(order -> payments.getId()).orElse(null);
+                .map(order -> order.getId()).orElse(null);
         Integer userId = Optional.ofNullable(payments.getUsers())
-                .map(user -> payments.getId()).orElse(null);
+                .map(user -> user.getId()).orElse(null);
         return PaymentsDTO.builder()
                 .id(payments.getId())
                 .amount(payments.getAmount())

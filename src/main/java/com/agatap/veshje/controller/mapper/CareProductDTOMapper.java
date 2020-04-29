@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class CareProductDTOMapper {
     public CareProductDTO mappingToDTO(CareProduct careProduct) {
         Integer productId = Optional.ofNullable(careProduct.getProduct())
-                .map(product -> careProduct.getId()).orElse(null);
+                .map(product -> product.getId()).orElse(null);
         return CareProductDTO.builder()
                 .id(careProduct.getId())
                 .name(careProduct.getName())

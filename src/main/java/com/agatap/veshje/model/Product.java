@@ -23,7 +23,9 @@ public class Product {
     private Integer id;
     private String name;
     private Double price;
+    private String color;
     private String description;
+    private String complementDescription;
     private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
