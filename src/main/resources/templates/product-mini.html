@@ -150,8 +150,8 @@
     </div>
     <div class="panels-general">
         <div class="panel-general">
-            <div class="products-container">
-                <div class="product-container" th:each="product: ${map}">
+            <div class="products-dress-container">
+                <div class="product-dress-container" th:each="product: ${map}">
                     <div class="product-display-img">
                         <a th:href="'/products/mini-dresses/dress/' + ${product.value.id}">
                             <img th:src="|data:image/png;base64,${product.key.get(0)}|">
@@ -159,13 +159,13 @@
                                  class="product-container-img-top">
                         </a>
                     </div>
-                    <div>
+                    <div class="product-display-name">
                         <a th:href="'/products/mini-dresses/dress/' + ${product.value.id}">
                             <span th:text="${product.value.name}"></span>
                         </a>
                     </div>
-                    <div>
-                        <span th:text="${product.value.price}"></span>
+                    <div class="product-display-price">
+                        <span th:text="${product.value.price} + ' EUR'"></span>
                     </div>
                 </div>
             </div>
