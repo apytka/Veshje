@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.SizeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,5 @@ public class CreateUpdateDimensionDTO {
     private Integer bust;
     private Integer waist;
     private Integer hips;
-
-    private Integer sizeId;
+    private SizeType sizeType;
 }

@@ -31,5 +31,7 @@ public class Image {
 
     @ManyToOne
     private Product product;
-
+    @Builder.Default
+    @ManyToMany
+    private List<CareProduct> cares = new ArrayList<>();
 }

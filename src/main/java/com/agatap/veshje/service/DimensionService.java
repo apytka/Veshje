@@ -62,6 +62,7 @@ public class DimensionService {
         dimension.setBust(updateDimensionDTO.getBust());
         dimension.setWaist(updateDimensionDTO.getWaist());
         dimension.setHips(updateDimensionDTO.getHips());
+        dimension.setSizeType(updateDimensionDTO.getSizeType());
         dimension.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
         Dimension updateDimension = dimensionRepository.save(dimension);

@@ -20,7 +20,7 @@ public class CompositionProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private MaterialType compositionType;
+    private CompositionType compositionType;
     private String description;
     private Integer compositionPercent;
     private OffsetDateTime createDate;

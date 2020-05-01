@@ -114,6 +114,13 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<Product> findProductsByCategoryNameProduct(String name) {
+        List<Category> collectByCategory = categoryRepository.findAllByName(name);
+        return collectByCategory.stream()
+                .flatMap(product -> product.getProducts().stream())
+                .collect(Collectors.toList());
+    }
+
     public List<ProductDTO> findProductOrderByPriceAsc() {
         return productRepository.findByOrderByPriceAsc().stream()
                 .map(product -> mapper.mappingToDTO(product))
@@ -132,5 +139,4 @@ public class ProductService {
                 .map(image -> imageDTOMapper.mappingToDTO(image))
                 .collect(Collectors.toList());
     }
-
 }

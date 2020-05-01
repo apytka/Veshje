@@ -1,10 +1,11 @@
 package com.agatap.veshje.model;
 
-public enum MaterialType {
+public enum CompositionType {
     COTTON,
+    VISCOSE,
+    WOOL,
     SILK,
     LINEN,
-    WOOL,
     LEATHER,
     GEORGETTE,
     CHIFFON,
@@ -13,7 +14,6 @@ public enum MaterialType {
     VELVET,
     DENIM,
     RAYON,
-    VISCOSE,
     SATIN,
     CREPE,
     LYCRA

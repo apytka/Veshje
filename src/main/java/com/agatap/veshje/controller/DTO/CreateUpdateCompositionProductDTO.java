@@ -1,12 +1,11 @@
 package com.agatap.veshje.controller.DTO;
 
-import com.agatap.veshje.model.MaterialType;
+import com.agatap.veshje.model.CompositionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUpdateCompositionProductDTO {
-    private MaterialType compositionType;
+    private CompositionType compositionType;
     private String description;
     private Integer compositionPercent;
 

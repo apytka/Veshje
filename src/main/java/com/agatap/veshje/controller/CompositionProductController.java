@@ -5,6 +5,7 @@ import com.agatap.veshje.controller.DTO.CreateUpdateCompositionProductDTO;
 import com.agatap.veshje.service.CompositionProductService;
 import com.agatap.veshje.service.exception.CompositionProductDataInvalidException;
 import com.agatap.veshje.service.exception.CompositionProductNotFoundException;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,10 @@ public class CompositionProductController {
     @DeleteMapping("/{id}")
     public CompositionProductDTO deleteCompositionProductDTO(@PathVariable Integer id) throws CompositionProductNotFoundException {
         return compositionProductService.deleteCompositionProductDTO(id);
+    }
+
+    @GetMapping("/composition/{id}")
+    public List<CompositionProductDTO> findCompositionByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+        return compositionProductService.findCompositionByProductId(id);
     }
 }

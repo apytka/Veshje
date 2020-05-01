@@ -12,13 +12,18 @@ import java.util.stream.Collectors;
 @Component
 public class CareProductDTOMapper {
     public CareProductDTO mappingToDTO(CareProduct careProduct) {
-        Integer productId = Optional.ofNullable(careProduct.getProduct())
-                .map(product -> product.getId()).orElse(null);
+        List<Integer> productsId = careProduct.getProducts().stream()
+                .map(product -> product.getId())
+                .collect(Collectors.toList());
+        List<Integer> imagesId = careProduct.getImages().stream()
+                .map(image -> image.getId())
+                .collect(Collectors.toList());
         return CareProductDTO.builder()
                 .id(careProduct.getId())
                 .name(careProduct.getName())
                 .description(careProduct.getDescription())
-                .productIds(productId)
+                .productIds(productsId)
+                .imageIds(imagesId)
                 .createDate(careProduct.getCreateDate())
                 .updateDate(careProduct.getUpdateDate())
                 .build();

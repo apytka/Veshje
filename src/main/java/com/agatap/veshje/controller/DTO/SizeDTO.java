@@ -21,5 +21,4 @@ public class SizeDTO {
     private OffsetDateTime updateDate;
 
     private List<Integer> productsIds;
-    private Integer dimensionIds;
 }

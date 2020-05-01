@@ -28,6 +28,5 @@ public class Size {
     @ManyToMany(mappedBy = "sizes")
     @Builder.Default
     private List<Product> products = new ArrayList<>();
-    @OneToOne
-    private Dimension dimension;
+
 }

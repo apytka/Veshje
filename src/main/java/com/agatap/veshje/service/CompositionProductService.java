@@ -4,10 +4,12 @@ import com.agatap.veshje.controller.DTO.CompositionProductDTO;
 import com.agatap.veshje.controller.DTO.CreateUpdateCompositionProductDTO;
 import com.agatap.veshje.controller.mapper.CompositionProductDTOMapper;
 import com.agatap.veshje.model.CompositionProduct;
+import com.agatap.veshje.model.Product;
 import com.agatap.veshje.repository.CompositionProductRepository;
 import com.agatap.veshje.service.exception.CompositionProductDataInvalidException;
 import com.agatap.veshje.service.exception.CompositionProductNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -15,11 +17,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CompositionProductService {
-    @Autowired
+
     private CompositionProductRepository compositionProductRepository;
-    @Autowired
     private CompositionProductDTOMapper mapper;
+    private ProductService productService;
 
     public List<CompositionProductDTO> getAllCompositionProduct() {
         return compositionProductRepository.findAll().stream()
@@ -33,7 +36,7 @@ public class CompositionProductService {
                 .orElseThrow(() -> new CompositionProductNotFoundException());
     }
 
-    public CompositionProduct findCompositionProductOById(Integer id) throws CompositionProductNotFoundException {
+    public CompositionProduct findCompositionProductById(Integer id) throws CompositionProductNotFoundException {
         return compositionProductRepository.findById(id)
                 .orElseThrow(() -> new CompositionProductNotFoundException());
     }
@@ -53,7 +56,7 @@ public class CompositionProductService {
     }
 
     public CompositionProductDTO updateCompositionProductDTO(CreateUpdateCompositionProductDTO updateCompositionProductDTO, Integer id) throws CompositionProductNotFoundException {
-        CompositionProduct compositionProduct = findCompositionProductOById(id);
+        CompositionProduct compositionProduct = findCompositionProductById(id);
         compositionProduct.setCompositionType(updateCompositionProductDTO.getCompositionType());
         compositionProduct.setDescription(updateCompositionProductDTO.getDescription());
         compositionProduct.setCompositionPercent(updateCompositionProductDTO.getCompositionPercent());
@@ -64,8 +67,15 @@ public class CompositionProductService {
     }
 
     public CompositionProductDTO deleteCompositionProductDTO(Integer id) throws CompositionProductNotFoundException {
-        CompositionProduct compositionProduct = findCompositionProductOById(id);
+        CompositionProduct compositionProduct = findCompositionProductById(id);
         compositionProductRepository.delete(compositionProduct);
         return mapper.mappingToDTO(compositionProduct);
+    }
+
+    public List<CompositionProductDTO> findCompositionByProductId(Integer id) throws ProductNotFoundException {
+        Product product = productService.findProductById(id);
+        return product.getComposition().stream()
+                .map(composition -> mapper.mappingToDTO(composition))
+                .collect(Collectors.toList());
     }
 }

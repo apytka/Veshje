@@ -25,6 +25,10 @@ public class CareProduct {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne
-    private Product product;
+    @Builder.Default
+    @ManyToMany
+    private List<Product> products = new ArrayList<>();
+    @Builder.Default
+    @ManyToMany(mappedBy = "cares")
+    private List<Image> images = new ArrayList<>();
 }

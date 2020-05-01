@@ -10,14 +10,12 @@ import java.util.Optional;
 @Component
 public class DimensionDTOMapper {
     public DimensionDTO mappingToDTO(Dimension dimension) {
-        Integer sizeId = Optional.ofNullable(dimension.getSize())
-                .map(size -> size.getId()).orElse(null);
         return DimensionDTO.builder()
                 .id(dimension.getId())
                 .bust(dimension.getBust())
                 .waist(dimension.getWaist())
                 .hips(dimension.getHips())
-                .sizeId(sizeId)
+                .sizeType(dimension.getSizeType())
                 .createDate(dimension.getCreateDate())
                 .updateDate(dimension.getUpdateDate())
                 .build();
@@ -28,6 +26,7 @@ public class DimensionDTOMapper {
                 .bust(createDimensionDTO.getBust())
                 .waist(createDimensionDTO.getWaist())
                 .hips(createDimensionDTO.getHips())
+                .sizeType(createDimensionDTO.getSizeType())
                 .build();
     }
 }

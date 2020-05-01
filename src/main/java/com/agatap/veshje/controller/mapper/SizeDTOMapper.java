@@ -15,14 +15,11 @@ public class SizeDTOMapper {
         List<Integer> productsId = size.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
-        Integer dimensionId = Optional.ofNullable(size.getDimension())
-                .map(dimension -> dimension.getId()).orElse(null);
         return SizeDTO.builder()
                 .id(size.getId())
                 .sizeType(size.getSizeType())
                 .quantity(size.getQuantity())
                 .productsIds(productsId)
-                .dimensionIds(dimensionId)
                 .createDate(size.getCreateDate())
                 .updateDate(size.getUpdateDate())
                 .build();

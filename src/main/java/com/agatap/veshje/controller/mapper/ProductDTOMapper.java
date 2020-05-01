@@ -24,8 +24,9 @@ public class ProductDTOMapper {
         List<Integer> reviewsId = product.getReviews().stream()
                 .map(review -> review.getId())
                 .collect(Collectors.toList());
-        Integer careProductId = Optional.ofNullable(product.getCareProduct())
-                .map(careProduct -> careProduct.getId()).orElse(null);
+        List<Integer> careProductsId = product.getCareProduct().stream()
+                .map(cares-> cares.getId())
+                .collect(Collectors.toList());
         List<Integer> imagesId = product.getImages().stream()
                 .map(image -> image.getId())
                 .collect(Collectors.toList());
@@ -44,7 +45,7 @@ public class ProductDTOMapper {
                 .compositionIds(compositionsId)
                 .categoriesIds(categoriesId)
                 .reviewIds(reviewsId)
-                .careProductIds(careProductId)
+                .careProductIds(careProductsId)
                 .imagesIds(imagesId)
                 .sizeIds(sizesId)
                 .createDate(product.getCreateDate())

@@ -6,6 +6,7 @@ import com.agatap.veshje.service.CareProductService;
 import com.agatap.veshje.service.exception.CareProductAlreadyExistsException;
 import com.agatap.veshje.service.exception.CareProductDataInvalidException;
 import com.agatap.veshje.service.exception.CareProductNotFoundException;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,5 +43,10 @@ public class CareProductController {
     @DeleteMapping("/{id}")
     public CareProductDTO deleteCareProductDTO(@PathVariable Integer id) throws CareProductNotFoundException {
         return careProductService.deleteCareProductDTO(id);
+    }
+
+    @GetMapping("/cares/{id}")
+    public List<CareProductDTO> findCareByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+        return careProductService.findCareByProductId(id);
     }
 }

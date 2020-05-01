@@ -21,9 +21,8 @@ public class Dimension {
     private Integer bust;
     private Integer waist;
     private Integer hips;
+    private SizeType sizeType;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne(mappedBy = "dimension")
-    private Size size;
 }

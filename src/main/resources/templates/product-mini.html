@@ -151,19 +151,22 @@
     <div class="panels-general">
         <div class="panel-general">
             <div class="products-container">
-                <div class="product-container" th:each="product: ${products}">
-                    <span th:each="im: ${product.imagesIds}">
-                        <span th:text="${im}"></span>
-                    </span>
-<!--                    <span th:text="${}"></span>-->
-<!--                    <div class="product-container" th:each="imagesx: ${images}">-->
-<!--                    <span th:text="${images}"></span>-->
-<!--                    </div>-->
-<!--                    <img th:src="|data:image/png;base64,${byteImageList.get(0)}|" style="width: 300px"/>-->
-<!--                    <img th:src="|data:image/png;base64,${byteImageList.get(1)}|" style="width: 300px"/>-->
-                    <a th:href="'/products/mini-dresses/dress/' + ${product.id}"><span
-                            th:text="${product.name}"></span></a>
-                    <span th:text="${product.price}"></span>
+                <div class="product-container" th:each="product: ${map}">
+                    <div class="product-display-img">
+                        <a th:href="'/products/mini-dresses/dress/' + ${product.value.id}">
+                            <img th:src="|data:image/png;base64,${product.key.get(0)}|">
+                            <img th:src="|data:image/png;base64,${product.key.get(1)}|"
+                                 class="product-container-img-top">
+                        </a>
+                    </div>
+                    <div>
+                        <a th:href="'/products/mini-dresses/dress/' + ${product.value.id}">
+                            <span th:text="${product.value.name}"></span>
+                        </a>
+                    </div>
+                    <div>
+                        <span th:text="${product.value.price}"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -270,6 +273,8 @@
             }
         });
     }
+
+
 </script>
 </body>
 </html>

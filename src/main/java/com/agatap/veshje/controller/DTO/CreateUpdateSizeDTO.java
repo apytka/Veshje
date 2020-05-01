@@ -17,5 +17,4 @@ public class CreateUpdateSizeDTO {
     private Integer quantity; //??
 
     private List<Integer> productsIds;
-    private Integer dimensionIds;
 }
