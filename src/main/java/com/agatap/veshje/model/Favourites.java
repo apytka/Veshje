@@ -22,7 +22,10 @@ public class Favourites {
     private Integer id;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @Builder.Default
     private List<Product> products = new ArrayList<>();
     @OneToOne

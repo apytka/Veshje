@@ -32,7 +32,7 @@ public class FavouritesViewController {
     private UserService userService;
     private FavouritesService favouritesService;
     private ProductService productService;
-    private FavouritesDTOMapper favouritesDTOMapper;
+    private FavouritesRepository favouritesRepository;
 
     @GetMapping("/favourites")
     public ModelAndView displayFavourites(Authentication authentication)
@@ -61,4 +61,17 @@ public class FavouritesViewController {
         return modelAndView;
     }
 
+    @GetMapping("/favourites/delete-product")
+    public ModelAndView deleteProduct(@RequestParam Integer id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException, FavouritesNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("redirect:/favourites");
+        User user = userService.findUserByEmail(authentication.getName());
+        Favourites favourites = user.getFavourites();
+        List<Product> products = favourites.getProducts();
+
+        products.removeIf(next -> next.getId().equals(id));
+        favourites.getProducts().removeIf(next -> next.getId().equals(id));
+        favouritesRepository.save(favourites);
+
+        return modelAndView;
+    }
 }
