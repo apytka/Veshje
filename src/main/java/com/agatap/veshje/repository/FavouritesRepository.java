@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface FavouritesRepository extends JpaRepository<Favourites, Integer> {
     Optional<Favourites> findByUserId(Integer id);
 
+    boolean existsByUserId(Integer id);
 }

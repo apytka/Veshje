@@ -121,76 +121,53 @@
 </header>
 <main>
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
-    <div class="alert-information-container" th:fragment="error-info">
-        <div th:if="${param.errorResetPassword}" class="alert-information">
-            <div class="alert-information-error">
-                <h5>Error!</h5>
-                <span>Password doesn't change. New password and confirmation password do not match.</span>
-                <button type="submit" class="btn" onclick="closeButtonInformation()">Accept</button>
-            </div>
-        </div>
-        <div th:if="${param.errorExpired}" class="alert-information">
-            <div class="alert-information-error">
-                <h5>Error!</h5>
-                <span>The link you followed has expired.</span>
-                <a href="/login/forgot-password">
-                    <button type="submit" class="btn">Retrieve password</button>
-                </a>
-            </div>
-        </div>
-        <div th:if="${param.successResetPassword}" class="alert-information">
-            <div class="alert-information-error">
-                <h5>Success!</h5>
-                <span>Password change! Go to login.</span>
-                <a href="/login">
-                    <button type="submit" class="btn">Accept</button>
-                </a>
-            </div>
-        </div>
-    </div>
     <div class="panels-general">
         <div class="panel-general">
-            <div class="products-dress-container products-dress-container-fav">
-                <table class="general-table table-favourites">
-                    <caption>Favourites</caption>
-                    <tbody class="general-tbody">
-                    <tr class="general-row" th:each="product: ${map}">
-                        <td class="general-column">
-                            <div class="product-display-img">
-                                <a th:href="'/products/dress-details/' + ${product.value.id}">
-                                    <img th:src="|data:image/png;base64,${product.key.get(0)}|">
-                                </a>
-                            </div>
-                        </td>
-                        <td class="general-column">
-                            <div>
-                                <span th:text="${product.value.name}"></span>
-                            </div>
-                            <div>
-                                <span th:text="${product.value.color}"></span>
-                            </div>
-                            <div>
-                                <span th:text="${product.value.price} + ' EUR'"></span>
-                            </div>
-                            <form class="product-add-cart">
-                                <div class="product-size-select">
-                                    <select>
-                                        <option hidden="true">Choose size</option>
-                                        <option th:each="size: ${sizeType}" value="${sizes}"
-                                                th:text="${size}"></option>
-                                    </select>
-                                </div>
-                                <input type="submit" class="btn" value="Add to bag">
-                            </form>
-                        </td>
-                        <td class="general-column">
-                            <a th:href="'favourites/delete-product?id=' + ${product.value.id}">
-                            <i class="fas fa-trash"></i>
+            <div class="products-dress-container-fav">
+                <div class="heading-h1">
+                    <h1>Favourites</h1>
+                </div>
+                <div class="favourites-empty" th:if="${exist} == true">
+                    <h2>Save your favourite items</h2>
+                    <span>Want to save the items that you love? Just click on the heart symbol beside the item and it will
+                    show up here.</span>
+                    <a href="/" class="btn-general btn-general-display">Browse now</a>
+                </div>
+                <div class="table-favourites" th:each="product: ${map}">
+                    <div class="table-favourites-img">
+                        <div class="product-display-img">
+                            <a th:href="'/products/dress-details/' + ${product.value.id}">
+                                <img th:src="|data:image/png;base64,${product.key.get(0)}|">
                             </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+                    <div class="table-favourites-data">
+                        <div class="table-favourites-data-details">
+                            <span th:text="${product.value.name}"></span>
+                        </div>
+                        <div class="table-favourites-data-details">
+                            <span th:text="'COLOR: ' + ${product.value.color}"></span>
+                        </div>
+                        <div class="table-favourites-data-details">
+                            <span th:text="${product.value.price} + ' EUR'"></span>
+                        </div>
+                        <form class="product-add-cart">
+                            <div class="product-size-select">
+                                <select>
+                                    <option hidden="true">Choose size</option>
+                                    <option th:each="size: ${sizeType}" value="${sizes}"
+                                            th:text="${size}"></option>
+                                </select>
+                            </div>
+                            <input type="submit" class="btn" value="Add to bag">
+                        </form>
+                    </div>
+                    <div class="table-favourites-delete">
+                        <a th:href="'favourites/delete-product?id=' + ${product.value.id}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -298,7 +275,7 @@
     }
 
 
-/*SELECT*/
+    /*SELECT*/
     var x, i, j, selElmnt, a, b, c;
     x = document.getElementsByClassName("product-size-select");
     for (i = 0; i < x.length; i++) {
@@ -315,7 +292,7 @@
 
             c = document.createElement("DIV");
             c.innerHTML = selElmnt.options[j].innerHTML;
-            c.addEventListener("click", function(e) {
+            c.addEventListener("click", function (e) {
 
                 var y, i, k, s, h;
                 s = this.parentNode.parentNode.getElementsByTagName("select")[0];
@@ -337,7 +314,7 @@
             b.appendChild(c);
         }
         x[i].appendChild(b);
-        a.addEventListener("click", function(e) {
+        a.addEventListener("click", function (e) {
 
             e.stopPropagation();
             closeAllSelect(this);
@@ -345,6 +322,7 @@
             this.classList.toggle("select-arrow-active");
         });
     }
+
     function closeAllSelect(elmnt) {
 
         var x, y, i, arrNo = [];

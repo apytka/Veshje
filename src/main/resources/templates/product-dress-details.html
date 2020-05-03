@@ -143,80 +143,86 @@
             <div class="product-cart">
                 <div class="product-cart-sticky">
                     <div class="header-product-cart">
+                        <div class="table-favourites-add">
+                            <a th:href="'/favourites/add?id=' + ${product.id}">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </div>
                         <h1 th:text="${product.name}"></h1>
-                    </div>
-                    <div class="price-product-cart">
-                        <span th:text="${product.price}"></span><span> EUR</span>
-                    </div>
-                    <div class="info-product-cart">
-                        <div class="info-product-cart-color" th:text="${product.color}"></div>
-                        <div class="info-product-cart-description" th:text="${product.description}"></div>
-                        <form class="product-add-cart">
-                            <div class="product-size-list">
-                                <div class="product-size" th:each="sizes: ${sizeType}">
-                                    <input type="radio" name="radio" th:id="'size-' + ${sizes}" class="input1">
-                                    <label th:for="'size-' + ${sizes}" class="label1">
-                                        <span class="span" th:text="${sizes}"></span>
-                                    </label>
+                        <div class="price-product-cart">
+                            <span th:text="${product.price}"></span><span> EUR</span>
+                        </div>
+                        <div class="info-product-cart">
+                            <div class="info-product-cart-color" th:text="${product.color}"></div>
+                            <div class="info-product-cart-description" th:text="${product.description}"></div>
+                            <form class="product-add-cart">
+                                <div class="product-size-list">
+                                    <div class="product-size" th:each="sizes: ${sizeType}">
+                                        <input type="radio" name="radio" th:id="'size-' + ${sizes}" class="input1">
+                                        <label th:for="'size-' + ${sizes}" class="label1">
+                                            <span class="span" th:text="${sizes}"></span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product-find-size">
-                                <a href="#" class="btn-general btn-general-display" id="table-size-zoom">Find your size
-                                    <i class="far fa-question-circle"></i></a>
-                            </div>
-                            <div class="product-table-size" id="product-table-size">
-                                <div class="product-table-cart">
-                                    <table class="general-table" id="product-table">
-                                        <span class="close-zoom-table">&times;</span>
-                                        <caption>SIZE GUIDE</caption>
-                                        <thead>
-                                        <tr class="general-row">
-                                            <td class="general-column-product"><strong>Size</strong></td>
-                                            <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                th:text="${dimension.sizeType}"
-                                                colspan="1"></td>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="general-tbody">
-                                        <tr class="general-row">
-                                            <td class="general-column-product"><strong>Bust</strong></td>
-                                            <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                th:text="${dimension.bust}"
-                                                colspan="1"></td>
-                                        </tr>
-                                        <tr class="general-row">
-                                            <td class="general-column-product"><strong>Waist</strong></td>
-                                            <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                th:text="${dimension.waist}"
-                                                colspan="1"></td>
-                                        </tr>
-                                        <tr class="general-row">
-                                            <td class="general-column-product"><strong>Hips</strong></td>
-                                            <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                th:text="${dimension.hips}"
-                                                colspan="1"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <span>All measurements are in centimeters.</span>
+                                <div class="product-find-size">
+                                    <a href="#" class="btn-general btn-general-display" id="table-size-zoom">Find your
+                                        size
+                                        <i class="far fa-question-circle"></i></a>
                                 </div>
-                            </div>
-                            <input type="submit" class="btn" value="Add to bag">
-                        </form>
-                        <div class="product-composition-and-care">
-                            <h3>Composition</h3>
-                            <div class="product-composition">
-                                <h2>Other shell</h2>
-                                <span th:each="composition: ${compositionProduct}" th:text="${composition.compositionPercent}
+                                <div class="product-table-size" id="product-table-size">
+                                    <div class="product-table-cart">
+                                        <table class="general-table" id="product-table">
+                                            <span class="close-zoom-table">&times;</span>
+                                            <caption>SIZE GUIDE</caption>
+                                            <thead>
+                                            <tr class="general-row">
+                                                <td class="general-column-product"><strong>Size</strong></td>
+                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
+                                                    th:text="${dimension.sizeType}"
+                                                    colspan="1"></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="general-tbody">
+                                            <tr class="general-row">
+                                                <td class="general-column-product"><strong>Bust</strong></td>
+                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
+                                                    th:text="${dimension.bust}"
+                                                    colspan="1"></td>
+                                            </tr>
+                                            <tr class="general-row">
+                                                <td class="general-column-product"><strong>Waist</strong></td>
+                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
+                                                    th:text="${dimension.waist}"
+                                                    colspan="1"></td>
+                                            </tr>
+                                            <tr class="general-row">
+                                                <td class="general-column-product"><strong>Hips</strong></td>
+                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
+                                                    th:text="${dimension.hips}"
+                                                    colspan="1"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <span>All measurements are in centimeters.</span>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn" value="Add to bag">
+                            </form>
+                            <div class="product-composition-and-care">
+                                <h3>Composition</h3>
+                                <div class="product-composition">
+                                    <h2>Other shell</h2>
+                                    <span th:each="composition: ${compositionProduct}" th:text="${composition.compositionPercent}
                                 + '% ' + ${composition.compositionType} + ', '"></span>
-                            </div>
-                            <div class="product-care">
-                                <h2>Care</h2>
-                                <div class="product-care-icon">
-                                    <a th:each="maps: ${map}" th:data-title="${maps.value}">
-                                        <img th:alt="${maps.value}" th:src="|data:image/png;base64,${maps.key}|"
-                                         style="width: 25px; height: 25px"/>
-                                    </a>
+                                </div>
+                                <div class="product-care">
+                                    <h2>Care</h2>
+                                    <div class="product-care-icon">
+                                        <a th:each="maps: ${map}" th:data-title="${maps.value}">
+                                            <img th:alt="${maps.value}" th:src="|data:image/png;base64,${maps.key}|"
+                                                 style="width: 25px; height: 25px"/>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -224,8 +230,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panels-account-footer"></div>
+        <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">

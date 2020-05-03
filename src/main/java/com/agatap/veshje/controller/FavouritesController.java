@@ -29,9 +29,9 @@ public class FavouritesController {
     }
 
     @PostMapping
-    public FavouritesDTO createFavouritesDTO(@Valid @RequestBody CreateUpdateFavouritesDTO createUpdateFavouritesDTO)
+    public FavouritesDTO createFavouritesDTO(@Valid @RequestBody CreateUpdateFavouritesDTO createUpdateFavouritesDTO, Integer id)
             throws ProductNotFoundException, UserNotFoundException {
-        return favouritesService.createFavouritesDTO(createUpdateFavouritesDTO);
+        return favouritesService.createFavouritesDTO(createUpdateFavouritesDTO, id);
     }
 
     @PutMapping("/{id}")

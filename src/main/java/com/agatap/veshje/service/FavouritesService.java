@@ -6,12 +6,10 @@ import com.agatap.veshje.model.Favourites;
 import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.repository.FavouritesRepository;
-import com.agatap.veshje.repository.ProductRepository;
 import com.agatap.veshje.service.exception.FavouritesNotFoundException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
 import com.agatap.veshje.service.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,7 +26,6 @@ public class FavouritesService {
     private FavouritesDTOMapper mapper;
     private ProductService productService;
     private UserService userService;
-    private ProductRepository productRepository;
 
     public List<FavouritesDTO> getAllFavourites() {
         return favouritesRepository.findAll().stream()
@@ -47,7 +44,7 @@ public class FavouritesService {
                 .orElseThrow(() -> new FavouritesNotFoundException());
     }
 
-    public FavouritesDTO createFavouritesDTO(CreateUpdateFavouritesDTO createUpdateFavouritesDTO) throws ProductNotFoundException, UserNotFoundException {
+    public FavouritesDTO createFavouritesDTO(CreateUpdateFavouritesDTO createUpdateFavouritesDTO, Integer userId) throws ProductNotFoundException, UserNotFoundException {
         Favourites favourites = mapper.mappingToModel(createUpdateFavouritesDTO);
         favourites.setCreateDate(OffsetDateTime.now());
 
@@ -62,11 +59,10 @@ public class FavouritesService {
             }
         }
 
-        if (createUpdateFavouritesDTO.getUserId() != null) {
-            User user = userService.findUserById(createUpdateFavouritesDTO.getUserId());
-            user.setFavourites(favourites);
-            favourites.setUser(user);
-        }
+        User user = userService.findUserById(userId);
+        user.setFavourites(favourites);
+        favourites.setUser(user);
+
         Favourites newFavourites = favouritesRepository.save(favourites);
         return mapper.mappingToDTO(newFavourites);
     }
