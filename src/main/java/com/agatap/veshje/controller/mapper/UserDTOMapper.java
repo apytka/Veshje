@@ -29,6 +29,8 @@ public class UserDTOMapper {
         List<Integer> reviewsId = user.getReviews().stream()
                 .map(reviews -> reviews.getId())
                 .collect(Collectors.toList());
+        Integer favouritesId = Optional.ofNullable(user.getFavourites())
+                .map(favourites -> favourites.getId()).orElse(null);
         return UserDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -42,6 +44,7 @@ public class UserDTOMapper {
                 .reviewsIds(reviewsId)
                 .subscribedNewsletter(user.getSubscribedNewsletter())
                 .enabled(user.isEnabled())
+                .favouritesId(favouritesId)
                 .createDate(user.getCreateDate())
                 .updateDate(user.getUpdateDate())
                 .build();

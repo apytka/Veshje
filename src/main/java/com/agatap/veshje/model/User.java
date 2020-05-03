@@ -56,10 +56,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<AddressData> addressData = new ArrayList<>();
-
     @OneToOne(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER,mappedBy="user", orphanRemoval=true)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Token token;
+    @OneToOne(mappedBy = "user")
+    private Favourites favourites;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

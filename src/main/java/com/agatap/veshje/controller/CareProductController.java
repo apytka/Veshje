@@ -1,7 +1,7 @@
 package com.agatap.veshje.controller;
 
-import com.agatap.veshje.controller.DTO.CareProductDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateCareProductDTO;
+import com.agatap.veshje.controller.DTO.CareDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateCareDTO;
 import com.agatap.veshje.service.CareProductService;
 import com.agatap.veshje.service.exception.CareProductAlreadyExistsException;
 import com.agatap.veshje.service.exception.CareProductDataInvalidException;
@@ -19,34 +19,34 @@ public class CareProductController {
     private CareProductService careProductService;
 
     @GetMapping
-    public List<CareProductDTO> getAllCareProduct() {
+    public List<CareDTO> getAllCareProduct() {
         return careProductService.getAllCareProduct();
     }
 
     @GetMapping("/{id}")
-    public CareProductDTO findCareProductDTOById(@PathVariable Integer id) throws CareProductNotFoundException {
+    public CareDTO findCareProductDTOById(@PathVariable Integer id) throws CareProductNotFoundException {
         return careProductService.findCareProductDTOById(id);
     }
 
     @PostMapping
-    public CareProductDTO createCareProductDTO(@RequestBody CreateUpdateCareProductDTO createCareProductDTO)
+    public CareDTO createCareProductDTO(@RequestBody CreateUpdateCareDTO createCareProductDTO)
             throws CareProductDataInvalidException, CareProductAlreadyExistsException {
         return careProductService.createCareProductDTO(createCareProductDTO);
     }
 
     @PutMapping("/{id}")
-    public CareProductDTO updateCareProductDTO(@RequestBody CreateUpdateCareProductDTO updateCareProductDTO, @PathVariable Integer id)
+    public CareDTO updateCareProductDTO(@RequestBody CreateUpdateCareDTO updateCareProductDTO, @PathVariable Integer id)
             throws CareProductNotFoundException {
         return careProductService.updateCareProductDTO(updateCareProductDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public CareProductDTO deleteCareProductDTO(@PathVariable Integer id) throws CareProductNotFoundException {
+    public CareDTO deleteCareProductDTO(@PathVariable Integer id) throws CareProductNotFoundException {
         return careProductService.deleteCareProductDTO(id);
     }
 
     @GetMapping("/cares/{id}")
-    public List<CareProductDTO> findCareByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+    public List<CareDTO> findCareByProductId(@PathVariable Integer id) throws ProductNotFoundException {
         return careProductService.findCareByProductId(id);
     }
 }

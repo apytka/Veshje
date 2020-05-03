@@ -68,4 +68,10 @@ public class CategoryService {
         categoryRepository.delete(category);
         return mapper.mappingToDTO(category);
     }
+
+    public CategoryDTO findCategoryByName(String name) throws CategoryNotFoundException {
+        return categoryRepository.findByName(name)
+                .map(category -> mapper.mappingToDTO(category))
+                .orElseThrow(() -> new CategoryNotFoundException());
+    }
 }

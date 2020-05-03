@@ -43,4 +43,9 @@ public class CategoryController {
     public CategoryDTO deleteCategoryDTO(@PathVariable Integer id) throws CategoryNotFoundException {
         return categoryService.deleteCategoryDTO(id);
     }
+
+    @GetMapping("/name/{name}")
+    public CategoryDTO findCategoryByName(@PathVariable String name) throws CategoryNotFoundException {
+        return categoryService.findCategoryByName(name);
+    }
 }

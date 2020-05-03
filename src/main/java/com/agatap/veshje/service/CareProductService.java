@@ -1,9 +1,9 @@
 package com.agatap.veshje.service;
 
-import com.agatap.veshje.controller.DTO.CareProductDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateCareProductDTO;
+import com.agatap.veshje.controller.DTO.CareDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateCareDTO;
 import com.agatap.veshje.controller.mapper.CareProductDTOMapper;
-import com.agatap.veshje.model.CareProduct;
+import com.agatap.veshje.model.Care;
 import com.agatap.veshje.model.Product;
 import com.agatap.veshje.repository.CareProductRepository;
 import com.agatap.veshje.service.exception.CareProductAlreadyExistsException;
@@ -25,24 +25,24 @@ public class CareProductService {
     private CareProductDTOMapper mapper;
     private ProductService productService;
 
-    public List<CareProductDTO> getAllCareProduct() {
+    public List<CareDTO> getAllCareProduct() {
         return careProductRepository.findAll().stream()
                 .map(careProduct -> mapper.mappingToDTO(careProduct))
                 .collect(Collectors.toList());
     }
 
-    public CareProductDTO findCareProductDTOById(Integer id) throws CareProductNotFoundException {
+    public CareDTO findCareProductDTOById(Integer id) throws CareProductNotFoundException {
         return careProductRepository.findById(id)
                 .map(careProduct -> mapper.mappingToDTO(careProduct))
                 .orElseThrow(() -> new CareProductNotFoundException());
     }
 
-    public CareProduct findCareProductById(Integer id) throws CareProductNotFoundException {
+    public Care findCareProductById(Integer id) throws CareProductNotFoundException {
         return careProductRepository.findById(id)
                 .orElseThrow(() -> new CareProductNotFoundException());
     }
 
-    public CareProductDTO createCareProductDTO(CreateUpdateCareProductDTO createCareProductDTO)
+    public CareDTO createCareProductDTO(CreateUpdateCareDTO createCareProductDTO)
             throws CareProductDataInvalidException, CareProductAlreadyExistsException {
         if(careProductRepository.existsByName(createCareProductDTO.getName())) {
             throw new CareProductAlreadyExistsException();
@@ -50,31 +50,31 @@ public class CareProductService {
         if(createCareProductDTO.getName() == null || createCareProductDTO.getName().length() < 2) {
             throw new CareProductDataInvalidException();
         }
-        CareProduct careProduct = mapper.mappingToModel(createCareProductDTO);
+        Care careProduct = mapper.mappingToModel(createCareProductDTO);
         careProduct.setCreateDate(OffsetDateTime.now());
         //todo bind to foreign tables
-        CareProduct newCareProduct = careProductRepository.save(careProduct);
+        Care newCareProduct = careProductRepository.save(careProduct);
         return mapper.mappingToDTO(newCareProduct);
     }
 
-    public CareProductDTO updateCareProductDTO(CreateUpdateCareProductDTO updateCareProductDTO, Integer id) throws CareProductNotFoundException {
-        CareProduct careProduct = findCareProductById(id);
+    public CareDTO updateCareProductDTO(CreateUpdateCareDTO updateCareProductDTO, Integer id) throws CareProductNotFoundException {
+        Care careProduct = findCareProductById(id);
         careProduct.setName(updateCareProductDTO.getName());
         careProduct.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
-        CareProduct updateCareProduct = careProductRepository.save(careProduct);
+        Care updateCareProduct = careProductRepository.save(careProduct);
         return mapper.mappingToDTO(updateCareProduct);
     }
 
-    public CareProductDTO deleteCareProductDTO(Integer id) throws CareProductNotFoundException {
-        CareProduct careProduct = findCareProductById(id);
+    public CareDTO deleteCareProductDTO(Integer id) throws CareProductNotFoundException {
+        Care careProduct = findCareProductById(id);
         careProductRepository.delete(careProduct);
         return mapper.mappingToDTO(careProduct);
     }
 
-    public List<CareProductDTO> findCareByProductId(Integer id) throws ProductNotFoundException {
+    public List<CareDTO> findCareByProductId(Integer id) throws ProductNotFoundException {
         Product productId = productService.findProductById(id);
-        return productId.getCareProduct().stream()
+        return productId.getCares().stream()
                 .map(careProduct -> mapper.mappingToDTO(careProduct))
                 .collect(Collectors.toList());
     }

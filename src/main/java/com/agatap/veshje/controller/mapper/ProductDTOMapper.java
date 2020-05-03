@@ -6,7 +6,6 @@ import com.agatap.veshje.model.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,7 +23,7 @@ public class ProductDTOMapper {
         List<Integer> reviewsId = product.getReviews().stream()
                 .map(review -> review.getId())
                 .collect(Collectors.toList());
-        List<Integer> careProductsId = product.getCareProduct().stream()
+        List<Integer> careProductsId = product.getCares().stream()
                 .map(cares-> cares.getId())
                 .collect(Collectors.toList());
         List<Integer> imagesId = product.getImages().stream()
@@ -32,6 +31,9 @@ public class ProductDTOMapper {
                 .collect(Collectors.toList());
         List<Integer> sizesId = product.getSizes().stream()
                 .map(size -> size.getId())
+                .collect(Collectors.toList());
+        List<Integer> favouritesId = product.getFavourites().stream()
+                .map(favourites -> favourites.getId())
                 .collect(Collectors.toList());
         return ProductDTO.builder()
                 .id(product.getId())
@@ -45,9 +47,10 @@ public class ProductDTOMapper {
                 .compositionIds(compositionsId)
                 .categoriesIds(categoriesId)
                 .reviewIds(reviewsId)
-                .careProductIds(careProductsId)
+                .careIds(careProductsId)
                 .imagesIds(imagesId)
                 .sizeIds(sizesId)
+                .favouritesIds(favouritesId)
                 .createDate(product.getCreateDate())
                 .updateDate(product.getUpdateDate())
                 .build();

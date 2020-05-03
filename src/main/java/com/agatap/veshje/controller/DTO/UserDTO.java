@@ -38,4 +38,6 @@ public class UserDTO {
     private List<Integer> addressesIds;
     private List<Integer> orderIds;
     private List<Integer> reviewsIds;
+    private Integer favouritesId;
+
 }

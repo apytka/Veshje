@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +43,14 @@ public class Product {
     private List<Review> reviews = new ArrayList<>();
     @Builder.Default
     @ManyToMany(mappedBy = "products")
-    private List<CareProduct> careProduct = new ArrayList<>();
+    private List<Care> cares = new ArrayList<>();
     @OneToMany(mappedBy = "product")
     @Builder.Default
     private List<Image> images = new ArrayList<>();
     @ManyToMany
     @Builder.Default
     private List<Size> sizes = new ArrayList<>();
+    @ManyToMany(mappedBy = "products")
+    @Builder.Default
+    private List<Favourites> favourites = new ArrayList<>();
 }

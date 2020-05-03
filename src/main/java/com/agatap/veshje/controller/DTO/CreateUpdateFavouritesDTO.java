@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateCareProductDTO {
-    private String name;
-    private String description;
+public class CreateUpdateFavouritesDTO {
+    private Integer id;
 
-    private List<Integer> productIds;
-    private List<Integer> imageIds;
+    private List<Integer> productsId;
+    private Integer userId;
 }

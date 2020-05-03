@@ -16,19 +16,15 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-public class CareProduct {
+public class Favourites {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
-    private String description;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
-
-    @Builder.Default
     @ManyToMany
-    private List<Product> products = new ArrayList<>();
     @Builder.Default
-    @ManyToMany(mappedBy = "cares")
-    private List<Image> images = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
+    @OneToOne
+    private User user;
 }

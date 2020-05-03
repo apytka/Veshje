@@ -1,11 +1,13 @@
 package com.agatap.veshje.controller;
 
+import com.agatap.veshje.controller.DTO.CreateImageDTO;
 import com.agatap.veshje.controller.DTO.ImageDTO;
 import com.agatap.veshje.controller.DTO.UpdateImageDTO;
 import com.agatap.veshje.service.exception.ImageAlreadyExistsException;
 import com.agatap.veshje.service.ImageService;
 import com.agatap.veshje.service.exception.ImageDataInvalidException;
-import com.agatap.veshje.service.exception.ImageNotFoundExceptions;
+import com.agatap.veshje.service.exception.ImageNotFoundException;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,23 +28,24 @@ public class ImageController {
     }
 
     @GetMapping("/{id}")
-    public ImageDTO findImageDTOById(@PathVariable Integer id) throws ImageNotFoundExceptions {
+    public ImageDTO findImageDTOById(@PathVariable Integer id) throws ImageNotFoundException {
         return imageService.findImageDTOById(id);
     }
 
     @PostMapping
-    public ImageDTO createImage(MultipartFile file) throws IOException, ImageDataInvalidException, ImageAlreadyExistsException {
-        return imageService.createImage(file);
+    public ImageDTO createImage(MultipartFile file, CreateImageDTO createUpdateImageDTO)
+            throws IOException, ImageDataInvalidException, ImageAlreadyExistsException, ProductNotFoundException {
+        return imageService.createImage(file, createUpdateImageDTO);
     }
 
     @PutMapping("/{id}")
     public ImageDTO updateImageName(@RequestBody UpdateImageDTO updateImageDTO, @PathVariable Integer id)
-            throws ImageNotFoundExceptions {
+            throws ImageNotFoundException, ProductNotFoundException {
         return imageService.updateImage(updateImageDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteImage(@PathVariable Integer id) throws ImageNotFoundExceptions {
+    public void deleteImage(@PathVariable Integer id) throws ImageNotFoundException {
         imageService.deleteImage(id);
     }
 

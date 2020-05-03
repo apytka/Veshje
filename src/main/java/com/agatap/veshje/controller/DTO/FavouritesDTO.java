@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +13,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CareProductDTO {
+public class FavouritesDTO {
     private Integer id;
-    private String name;
-    private String description;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> productIds;
-    private List<Integer> imageIds;
+    private List<Integer> productsId;
+    private Integer userId;
 }

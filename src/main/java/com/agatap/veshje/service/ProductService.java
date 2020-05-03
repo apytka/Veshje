@@ -17,6 +17,7 @@ import com.agatap.veshje.service.exception.ProductNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,6 +78,7 @@ public class ProductService {
         return mapper.mappingToDTO(updateProduct);
     }
 
+    @Transactional
     public ProductDTO deleteProductDTO(Integer id) throws ProductNotFoundException {
         Product product = findProductById(id);
         productRepository.delete(product);

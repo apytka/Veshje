@@ -29,7 +29,8 @@ public class ProductDTO {
     private List<Integer> compositionIds;
     private List<Integer> categoriesIds;
     private List<Integer> reviewIds;
-    private List<Integer> careProductIds;
+    private List<Integer> careIds;
     private List<Integer> imagesIds;
     private List<Integer> sizeIds;
+    private List<Integer> favouritesIds;
 }

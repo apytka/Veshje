@@ -235,7 +235,7 @@ public class ControllerConfig {
     public void handlePictureBadRequest() {
     }
 
-    @ExceptionHandler(ImageNotFoundExceptions.class)
+    @ExceptionHandler(ImageNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handlePictureNotFoundException() {
     }
@@ -243,5 +243,20 @@ public class ControllerConfig {
     @ExceptionHandler(ImageAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handlePictureAlreadyExists() {
+    }
+
+    @ExceptionHandler(FavouritesDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleFavouritesBadRequest() {
+    }
+
+    @ExceptionHandler(FavouritesNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleFavouritesNotFoundException() {
+    }
+
+    @ExceptionHandler(FavouritesAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleFavouritesAlreadyExists() {
     }
 }

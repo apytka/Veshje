@@ -16,22 +16,19 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-public class Image {
+public class Care {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private String type;
-    private long size;
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] data;
+    private String description;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @ManyToOne
-    private Product product;
     @Builder.Default
     @ManyToMany
-    private List<Care> cares = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
+    @Builder.Default
+    @ManyToMany(mappedBy = "cares")
+    private List<Image> images = new ArrayList<>();
 }

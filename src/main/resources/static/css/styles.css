@@ -15,7 +15,6 @@ body {
     overflow-x: hidden;
 }
 
-
 header {
     background-color: #ffffff;
     overflow: hidden;
@@ -1165,6 +1164,10 @@ table.general-table tr {
 
 }
 
+.table-favourites {
+    width: 60%;
+}
+
 /*VALIDATE-ADDRESS*/
 .account-data-input {
     margin: 0 20px 0 0;
@@ -1578,6 +1581,7 @@ caption {
     white-space: nowrap;
     border: 1px solid #211f1b;
     visibility: hidden;
+    text-transform: uppercase;
 }
 
 [data-title] {
@@ -1590,7 +1594,7 @@ caption {
     flex-wrap: wrap;
     justify-content: left;
     align-content: flex-start;
-    padding: 0 40px 0 40px;
+    padding: 0 20px 0 20px;
     width: 100%;
     height: 100%;
 }
@@ -1601,6 +1605,11 @@ caption {
 
 .products-dress-container img {
     width: 100%;
+}
+
+.products-dress-container-fav img {
+    width: 200px;
+    height: 300px;
 }
 
 .product-display-name {
@@ -1645,3 +1654,75 @@ caption {
     display: inline;
 }
 
+/*SELECT*/
+.product-size-select {
+    position: relative;
+    width: 100%;
+}
+
+.x {
+    display: none;
+}
+
+.product-size-select select {
+    display: none;
+}
+
+.select-selected {
+    border: 1px solid #a2a2a2;
+}
+
+.select-selected:after {
+    position: absolute;
+    content: "";
+    top: 16px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-color: #a2a2a2 transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+    border-color: transparent transparent #a2a2a2 transparent;
+    top: 7px;
+}
+
+.select-items div,.select-selected {
+    color: #000000;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.select-items {
+    position: absolute;
+    border: 1px solid #a2a2a2;
+    background: white;
+    border-top: none;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.select-hide {
+    display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+    background-color: rgba(201, 201, 201, 0.3);
+}
+
+.fa-trash {
+    font-size: 2rem;
+    color: black;
+}
+
+.fa-trash:hover {
+    font-size: 2.2rem;
+    background-color: rgba(201, 201, 201, 0.3);
+    border-radius: 100%;
+    padding: 8px;
+}

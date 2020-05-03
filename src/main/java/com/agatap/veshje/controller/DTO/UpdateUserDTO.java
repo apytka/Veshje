@@ -32,4 +32,6 @@ public class UpdateUserDTO {
     private Integer newsletterId;
     private List<Integer> ordersId;
     private List<Integer> reviewsIds;
+    private Integer favouritesId;
+
 }
