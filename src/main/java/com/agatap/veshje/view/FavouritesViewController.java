@@ -97,6 +97,6 @@ public class FavouritesViewController {
 
         favouritesRepository.save(favourites);
 
-        return new ModelAndView("redirect:/favourites");
+        return new ModelAndView("redirect:/products/dress-details/" + id);
     }
 }

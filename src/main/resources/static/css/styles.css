@@ -1538,7 +1538,7 @@ caption {
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 800;
-    padding: 10px;
+    padding: 5px;
 }
 
 .product-composition-and-care h2 {
@@ -1556,7 +1556,7 @@ caption {
 }
 
 .product-composition {
-    padding: 5px 0 0 0;
+    padding: 5px 0 10px 0;
 }
 
 /* TITLE STYLE*/
@@ -1709,12 +1709,10 @@ caption {
     color: black;
 }
 
-.fa-heart {
-    padding: 12px;
-}
 
 .fa-trash:hover,
-.fa-heart:hover {
+.fa-heart:hover,
+.active-fav {
     font-size: 2.2rem;
     background-color: rgba(201, 201, 201, 0.3);
     border-radius: 100%;
@@ -1786,10 +1784,18 @@ caption {
 }
 
 .table-favourites-add {
-    min-height: 50px;
+     display: flex;
+     justify-content: left;
+     align-items: center;
+ }
+
+.table-favourites-add > a {
+    text-decoration: none;
     display: flex;
-    justify-content: left;
     align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    min-width: 40px;
 }
 
 @media screen and (max-width: 650px) {

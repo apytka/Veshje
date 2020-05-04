@@ -49,7 +49,8 @@ public class ImageService {
                 .orElseThrow(() -> new ImageNotFoundException());
     }
 
-    public ImageDTO createImage(MultipartFile file, CreateImageDTO createUpdateImageDTO) throws IOException, ImageDataInvalidException, ImageAlreadyExistsException, ProductNotFoundException {
+    public ImageDTO createImage(MultipartFile file, CreateImageDTO createUpdateImageDTO)
+            throws IOException, ImageDataInvalidException, ImageAlreadyExistsException, ProductNotFoundException {
         if (imageRepository.existsByName(file.getOriginalFilename())) {
             throw new ImageAlreadyExistsException();
         }
@@ -59,7 +60,7 @@ public class ImageService {
         Image image = mapper.mappingToModel(file);
         image.setCreateDate(OffsetDateTime.now());
 
-        if(createUpdateImageDTO.getProductId() != null) {
+        if (createUpdateImageDTO.getProductId() != null) {
             Product product = productService.findProductById(createUpdateImageDTO.getProductId());
             image.setProduct(product);
             product.getImages().add(image);
@@ -75,7 +76,7 @@ public class ImageService {
         image.setName(updateImageDTO.getName());
         image.setUpdateDate(OffsetDateTime.now());
 
-        if(updateImageDTO.getProductId() != null) {
+        if (updateImageDTO.getProductId() != null) {
             Product product = productService.findProductById(updateImageDTO.getProductId());
             image.setProduct(product);
             product.getImages().add(image);

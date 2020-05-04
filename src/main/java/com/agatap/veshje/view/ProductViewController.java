@@ -4,14 +4,13 @@ import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.controller.mapper.ImageDTOMapper;
 import com.agatap.veshje.model.*;
 import com.agatap.veshje.repository.ProductRepository;
-import com.agatap.veshje.service.CategoryService;
-import com.agatap.veshje.service.CompositionProductService;
-import com.agatap.veshje.service.DimensionService;
-import com.agatap.veshje.service.ProductService;
+import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.CategoryNotFoundException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
+import com.agatap.veshje.service.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +27,8 @@ public class ProductViewController {
     private DimensionService dimensionService;
     private CompositionProductService compositionProductService;
     private CategoryService categoryService;
-
-
+    private UserService userService;
+    
     @GetMapping("/products/{category}")
     public ModelAndView displayProductByMiniDresses(@PathVariable String category)
             throws UnsupportedEncodingException, ProductNotFoundException, CategoryNotFoundException {
@@ -39,7 +38,7 @@ public class ProductViewController {
         List<Product> productByCategory = productService.findProductsByCategoryNameProduct(categoryByName.getName());
 
         Map<List<String>, Product> map = new HashMap<>();
-        for(Product product : productByCategory) {
+        for (Product product : productByCategory) {
             List<String> byteImageList = new ArrayList<>();
             List<ImageDTO> images = productService.findImageByProductId(product.getId());
             for (ImageDTO image : images) {
@@ -55,13 +54,27 @@ public class ProductViewController {
     }
 
     @GetMapping("/products/dress-details/{id}")
-    public ModelAndView displayDataProduct(@PathVariable Integer id)
-            throws ProductNotFoundException, UnsupportedEncodingException {
+    public ModelAndView displayDataProduct(@PathVariable Integer id, Authentication authentication)
+            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-dress-details");
+
+        if (authentication != null) {
+            User user = userService.findUserByEmail(authentication.getName());
+            Favourites favourites = user.getFavourites();
+            if (favourites != null) {
+                List<Product> products = favourites.getProducts();
+                for (Product product : products) {
+                    if (product.getId().equals(id)) {
+                        modelAndView.addObject("exist", true);
+                    }
+                }
+            }
+        }
+
         List<ImageDTO> images = productService.findImageByProductId(id);
         ProductDTO product = productService.findProductDTOById(id);
         List<String> byteImageList = new ArrayList<>();
-        for(ImageDTO imageDTO : images) {
+        for (ImageDTO imageDTO : images) {
             byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
             String base64Encoded = new String(encodeBase64, "UTF-8");
             byteImageList.add(base64Encoded);
@@ -74,10 +87,10 @@ public class ProductViewController {
         Product productCare = productService.findProductById(id);
         List<Care> careProducts = productCare.getCares();
 
-        for(Care cares : careProducts) {
+        for (Care cares : careProducts) {
             List<Image> careImages = cares.getImages();
             String base64Encoded = null;
-            for(Image imageData : careImages) {
+            for (Image imageData : careImages) {
                 byte[] encodeBase64 = Base64.encodeBase64(imageData.getData());
                 base64Encoded = new String(encodeBase64, "UTF-8");
             }
@@ -85,7 +98,7 @@ public class ProductViewController {
             map.put(base64Encoded, careProductDescription);
         }
 
-        List<CompositionProductDTO>  compositionProduct = compositionProductService.findCompositionByProductId(id);
+        List<CompositionProductDTO> compositionProduct = compositionProductService.findCompositionByProductId(id);
 
         modelAndView.addObject("compositionProduct", compositionProduct);
         modelAndView.addObject("dimensions", dimensions);
