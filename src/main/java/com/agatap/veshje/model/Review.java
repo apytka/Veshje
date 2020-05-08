@@ -21,6 +21,8 @@ public class Review {
     private Integer id;
     private String comment;
     private int rate;
+    private int rateSize;
+    private int rateLength;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

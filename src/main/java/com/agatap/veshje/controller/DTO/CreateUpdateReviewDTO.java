@@ -14,7 +14,9 @@ import java.time.OffsetDateTime;
 public class CreateUpdateReviewDTO {
     private String comment;
     private Integer rate;
+    private int rateSize;
+    private int rateLength;
 
-    private Integer productIds;
+    private Integer productId;
     private Integer userId;
 }

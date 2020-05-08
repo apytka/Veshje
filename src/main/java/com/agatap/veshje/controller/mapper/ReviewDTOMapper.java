@@ -18,6 +18,8 @@ public class ReviewDTOMapper {
                 .id(review.getId())
                 .comment(review.getComment())
                 .rate(review.getRate())
+                .rateSize(review.getRateSize())
+                .rateLength(review.getRateLength())
                 .productIds(productId)
                 .userId(userId)
                 .createDate(review.getCreateDate())
@@ -29,6 +31,8 @@ public class ReviewDTOMapper {
         return Review.builder()
                 .comment(createReviewDTO.getComment())
                 .rate(createReviewDTO.getRate())
+                .rateSize(createReviewDTO.getRateSize())
+                .rateLength(createReviewDTO.getRateLength())
                 .build();
     }
 }

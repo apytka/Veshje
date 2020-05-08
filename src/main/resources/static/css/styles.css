@@ -1316,7 +1316,8 @@ table.general-table tr {
 }
 
 .modal,
-.product-table-size {
+.product-table-size,
+.product-review-cart {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -1499,14 +1500,19 @@ table.general-table tr {
     margin: auto;
     pointer-events: all;
     padding: 0 10px 10px 10px;
-    /*opacity: 1;*/
 }
 
-/*.product-table {*/
-/*    padding: 20px;*/
-/*}*/
+.product-review {
+    position: fixed;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    width: 35%;
+    height: 100%;
+}
 
-.close-zoom-table {
+.close-zoom-table,
+.close-review {
     display: flex;
     align-items: flex-end;
     justify-content: right;
@@ -1555,8 +1561,21 @@ caption {
     padding: 0 0 5px 0;
 }
 
+.product-reviews {
+    padding: 10px 0 5px 0;
+}
+
+.product-reviews > a {
+    font-size: 1.3rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: black;
+    letter-spacing: 2px;
+}
+
 .product-composition {
-    padding: 5px 0 10px 0;
+    padding: 10px 0 10px 0;
 }
 
 /* TITLE STYLE*/
@@ -1825,3 +1844,26 @@ caption {
     text-transform: uppercase;
 }
 
+
+/* STARS - REVIEW */
+:root {
+    --star-size: 15px;
+    --star-color: #e3d6bc;
+    --star-background: #000000;
+}
+
+.stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+    display: inline-block;
+    font-size: var(--star-size);
+    line-height: 1;
+}
+.stars::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    font-family: "Font Awesome 5 Free",serif;
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

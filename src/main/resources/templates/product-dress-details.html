@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:--rating="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -137,7 +138,6 @@
                     <a class="next next-zoom" onclick="plusSlides(1)">&#10095;</a>
                 </div>
             </div>
-
         </div>
         <div class="panel-product panel-product-cart">
             <div class="product-cart">
@@ -227,6 +227,29 @@
                                     </div>
                                 </div>
                             </div>
+
+
+
+                            <div class="reviews">
+                                <div class="product-reviews">
+                                    <a id="show-review-cart" href="#">Reviews(<span th:text="${current}"></span>)
+                                        <div class="stars" th:style="'--rating:'+ ${rateAverage} +';'">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="product-review-cart" id="product-review-cart">
+                                    <div class="product-review" id="product-review">
+                                        <span class="close-review">&times;</span>
+                                        <h1>What other customer think</h1>
+                                        <div class="stars" th:style="'--rating:'+ ${rateAverage} +'; --star-size: 30px;'"
+                                             th:text="${rateAverage}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -393,6 +416,20 @@
         productTableSize.style.display = "none";
     }
 
+    /*SHOW REVIEWS*/
+    var productReviewCart = document.getElementById("product-review-cart");
+    var productReview = document.getElementById("product-review");
+    const showReviewCart = document.getElementById('show-review-cart');
+
+    showReviewCart.onclick = function () {
+        productReviewCart.style.display = "block";
+        productReview.src = this.src;
+    }
+
+    var span3 = document.getElementsByClassName("close-review")[0];
+    span3.onclick = function () {
+        productReviewCart.style.display = "none";
+    }
 </script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import com.agatap.veshje.repository.ProductRepository;
 import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.CategoryNotFoundException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
+import com.agatap.veshje.service.exception.ReviewNotFoundException;
 import com.agatap.veshje.service.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -28,6 +29,7 @@ public class ProductViewController {
     private CompositionProductService compositionProductService;
     private CategoryService categoryService;
     private UserService userService;
+    private ReviewService reviewService;
     
     @GetMapping("/products/{category}")
     public ModelAndView displayProductByMiniDresses(@PathVariable String category)
@@ -55,7 +57,7 @@ public class ProductViewController {
 
     @GetMapping("/products/dress-details/{id}")
     public ModelAndView displayDataProduct(@PathVariable Integer id, Authentication authentication)
-            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException {
+            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException, ReviewNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-dress-details");
 
         if (authentication != null) {
@@ -72,7 +74,7 @@ public class ProductViewController {
         }
 
         List<ImageDTO> images = productService.findImageByProductId(id);
-        ProductDTO product = productService.findProductDTOById(id);
+        ProductDTO productDTO = productService.findProductDTOById(id);
         List<String> byteImageList = new ArrayList<>();
         for (ImageDTO imageDTO : images) {
             byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
@@ -100,10 +102,21 @@ public class ProductViewController {
 
         List<CompositionProductDTO> compositionProduct = compositionProductService.findCompositionByProductId(id);
 
+        Product product = productService.findProductById(id);
+        List<Review> reviews = product.getReviews();
+        int current = 0;
+        for(Review review : reviews) {
+            modelAndView.addObject("review", review);
+            current++;
+        }
+        double rateAverage = reviewService.rateAverage(id);
+
+        modelAndView.addObject("current", current);
+        modelAndView.addObject("rateAverage", rateAverage);
         modelAndView.addObject("compositionProduct", compositionProduct);
         modelAndView.addObject("dimensions", dimensions);
         modelAndView.addObject("sizeType", sizeType);
-        modelAndView.addObject("product", product);
+        modelAndView.addObject("product", productDTO);
         modelAndView.addObject("map", map);
         modelAndView.addObject("byteImageList", byteImageList);
         return modelAndView;
