@@ -18,5 +18,5 @@ public class CategoryDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> productsIds;
+    private List<String> productsIds;
 }

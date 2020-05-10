@@ -1,9 +1,12 @@
 package com.agatap.veshje.model;
 
+import com.agatap.veshje.model.utils.StringPrefixedSequenceIdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -17,9 +20,18 @@ import java.util.List;
 
 @Entity
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @GenericGenerator(
+            name = "product_seq",
+            strategy = "com.agatap.veshje.model.utils.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "YX001-"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d"),
+                    })
+    private String id;
     private String name;
     private Double price;
     private String color;

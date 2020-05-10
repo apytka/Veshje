@@ -38,22 +38,19 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductDTO findProductDTOById(Integer id) throws ProductNotFoundException {
+    public ProductDTO findProductDTOById(String id) throws ProductNotFoundException {
         return productRepository.findById(id)
                 .map(product -> mapper.mappingToDTO(product))
                 .orElseThrow(() -> new ProductNotFoundException());
     }
 
-    public Product findProductById(Integer id) throws ProductNotFoundException {
+    public Product findProductById(String id) throws ProductNotFoundException {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException());
     }
 
-    public ProductDTO createProductDTO(CreateUpdateProductDTO createProductDTO) throws ProductDataInvalidException, ProductAlreadyExistException {
-        if (productRepository.existsByName(createProductDTO.getName())) {
-            throw new ProductAlreadyExistException();
-        }
-        if (createProductDTO.getPrice() == null || createProductDTO.getPrice().doubleValue() <= 0) {
+    public ProductDTO createProductDTO(CreateUpdateProductDTO createProductDTO) throws ProductDataInvalidException {
+        if (createProductDTO.getPrice() == null || createProductDTO.getPrice() <= 0) {
             throw new ProductDataInvalidException();
         }
         Product product = mapper.mappingToModel(createProductDTO);
@@ -64,7 +61,7 @@ public class ProductService {
         return mapper.mappingToDTO(newProduct);
     }
 
-    public ProductDTO updateProductDTO(CreateUpdateProductDTO updateProductDTO, Integer id) throws ProductNotFoundException {
+    public ProductDTO updateProductDTO(CreateUpdateProductDTO updateProductDTO, String id) throws ProductNotFoundException {
         Product product = findProductById(id);
         product.setName(updateProductDTO.getName());
         product.setPrice(updateProductDTO.getPrice());
@@ -79,7 +76,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO deleteProductDTO(Integer id) throws ProductNotFoundException {
+    public ProductDTO deleteProductDTO(String id) throws ProductNotFoundException {
         Product product = findProductById(id);
         productRepository.delete(product);
         return mapper.mappingToDTO(product);
@@ -135,7 +132,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ImageDTO> findImageByProductId(Integer id) throws ProductNotFoundException {
+    public List<ImageDTO> findImageByProductId(String id) throws ProductNotFoundException {
         Product productId = findProductById(id);
         return productId.getImages().stream()
                 .map(image -> imageDTOMapper.mappingToDTO(image))

@@ -19,6 +19,6 @@ public class CareDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> productIds;
+    private List<String> productIds;
     private List<Integer> imageIds;
 }

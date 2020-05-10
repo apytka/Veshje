@@ -46,7 +46,7 @@ public class CareProductController {
     }
 
     @GetMapping("/cares/{id}")
-    public List<CareDTO> findCareByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+    public List<CareDTO> findCareByProductId(@PathVariable String id) throws ProductNotFoundException {
         return careProductService.findCareByProductId(id);
     }
 }

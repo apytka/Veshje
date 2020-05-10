@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class CareProductDTOMapper {
     public CareDTO mappingToDTO(Care careProduct) {
-        List<Integer> productsId = careProduct.getProducts().stream()
+        List<String> productsId = careProduct.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
         List<Integer> imagesId = careProduct.getImages().stream()

@@ -552,13 +552,27 @@ header {
     opacity: 0.7;
 }
 
-.fa-facebook, .fa-twitter-square, .fa-instagram, .fa-youtube {
+.fa-facebook,
+.fa-twitter-square,
+.fa-instagram,
+.fa-youtube {
     background: #f4f3f1;
     color: #211f1b;
 }
 
-.fa-facebook:hover, .fa-twitter-square:hover, .fa-instagram:hover, .fa-youtube:hover {
+.fa-facebook-f, .fa-twitter {
+    color: #211f1b;
+}
+
+.fa-facebook:hover,
+.fa-twitter-square:hover,
+.fa-instagram:hover,
+.fa-youtube:hover {
     background: #f4f3f1;
+    color: #2b6044;
+}
+
+.fa-facebook-f:hover, .fa-twitter:hover {
     color: #2b6044;
 }
 
@@ -1463,10 +1477,6 @@ table.general-table tr {
     justify-content: flex-start;
 }
 
-.product-add-cart {
-    padding: 10px 0 0 0;
-}
-
 .product-cart-sticky {
     position: sticky;
     position: -webkit-sticky;
@@ -1479,7 +1489,7 @@ table.general-table tr {
 }
 
 .product-size-list {
-    margin: 20px 0 20px 0;
+    margin: 10px 0 20px 0;
     border-bottom: 1px solid #4d4a43;
     border-top: 1px solid #4d4a43;
 }
@@ -1543,6 +1553,13 @@ table.general-table tr {
 
 .info-product-cart-color {
     padding: 20px 0 0 0;
+    text-transform: uppercase;
+}
+
+.info-product-cart-index {
+    padding: 5px 0 0 0;
+    color: #a2a2a2;
+    font-size: 1.1rem;
     text-transform: uppercase;
 }
 
@@ -1615,16 +1632,9 @@ caption {
     padding: 3px;
 }
 
-.product-composition-and-care h3 {
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    font-weight: 800;
-    padding: 10px 0 0 0;
-}
-
 .product-composition-and-care h2 {
     text-transform: uppercase;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 500;
     padding: 5px;
 }
@@ -1636,12 +1646,43 @@ caption {
     padding: 0 0 5px 0;
 }
 
+.product-composition-and-care h3,
+.share-product-details h3,
+.shipping-product-details h3 {
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    padding: 5px 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#panel-flip-care,
+#panel-flip-share,
+#panel-flip-shipping {
+    display: none;
+}
+
+#panel-flip-share > a {
+    text-decoration: none;
+}
+
+#panel-flip-share > i {
+    background: black;
+}
+
+#panel-flip-shipping > a {
+    color: #000000;
+    font-size: 1.4rem;
+}
+
 .product-reviews {
-    padding: 10px 0 5px 0;
+    padding: 5px 0;
 }
 
 .review-panel-general {
     padding: 0 20px;
+    text-align: center;
 }
 
 .review-panel-general > h1 {
@@ -1660,11 +1701,11 @@ caption {
 
 .product-reviews > a {
     font-size: 1.3rem;
+    letter-spacing: 2px;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
     color: black;
-    letter-spacing: 2px;
 }
 
 .close-review-panel {
@@ -1697,6 +1738,7 @@ caption {
 }
 
 [data-title]:after {
+    z-index: 100;
     content: attr(data-title);
     background-color: #ffffff;
     position: absolute;

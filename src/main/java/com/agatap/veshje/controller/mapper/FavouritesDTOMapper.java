@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class FavouritesDTOMapper {
 
     public FavouritesDTO mappingToDTO (Favourites favourites) {
-        List<Integer> productsId = favourites.getProducts().stream()
+        List<String> productsId = favourites.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
         Integer userId = Optional.ofNullable(favourites.getUser())

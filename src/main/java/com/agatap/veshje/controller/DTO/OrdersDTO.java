@@ -23,5 +23,5 @@ public class OrdersDTO {
     private Integer paymentIds;
     private Integer deliveryIds;
     private Integer userOrdersIds;
-    private List<Integer> productIds;
+    private List<String> productIds;
 }

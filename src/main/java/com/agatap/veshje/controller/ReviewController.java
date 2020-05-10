@@ -44,17 +44,17 @@ public class ReviewController {
     }
 
     @GetMapping("/average/{id}")
-    public double rateAverage(@PathVariable Integer id) throws ProductNotFoundException {
+    public double rateAverage(@PathVariable String id) throws ProductNotFoundException {
         return reviewService.rateAverage(id);
     }
 
     @GetMapping("/length-average/{id}")
-    public double rateLengthAverage(@PathVariable Integer id) throws ProductNotFoundException {
+    public double rateLengthAverage(@PathVariable String id) throws ProductNotFoundException {
         return reviewService.rateLengthAverage(id);
     }
 
     @GetMapping("/size-average/{id}")
-    public double rateSizeAverage(@PathVariable Integer id) throws ProductNotFoundException {
+    public double rateSizeAverage(@PathVariable String id) throws ProductNotFoundException {
         return reviewService.rateSizeAverage(id);
     }
 }

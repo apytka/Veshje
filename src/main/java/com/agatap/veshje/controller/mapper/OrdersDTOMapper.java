@@ -18,7 +18,7 @@ public class OrdersDTOMapper {
                 .map(delivery -> delivery.getId()).orElse(null);
         Integer userId = Optional.ofNullable(orders.getUserOrders())
                 .map(user -> user.getId()).orElse(null);
-        List<Integer> productsId = orders.getProducts().stream()
+        List<String> productsId = orders.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
         return OrdersDTO.builder()

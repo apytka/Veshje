@@ -10,7 +10,7 @@ import java.util.Optional;
 @Component
 public class ReviewDTOMapper {
     public ReviewDTO mappingToDTO(Review review) {
-        Integer productId = Optional.ofNullable(review.getProduct())
+        String productId = Optional.ofNullable(review.getProduct())
                 .map(product -> product.getId()).orElse(null);
         Integer userId = Optional.ofNullable(review.getUser())
                 .map(user -> user.getId()).orElse(null);

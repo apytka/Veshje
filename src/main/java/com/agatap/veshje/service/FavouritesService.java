@@ -48,11 +48,11 @@ public class FavouritesService {
         Favourites favourites = mapper.mappingToModel(createUpdateFavouritesDTO);
         favourites.setCreateDate(OffsetDateTime.now());
 
-        List<Integer> products = createUpdateFavouritesDTO.getProductsId();
+        List<String> products = createUpdateFavouritesDTO.getProductsId();
         if (products == null) {
             favourites.setProducts(new ArrayList<>());
         } else {
-            for (Integer product : products) {
+            for (String product : products) {
                 Product productById = productService.findProductById(product);
                 favourites.getProducts().add(productById);
                 productById.getFavourites().add(favourites);
@@ -73,8 +73,8 @@ public class FavouritesService {
 
         favourites.setUpdateDate(OffsetDateTime.now());
 
-        List<Integer> products = createUpdateFavouritesDTO.getProductsId();
-        for (Integer product : products) {
+        List<String> products = createUpdateFavouritesDTO.getProductsId();
+        for (String product : products) {
             Product productById = productService.findProductById(product);
             favourites.getProducts().add(productById);
             productById.getFavourites().add(favourites);

@@ -56,7 +56,7 @@ public class ProductViewController {
     }
 
     @GetMapping("/products/dress-details/{id}")
-    public ModelAndView displayDataProduct(@PathVariable Integer id, Authentication authentication)
+    public ModelAndView displayDataProduct(@PathVariable String id, Authentication authentication)
             throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException, ReviewNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-dress-details");
 

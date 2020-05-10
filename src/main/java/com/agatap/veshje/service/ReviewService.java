@@ -86,7 +86,7 @@ public class ReviewService {
         return mapper.mappingToDTO(review);
     }
 
-    public double rateAverage(Integer id) throws ProductNotFoundException {
+    public double rateAverage(String id) throws ProductNotFoundException {
         Product product = productService.findProductById(id);
         double average = 0;
         double sum = 0;
@@ -100,7 +100,7 @@ public class ReviewService {
         return average;
     }
 
-    public double rateLengthAverage(Integer id) throws ProductNotFoundException {
+    public double rateLengthAverage(String id) throws ProductNotFoundException {
         Product product = productService.findProductById(id);
         double lengthAverage = 0;
         double sum = 0;
@@ -114,7 +114,7 @@ public class ReviewService {
         return lengthAverage;
     }
 
-    public double rateSizeAverage(Integer id) throws ProductNotFoundException {
+    public double rateSizeAverage(String id) throws ProductNotFoundException {
         Product product = productService.findProductById(id);
         double sizeAverage = 0;
         double sum = 0;

@@ -18,6 +18,6 @@ public class FavouritesDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> productsId;
+    private List<String> productsId;
     private Integer userId;
 }

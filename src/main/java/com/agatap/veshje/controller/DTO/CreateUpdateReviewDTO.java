@@ -17,6 +17,6 @@ public class CreateUpdateReviewDTO {
     private int rateSize;
     private int rateLength;
 
-    private Integer productId;
+    private String productId;
     private Integer userId;
 }

@@ -72,7 +72,7 @@ public class CompositionProductService {
         return mapper.mappingToDTO(compositionProduct);
     }
 
-    public List<CompositionProductDTO> findCompositionByProductId(Integer id) throws ProductNotFoundException {
+    public List<CompositionProductDTO> findCompositionByProductId(String id) throws ProductNotFoundException {
         Product product = productService.findProductById(id);
         return product.getComposition().stream()
                 .map(composition -> mapper.mappingToDTO(composition))

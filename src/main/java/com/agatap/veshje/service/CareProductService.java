@@ -72,7 +72,7 @@ public class CareProductService {
         return mapper.mappingToDTO(careProduct);
     }
 
-    public List<CareDTO> findCareByProductId(Integer id) throws ProductNotFoundException {
+    public List<CareDTO> findCareByProductId(String id) throws ProductNotFoundException {
         Product productId = productService.findProductById(id);
         return productId.getCares().stream()
                 .map(careProduct -> mapper.mappingToDTO(careProduct))

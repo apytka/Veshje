@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO findProductDTOById(@PathVariable Integer id) throws ProductNotFoundException {
+    public ProductDTO findProductDTOById(@PathVariable String id) throws ProductNotFoundException {
         return productService.findProductDTOById(id);
     }
 
@@ -38,17 +38,17 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductDTO updateProductDTO(@RequestBody CreateUpdateProductDTO updateProductDTO, @PathVariable Integer id) throws ProductNotFoundException {
+    public ProductDTO updateProductDTO(@RequestBody CreateUpdateProductDTO updateProductDTO, @PathVariable String id) throws ProductNotFoundException {
         return productService.updateProductDTO(updateProductDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public ProductDTO deleteProductDTO(@PathVariable Integer id) throws ProductNotFoundException {
+    public ProductDTO deleteProductDTO(@PathVariable String id) throws ProductNotFoundException {
         return productService.deleteProductDTO(id);
     }
 
     @GetMapping("/images/{id}")
-    public List<ImageDTO> findImageByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+    public List<ImageDTO> findImageByProductId(@PathVariable String id) throws ProductNotFoundException {
         return productService.findImageByProductId(id);
     }
 

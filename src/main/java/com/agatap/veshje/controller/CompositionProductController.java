@@ -45,7 +45,7 @@ public class CompositionProductController {
     }
 
     @GetMapping("/composition/{id}")
-    public List<CompositionProductDTO> findCompositionByProductId(@PathVariable Integer id) throws ProductNotFoundException {
+    public List<CompositionProductDTO> findCompositionByProductId(@PathVariable String id) throws ProductNotFoundException {
         return compositionProductService.findCompositionByProductId(id);
     }
 }

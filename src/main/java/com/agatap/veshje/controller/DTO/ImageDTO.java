@@ -21,6 +21,6 @@ public class ImageDTO {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private Integer productId;
+    private String productId;
     private List<Integer> careIds;
 }

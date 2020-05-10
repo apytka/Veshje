@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class SizeDTOMapper {
     public SizeDTO mappingToDTO(Size size) {
-        List<Integer> productsId = size.getProducts().stream()
+        List<String> productsId = size.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
         return SizeDTO.builder()

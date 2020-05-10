@@ -83,7 +83,7 @@ public class FavouritesViewController {
 
     @GetMapping("/favourites/add")
     public ModelAndView addProduct(@ModelAttribute(name = "createFavourites") CreateUpdateFavouritesDTO createUpdateFavouritesDTO,
-                                   @RequestParam Integer id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException {
+                                   @RequestParam String id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException {
         User user = userService.findUserByEmail(authentication.getName());
         if (!favouritesRepository.existsByUserId(user.getId())) {
             favouritesService.createFavouritesDTO(createUpdateFavouritesDTO, user.getId());

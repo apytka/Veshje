@@ -14,6 +14,6 @@ import java.util.List;
 public class CreateUpdateFavouritesDTO {
     private Integer id;
 
-    private List<Integer> productsId;
+    private List<String> productsId;
     private Integer userId;
 }

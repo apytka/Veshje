@@ -14,5 +14,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateImageDTO {
-    private Integer productId;
+    private String productId;
 }
