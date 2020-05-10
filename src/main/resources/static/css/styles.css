@@ -291,9 +291,9 @@ header {
 
 .fade {
     -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
+    -webkit-animation-duration: 1.2s;
     animation-name: fade;
-    animation-duration: 1.5s;
+    animation-duration: 1.2s;
 }
 
 @-webkit-keyframes fade {
@@ -1328,8 +1328,72 @@ table.general-table tr {
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
+
+.product-review-cart {
+    overflow-y: -moz-hidden-unscrollable;
+}
+
+
+.sub-sub-heading {
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    /*line-height: 16px;*/
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 4px 4px 8px 4px;
+}
+
+.review-average-score {
+    background: #222;
+    border-radius: 50%;
+    display: block;
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    top: 26px;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.review-average-scale {
+    display: -moz-flex;
+    display: flex;
+    justify-content: space-between;
+    border-top: 2px solid #d0d0d0;
+    direction: ltr;
+    list-style-type: none;
+    margin: 4px 0 0;
+    padding: 10px;
+    position: relative;
+}
+
+.review-average-scale > li {
+    color: #a2a2a2;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.review-answer {
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.sub-sub-heading {
+    font-size: 12px;
+    line-height: 1.33333;
+}
+
+
+
+
+
+
+
+
+
 
 /* Chrome, Safari and Opera */
 .modal::-webkit-scrollbar,
@@ -1400,7 +1464,7 @@ table.general-table tr {
 }
 
 .product-add-cart {
-    padding: 20px 0 0 0;
+    padding: 10px 0 0 0;
 }
 
 .product-cart-sticky {
@@ -1505,10 +1569,21 @@ table.general-table tr {
 .product-review {
     position: fixed;
     right: 0;
-    z-index: 1000;
+    z-index: 2000;
     background: white;
-    width: 35%;
+    width: 450px;
+    min-width: 320px;
     height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.review-user-panel {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    background: #f9f9fa;
 }
 
 .close-zoom-table,
@@ -1544,7 +1619,7 @@ caption {
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 800;
-    padding: 5px;
+    padding: 10px 0 0 0;
 }
 
 .product-composition-and-care h2 {
@@ -1565,6 +1640,24 @@ caption {
     padding: 10px 0 5px 0;
 }
 
+.review-panel-general {
+    padding: 0 20px;
+}
+
+.review-panel-general > h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    padding: 10px 0 15px 0;
+    font-weight: 900;
+    text-space: 2px;
+}
+
+.review-panel-general > h2 {
+    font-size: 1.4rem;
+    padding: 15px 0 15px 0;
+    font-weight: 100;
+}
+
 .product-reviews > a {
     font-size: 1.3rem;
     text-decoration: none;
@@ -1574,8 +1667,25 @@ caption {
     letter-spacing: 2px;
 }
 
+.close-review-panel {
+    height: 45px;
+    width: 100%;
+    background: #f9f9fa;
+}
+
+.review-user {
+    width: 100%;
+    padding: 10px 0;
+    background: #f9f9fa;
+}
+
+.review-user-details {
+    font-size: 1.2rem;
+    padding: 5px 0;
+}
+
 .product-composition {
-    padding: 10px 0 10px 0;
+    padding: 5px 0 5px 0;
 }
 
 /* TITLE STYLE*/
@@ -1847,7 +1957,7 @@ caption {
 
 /* STARS - REVIEW */
 :root {
-    --star-size: 15px;
+    --star-size: 20px;
     --star-color: #e3d6bc;
     --star-background: #000000;
 }
@@ -1859,11 +1969,11 @@ caption {
     line-height: 1;
 }
 .stars::before {
-    content: "\f005 \f005 \f005 \f005 \f005";
-    font-family: "Font Awesome 5 Free",serif;
+    content: "\2605 \2605 \2605 \2605 \2605";
     font-weight: 900;
     letter-spacing: 3px;
     background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+

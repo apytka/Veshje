@@ -5,7 +5,7 @@
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">-->
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -172,7 +172,7 @@
                                         <i class="far fa-question-circle"></i></a>
                                 </div>
                                 <div class="product-table-size" id="product-table-size">
-                                    <div class="product-table-cart">
+                                    <div class="product-table-cart fade">
                                         <table class="general-table" id="product-table">
                                             <span class="close-zoom-table">&times;</span>
                                             <caption>SIZE GUIDE</caption>
@@ -227,9 +227,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                             <div class="reviews">
                                 <div class="product-reviews">
                                     <a id="show-review-cart" href="#">Reviews(<span th:text="${current}"></span>)
@@ -237,26 +234,78 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="product-review-cart" id="product-review-cart">
+                                <div class="product-review-cart fade" id="product-review-cart">
                                     <div class="product-review" id="product-review">
-                                        <span class="close-review">&times;</span>
-                                        <h1>What other customer think</h1>
-                                        <div class="stars" th:style="'--rating:'+ ${rateAverage} +'; --star-size: 30px;'"
-                                             th:text="${rateAverage}"></div>
+                                        <div class="close-review-panel">
+                                            <span class="close-review">&times;</span>
+                                        </div>
+                                        <div class="review-panel-general">
+                                            <h1>What other customer think</h1>
+                                            <div class="stars"
+                                                 th:style="'--rating:'+ ${rateAverage} +'; --star-size: 30px; font-weight: 800;'"
+                                                 th:text="${rateAverage}"></div>
+                                            <h2>Based on <span th:text="${current}"></span> customer reviews</h2>
+                                            <div class="review-answer">
+                                                <h3 class="sub-sub-heading">True to size</h3>
+                                                <span class="review-average-score" th:if="${existReview} != true"
+                                                      th:style="'left:'+ ${rateSizeAverage} + '%;'"></span>
+                                                <ul class="review-average-scale">
+                                                    <li>Small</li>
+                                                    <li>Spot on</li>
+                                                    <li>Large</li>
+                                                </ul>
+                                            </div>
+                                            <div class="review-answer">
+                                                <h3 class="sub-sub-heading">Length</h3>
+                                                <span class="review-average-score" th:if="${existReview} != true"
+                                                      th:style="'left:'+ ${rateLengthAverage} + '%;'"></span>
+                                                <ul class="review-average-scale">
+                                                    <li>Short</li>
+                                                    <li>Spot on</li>
+                                                    <li>Long</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="review-user-panel">
+                                            <div class="review-user" th:each="review: ${reviews}">
+                                                <div class="stars"
+                                                     th:style="'--rating:'+ ${review.rate} +';'">
+                                                    <span class="review-user-details" th:text="${review.createDate.getDayOfMonth()} + ' '
+                                                + ${review.createDate.getMonth()} + ' ' + ${review.createDate.getYear()} "></span>
+                                                </div>
+                                                <div class="review-user-details" th:text="${review.comment}"></div>
+                                                <div class="review-answer">
+                                                    <h3 class="sub-sub-heading">True to size</h3>
+                                                    <span class="review-average-score"
+                                                          th:style="'left:'+ ${review.rateSize} + '%;'"></span>
+                                                    <ul class="review-average-scale">
+                                                        <li>Small</li>
+                                                        <li>Spot on</li>
+                                                        <li>Large</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="review-answer">
+                                                    <h3 class="sub-sub-heading">Length</h3>
+                                                    <span class="review-average-score"
+                                                          th:style="'left:'+ ${review.rateLength} + '%;'"></span>
+                                                    <ul class="review-average-scale">
+                                                        <li>Short</li>
+                                                        <li>Spot on</li>
+                                                        <li>Long</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        <div class="panels-account-footer"></div>
+    <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">

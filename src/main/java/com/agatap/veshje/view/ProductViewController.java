@@ -104,15 +104,21 @@ public class ProductViewController {
 
         Product product = productService.findProductById(id);
         List<Review> reviews = product.getReviews();
-        int current = 0;
-        for(Review review : reviews) {
-            modelAndView.addObject("review", review);
-            current++;
-        }
-        double rateAverage = reviewService.rateAverage(id);
 
+        if(reviews.size() == 0) {
+            modelAndView.addObject("existReview", true);
+        }
+
+        int current = reviews.size();
+        double rateAverage = reviewService.rateAverage(id);
+        double rateSizeAverage = reviewService.rateSizeAverage(id);
+        double rateLengthAverage = reviewService.rateLengthAverage(id);
+
+        modelAndView.addObject("reviews", reviews);
         modelAndView.addObject("current", current);
         modelAndView.addObject("rateAverage", rateAverage);
+        modelAndView.addObject("rateSizeAverage", rateSizeAverage);
+        modelAndView.addObject("rateLengthAverage", rateLengthAverage);
         modelAndView.addObject("compositionProduct", compositionProduct);
         modelAndView.addObject("dimensions", dimensions);
         modelAndView.addObject("sizeType", sizeType);
