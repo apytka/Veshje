@@ -114,6 +114,20 @@ public class ProductViewController {
         double rateSizeAverage = reviewService.rateSizeAverage(id);
         double rateLengthAverage = reviewService.rateLengthAverage(id);
 
+        List<ProductDTO> recommendedProduct = productService.randomProducts(9);
+        Map<List<String>,ProductDTO> recommendedMap = new HashMap<>();
+        for(ProductDTO productRandom : recommendedProduct) {
+            List<String> byteImageRecommendedProduct = new ArrayList<>();
+            List<ImageDTO> imagesRecommendedProduct = productService.findImageByProductId(productRandom.getId());
+            for(ImageDTO imageDTO : imagesRecommendedProduct) {
+                byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                byteImageRecommendedProduct.add(base64Encoded);
+            }
+            recommendedMap.put(byteImageRecommendedProduct, productRandom);
+        }
+
+        modelAndView.addObject("recommendedMap", recommendedMap);
         modelAndView.addObject("reviews", reviews);
         modelAndView.addObject("current", current);
         modelAndView.addObject("rateAverage", rateAverage);

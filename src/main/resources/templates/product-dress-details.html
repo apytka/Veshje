@@ -2,14 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:--rating="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <title>VESHJE</title>
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/flickity.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>VESHJE</title>
+    <script>
+        window.console = window.console || function (t) {
+        };
+    </script>
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
 </head>
 <body>
 <header class="header">
@@ -122,7 +131,7 @@
 </header>
 <main>
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
-    <div class="panels-general">
+    <div class="panels-general panels-general-product">
         <div class="panel-product">
             <div class="product-container" th:each="image: ${byteImageList}">
                 <img class="img-main-panel" th:src="|data:image/png;base64,${image}|"/>
@@ -332,6 +341,28 @@
         </div>
     </div>
     <div class="panels-account-footer"></div>
+    <div class="recommended-panel">
+        <h4>Recommended</h4>
+        <div class="carousel" data-flickity='{ "groupCells": true }'>
+            <div class="carousel-cell" th:each="recommended: ${recommendedMap}">
+                <div class="product-display-img">
+                    <a th:href="'/products/dress-details/' + ${recommended.value.id}">
+                        <img th:src="|data:image/png;base64,${recommended.key.get(0)}|" style="width: 90%">
+                        <img th:src="|data:image/png;base64,${recommended.key.get(1)}|"
+                             class="product-container-img-top" style="width: 90%">
+                    </a>
+                </div>
+                <div class="product-display-name">
+                    <a th:href="'/products/dress-details/' + ${recommended.value.id}">
+                        <span th:text="${recommended.value.name}"></span>
+                    </a>
+                </div>
+                <div class="product-display-price">
+                    <span th:text="'€ '+ ${recommended.value.price}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">
@@ -419,6 +450,8 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src='https://npmcdn.com/flickity@2/dist/flickity.pkgd.js'></script>
 <script>
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;
@@ -435,7 +468,7 @@
         });
     }
 
-    // SLIDESHOW
+    /* SLIDESHOW */
     var slideIndex = 1;
     showSlides(slideIndex);
 
@@ -458,7 +491,7 @@
         slides[slideIndex - 1].style.display = "block";
     }
 
-    /*ZOOM IMG*/
+    /* ZOOM IMG */
     var modal = document.getElementById("modal");
     var modalImg = document.getElementById("img-zoom-panel");
     const img = document.getElementsByClassName('img-main-panel');
@@ -475,7 +508,7 @@
         modal.style.display = "none";
     }
 
-    /*SHOW SIZE TABLE*/
+    /* SHOW SIZE TABLE */
     var productTableSize = document.getElementById("product-table-size");
     var productTable = document.getElementById("product-table");
     const tableSizeZoom = document.getElementById('table-size-zoom');
@@ -524,7 +557,7 @@
             $("#panel-flip-shipping").slideToggle("slow");
         });
     });
-
 </script>
+
 </body>
 </html>

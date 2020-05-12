@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -137,5 +139,21 @@ public class ProductService {
         return productId.getImages().stream()
                 .map(image -> imageDTOMapper.mappingToDTO(image))
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> randomProducts(int number) {
+        List<ProductDTO> products = getAllProducts();
+        List<ProductDTO> randomProduct = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < number; i++) {
+            int index = random.nextInt(products.size());
+            ProductDTO productDTO = products.get(index);
+            if(!randomProduct.contains(products.get(index))) {
+                randomProduct.add(productDTO);
+            } else {
+                i--;
+            }
+        }
+        return randomProduct;
     }
 }

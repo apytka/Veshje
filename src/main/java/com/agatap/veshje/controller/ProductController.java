@@ -47,6 +47,11 @@ public class ProductController {
         return productService.deleteProductDTO(id);
     }
 
+    @GetMapping("/random-products")
+    public List<ProductDTO> randomProducts(int number) throws ProductNotFoundException {
+        return productService.randomProducts(number);
+    }
+
     @GetMapping("/images/{id}")
     public List<ImageDTO> findImageByProductId(@PathVariable String id) throws ProductNotFoundException {
         return productService.findImageByProductId(id);

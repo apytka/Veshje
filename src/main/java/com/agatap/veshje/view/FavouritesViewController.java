@@ -34,7 +34,6 @@ public class FavouritesViewController {
         ModelAndView modelAndView = new ModelAndView("favourites");
         User user = userService.findUserByEmail(authentication.getName());
 
-
         if (!favouritesRepository.existsByUserId(user.getId())) {
             modelAndView.addObject("exist", true);
         } else {
@@ -60,11 +59,25 @@ public class FavouritesViewController {
                 modelAndView.addObject("map", map);
             }
         }
+
+        List<ProductDTO> recommendedProduct = productService.randomProducts(9);
+        Map<List<String>,ProductDTO> recommendedMap = new HashMap<>();
+        for(ProductDTO productRandom : recommendedProduct) {
+            List<String> byteImageRecommendedProduct = new ArrayList<>();
+            List<ImageDTO> imagesRecommendedProduct = productService.findImageByProductId(productRandom.getId());
+            for(ImageDTO imageDTO : imagesRecommendedProduct) {
+                byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                byteImageRecommendedProduct.add(base64Encoded);
+            }
+            recommendedMap.put(byteImageRecommendedProduct, productRandom);
+        }
+        modelAndView.addObject("recommendedMap", recommendedMap);
         return modelAndView;
     }
 
     @GetMapping("/favourites/delete-product")
-    public ModelAndView deleteProduct(@RequestParam Integer id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException, FavouritesNotFoundException {
+    public ModelAndView deleteProduct(@RequestParam String id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException, FavouritesNotFoundException {
         ModelAndView modelAndView = new ModelAndView("redirect:/favourites");
         User user = userService.findUserByEmail(authentication.getName());
         Favourites favourites = user.getFavourites();
@@ -82,9 +95,9 @@ public class FavouritesViewController {
     }
 
     @GetMapping("/favourites/add")
-    public ModelAndView addProduct(@ModelAttribute(name = "createFavourites") CreateUpdateFavouritesDTO createUpdateFavouritesDTO,
-                                   @RequestParam String id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException {
+    public ModelAndView addProduct(@RequestParam String id, Authentication authentication) throws UserNotFoundException, ProductNotFoundException {
         User user = userService.findUserByEmail(authentication.getName());
+        CreateUpdateFavouritesDTO createUpdateFavouritesDTO = new CreateUpdateFavouritesDTO();
         if (!favouritesRepository.existsByUserId(user.getId())) {
             favouritesService.createFavouritesDTO(createUpdateFavouritesDTO, user.getId());
         }
