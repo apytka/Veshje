@@ -259,4 +259,19 @@ public class ControllerConfig {
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleFavouritesAlreadyExists() {
     }
+
+    @ExceptionHandler(OrderItemDataInvalidException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleOrderItemDataINotFoundException() {
+    }
+
+    @ExceptionHandler(OrderItemNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleOrderItemAlreadyExists() {
+    }
+
+    @ExceptionHandler(NotEnoughProductsInStockException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleNotEnoughProductsInStock() {
+    }
 }

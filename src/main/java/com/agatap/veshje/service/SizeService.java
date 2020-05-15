@@ -3,24 +3,30 @@ package com.agatap.veshje.service;
 import com.agatap.veshje.controller.DTO.CreateUpdateSizeDTO;
 import com.agatap.veshje.controller.DTO.SizeDTO;
 import com.agatap.veshje.controller.mapper.SizeDTOMapper;
+import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.Size;
 import com.agatap.veshje.model.SizeType;
 import com.agatap.veshje.repository.SizeRepository;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import com.agatap.veshje.service.exception.SizeDataInvalidException;
 import com.agatap.veshje.service.exception.SizeNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
+@AllArgsConstructor
 public class SizeService {
-    @Autowired
+
     private SizeRepository sizeRepository;
-    @Autowired
     private SizeDTOMapper mapper;
+    private ProductService productService;
 
     public List<SizeDTO> getAllSizes() {
         return sizeRepository.findAll().stream()
@@ -67,6 +73,20 @@ public class SizeService {
         Size size = findSizeById(id);
         sizeRepository.delete(size);
         return mapper.mappingToDTO(size);
+    }
+
+    public Integer getQuantityBySizeTypeAndProductId(SizeType sizeType, String id) throws ProductNotFoundException, SizeNotFoundException {
+        Product product = productService.findProductById(id);
+//        Integer quantity = 0;
+//        for(Size size : product.getSizes()) {
+//            if (size.getSizeType().equals(sizeType)) {
+//                quantity = size.getQuantity();
+//            }
+//        }
+        return product.getSizes().stream()
+                .filter(size -> size.getSizeType().equals(sizeType))
+                .map(size -> size.getQuantity())
+                .findFirst().orElseThrow(() -> new SizeNotFoundException());
     }
 }
 

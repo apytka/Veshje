@@ -21,13 +21,24 @@ public class OrdersDTOMapper {
         List<String> productsId = orders.getProducts().stream()
                 .map(product -> product.getId())
                 .collect(Collectors.toList());
+        List<Integer> orderItemsId = orders.getOrderItem().stream()
+                .map(orderItem -> orderItem.getId())
+                .collect(Collectors.toList());
+        Integer addressDataId = Optional.ofNullable(orders.getOrderAddressData())
+                .map(orderAddressData -> orderAddressData.getId()).orElse(null);
         return OrdersDTO.builder()
                 .id(orders.getId())
                 .orderStatus(orders.getOrderStatus())
+                .totalAmount(orders.getTotalAmount())
                 .paymentIds(paymentId)
+                .paymentType(orders.getPaymentType())
                 .deliveryIds(deliveryId)
+                .deliveryType(orders.getDeliveryType())
+                .deliveryPrice(orders.getDeliveryPrice())
                 .userOrdersIds(userId)
                 .productIds(productsId)
+                .orderItemIds(orderItemsId)
+                .orderAddressDataId(addressDataId)
                 .createDate(orders.getCreateDate())
                 .updateDate(orders.getCreateDate())
                 .build();
@@ -36,6 +47,10 @@ public class OrdersDTOMapper {
     public Orders mappingToModel(CreateUpdateOrdersDTO createOrdersDTO) {
         return Orders.builder()
                 .orderStatus(createOrdersDTO.getOrderStatus())
+                .totalAmount(createOrdersDTO.getTotalAmount())
+                .paymentType(createOrdersDTO.getPaymentType())
+                .deliveryType(createOrdersDTO.getDeliveryType())
+                .deliveryPrice(createOrdersDTO.getDeliveryPrice())
                 .build();
     }
 }

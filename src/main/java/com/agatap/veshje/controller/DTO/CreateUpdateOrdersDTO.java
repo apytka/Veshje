@@ -15,9 +15,15 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateUpdateOrdersDTO {
     private OrderStatus orderStatus;
+    private Double totalAmount;
 
     private Integer paymentIds;
+    private String paymentType;
     private Integer deliveryIds;
+    private String deliveryType;
+    private Double deliveryPrice;
     private Integer userOrdersIds;
-    private List<Integer> productIds;
+    private List<String> productIds;
+    private List<Integer> orderItemIds;
+    private Integer orderAddressDataId;
 }

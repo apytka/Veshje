@@ -2,7 +2,9 @@ package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateSizeDTO;
 import com.agatap.veshje.controller.DTO.SizeDTO;
+import com.agatap.veshje.model.SizeType;
 import com.agatap.veshje.service.SizeService;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import com.agatap.veshje.service.exception.SizeDataInvalidException;
 import com.agatap.veshje.service.exception.SizeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +43,11 @@ public class SizeController {
     @DeleteMapping("/{id}")
     public SizeDTO deleteSizeDTO(@PathVariable Integer id) throws SizeNotFoundException {
         return sizeService.deleteSizeDTO(id);
+    }
+
+    @GetMapping("/quantity/{id}/{sizeType}")
+    public Integer findQuantityBySizeTypeAndProductId(@PathVariable SizeType sizeType, @PathVariable String id)
+            throws ProductNotFoundException, SizeNotFoundException {
+        return sizeService.getQuantityBySizeTypeAndProductId(sizeType, id);
     }
 }

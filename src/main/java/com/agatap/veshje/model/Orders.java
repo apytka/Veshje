@@ -23,14 +23,23 @@ public class Orders {
     private OrderStatus orderStatus;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+    private Double totalAmount;
 
     @OneToOne(mappedBy = "orders")
     private Payments payment;
+    private String paymentType;
     @ManyToOne(fetch = FetchType.EAGER)
     private Delivery delivery;
+    private String deliveryType;
+    private Double deliveryPrice;
     @ManyToOne
     private User userOrders;
     @ManyToMany
     @Builder.Default
     private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    @Builder.Default
+    private List<OrderItem> orderItem = new ArrayList<>();
+    @OneToOne(mappedBy = "order")
+    private OrderAddressData orderAddressData;
 }

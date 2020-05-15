@@ -39,6 +39,9 @@ public class OrdersService {
     }
 
     public OrdersDTO createOrdersDTO(CreateUpdateOrdersDTO createOrdersDTO) throws OrdersDataInvalidException {
+        if(createOrdersDTO.getTotalAmount() == null || createOrdersDTO.getTotalAmount() <= 0) {
+            throw new OrdersDataInvalidException();
+        }
         Orders orders = mapper.mappingToModel(createOrdersDTO);
         orders.setCreateDate(OffsetDateTime.now());
         //todo bind to foreign tables
