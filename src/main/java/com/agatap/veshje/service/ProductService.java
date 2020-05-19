@@ -88,7 +88,7 @@ public class ProductService {
         List<Size> collectBySizeType = sizeRepository.findAllBySizeType(sizeType);
 
         return collectBySizeType.stream()
-                .flatMap(product -> product.getProducts().stream())
+                .map(product -> product.getProduct())
                 .map(product -> mapper.mappingToDTO(product))
                 .collect(Collectors.toList());
     }

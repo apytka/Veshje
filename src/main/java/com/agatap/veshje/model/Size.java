@@ -25,8 +25,7 @@ public class Size {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @ManyToMany(mappedBy = "sizes")
-    @Builder.Default
-    private List<Product> products = new ArrayList<>();
+    @ManyToOne
+    private Product product;
 
 }

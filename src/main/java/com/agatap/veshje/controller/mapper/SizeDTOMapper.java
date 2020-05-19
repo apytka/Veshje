@@ -5,21 +5,18 @@ import com.agatap.veshje.controller.DTO.SizeDTO;
 import com.agatap.veshje.model.Size;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class SizeDTOMapper {
     public SizeDTO mappingToDTO(Size size) {
-        List<String> productsId = size.getProducts().stream()
-                .map(product -> product.getId())
-                .collect(Collectors.toList());
+        String productsId = Optional.ofNullable(size.getProduct())
+                .map(product -> product.getId()).orElse(null);
         return SizeDTO.builder()
                 .id(size.getId())
                 .sizeType(size.getSizeType())
                 .quantity(size.getQuantity())
-                .productsIds(productsId)
+                .productId(productsId)
                 .createDate(size.getCreateDate())
                 .updateDate(size.getUpdateDate())
                 .build();

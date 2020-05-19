@@ -59,7 +59,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @Builder.Default
     private List<Image> images = new ArrayList<>();
-    @ManyToMany
+    @OneToMany(mappedBy = "product")
     @Builder.Default
     private List<Size> sizes = new ArrayList<>();
     @ManyToMany(mappedBy = "products")
