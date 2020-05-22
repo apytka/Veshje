@@ -5,10 +5,7 @@ import com.agatap.veshje.controller.mapper.ImageDTOMapper;
 import com.agatap.veshje.model.*;
 import com.agatap.veshje.repository.ProductRepository;
 import com.agatap.veshje.service.*;
-import com.agatap.veshje.service.exception.CategoryNotFoundException;
-import com.agatap.veshje.service.exception.ProductNotFoundException;
-import com.agatap.veshje.service.exception.ReviewNotFoundException;
-import com.agatap.veshje.service.exception.UserNotFoundException;
+import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.core.Authentication;
@@ -30,6 +27,8 @@ public class ProductViewController {
     private CategoryService categoryService;
     private UserService userService;
     private ReviewService reviewService;
+    private SizeService sizeService;
+    private ShoppingCartService shoppingCartService;
     
     @GetMapping("/products/{category}")
     public ModelAndView displayProductByMiniDresses(@PathVariable String category)
@@ -51,13 +50,14 @@ public class ProductViewController {
             map.put(byteImageList, product);
         }
 
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("map", map);
         return modelAndView;
     }
 
     @GetMapping("/products/dress-details/{id}")
     public ModelAndView displayDataProduct(@PathVariable String id, Authentication authentication)
-            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException, ReviewNotFoundException {
+            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException, ReviewNotFoundException, ProductInShoppingCartNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-dress-details");
 
         if (authentication != null) {
@@ -82,7 +82,6 @@ public class ProductViewController {
             byteImageList.add(base64Encoded);
         }
 
-        List<SizeType> sizeType = Arrays.asList(SizeType.values());
         List<DimensionDTO> dimensions = dimensionService.getAllDimensions();
 
         Map<String, String> map = new HashMap<>();
@@ -127,6 +126,12 @@ public class ProductViewController {
             recommendedMap.put(byteImageRecommendedProduct, productRandom);
         }
 
+        List<Size> sizes = product.getSizes();
+        shoppingCartService.findProductInShoppingCart(id);
+
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
+        modelAndView.addObject("shoppingCart", new ShoppingCart());
+        modelAndView.addObject("sizes", sizes);
         modelAndView.addObject("recommendedMap", recommendedMap);
         modelAndView.addObject("reviews", reviews);
         modelAndView.addObject("current", current);
@@ -135,7 +140,6 @@ public class ProductViewController {
         modelAndView.addObject("rateLengthAverage", rateLengthAverage);
         modelAndView.addObject("compositionProduct", compositionProduct);
         modelAndView.addObject("dimensions", dimensions);
-        modelAndView.addObject("sizeType", sizeType);
         modelAndView.addObject("product", productDTO);
         modelAndView.addObject("map", map);
         modelAndView.addObject("byteImageList", byteImageList);

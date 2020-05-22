@@ -1,5 +1,6 @@
-package com.agatap.veshje.model;
+package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.SizeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingCart {
+public class ShoppingCartDTO {
     private Integer id;
     private String productId;
     private SizeType sizeType;

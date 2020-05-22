@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>VESHJE</title>
 </head>
 <body>
@@ -77,7 +78,8 @@
             </li>
             <li>
                 <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
-                    <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
+                    <div th:if="${quantityProduct > 0 && quantityProduct <= 9}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
+                    <div th:if="${quantityProduct > 10}" class="quantity-shopping-bag-two">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
@@ -121,15 +123,77 @@
 </header>
 
 <main>
-    <div class="panels-general">
-        <div class="panel-general">
-                <h5>A verification link has been sent to your email account</h5>
-                <span>Please click on the link that has just been sent to your email account to verify your email.</span>
-            <a href="/login" class="btn-general">Sign in</a>
+    <div class="alert-container" th:insert="/index.html :: error-info"></div>
+    <div class="panels-cart">
+        <div class="panel-login-account panel-cart">
+            <div class="products-dress-container-fav">
+                <div class="heading-h1">
+                    <h1>Cart</h1>
+                </div>
+                <div>
+                    <i class="fas fa-info-circle"></i>
+                    <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>
+                </div>
+                <div class="favourites-empty" th:if="${isEmpty} == true">
+                    <h2>Your cart is empty</h2>
+                    <a href="/" class="btn-general btn-general-display">Browse now</a>
+                </div>
+<!--                <div class="table-favourites" th:each="product: ${map}">-->
+<!--                    <div class="table-favourites-img">-->
+<!--                        <div class="product-display-img">-->
+<!--                            <a th:href="'/products/dress-details/' + ${product.value.id}">-->
+<!--                                <img th:src="|data:image/png;base64,${product.key.get(0)}|">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="table-favourites-data">-->
+<!--                        <div class="table-favourites-data-details">-->
+<!--                            <span th:text="${product.value.name}"></span>-->
+<!--                        </div>-->
+<!--                        <div class="table-favourites-data-details">-->
+<!--                            <span th:text="'COLOR: ' + ${product.value.color}"></span>-->
+<!--                        </div>-->
+<!--                        <div class="table-favourites-data-details">-->
+<!--                            <span th:text="${product.value.price} + ' EUR'"></span>-->
+<!--                        </div>-->
+<!--                        <form class="product-add-cart">-->
+<!--                            <div class="product-size-select">-->
+<!--                                <select>-->
+<!--                                    <option hidden="true">Choose size</option>-->
+<!--                                    <option th:each="size: ${sizeType}" value="${sizes}"-->
+<!--                                            th:text="${size}"></option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <input type="submit" class="btn" value="Add to bag">-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    <div class="table-favourites-delete">-->
+<!--                        <a th:href="'favourites/delete-product?id=' + ${product.value.id}">-->
+<!--                            <i class="fas fa-trash"></i>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+<!--            <div>-->
+<!--                <i class="fas fa-info-circle"></i>-->
+<!--                <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>-->
+<!--            </div>-->
+<!--            <div th:each="cart: ${shoppingCart}">-->
+<!--                <div>-->
+<!--                    <span th:text="${cart.productId}"></span>-->
+<!--                    <span th:text="${cart.quantity}"></span>-->
+<!--                    <span th:text="${cart.sizeType}"></span>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="panel-login-account panel-cart-summary">
+            <h4>Summary</h4>
+            <div>
+                <span>Total price: [[${total}]] €</span>
+            </div>
         </div>
     </div>
 </main>
-
 <script type="text/javascript" src="/js/js.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import com.agatap.veshje.model.AddressData;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.service.AddressDataService;
 import com.agatap.veshje.service.NewsletterService;
+import com.agatap.veshje.service.ShoppingCartService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class AddressViewController {
     private AddressDataService addressDataService;
     private UserService userService;
     private NewsletterService newsletterService;
+    private ShoppingCartService shoppingCartService;
 
     @GetMapping("/addresses")
     public ModelAndView displayAddresses(Authentication authentication) throws UserNotFoundException {
@@ -37,6 +39,8 @@ public class AddressViewController {
         List<AddressDataDTO> addresses = addressDataService.findAddressesByUserId(user.getId());
         modelAndView.addObject("addresses", addresses);
         modelAndView.addObject("addNewsletterAddresses", new CreateUpdateNewsletterDTO());
+
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 
@@ -73,7 +77,7 @@ public class AddressViewController {
         AddressDataDTO updateAddress = addressDataService.findAddressDataDTOById(id);
         modelAndView.addObject("addNewsletterModifyAddress", new CreateUpdateNewsletterDTO());
         modelAndView.addObject("updateAddress", updateAddress);
-
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 
@@ -95,6 +99,7 @@ public class AddressViewController {
         ModelAndView modelAndView = new ModelAndView("account-add-address");
         modelAndView.addObject("createAddress", new CreateUpdateAddressDataDTO());
         modelAndView.addObject("addNewsletterAddAddress", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 

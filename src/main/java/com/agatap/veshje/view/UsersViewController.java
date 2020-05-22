@@ -6,6 +6,7 @@ import com.agatap.veshje.model.Token;
 import com.agatap.veshje.repository.UserRepository;
 import com.agatap.veshje.repository.TokenRepository;
 import com.agatap.veshje.service.NewsletterService;
+import com.agatap.veshje.service.ShoppingCartService;
 import com.agatap.veshje.service.TokenService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.*;
@@ -36,6 +37,7 @@ public class UsersViewController {
     private NewsletterService newsletterService;
     private TokenService tokenService;
     private TokenRepository tokenRepository;
+    private ShoppingCartService shoppingCartService;
 
     @PostMapping("/register")
     public ModelAndView createUser(@Valid @ModelAttribute(name = "createUser")
@@ -71,6 +73,7 @@ public class UsersViewController {
         modelAndView.addObject("addNewsletterAccount", new CreateUpdateNewsletterDTO());
         modelAndView.addObject("changePassword", new ChangePasswordDTO());
         modelAndView.addObject("updateUserNewsletter", new UpdateUserDTO());
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 
@@ -179,6 +182,7 @@ public class UsersViewController {
         User user = userService.findUserByEmail(authentication.getName());
         modelAndView.addObject("user", user);
         modelAndView.addObject("addNewsletterAccountRemoval", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 
@@ -205,6 +209,7 @@ public class UsersViewController {
         ModelAndView modelAndView = new ModelAndView("account-forgot-password");
         modelAndView.addObject("addNewsletterForgotPassword", new CreateUpdateNewsletterDTO());
         modelAndView.addObject("forgotPasswordDTO", new ForgotPasswordDTO());
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 
@@ -248,6 +253,7 @@ public class UsersViewController {
         modelAndView.addObject("token", token);
         modelAndView.addObject("changeForgotPasswordDTO", new ChangeForgotPasswordDTO());
         modelAndView.addObject("addNewsletterResetPassword", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         return modelAndView;
     }
 

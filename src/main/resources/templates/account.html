@@ -78,7 +78,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                    <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">

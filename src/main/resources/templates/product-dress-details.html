@@ -87,7 +87,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                    <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
@@ -167,56 +168,34 @@
                             <div class="info-product-cart-color" th:text="${product.color}"></div>
                             <div class="info-product-cart-description" th:text="${product.description}"></div>
                             <div class="info-product-cart-index" th:text="'index: ' + ${product.id}"></div>
-                            <form class="product-add-cart">
+
+                            <form action="#" th:action="@{/shopping-bag/add}" th:object="${shoppingCart}"
+                                  method="get" class="product-add-cart">
                                 <div class="product-size-list">
-                                    <div class="product-size" th:each="sizes: ${sizeType}">
-                                        <input type="radio" name="radio" th:id="'size-' + ${sizes}" class="input1">
-                                        <label th:for="'size-' + ${sizes}" class="label1">
-                                            <span class="span" th:text="${sizes}"></span>
+                                    <input type="hidden" th:value="${product.id}" th:name="productId" th:id="productId"/>
+                                    <input type="hidden" th:value="1" th:name="quantity" th:id="quantity"/>
+                                    <div class="product-size" th:each="size: ${sizes}">
+                                        <input th:if="${size.quantity > 0}" type="radio" name="radio"
+                                               th:field="*{sizeType}" th:value="${size.sizeType}"
+                                               th:id="'size-' + ${size.sizeType}"
+                                               class="input1">
+                                        <input th:if="${size.quantity <= 0}" type="radio" name="radio"
+                                               th:id="'size-' + ${size.sizeType}" class="input-disabled" disabled>
+                                        <label th:for="'size-' + ${size.sizeType}" class="label1">
+                                            <span class="span" th:if="${size.quantity > 0}"
+                                                  th:text="${size.sizeType}"></span>
+                                            <span class="span span-disabled" th:if="${size.quantity <= 0}"
+                                                  th:text="${size.sizeType}"></span>
                                         </label>
+                                        <div class="div-disabled" th:if="${size.quantity <= 0}">
+                                            <i class="fas fa-envelope"></i>Coming soon
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="product-find-size">
                                     <a href="#" class="btn-general btn-general-display" id="table-size-zoom">Find your
                                         size
                                         <i class="far fa-question-circle"></i></a>
-                                </div>
-                                <div class="product-table-size" id="product-table-size">
-                                    <div class="product-table-cart fade">
-                                        <table class="general-table" id="product-table">
-                                            <span class="close-zoom-table">&times;</span>
-                                            <caption>SIZE GUIDE</caption>
-                                            <thead>
-                                            <tr class="general-row">
-                                                <td class="general-column-product"><strong>Size</strong></td>
-                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                    th:text="${dimension.sizeType}"
-                                                    colspan="1"></td>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="general-tbody">
-                                            <tr class="general-row">
-                                                <td class="general-column-product"><strong>Bust</strong></td>
-                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                    th:text="${dimension.bust}"
-                                                    colspan="1"></td>
-                                            </tr>
-                                            <tr class="general-row">
-                                                <td class="general-column-product"><strong>Waist</strong></td>
-                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                    th:text="${dimension.waist}"
-                                                    colspan="1"></td>
-                                            </tr>
-                                            <tr class="general-row">
-                                                <td class="general-column-product"><strong>Hips</strong></td>
-                                                <td class="general-column-product" th:each="dimension: ${dimensions}"
-                                                    th:text="${dimension.hips}"
-                                                    colspan="1"></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <span>All measurements are in centimeters.</span>
-                                    </div>
                                 </div>
                                 <input type="submit" class="btn" value="Add to bag">
                             </form>
@@ -361,6 +340,43 @@
                     <span th:text="'€ '+ ${recommended.value.price}"></span>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="product-table-size" id="product-table-size">
+        <div class="product-table-cart fade">
+            <table class="general-table" id="product-table">
+                <span class="close-zoom-table">&times;</span>
+                <caption>SIZE GUIDE</caption>
+                <thead>
+                <tr class="general-row">
+                    <td class="general-column-product"><strong>Size</strong></td>
+                    <td class="general-column-product" th:each="dimension: ${dimensions}"
+                        th:text="${dimension.sizeType}"
+                        colspan="1"></td>
+                </tr>
+                </thead>
+                <tbody class="general-tbody">
+                <tr class="general-row">
+                    <td class="general-column-product"><strong>Bust</strong></td>
+                    <td class="general-column-product" th:each="dimension: ${dimensions}"
+                        th:text="${dimension.bust}"
+                        colspan="1"></td>
+                </tr>
+                <tr class="general-row">
+                    <td class="general-column-product"><strong>Waist</strong></td>
+                    <td class="general-column-product" th:each="dimension: ${dimensions}"
+                        th:text="${dimension.waist}"
+                        colspan="1"></td>
+                </tr>
+                <tr class="general-row">
+                    <td class="general-column-product"><strong>Hips</strong></td>
+                    <td class="general-column-product" th:each="dimension: ${dimensions}"
+                        th:text="${dimension.hips}"
+                        colspan="1"></td>
+                </tr>
+                </tbody>
+            </table>
+            <span>All measurements are in centimeters.</span>
         </div>
     </div>
 </main>

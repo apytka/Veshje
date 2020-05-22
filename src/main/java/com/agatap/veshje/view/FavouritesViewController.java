@@ -5,6 +5,7 @@ import com.agatap.veshje.model.*;
 import com.agatap.veshje.repository.FavouritesRepository;
 import com.agatap.veshje.service.FavouritesService;
 import com.agatap.veshje.service.ProductService;
+import com.agatap.veshje.service.ShoppingCartService;
 import com.agatap.veshje.service.UserService;
 import com.agatap.veshje.service.exception.FavouritesNotFoundException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
@@ -27,6 +28,7 @@ public class FavouritesViewController {
     private FavouritesService favouritesService;
     private ProductService productService;
     private FavouritesRepository favouritesRepository;
+    private ShoppingCartService shoppingCartService;
 
     @GetMapping("/favourites")
     public ModelAndView displayFavourites(Authentication authentication)
@@ -72,6 +74,7 @@ public class FavouritesViewController {
             }
             recommendedMap.put(byteImageRecommendedProduct, productRandom);
         }
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("recommendedMap", recommendedMap);
         return modelAndView;
     }

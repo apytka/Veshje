@@ -658,7 +658,8 @@ header {
 
 .panels-login-account,
 .panels-general,
-.panels-account {
+.panels-account,
+.panels-cart{
     border-top: 1px solid #f3f2f0;
     /*overflow: auto;*/
     display: flex;
@@ -684,6 +685,14 @@ header {
     justify-content: center;
     flex-direction: column;
     padding: 20px 20px;
+}
+
+.panel-cart {
+    flex: 2;
+}
+
+.panel-cart-summary {
+    flex: 1;
 }
 
 .a-account-links {
@@ -889,13 +898,17 @@ header {
     font-size: 1.6rem;
 }
 
-.panel-login-account1 {
+.panel-login-account1,
+.panel-cart {
     background: #FFFFFF;
 }
 
-.panel-login-account2 {
+.panel-login-account2,
+.panel-cart-summary {
     background: #f4f3f1;
 }
+
+
 
 .form-popup {
     display: none;
@@ -1023,7 +1036,8 @@ header {
 @media screen and (max-width: 700px) {
 
     .panels-login-account,
-    .panels-account {
+    .panels-account,
+    .panels-cart {
         display: block;
     }
 
@@ -1495,10 +1509,11 @@ table.general-table tr {
 }
 
 .product-size {
+    display: block;
     background-color: white;
     height: 30px;
     width: 100%;
-    /*position: absolute;*/
+    position: relative;
     overflow: hidden;
 }
 
@@ -1523,8 +1538,27 @@ table.general-table tr {
     font-size: 14px;
 }
 
+.span-disabled {
+    font-weight: 100;
+    color: #c9c9c9;
+}
+
 .span:hover {
     background: #f3f2f0;
+}
+
+.span-disabled:hover {
+    background: #ffffff;
+}
+
+.div-disabled {
+    text-transform: lowercase;
+    display: block;
+    position: absolute;
+    font-size: 1.4rem;
+    color: #c9c9c9;
+    right: 0;
+    top: 20%;
 }
 
 .product-size > input:checked + label,
@@ -1876,6 +1910,11 @@ caption {
     background-color: rgba(201, 201, 201, 0.3);
 }
 
+.fa-envelope,
+.fa-info-circle {
+    padding: 3px;
+}
+
 .fa-trash,
 .fa-heart {
     font-size: 2rem;
@@ -2016,6 +2055,7 @@ caption {
     font-size: var(--star-size);
     line-height: 1;
 }
+
 .stars::before {
     content: "\2605 \2605 \2605 \2605 \2605";
     font-weight: 900;
@@ -2030,4 +2070,33 @@ caption {
     text-transform: uppercase;
     font-size: 1.5rem;
     letter-spacing: 2px;
+}
+
+/*SHOPPING BAG*/
+.quantity-shopping-bag,
+.quantity-shopping-bag-two {
+    position: absolute;
+    -webkit-background-clip: inherit;
+    /*-webkit-text-fill-color: transparent;*/
+    top: 24%;
+    right: 14px;
+    color: #2c6d50;
+    padding: 5px;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.quantity-shopping-bag-two {
+    right: 11px;
+}
+
+@media screen and (max-width: 420px) {
+    .quantity-shopping-bag {
+        right: 13px;
+        font-size: 1.2rem;
+    }
+
+    .quantity-shopping-bag-two {
+        right: 11px;
+    }
 }

@@ -262,7 +262,7 @@ public class ControllerConfig {
 
     @ExceptionHandler(OrderItemDataInvalidException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleOrderItemDataINotFoundException() {
+    public void handleOrderItemDataNotFoundException() {
     }
 
     @ExceptionHandler(OrderItemNotFoundException.class)
@@ -273,5 +273,15 @@ public class ControllerConfig {
     @ExceptionHandler(NotEnoughProductsInStockException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleNotEnoughProductsInStock() {
+    }
+
+    @ExceptionHandler(ProductInShoppingCartNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleProductInShoppingCartNotFoundException() {
+    }
+
+    @ExceptionHandler(ShoppingCartDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleShoppingCartNotFoundException() {
     }
 }
