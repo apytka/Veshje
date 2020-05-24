@@ -77,8 +77,11 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
-                    <div th:if="${quantityProduct > 0 && quantityProduct <= 9}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                    <div th:if="${quantityProduct > 0 && quantityProduct <= 9}" class="quantity-shopping-bag">
+                        [[${quantityProduct}]]
+                    </div>
                     <div th:if="${quantityProduct > 10}" class="quantity-shopping-bag-two">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -126,65 +129,72 @@
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
     <div class="panels-cart">
         <div class="panel-login-account panel-cart">
-            <div class="products-dress-container-fav">
-                <div class="heading-h1">
-                    <h1>Cart</h1>
-                </div>
-                <div>
-                    <i class="fas fa-info-circle"></i>
-                    <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>
-                </div>
-                <div class="favourites-empty" th:if="${isEmpty} == true">
-                    <h2>Your cart is empty</h2>
-                    <a href="/" class="btn-general btn-general-display">Browse now</a>
-                </div>
-<!--                <div class="table-favourites" th:each="product: ${map}">-->
-<!--                    <div class="table-favourites-img">-->
-<!--                        <div class="product-display-img">-->
-<!--                            <a th:href="'/products/dress-details/' + ${product.value.id}">-->
-<!--                                <img th:src="|data:image/png;base64,${product.key.get(0)}|">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="table-favourites-data">-->
-<!--                        <div class="table-favourites-data-details">-->
-<!--                            <span th:text="${product.value.name}"></span>-->
-<!--                        </div>-->
-<!--                        <div class="table-favourites-data-details">-->
-<!--                            <span th:text="'COLOR: ' + ${product.value.color}"></span>-->
-<!--                        </div>-->
-<!--                        <div class="table-favourites-data-details">-->
-<!--                            <span th:text="${product.value.price} + ' EUR'"></span>-->
-<!--                        </div>-->
-<!--                        <form class="product-add-cart">-->
-<!--                            <div class="product-size-select">-->
-<!--                                <select>-->
-<!--                                    <option hidden="true">Choose size</option>-->
-<!--                                    <option th:each="size: ${sizeType}" value="${sizes}"-->
-<!--                                            th:text="${size}"></option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                            <input type="submit" class="btn" value="Add to bag">-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                    <div class="table-favourites-delete">-->
-<!--                        <a th:href="'favourites/delete-product?id=' + ${product.value.id}">-->
-<!--                            <i class="fas fa-trash"></i>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
+            <div class="heading-h1">
+                <h1>Cart</h1>
+                <span class="quantity">[[${quantityProduct}]] QTY</span>
             </div>
-<!--            <div>-->
-<!--                <i class="fas fa-info-circle"></i>-->
-<!--                <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>-->
-<!--            </div>-->
-<!--            <div th:each="cart: ${shoppingCart}">-->
-<!--                <div>-->
-<!--                    <span th:text="${cart.productId}"></span>-->
-<!--                    <span th:text="${cart.quantity}"></span>-->
-<!--                    <span th:text="${cart.sizeType}"></span>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div th:if="${isEmpty} != true">
+                <i class="fas fa-info-circle"></i>
+                <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>
+            </div>
+            <div class="cart-empty" th:if="${isEmpty} == true">
+                <h2>- Your cart is empty -</h2>
+                <h3>Continue shopping</h3>
+                <div class="contain-cart">
+                    <div class="three-columns-cart" th:each="product: ${map}">
+                        <a th:href="@{'/products/' + ${product.value}}">
+                            <img class="a-image-cart" th:src="|data:image/png;base64,${product.key}|" style="width:100%"
+                                 alt="">
+                            <div class="btn btn-empty-cart">[[${product.value}]]</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-shopping-cart" th:each="product: ${shoppingCart}">
+                <div class="table-favourites-img">
+                    <div class="product-display-img">
+                        <a th:href="'/products/dress-details/' + ${product.productId}">
+                            <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
+                        </a>
+                    </div>
+                </div>
+                <div class="table-data">
+                    <div class="table-data-details data-cart-details">
+                        <span th:text="${product.productName}"></span>
+                    </div>
+                    <div class="table-data-details">
+                        <span th:text="'INDEX: ' + ${product.productId}"></span>
+                    </div>
+                    <div class="table-data-details">
+                        <span th:text="'COLOR: ' + ${product.productColor}"></span>
+                    </div>
+                    <div class="table-data-details">
+                        <span th:text="'PRICE: ' + ${product.productPrice} + ' EUR'"></span>
+                    </div>
+                    <div class="table-data-details">
+                        <span th:text="'SIZE: ' + ${product.sizeType}"></span>
+                    </div>
+                    <div class="table-data-details data-cart-details">
+                        <form action="#" th:action="@{'/shopping-bag/update/' + ${product.id}}"
+                              th:object="${updateShoppingCart}">
+                            <input type="hidden" th:name="sizeType" th:id="sizeType" th:value="${product.sizeType}">
+                            <span class='number-wrapper'>
+                            <input type="number" th:name="quantity" th:id="quantity" th:value="${product.quantity}"
+                                   min="1" th:max="${product.quantityInStock}"/>
+                            </span>
+                            <input type="submit" class="btn-small" value="Convert">
+                        </form>
+                    </div>
+                </div>
+                <div class="table-data-delete">
+                    <a th:href="'shopping-bag/delete-product?id=' + ${product.id}">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+                <div class="table-data-details data-cart-details">
+                    <span th:text="${product.quantity * product.productPrice} + ' EUR'"></span>
+                </div>
+            </div>
         </div>
         <div class="panel-login-account panel-cart-summary">
             <h4>Summary</h4>

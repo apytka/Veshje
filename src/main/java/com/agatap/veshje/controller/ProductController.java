@@ -48,8 +48,13 @@ public class ProductController {
     }
 
     @GetMapping("/random-products")
-    public List<ProductDTO> randomProducts(int number) throws ProductNotFoundException {
+    public List<ProductDTO> randomProducts(int number) {
         return productService.randomProducts(number);
+    }
+
+    @GetMapping("/random-products-in-category")
+    public List<ProductDTO> randomProductsInCategory(int number, String category) {
+        return productService.randomProductsInCategory(number, category);
     }
 
     @GetMapping("/images/{id}")

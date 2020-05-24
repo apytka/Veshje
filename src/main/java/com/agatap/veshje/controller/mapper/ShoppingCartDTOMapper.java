@@ -11,8 +11,13 @@ public class ShoppingCartDTOMapper {
         return ShoppingCartDTO.builder()
                 .id(shoppingCart.getId())
                 .productId(shoppingCart.getProductId())
+                .productName(shoppingCart.getProductName())
+                .productColor(shoppingCart.getProductColor())
+                .productPrice(shoppingCart.getProductPrice())
+                .productImage(shoppingCart.getProductImage())
                 .quantity(shoppingCart.getQuantity())
                 .sizeType(shoppingCart.getSizeType())
+                .quantityInStock(shoppingCart.getQuantityInStock())
                 .build();
     }
 

@@ -498,7 +498,7 @@ header {
     margin: 15px 0;
 }
 
-.btn {
+.btn, .btn-small{
     display: block;
     width: 100%;
     min-width: 165px;
@@ -516,10 +516,33 @@ header {
     transition: 0.5s;
 }
 
+.btn-small {
+    width: 80px;
+    min-width: 80px;
+    height: 30px;
+    font-size: 1.2rem;
+}
+
+.btn-empty-cart {
+    margin-top: 10px;
+    font-weight: 100;
+    font-size: 1.2rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .btn:hover {
     background-position: right;
 }
+
+.btn:disabled {
+    cursor: default;
+    pointer-events: none;
+    color: #a3a3a3;
+    background-image: linear-gradient(to right, #2f2d29, #34322d, #2f2d29);
+ }
 
 .socials {
     display: flex;
@@ -1933,6 +1956,7 @@ caption {
 
 /*OTHERS*/
 .heading-h1 > h1 {
+    display: inline-block;
     text-transform: uppercase;
     font-size: 3rem;
     font-weight: 900;
@@ -1945,10 +1969,25 @@ caption {
     width: 80%;
 }
 
-.favourites-empty > h2 {
+.cart-empty {
+    margin: auto;
+    width: 100%;
+}
+
+.favourites-empty > h2,
+.cart-empty > h2 {
     text-transform: uppercase;
     padding: 20px;
     font-weight: 600;
+}
+
+.cart-empty > h3 {
+    margin: 20px;
+}
+
+.cart-empty > h3 {
+    margin: 5px;
+    color: #c9c9c9;
 }
 
 .products-dress-container-fav img {
@@ -1964,7 +2003,8 @@ caption {
     width: 90%;
 }
 
-.table-favourites {
+.table-favourites,
+.table-shopping-cart {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1973,26 +2013,42 @@ caption {
     margin: 30px 0 30px 0;
 }
 
+.table-shopping-cart {
+    width: 80%;
+}
+
 .table-favourites-img {
     padding: 10px 0 10px 0;
     min-width: 210px;
 }
 
-.table-favourites-data {
+.table-favourites-data,
+.table-data {
     padding: 10px 0 10px 0;
     min-width: 200px;
     width: 30%;
-    justify-content: left;
     align-items: flex-start;
 }
 
-.table-favourites-delete {
+.table-data {
+    width: 40%;
+    top: 0;
+    justify-content: left;
+    text-align: left;
+}
+
+.table-favourites-delete,
+.table-data-delete {
     min-width: 50px;
     height: 60px;
     width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.table-data-delete {
+    width: 20%;
 }
 
 .table-favourites-add {
@@ -2033,15 +2089,26 @@ caption {
     }
 }
 
-.table-favourites-data-details {
+.table-favourites-data-details,
+.table-data-details {
     padding: 2px;
 }
 
-.table-favourites-data-details > span {
+.table-favourites-data-details > span,
+. table-data-details > span {
     text-transform: uppercase;
 }
 
-
+.table-data-details {
+    padding: 5px 0 0 0;
+    color: #a2a2a2;
+    font-size: 1.3rem;
+}
+.data-cart-details {
+    text-transform: uppercase;
+    color: #000000;
+    font-weight: 600;
+}
 /* STARS - REVIEW */
 :root {
     --star-size: 20px;
@@ -2099,4 +2166,85 @@ caption {
     .quantity-shopping-bag-two {
         right: 11px;
     }
+}
+
+.panels-shopping-cart {
+    display: flex;
+}
+
+.panel-shopping-cart {
+    flex-direction: column;
+    flex: 1;
+}
+
+.quantity {
+    margin: 3px;
+    padding: 10px;
+    background: #f9f9fa;
+}
+
+.contain-cart {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.three-columns-cart {
+    position: relative;
+    flex: 30%;
+    padding: 10px;
+}
+
+.three-columns-cart > a {
+    color: black;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.three-columns-cart:hover {
+    opacity: 0.3;
+}
+
+.text-content-cart {
+    padding: 5px 0;
+}
+
+/*!* SPINNER NUMBER *!*/
+.number-wrapper {
+    position: relative;
+}
+
+.number-wrapper:after,
+.number-wrapper:before {
+    position: absolute;
+    right: 3px;
+    width: 1.6em;
+    height: 1em;
+    font-size: 10px;
+    pointer-events: none;
+    background: #fff;
+}
+
+.number-wrapper:after {
+    color: #a2a2a2;
+    background: white;
+    content: "\25B2";
+    margin-top: 0.7px;
+    border: none;
+}
+
+.number-wrapper:before {
+    color: #a2a2a2;
+    background: white;
+    content: "\25BC";
+    margin-bottom: 5px;
+    bottom: -.7em;
+    border: none;
+}
+
+.number-wrapper input {
+    border: none;
+    background: white;
+    width: 50px;
+    height: 20px;
 }

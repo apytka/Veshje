@@ -197,7 +197,7 @@
                                         size
                                         <i class="far fa-question-circle"></i></a>
                                 </div>
-                                <input type="submit" class="btn" value="Add to bag">
+                                <input type="submit" class="btn" value="Add to bag" id="add-to-bag-disabled" disabled="disabled">
                             </form>
                             <ul>
                                 <li class="product-composition-and-care">
@@ -573,6 +573,11 @@
             $("#panel-flip-shipping").slideToggle("slow");
         });
     });
+
+    /* DISABLED BUTTON */
+    $("input:radio").change(function(){
+        $("#add-to-bag-disabled").prop("disabled", false)
+        });
 </script>
 
 </body>

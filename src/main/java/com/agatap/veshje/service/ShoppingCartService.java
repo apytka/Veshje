@@ -1,19 +1,21 @@
 package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateShoppingCartDTO;
+import com.agatap.veshje.controller.DTO.ImageDTO;
 import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
 import com.agatap.veshje.controller.mapper.ShoppingCartDTOMapper;
 import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.ShoppingCart;
 import com.agatap.veshje.model.SizeType;
 import com.agatap.veshje.service.exception.*;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.annotation.PostConstruct;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,28 +32,30 @@ public class ShoppingCartService {
     @Autowired
     private ShoppingCartDTOMapper mapper;
 
-    @PostConstruct
-    public void init() {
-        products.add(new ShoppingCart(++idCounter, "YX001-0006", SizeType.S, 1));
-        products.add(new ShoppingCart(++idCounter, "YX001-0017", SizeType.S, 1));
-        products.add(new ShoppingCart(++idCounter, "YX001-0020", SizeType.XS, 2));
-    }
-
     public List<ShoppingCartDTO> getAllProductsInCart() {
         return products.stream()
                 .map(shoppingCart -> mapper.mappingToDTO(shoppingCart))
                 .collect(Collectors.toList());
-
     }
 
-    public ShoppingCartDTO addProductToShoppingCart(CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO) {
+    public ShoppingCartDTO addProductToShoppingCart(CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO) throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException {
         ShoppingCart shoppingCart = mapper.mappingToModel(createUpdateShoppingCartDTO);
         ShoppingCart shoppingCartDTO = filterByProductIdAndSizeType(createUpdateShoppingCartDTO.getProductId(), createUpdateShoppingCartDTO.getSizeType());
         if(shoppingCartDTO == null) {
+            List<ImageDTO> imageByProductId = productService.findImageByProductId(createUpdateShoppingCartDTO.getProductId());
+            ImageDTO imageDTO = imageByProductId.get(0);
+            byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
+            String base64Encoded = new String(encodeBase64, "UTF-8");
+
             shoppingCart.setId(++idCounter);
             shoppingCart.setProductId(createUpdateShoppingCartDTO.getProductId());
+            shoppingCart.setProductName(productService.findProductById(createUpdateShoppingCartDTO.getProductId()).getName());
+            shoppingCart.setProductColor(productService.findProductById(createUpdateShoppingCartDTO.getProductId()).getColor());
+            shoppingCart.setProductPrice(productService.findProductById(createUpdateShoppingCartDTO.getProductId()).getPrice());
+            shoppingCart.setProductImage(base64Encoded);
             shoppingCart.setQuantity(createUpdateShoppingCartDTO.getQuantity());
             shoppingCart.setSizeType(createUpdateShoppingCartDTO.getSizeType());
+            shoppingCart.setQuantityInStock(sizeService.getQuantityBySizeTypeAndProductId(createUpdateShoppingCartDTO.getSizeType(), createUpdateShoppingCartDTO.getProductId()));
             products.add(shoppingCart);
         } else {
             shoppingCartDTO.setQuantity(shoppingCartDTO.getQuantity() + 1);

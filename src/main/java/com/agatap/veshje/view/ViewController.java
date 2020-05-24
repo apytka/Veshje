@@ -36,6 +36,7 @@ public class ViewController {
             modelAndView.addObject("message", "Invalid username or password is incorrect or your account is not activeted.");
         }
 
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("createUser", new CreateUserDTO());
         return modelAndView;
     }

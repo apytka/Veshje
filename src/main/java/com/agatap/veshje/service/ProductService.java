@@ -156,4 +156,20 @@ public class ProductService {
         }
         return randomProduct;
     }
+
+    public List<ProductDTO> randomProductsInCategory(int number, String category) {
+        List<ProductDTO> products = findProductsByCategoryName(category);
+        List<ProductDTO> randomProduct = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < number; i++) {
+            int index = random.nextInt(products.size());
+            ProductDTO productDTO = products.get(index);
+            if(!randomProduct.contains(products.get(index))) {
+                randomProduct.add(productDTO);
+            } else {
+                i--;
+            }
+        }
+        return randomProduct;
+    }
 }

@@ -8,6 +8,7 @@ import com.agatap.veshje.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +25,12 @@ public class ShoppingCartController {
 
     @PostMapping
     public ShoppingCartDTO addProductToShoppingCart(@RequestBody CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO)
-            throws ProductInShoppingCartNotFoundException {
+            throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException {
         return shoppingCartService.addProductToShoppingCart(createUpdateShoppingCartDTO);
     }
 
     @GetMapping("/products/{id}")
-    public List<ShoppingCartDTO> findProductInShoppingCart(@PathVariable String id) throws ProductInShoppingCartNotFoundException {
+    public List<ShoppingCartDTO> findProductInShoppingCart(@PathVariable String id) {
         return shoppingCartService.findProductInShoppingCart(id);
     }
 
