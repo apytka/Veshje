@@ -1300,13 +1300,13 @@ table.general-table tr {
     z-index: 1000;
     top: 0;
     left: 0;
-    background-color: rgb(52, 50, 45);
-    background-color: rgba(68, 66, 62, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
     overflow-x: hidden;
     transition: 0.7s;
 }
 
-.alert-information-error {
+.alert-information-error,
+.confirm-add-product {
     background-color: white;
     box-sizing: border-box;
     cursor: default;
@@ -1323,6 +1323,57 @@ table.general-table tr {
     transform: translateY(-50%);
     width: 300px;
     z-index: 15;
+}
+
+.confirm-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.confirm-add-product {
+    padding: 10px 30px;
+    height: 90%;
+    width: 400px;
+    min-width: 300px;
+}
+
+.fa-check-circle {
+    position: absolute;
+    right: 30px;
+    left: 30px;
+    top: 50px;
+    font-size: 1.7rem;
+    color: #2b6044;
+}
+
+.confirm-header {
+    padding: 15px 0;
+}
+
+.confirm-details {
+    font-size: 1.3rem;
+}
+
+.close-confirmation-display {
+    font-size: 1.7rem;
+    text-decoration: underline;
+}
+
+.confirm-container > a {
+    text-decoration: none;
+}
+
+.confirm-header-info {
+    font-family: "Quicksand", "Arial", serif;
+    text-transform: uppercase;
+    font-size: 1.9rem;
+    color: black;
+}
+
+.img-confirm img {
+    height: 50vh;
+    margin-top: 20px;
 }
 
 .alert-information-error h5 {
@@ -1661,7 +1712,8 @@ table.general-table tr {
 }
 
 .close-zoom-table,
-.close-review {
+.close-review,
+.close-confirmation {
     display: flex;
     align-items: flex-end;
     justify-content: right;

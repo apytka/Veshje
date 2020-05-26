@@ -64,12 +64,13 @@ public class CartViewController {
         return modelAndView;
     }
 
-    @GetMapping("/shopping-bag/add")
-    public ModelAndView addProductToCart(@ModelAttribute(name = "shoppingCart") CreateUpdateShoppingCartDTO shoppingCart)
+    @GetMapping("/shopping-bag/add/{id}")
+    public ModelAndView addProductToCart(@PathVariable String id, @ModelAttribute(name = "shoppingCart") CreateUpdateShoppingCartDTO shoppingCart)
             throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException {
         shoppingCartService.addProductToShoppingCart(shoppingCart);
-        return new ModelAndView("redirect:/shopping-bag");
+        return new ModelAndView("redirect:/products/dress-details/" + id + "?confirmation");
     }
+
 
     @GetMapping("/shopping-bag/delete-product")
     public ModelAndView removeProductInCart(@RequestParam Integer id) throws ProductInShoppingCartNotFoundException {

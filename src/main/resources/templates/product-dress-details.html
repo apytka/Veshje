@@ -133,6 +133,37 @@
 </header>
 <main>
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
+    <div class="alert-information-container" th:fragment="error-info">
+        <div th:if="${param.confirmation}" class="alert-information fade">
+            <div class="confirm-add-product">
+                <span onclick="closeButtonInformation()" class="close-confirmation">&times;</span>
+                <div class="confirm-header">
+                    <i class="fas fa-check-circle">
+                    <span class="confirm-header-info">
+                        Product was added to shopping cart!
+                    </span>
+                    </i>
+                </div>
+                <div class="confirm-container">
+                    <div class="img-confirm">
+                        <img th:src="|data:image/png;base64,${byteImageList.get(0)}|"/>
+                    </div>
+                    <div class="confirm-details">
+                        [[${product.name}]]
+                    </div>
+                    <div class="confirm-details">
+                        € [[${product.price}]]
+                    </div>
+                    <a href="/shopping-bag">
+                        <button type="submit" class="btn">Go to shopping cart</button>
+                    </a>
+                    <div class="confirm-details">
+                    <a class="close-confirmation-display" onclick="closeButtonInformation()">Continue shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="panels-general panels-general-product">
         <div class="panel-product">
             <div class="product-container" th:each="image: ${byteImageList}">
@@ -170,7 +201,7 @@
                             <div class="info-product-cart-description" th:text="${product.description}"></div>
                             <div class="info-product-cart-index" th:text="'index: ' + ${product.id}"></div>
 
-                            <form action="#" th:action="@{/shopping-bag/add}" th:object="${shoppingCart}"
+                            <form action="#" th:action="@{'/shopping-bag/add/' + ${id}}" th:object="${shoppingCart}"
                                   method="get" class="product-add-cart">
                                 <div class="product-size-list">
                                     <input type="hidden" th:value="${product.id}" th:name="productId"
@@ -582,6 +613,7 @@
     $("input:radio").change(function () {
         $("#add-to-bag-disabled").prop("disabled", false)
     });
+
 </script>
 
 </body>
