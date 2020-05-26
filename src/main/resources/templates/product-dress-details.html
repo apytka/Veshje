@@ -87,7 +87,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
                     <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -172,7 +173,8 @@
                             <form action="#" th:action="@{/shopping-bag/add}" th:object="${shoppingCart}"
                                   method="get" class="product-add-cart">
                                 <div class="product-size-list">
-                                    <input type="hidden" th:value="${product.id}" th:name="productId" th:id="productId"/>
+                                    <input type="hidden" th:value="${product.id}" th:name="productId"
+                                           th:id="productId"/>
                                     <input type="hidden" th:value="1" th:name="quantity" th:id="quantity"/>
                                     <div class="product-size" th:each="size: ${sizes}">
                                         <input th:if="${size.quantity > 0}" type="radio" name="radio"
@@ -197,7 +199,8 @@
                                         size
                                         <i class="far fa-question-circle"></i></a>
                                 </div>
-                                <input type="submit" class="btn" value="Add to bag" id="add-to-bag-disabled" disabled="disabled">
+                                <input type="submit" class="btn" value="Add to bag" id="add-to-bag-disabled"
+                                       disabled="disabled">
                             </form>
                             <ul>
                                 <li class="product-composition-and-care">
@@ -418,34 +421,35 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <!--                <form action="#" th:action="@{'/login/reset-password-newsletter?token=' + ${token}}" th:object="${addNewsletterResetPassword}"-->
-                <!--                      method="post"-->
-                <!--                      class="newsletter-container">-->
-                <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
-                <!--                    <div class="input-div one">-->
-                <!--                        <div class="i">-->
-                <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
-                <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
-                <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
-                <!--                                                <g id="Shopicon">-->
-                <!--                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
-                <!--                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
-                <!--                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
-                <!--                                                </g>-->
-                <!--                                            </svg>-->
-                <!--                        </div>-->
-                <!--                        <div>-->
-                <!--                            <h5>Email</h5>-->
-                <!--                            <input type="email" th:field="*{email}" class="input" required>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
-                <!--                    <div class="newsletter-checkbox">-->
-                <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
-                <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
-                <!--                    </div>-->
-                <!--                    <input type="submit" class="btn" value="Send">-->
-                <!--                </form>-->
+                <form action="#" th:action="@{'/products/dress-details-newsletter/' + ${id}}"
+                      th:object="${productDetailsNewsletter}"
+                      method="post"
+                      class="newsletter-container">
+                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                    <div class="input-div one">
+                        <div class="i">
+                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                                                <g id="Shopicon">
+                                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+                                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+                                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                                                </g>
+                                                            </svg>
+                        </div>
+                        <div>
+                            <h5>Email</h5>
+                            <input type="email" th:field="*{email}" class="input" required>
+                        </div>
+                    </div>
+                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    <div class="newsletter-checkbox">
+                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                        I accept <a href="/privacy-policy">newsletter terms</a>
+                    </div>
+                    <input type="submit" class="btn" value="Send">
+                </form>
             </ul>
         </div>
     </div>
@@ -575,9 +579,9 @@
     });
 
     /* DISABLED BUTTON */
-    $("input:radio").change(function(){
+    $("input:radio").change(function () {
         $("#add-to-bag-disabled").prop("disabled", false)
-        });
+    });
 </script>
 
 </body>

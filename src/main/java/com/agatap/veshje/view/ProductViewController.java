@@ -8,12 +8,18 @@ import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -21,13 +27,15 @@ import java.util.*;
 @AllArgsConstructor
 public class ProductViewController {
 
+    private final Logger LOG = LoggerFactory.getLogger(AddressViewController.class);
+
     private ProductService productService;
     private DimensionService dimensionService;
     private CompositionProductService compositionProductService;
     private CategoryService categoryService;
     private UserService userService;
     private ReviewService reviewService;
-    private SizeService sizeService;
+    private NewsletterService newsletterService;
     private ShoppingCartService shoppingCartService;
     
     @GetMapping("/products/{category}")
@@ -57,7 +65,7 @@ public class ProductViewController {
 
     @GetMapping("/products/dress-details/{id}")
     public ModelAndView displayDataProduct(@PathVariable String id, Authentication authentication)
-            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException, ReviewNotFoundException, ProductInShoppingCartNotFoundException {
+            throws ProductNotFoundException, UnsupportedEncodingException, UserNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-dress-details");
 
         if (authentication != null) {
@@ -143,7 +151,26 @@ public class ProductViewController {
         modelAndView.addObject("product", productDTO);
         modelAndView.addObject("map", map);
         modelAndView.addObject("byteImageList", byteImageList);
+        modelAndView.addObject("productDetailsNewsletter", new CreateUpdateNewsletterDTO());
         return modelAndView;
+    }
+
+    @PostMapping("/products/dress-details-newsletter/{id}")
+    public ModelAndView updateAddressNewsletter(@PathVariable String id, @Valid @ModelAttribute(name = "productDetailsNewsletter")
+            CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account-modify-address");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:/products/dress-details" + id + "?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:/products/dress-details/" + id + "?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:/products/dress-details/" + id + "?success");
     }
 
 }
