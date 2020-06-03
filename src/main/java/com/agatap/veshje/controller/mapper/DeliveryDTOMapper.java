@@ -18,6 +18,8 @@ public class DeliveryDTOMapper {
                 .id(delivery.getId())
                 .name(delivery.getName())
                 .price(delivery.getPrice())
+                .timeDelivery(delivery.getTimeDelivery())
+                .description(delivery.getDescription())
                 .ordersIds(ordersId)
                 .createDate(delivery.getCreateDate())
                 .updateDate(delivery.getUpdateDate())
@@ -28,6 +30,8 @@ public class DeliveryDTOMapper {
         return Delivery.builder()
                 .name(createDeliveryDTO.getName())
                 .price(createDeliveryDTO.getPrice())
+                .timeDelivery(createDeliveryDTO.getTimeDelivery())
+                .description(createDeliveryDTO.getDescription())
                 .build();
     }
 }

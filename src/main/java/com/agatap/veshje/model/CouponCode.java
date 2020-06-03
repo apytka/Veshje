@@ -6,29 +6,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 
 @Entity
-public class Delivery {
+public class CouponCode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
-    private BigDecimal price;
-    private String timeDelivery;
+    private String code;
+    private Double percentDiscount;
     private String description;
+    private OffsetDateTime startDiscount;
+    private OffsetDateTime expireDiscount;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "couponsCode")
     @Builder.Default
-    private List<Orders> orders = new ArrayList<>();
+    List<Orders> orders = new ArrayList<>();
 }

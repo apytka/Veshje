@@ -43,4 +43,9 @@ public class DeliveryController {
     public DeliveryDTO deleteDeliveryDTO(@PathVariable Integer id) throws DeliveryNotFoundException {
         return deliveryService.deleteDeliveryDTO(id);
     }
+
+    @GetMapping("/min")
+    public DeliveryDTO findMinPriceDeliveryDTO() {
+        return deliveryService.findMinPriceDeliveryDTO();
+    }
 }

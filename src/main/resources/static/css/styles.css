@@ -498,7 +498,7 @@ header {
     margin: 15px 0;
 }
 
-.btn, .btn-small{
+.btn, .btn-small {
     display: block;
     width: 100%;
     min-width: 165px;
@@ -542,7 +542,7 @@ header {
     pointer-events: none;
     color: #a3a3a3;
     background-image: linear-gradient(to right, #2f2d29, #34322d, #2f2d29);
- }
+}
 
 .socials {
     display: flex;
@@ -597,6 +597,15 @@ header {
 
 .fa-facebook-f:hover, .fa-twitter:hover {
     color: #2b6044;
+}
+
+.fa-info-circle {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.fa-info-circle:hover {
+    color: #a2a2a2;
 }
 
 @media screen and (max-width: 606px) {
@@ -682,7 +691,7 @@ header {
 .panels-login-account,
 .panels-general,
 .panels-account,
-.panels-cart{
+.panels-cart {
     border-top: 1px solid #f3f2f0;
     /*overflow: auto;*/
     display: flex;
@@ -696,7 +705,8 @@ header {
 
 
 .panel-login-account,
-.panel-general {
+.panel-general,
+.panel-cart-summary {
     min-height: calc(100vh - 60px);
     text-align: center;
     font-size: 1.4rem;
@@ -708,6 +718,11 @@ header {
     justify-content: center;
     flex-direction: column;
     padding: 20px 20px;
+}
+
+.panel-cart-summary {
+    width: 100%;
+    justify-content: flex-start;
 }
 
 .panel-cart {
@@ -932,7 +947,6 @@ header {
 }
 
 
-
 .form-popup {
     display: none;
     width: 90%;
@@ -957,7 +971,9 @@ header {
     display: none;
 }
 
-.btn-login, .btn-create-account, .btn-general {
+.btn-login,
+.btn-create-account,
+.btn-general {
     width: 80%;
     height: 40px;
     outline: none;
@@ -1193,6 +1209,7 @@ table.general-table tr {
     padding: 10px 0 20px 0;
 }
 
+
 .general-column {
     min-width: 60px;
     padding: 20px 0 20px 0;
@@ -1332,10 +1349,11 @@ table.general-table tr {
 }
 
 .confirm-add-product {
-    padding: 10px 30px;
-    height: 90%;
+    padding: 10px 30px 30px 30px;
+    height: auto;
     width: 400px;
     min-width: 300px;
+    max-height: max-content;
 }
 
 .fa-check-circle {
@@ -1419,7 +1437,8 @@ table.general-table tr {
 
 .modal,
 .product-table-size,
-.product-review-cart {
+.product-review-cart,
+.delivery-table {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -1489,17 +1508,10 @@ table.general-table tr {
 }
 
 
-
-
-
-
-
-
-
-
 /* Chrome, Safari and Opera */
 .modal::-webkit-scrollbar,
-.product-cart-sticky::-webkit-scrollbar {
+.product-cart-sticky::-webkit-scrollbar,
+.cart-summary::-webkit-scrollbar {
     display: none;
 }
 
@@ -1675,7 +1687,8 @@ table.general-table tr {
     padding: 4px 0 5px 0;
 }
 
-.product-table-cart {
+.product-table-cart,
+.delivery-table-cart {
     background: white;
     bottom: auto;
     right: auto;
@@ -1689,6 +1702,10 @@ table.general-table tr {
     margin: auto;
     pointer-events: all;
     padding: 0 10px 10px 10px;
+}
+
+.delivery-table-cart {
+    height: auto;
 }
 
 .product-review {
@@ -1929,7 +1946,7 @@ caption {
 
 /*SELECT*/
 
-select.favourite-select-size  {
+select.favourite-select-size {
     width: 100%;
     text-align: center;
     background-color: white;
@@ -1948,34 +1965,28 @@ select.favourite-select-size  {
 }
 
 select.favourite-select-size {
-    background-image:
-            linear-gradient(45deg, transparent 50%, grey 50%),
-            linear-gradient(135deg, grey 50%, transparent 50%),
-            linear-gradient(to right, white, white);
-    background-position:
-            calc(100% - 20px) calc(1em + 2px),
-            calc(100% - 15px) calc(1em + 2px),
-            calc(100% - 2.5em) 0.5em;
-    background-size:
-            5px 5px,
-            5px 5px,
-            1px 1.5em;
+    background-image: linear-gradient(45deg, transparent 50%, grey 50%),
+    linear-gradient(135deg, grey 50%, transparent 50%),
+    linear-gradient(to right, white, white);
+    background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px,
+    5px 5px,
+    1px 1.5em;
     background-repeat: no-repeat;
 }
 
 select.favourite-select-size:focus {
-    background-image:
-            linear-gradient(45deg, grey 50%, transparent 50%),
-            linear-gradient(135deg, transparent 50%, grey 50%),
-            linear-gradient(to right, white, white);
-    background-position:
-            calc(100% - 15px) 1em,
-            calc(100% - 20px) 1em,
-            calc(100% - 2.5em) 0.5em;
-    background-size:
-            5px 5px,
-            5px 5px,
-            1px 1.5em;
+    background-image: linear-gradient(45deg, grey 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, grey 50%),
+    linear-gradient(to right, white, white);
+    background-position: calc(100% - 15px) 1em,
+    calc(100% - 20px) 1em,
+    calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px,
+    5px 5px,
+    1px 1.5em;
     background-repeat: no-repeat;
     border-color: #e3d6bc;
     outline: 0;
@@ -1986,7 +1997,7 @@ select.favourite-select-size :-moz-focusring {
     text-shadow: 0 0 0 #000;
 }
 
-.input-disabled{
+.input-disabled {
 
 }
 
@@ -2110,10 +2121,10 @@ select.favourite-select-size :-moz-focusring {
 }
 
 .table-favourites-add {
-     display: flex;
-     justify-content: left;
-     align-items: center;
- }
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
 
 .table-favourites-add > a {
     text-decoration: none;
@@ -2162,11 +2173,13 @@ select.favourite-select-size :-moz-focusring {
     color: #a2a2a2;
     font-size: 1.3rem;
 }
+
 .data-cart-details {
     text-transform: uppercase;
     color: #000000;
     font-weight: 600;
 }
+
 /* STARS - REVIEW */
 :root {
     --star-size: 20px;
@@ -2305,4 +2318,143 @@ select.favourite-select-size :-moz-focusring {
     background: white;
     width: 50px;
     height: 20px;
+}
+
+.cart-summary {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 50px;
+    min-height: calc(100vh - 20px);
+    width: 90%;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+dt, dd {
+    width: 50%;
+    text-transform: uppercase;
+    padding: 15px 0;
+}
+
+dt {
+    text-align: left;
+}
+
+dd {
+    text-align: right;
+}
+
+.description-list {
+    display: flex;
+}
+
+.description-list-hr {
+    width: 100%;
+    border-color: rgb(232, 232, 232) currentcolor currentcolor;
+    border-style: solid none none;
+    margin: 10px;
+}
+
+.add-coupon {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cart-data-input {
+    width: 50%;
+    margin-top: 10px;
+}
+
+.add-coupon-input {
+    background: transparent;
+    height: 40px;
+    width: 100%;
+    min-width: 100px;
+    color: #7c7875;
+    font-size: 16px;
+    border: 1px #d7d4d1 solid;
+    padding: 5px;
+}
+
+.btn-add-coupon {
+    width: 90%;
+    min-width: 100px;
+    height: 40px;
+    outline: none;
+    border: 1px solid #444;
+    background: transparent;
+    background-size: 300%;
+    font-size: 1.2rem;
+    color: #444;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.add-discount-form {
+    padding: 30px 0 30px 0;
+    color: #2c2c2c;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.cart-summary h4 {
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    font-weight: 800;
+    padding: 40px 0;
+}
+
+.img-icon-shipping,
+.img-icon-payments {
+    width: 70px;
+    filter: invert(100%);
+    transition: -webkit-filter .3s linear;
+}
+
+.img-icon-shipping:hover,
+.img-icon-payments:hover {
+    filter: invert(50%);
+}
+
+.description-list > dd > a {
+    text-decoration: none;
+}
+
+.delivery-container {
+    padding: 5px;
+}
+
+.delivery-table-details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.delivery-details {
+    flex-direction: column;
+    padding: 15px;
+}
+
+.description-list-footer {
+    padding-top: 50px;
+}
+
+.delivery-strong-price {
+    font-weight: 700;
+}
+
+.delivery-strong-free {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #15a819;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.fa-home, .fa-truck {
+    font-size: 3rem;
 }

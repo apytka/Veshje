@@ -5,6 +5,7 @@
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -169,7 +170,7 @@
                         <span th:text="'COLOR: ' + ${product.productColor}"></span>
                     </div>
                     <div class="table-data-details">
-                        <span th:text="'PRICE: ' + ${product.productPrice} + ' EUR'"></span>
+                        <span th:text="'PRICE: € ' + ${product.productPrice}"></span>
                     </div>
                     <div class="table-data-details">
                         <span th:text="'SIZE: ' + ${product.sizeType}"></span>
@@ -192,18 +193,121 @@
                     </a>
                 </div>
                 <div class="table-data-details data-cart-details">
-                    <span th:text="${product.quantity * product.productPrice} + ' EUR'"></span>
+                    <span th:text="'€' + ${product.quantity * product.productPrice}"></span>
                 </div>
             </div>
         </div>
-        <div class="panel-login-account panel-cart-summary">
-            <h4>Summary</h4>
-            <div>
-                <span>Total price: [[${total}]] €</span>
+        <div class="panel-cart-summary">
+            <div class="cart-summary">
+                <h4>Summary</h4>
+                <div class="description-list">
+                    <dt>Products price</dt>
+                    <dd>€ [[${total}]]</dd>
+                </div>
+                <div class="description-list">
+                    <dt>Delivery</dt>
+                    <dd>FROM € [[${minPriceDelivery.price}]]
+                        <i class="fas fa-info-circle" id="table-delivery-zoom"></i>
+                    </dd>
+                </div>
+                <hr class="description-list-hr">
+                <div class="description-list">
+                    <dt>Total with VAT</dt>
+                    <dd th:text="'€ ' + ${total + minPriceDelivery.price}"></dd>
+                </div>
+                <div>
+                    <form class="add-discount-form">
+                        <h3>I have coupon code</h3>
+                        <div class="add-coupon">
+                            <div class="cart-data-input">
+                                <input type="text" class="add-coupon-input">
+                            </div>
+                            <div class="cart-data-input">
+                                <input type="submit" class="btn-add-coupon" value="Add">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="description-list-footer">
+                    <div class="description-list">
+                        <dt>Shipments</dt>
+                        <dd>
+                            <a href="/shipping">
+                                <img class="img-icon-shipping" src="/img/orders/dpd-white.png" alt="dpd delivery">
+                            </a>
+                            <a href="/shipping">
+                                <img class="img-icon-shipping" src="/img/orders/inpost-white.png" alt="inpost delivery">
+                            </a>
+                        </dd>
+                    </div>
+                    <hr class="description-list-hr">
+                    <div class="description-list">
+                        <dt>Payments</dt>
+                        <dd>
+                            <a href="/payments">
+                                <img class="img-icon-payments" src="img/orders/przelewy-white.png" alt="przelewy24">
+                            </a>
+                        </dd>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <div class="delivery-table" id="delivery-table">
+        <div class="delivery-table-cart fade">
+            <div class="delivery-container" id="delivery-container">
+                <span class="close-zoom-table">&times;</span>
+                <h2>Time and cost of delivery</h2>
+                <div class="delivery-table-details">
+                    <div class="delivery-details">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div th:text="${deliveries.get(0).name}"></div>
+                        <div th:text="${deliveries.get(0).timeDelivery}"></div>
+                    </div>
+                    <div class="delivery-details">
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(0).price}]]</strong></div>
+                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
+                    </div>
+                </div>
+                <hr class="description-list-hr">
+                <div class="delivery-table-details">
+                    <div class="delivery-details">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div th:text="${deliveries.get(1).name}"></div>
+                        <div th:text="${deliveries.get(1).timeDelivery}"></div>
+                    </div>
+                    <div class="delivery-details">
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(1).price}]]</strong></div>
+                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
+<script>
+    var deliveryTable = document.getElementById("delivery-table");
+    var deliveryContainer = document.getElementById("delivery-container");
+    const tableDeliveryZoom = document.getElementById("table-delivery-zoom");
+
+    tableDeliveryZoom.onclick = function () {
+        deliveryTable.style.display = "block";
+        deliveryContainer.src = this.src;
+    }
+
+    var closeDeliveryTable = document.getElementsByClassName("close-zoom-table")[0];
+    closeDeliveryTable.onclick = function () {
+        deliveryTable.style.display = "none";
+    }
+</script>
 </body>
 </html>

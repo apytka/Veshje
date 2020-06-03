@@ -1,12 +1,10 @@
 package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.*;
+import com.agatap.veshje.model.Delivery;
 import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.ShoppingCart;
-import com.agatap.veshje.service.CategoryService;
-import com.agatap.veshje.service.ProductService;
-import com.agatap.veshje.service.ShoppingCartService;
-import com.agatap.veshje.service.SizeService;
+import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.ProductInShoppingCartNotFoundException;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
 import com.agatap.veshje.service.exception.ShoppingCartDataInvalidException;
@@ -30,7 +28,7 @@ import java.util.Map;
 public class CartViewController {
 
     private ShoppingCartService shoppingCartService;
-    private SizeService sizeService;
+    private DeliveryService deliveryService;
     private ProductService productService;
     private CategoryService categoryService;
 
@@ -53,13 +51,17 @@ public class CartViewController {
                 map.put(base64Encoded, category.getName());
             }
         }
+        DeliveryDTO minPriceDelivery = deliveryService.findMinPriceDeliveryDTO();
+        Double total = shoppingCartService.getTotal();
+        List<DeliveryDTO> deliveries = deliveryService.getAllDelivery();
 
-
+        modelAndView.addObject("deliveries", deliveries);
+        modelAndView.addObject("minPriceDelivery", minPriceDelivery);
         modelAndView.addObject("map", map);
         modelAndView.addObject("updateShoppingCart", new ShoppingCart());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("isEmpty", shoppingCartService.shoppingCartIsEmpty());
-        modelAndView.addObject("total", shoppingCartService.getTotal());
+        modelAndView.addObject("total", total);
         modelAndView.addObject("shoppingCart", shoppingCart);
         return modelAndView;
     }

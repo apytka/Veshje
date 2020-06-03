@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,8 @@ public class DeliveryService {
         delivery.setName(updateDeliveryDTO.getName());
         delivery.setPrice(delivery.getPrice());
         delivery.setUpdateDate(OffsetDateTime.now());
+        delivery.setTimeDelivery(updateDeliveryDTO.getTimeDelivery());
+        delivery.setDescription(updateDeliveryDTO.getDescription());
         //todo bind to foreign tables
         Delivery updateDelivery = deliveryRepository.save(delivery);
         return mapper.mappingToDTO(updateDelivery);
@@ -69,6 +72,13 @@ public class DeliveryService {
         Delivery delivery = findDeliveryOById(id);
         deliveryRepository.delete(delivery);
         return mapper.mappingToDTO(delivery);
+    }
+
+    public DeliveryDTO findMinPriceDeliveryDTO() {
+        List<DeliveryDTO> deliveries = getAllDelivery();
+        return deliveries.stream()
+                .min(Comparator.comparing(deliveryDTO -> deliveryDTO.getPrice()))
+                .orElse(null);
     }
 }
 

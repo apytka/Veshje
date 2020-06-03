@@ -5,19 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateDeliveryDTO {
-    private String name;
-    private BigDecimal price;
-    private String timeDelivery;
+@Builder
+public class CreateUpdateCouponsCodeDTO {
+    private String code;
+    private Double percentDiscount;
     private String description;
+    private OffsetDateTime startDiscount;
+    private OffsetDateTime expireDiscount;
 
-    private List<Integer> ordersIds;
+    List<Integer> ordersId;
 }

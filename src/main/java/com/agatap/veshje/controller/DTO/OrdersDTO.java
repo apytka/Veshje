@@ -34,4 +34,5 @@ public class OrdersDTO {
     private List<String> productIds;
     private List<Integer> orderItemIds;
     private Integer orderAddressDataId;
+    private Integer couponCodeId;
 }

@@ -42,4 +42,6 @@ public class Orders {
     private List<OrderItem> orderItem = new ArrayList<>();
     @OneToOne(mappedBy = "order")
     private OrderAddressData orderAddressData;
+    @ManyToOne
+    private CouponCode couponsCode;
 }

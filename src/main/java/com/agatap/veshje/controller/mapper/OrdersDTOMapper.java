@@ -26,6 +26,8 @@ public class OrdersDTOMapper {
                 .collect(Collectors.toList());
         Integer addressDataId = Optional.ofNullable(orders.getOrderAddressData())
                 .map(orderAddressData -> orderAddressData.getId()).orElse(null);
+        Integer couponCodeId = Optional.ofNullable(orders.getCouponsCode())
+                .map(coupon -> coupon.getId()).orElse(null);
         return OrdersDTO.builder()
                 .id(orders.getId())
                 .orderStatus(orders.getOrderStatus())
@@ -39,6 +41,7 @@ public class OrdersDTOMapper {
                 .productIds(productsId)
                 .orderItemIds(orderItemsId)
                 .orderAddressDataId(addressDataId)
+                .couponCodeId(couponCodeId)
                 .createDate(orders.getCreateDate())
                 .updateDate(orders.getCreateDate())
                 .build();

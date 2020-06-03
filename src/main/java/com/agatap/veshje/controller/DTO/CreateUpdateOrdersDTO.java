@@ -26,4 +26,5 @@ public class CreateUpdateOrdersDTO {
     private List<String> productIds;
     private List<Integer> orderItemIds;
     private Integer orderAddressDataId;
+    private Integer couponCodeId;
 }

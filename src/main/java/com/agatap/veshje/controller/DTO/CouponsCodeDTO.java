@@ -1,26 +1,29 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import javax.persistence.OneToMany;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryDTO {
+@Builder
+public class CouponsCodeDTO {
     private Integer id;
-    private String name;
-    private BigDecimal price;
-    private String timeDelivery;
+    private String code;
+    private Double percentDiscount;
     private String description;
+    private OffsetDateTime startDiscount;
+    private OffsetDateTime expireDiscount;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    private List<Integer> ordersIds;
+    List<Integer> ordersId;
 }

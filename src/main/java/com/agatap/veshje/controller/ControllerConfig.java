@@ -284,4 +284,19 @@ public class ControllerConfig {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleShoppingCartNotFoundException() {
     }
+
+    @ExceptionHandler(CouponCodeInvalidDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleCouponCodeBadRequest() {
+    }
+
+    @ExceptionHandler(CouponCodeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleCouponCodeNotFoundException() {
+    }
+
+    @ExceptionHandler(CouponCodeAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleCouponCodeAlreadyExist() {
+    }
 }
