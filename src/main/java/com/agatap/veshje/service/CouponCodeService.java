@@ -1,7 +1,7 @@
 package com.agatap.veshje.service;
 
-import com.agatap.veshje.controller.DTO.CouponsCodeDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateCouponsCodeDTO;
+import com.agatap.veshje.controller.DTO.CouponCodeDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateCouponCodeDTO;
 import com.agatap.veshje.controller.mapper.CouponCodeDTOMapper;
 import com.agatap.veshje.model.CouponCode;
 import com.agatap.veshje.repository.CouponCodeRepository;
@@ -21,13 +21,13 @@ public class CouponCodeService {
     private CouponCodeRepository couponCodeRepository;
     private CouponCodeDTOMapper mapper;
 
-    public List<CouponsCodeDTO> getAllCouponsCode() {
+    public List<CouponCodeDTO> getAllCouponsCode() {
         return couponCodeRepository.findAll().stream()
                 .map(couponsCode -> mapper.mappingToDTO(couponsCode))
                 .collect(Collectors.toList());
     }
 
-    public CouponsCodeDTO findCouponCodeDTOById(Integer id) throws CouponCodeNotFoundException {
+    public CouponCodeDTO findCouponCodeDTOById(Integer id) throws CouponCodeNotFoundException {
         return couponCodeRepository.findById(id)
                 .map(couponsCode -> mapper.mappingToDTO(couponsCode))
                 .orElseThrow(() -> new CouponCodeNotFoundException());
@@ -38,7 +38,7 @@ public class CouponCodeService {
                 .orElseThrow(() -> new CouponCodeNotFoundException());
     }
 
-    public CouponsCodeDTO createCouponCodeDTO(CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO) throws CouponCodeAlreadyExistException, CouponCodeInvalidDataException {
+    public CouponCodeDTO createCouponCodeDTO(CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO) throws CouponCodeAlreadyExistException, CouponCodeInvalidDataException {
         invalidCouponCodeData(createUpdateCouponCodeDTO);
         CouponCode couponCode = mapper.mappingToModel(createUpdateCouponCodeDTO);
         couponCode.setCreateDate(OffsetDateTime.now());
@@ -47,7 +47,7 @@ public class CouponCodeService {
         return mapper.mappingToDTO(newCouponCode);
     }
 
-    public CouponsCodeDTO updateCouponCodeDTO(Integer id, CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO)
+    public CouponCodeDTO updateCouponCodeDTO(Integer id, CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO)
             throws CouponCodeInvalidDataException, CouponCodeAlreadyExistException, CouponCodeNotFoundException {
         invalidCouponCodeData(createUpdateCouponCodeDTO);
         CouponCode couponCodeById = findCouponCodeById(id);
@@ -63,13 +63,13 @@ public class CouponCodeService {
     }
 
     @Transactional
-    public CouponsCodeDTO deleteCouponCodeDTO(Integer id) throws CouponCodeNotFoundException {
+    public CouponCodeDTO deleteCouponCodeDTO(Integer id) throws CouponCodeNotFoundException {
         CouponCode couponCodeById = findCouponCodeById(id);
         couponCodeRepository.delete(couponCodeById);
         return mapper.mappingToDTO(couponCodeById);
     }
 
-    private void invalidCouponCodeData(CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO) throws CouponCodeAlreadyExistException, CouponCodeInvalidDataException {
+    private void invalidCouponCodeData(CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO) throws CouponCodeAlreadyExistException, CouponCodeInvalidDataException {
         if(couponCodeRepository.existsByCode(createUpdateCouponCodeDTO.getCode())) {
             throw new CouponCodeAlreadyExistException();
         }
@@ -86,9 +86,13 @@ public class CouponCodeService {
         }
     }
 
-    public CouponsCodeDTO findCouponCodeDTOByCode(String code) throws CouponCodeNotFoundException {
+    public CouponCodeDTO findCouponCodeDTOByCode(String code) throws CouponCodeNotFoundException {
         return couponCodeRepository.findByCode(code)
                 .map(couponCode -> mapper.mappingToDTO(couponCode))
                 .orElseThrow(() -> new CouponCodeNotFoundException());
+    }
+
+    public boolean checkIfCouponExists(String coupon) {
+        return couponCodeRepository.existsByCode(coupon);
     }
 }

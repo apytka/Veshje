@@ -1,7 +1,7 @@
 package com.agatap.veshje.controller.mapper;
 
-import com.agatap.veshje.controller.DTO.CouponsCodeDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateCouponsCodeDTO;
+import com.agatap.veshje.controller.DTO.CouponCodeDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateCouponCodeDTO;
 import com.agatap.veshje.model.CouponCode;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Component
 public class CouponCodeDTOMapper {
 
-    public CouponsCodeDTO mappingToDTO(CouponCode couponCode) {
+    public CouponCodeDTO mappingToDTO(CouponCode couponCode) {
         List<Integer> ordersId = couponCode.getOrders().stream()
                 .map(orders -> orders.getId())
                 .collect(Collectors.toList());
-        return CouponsCodeDTO.builder()
+        return CouponCodeDTO.builder()
                 .id(couponCode.getId())
                 .code(couponCode.getCode())
                 .percentDiscount(couponCode.getPercentDiscount())
@@ -28,7 +28,7 @@ public class CouponCodeDTOMapper {
                 .build();
     }
 
-    public CouponCode mappingToModel(CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO) {
+    public CouponCode mappingToModel(CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO) {
         return CouponCode.builder()
                 .code(createUpdateCouponCodeDTO.getCode())
                 .percentDiscount(createUpdateCouponCodeDTO.getPercentDiscount())

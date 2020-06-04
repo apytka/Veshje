@@ -1,7 +1,7 @@
 package com.agatap.veshje.controller;
 
-import com.agatap.veshje.controller.DTO.CouponsCodeDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateCouponsCodeDTO;
+import com.agatap.veshje.controller.DTO.CouponCodeDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateCouponCodeDTO;
 import com.agatap.veshje.service.CouponCodeService;
 import com.agatap.veshje.service.exception.CouponCodeAlreadyExistException;
 import com.agatap.veshje.service.exception.CouponCodeInvalidDataException;
@@ -19,34 +19,39 @@ public class CouponCodeController {
     private CouponCodeService couponCodeService;
 
     @GetMapping
-    public List<CouponsCodeDTO> getAllCouponsCode() {
+    public List<CouponCodeDTO> getAllCouponsCode() {
         return couponCodeService.getAllCouponsCode();
     }
 
     @GetMapping("/{id}")
-    public CouponsCodeDTO findCouponCodeDTOById(@PathVariable Integer id) throws CouponCodeNotFoundException {
+    public CouponCodeDTO findCouponCodeDTOById(@PathVariable Integer id) throws CouponCodeNotFoundException {
         return couponCodeService.findCouponCodeDTOById(id);
     }
 
     @GetMapping("/code/{code}")
-    public CouponsCodeDTO findCouponCodeDTOByCode(@PathVariable String code) throws CouponCodeNotFoundException {
+    public CouponCodeDTO findCouponCodeDTOByCode(@PathVariable String code) throws CouponCodeNotFoundException {
         return couponCodeService.findCouponCodeDTOByCode(code);
     }
 
     @PostMapping
-    public CouponsCodeDTO createCouponCodeDTO(@RequestBody CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO)
+    public CouponCodeDTO createCouponCodeDTO(@RequestBody CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO)
             throws CouponCodeInvalidDataException, CouponCodeAlreadyExistException {
         return couponCodeService.createCouponCodeDTO(createUpdateCouponCodeDTO);
     }
 
     @PutMapping("/{id}")
-    public CouponsCodeDTO updateCouponCodeDTO(@PathVariable Integer id, @RequestBody CreateUpdateCouponsCodeDTO createUpdateCouponCodeDTO)
+    public CouponCodeDTO updateCouponCodeDTO(@PathVariable Integer id, @RequestBody CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO)
             throws CouponCodeInvalidDataException, CouponCodeAlreadyExistException, CouponCodeNotFoundException {
         return couponCodeService.updateCouponCodeDTO(id, createUpdateCouponCodeDTO);
     }
 
     @DeleteMapping("/{id}")
-    public CouponsCodeDTO deleteCouponCodeDTO(@PathVariable Integer id) throws CouponCodeNotFoundException {
+    public CouponCodeDTO deleteCouponCodeDTO(@PathVariable Integer id) throws CouponCodeNotFoundException {
         return couponCodeService.deleteCouponCodeDTO(id);
+    }
+
+    @GetMapping("/check-exists")
+    public boolean checkIfCouponExists(String coupon) {
+        return couponCodeService.checkIfCouponExists(coupon);
     }
 }

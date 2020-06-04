@@ -2100,7 +2100,6 @@ select.favourite-select-size :-moz-focusring {
 }
 
 .table-data {
-    width: 40%;
     top: 0;
     justify-content: left;
     text-align: left;
@@ -2349,6 +2348,15 @@ dd {
     display: flex;
 }
 
+.description-list > a {
+    width: 100%;
+    text-decoration: none;
+}
+
+.description-list > button {
+    width: 100%;
+}
+
 .description-list-hr {
     width: 100%;
     border-color: rgb(232, 232, 232) currentcolor currentcolor;
@@ -2393,8 +2401,25 @@ dd {
     transition: 0.5s;
 }
 
+.btn-add-coupon:disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+.btn-remove-coupon {
+    background-image: linear-gradient(to right, #211f1b, #34322d, #211f1b);
+    background-size: 300%;
+    color: #f4f3f1;
+    transition: 0.5s;
+}
+
+.btn-remove-coupon:hover {
+    border: none;
+    opacity: 0.8;
+}
+
 .add-discount-form {
-    padding: 30px 0 30px 0;
+    padding: 10px 0 10px 0;
     color: #2c2c2c;
     text-transform: uppercase;
     font-size: 1.2rem;
@@ -2405,7 +2430,14 @@ dd {
     text-transform: uppercase;
     font-size: 1.8rem;
     font-weight: 800;
-    padding: 40px 0;
+    padding: 30px 0 40px 0;
+}
+
+.cart-summary h3 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding: 30px 0 10px 0;
 }
 
 .img-icon-shipping,
@@ -2457,4 +2489,21 @@ dd {
 
 .fa-home, .fa-truck {
     font-size: 3rem;
+}
+
+.product-sale-price {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #c90000;
+    font-size: 1.4rem;
+    padding: 0 8px;
+}
+
+.sale-discount {
+    width: 100%;
+    background: transparent;
+    padding: 10px 0;
+    border: 1px solid #15a819;
+    color: #15a819;
 }

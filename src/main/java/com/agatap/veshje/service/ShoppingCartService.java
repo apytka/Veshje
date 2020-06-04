@@ -1,12 +1,11 @@
 package com.agatap.veshje.service;
 
-import com.agatap.veshje.controller.DTO.CreateUpdateShoppingCartDTO;
-import com.agatap.veshje.controller.DTO.ImageDTO;
-import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
+import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.controller.mapper.ShoppingCartDTOMapper;
 import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.ShoppingCart;
 import com.agatap.veshje.model.SizeType;
+import com.agatap.veshje.repository.CouponCodeRepository;
 import com.agatap.veshje.service.exception.*;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,11 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -31,6 +32,11 @@ public class ShoppingCartService {
     private ProductService productService;
     @Autowired
     private ShoppingCartDTOMapper mapper;
+    @Autowired
+    private CouponCodeRepository couponCodeRepository;
+    @Autowired
+    private CouponCodeService couponCodeService;
+
 
     public List<ShoppingCartDTO> getAllProductsInCart() {
         return products.stream()
@@ -38,10 +44,10 @@ public class ShoppingCartService {
                 .collect(Collectors.toList());
     }
 
-    public ShoppingCartDTO addProductToShoppingCart(CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO) throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException {
+    public ShoppingCartDTO addProductToShoppingCart(CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO) throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, CouponCodeNotFoundException {
         ShoppingCart shoppingCart = mapper.mappingToModel(createUpdateShoppingCartDTO);
-        ShoppingCart shoppingCartDTO = filterByProductIdAndSizeType(createUpdateShoppingCartDTO.getProductId(), createUpdateShoppingCartDTO.getSizeType());
-        if(shoppingCartDTO == null) {
+        ShoppingCart shoppingCartFilter = filterByProductIdAndSizeType(createUpdateShoppingCartDTO.getProductId(), createUpdateShoppingCartDTO.getSizeType());
+        if (shoppingCartFilter == null) {
             List<ImageDTO> imageByProductId = productService.findImageByProductId(createUpdateShoppingCartDTO.getProductId());
             ImageDTO imageDTO = imageByProductId.get(0);
             byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
@@ -56,9 +62,17 @@ public class ShoppingCartService {
             shoppingCart.setQuantity(createUpdateShoppingCartDTO.getQuantity());
             shoppingCart.setSizeType(createUpdateShoppingCartDTO.getSizeType());
             shoppingCart.setQuantityInStock(sizeService.getQuantityBySizeTypeAndProductId(createUpdateShoppingCartDTO.getSizeType(), createUpdateShoppingCartDTO.getProductId()));
+            if (!products.isEmpty()) {
+                String couponCode = products.get(0).getCouponCode();
+                if (couponCode != null) {
+                    CouponCodeDTO couponCodeDTOByCode = couponCodeService.findCouponCodeDTOByCode(products.get(0).getCouponCode());
+                    shoppingCart.setCouponCode(couponCode);
+                    shoppingCart.setProductSalePrice(shoppingCart.getProductPrice() * (1 - couponCodeDTOByCode.getPercentDiscount() / 100));
+                }
+            }
             products.add(shoppingCart);
         } else {
-            shoppingCartDTO.setQuantity(shoppingCartDTO.getQuantity() + 1);
+            shoppingCartFilter.setQuantity(shoppingCartFilter.getQuantity() + 1);
         }
 
         return mapper.mappingToDTO(shoppingCart);
@@ -103,15 +117,6 @@ public class ShoppingCartService {
         return mapper.mappingToDTO(shoppingCart);
     }
 
-    public Double getTotal() throws ProductNotFoundException {
-        Double totalAmount = 0.0;
-        for (ShoppingCart product : products) {
-            Product productById = productService.findProductById(product.getProductId());
-            totalAmount += (productById.getPrice() * product.getQuantity());
-        }
-        return totalAmount;
-    }
-
     public void checkoutStock(ShoppingCart shoppingCart) throws ProductNotFoundException, SizeNotFoundException, NotEnoughProductsInStockException {
         for (ShoppingCart product : products) {
             if (sizeService.getQuantityBySizeTypeAndProductId(shoppingCart.getSizeType(), shoppingCart.getProductId())
@@ -121,8 +126,7 @@ public class ShoppingCartService {
         }
     }
 
-
-    public ShoppingCartDTO filterByProductIdAndSizeTypeDTO (String id, SizeType sizeType) {
+    public ShoppingCartDTO filterByProductIdAndSizeTypeDTO(String id, SizeType sizeType) {
         List<ShoppingCartDTO> productInShoppingCart = findProductInShoppingCart(id);
         return productInShoppingCart.stream()
                 .filter(size -> size.getSizeType().equals(sizeType))
@@ -130,7 +134,7 @@ public class ShoppingCartService {
                 .orElse(null);
     }
 
-    public ShoppingCart filterByProductIdAndSizeType (String id, SizeType sizeType) {
+    public ShoppingCart filterByProductIdAndSizeType(String id, SizeType sizeType) {
         return products.stream()
                 .filter(product -> product.getProductId().equals(id))
                 .filter(size -> size.getSizeType().equals(sizeType))
@@ -145,9 +149,57 @@ public class ShoppingCartService {
     public int quantityProductInShoppingCart() {
         List<ShoppingCartDTO> allProductsInCart = getAllProductsInCart();
         int totalQuantity = 0;
-        for(ShoppingCartDTO shoppingCartDTO : allProductsInCart) {
+        for (ShoppingCartDTO shoppingCartDTO : allProductsInCart) {
             totalQuantity += shoppingCartDTO.getQuantity();
         }
         return totalQuantity;
+    }
+
+
+    public List<ShoppingCartDTO> addCouponCodeToShoppingCart(ChangeCouponCodeDTO changeCouponCodeDTO)
+            throws CouponCodeNotFoundException, CouponCodeInvalidDataException {
+
+        if (!couponCodeRepository.existsByCode(changeCouponCodeDTO.getCouponCode()) || products.isEmpty()) {
+            throw new CouponCodeInvalidDataException();
+        } else {
+            CouponCodeDTO couponCodeDTOByCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode());
+            for (ShoppingCart product : products) {
+                product.setCouponCode(changeCouponCodeDTO.getCouponCode());
+                product.setProductSalePrice(product.getProductPrice() * (1 - couponCodeDTOByCode.getPercentDiscount() / 100));
+            }
+        }
+        return products.stream()
+                .map(shoppingCart -> mapper.mappingToDTO(shoppingCart))
+                .collect(Collectors.toList());
+    }
+
+    public List<ShoppingCartDTO> removeCouponCodeWithShoppingCart() {
+        for (ShoppingCart shoppingCart : products) {
+            shoppingCart.setCouponCode(null);
+            shoppingCart.setProductSalePrice(null);
+        }
+        return products.stream()
+                .map(shoppingCart -> mapper.mappingToDTO(shoppingCart))
+                .collect(Collectors.toList());
+    }
+
+    public Double getTotalPrice() throws ProductNotFoundException {
+        Double totalAmount = 0.0;
+        for (ShoppingCart product : products) {
+            totalAmount += (product.getProductPrice() * product.getQuantity());
+        }
+        return totalAmount;
+    }
+
+    public Double getTotalSalePrice() {
+        Double totalAmount = 0.0;
+        if (!products.isEmpty()) {
+            if(products.get(0).getCouponCode() != null) {
+                for (ShoppingCart product : products) {
+                    totalAmount += (product.getProductSalePrice() * product.getQuantity());
+                }
+            }
+        }
+        return totalAmount;
     }
 }

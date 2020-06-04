@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller;
 
+import com.agatap.veshje.controller.DTO.ChangeCouponCodeDTO;
 import com.agatap.veshje.controller.DTO.CreateUpdateShoppingCartDTO;
 import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
 import com.agatap.veshje.model.SizeType;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/shopping-cart")
@@ -25,7 +25,7 @@ public class ShoppingCartController {
 
     @PostMapping
     public ShoppingCartDTO addProductToShoppingCart(@RequestBody CreateUpdateShoppingCartDTO createUpdateShoppingCartDTO)
-            throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException {
+            throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, CouponCodeNotFoundException {
         return shoppingCartService.addProductToShoppingCart(createUpdateShoppingCartDTO);
     }
 
@@ -53,5 +53,26 @@ public class ShoppingCartController {
     @GetMapping("/filter/{id}/{sizeType}")
     public ShoppingCartDTO filterByProductIdAndSizeTypeDTO (@PathVariable String id, @PathVariable SizeType sizeType) {
         return shoppingCartService.filterByProductIdAndSizeTypeDTO(id, sizeType);
+    }
+
+    @PutMapping("/add-code")
+    public List<ShoppingCartDTO> addCouponCodeWithShoppingCart(@RequestBody ChangeCouponCodeDTO changeCouponCodeDTO)
+            throws CouponCodeInvalidDataException, CouponCodeNotFoundException {
+        return shoppingCartService.addCouponCodeToShoppingCart(changeCouponCodeDTO);
+    }
+
+    @PutMapping("/remove-code")
+    public List<ShoppingCartDTO> removeCouponCodeWithShoppingCart() {
+        return shoppingCartService.removeCouponCodeWithShoppingCart();
+    }
+
+    @GetMapping("/total-price")
+    public Double getTotalPrice() throws ProductNotFoundException {
+        return shoppingCartService.getTotalPrice();
+    }
+
+    @GetMapping("/total-sale-price")
+    public Double getTotalSalePrice() throws ProductNotFoundException {
+        return shoppingCartService.getTotalSalePrice();
     }
 }

@@ -6,6 +6,7 @@
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -125,9 +126,7 @@
         </ul>
     </div>
 </header>
-
 <main>
-    <div class="alert-container" th:insert="/index.html :: error-info"></div>
     <div class="panels-cart">
         <div class="panel-login-account panel-cart">
             <div class="heading-h1">
@@ -170,7 +169,11 @@
                         <span th:text="'COLOR: ' + ${product.productColor}"></span>
                     </div>
                     <div class="table-data-details">
-                        <span th:text="'PRICE: € ' + ${product.productPrice}"></span>
+                        <span th:if="${containsCouponCode} != true"
+                              th:text="'PRICE: € ' + ${product.productPrice}"></span>
+                        <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
+                            <span class="product-sale-price">€[[${product.productSalePrice}]]</span>
+                        </span>
                     </div>
                     <div class="table-data-details">
                         <span th:text="'SIZE: ' + ${product.sizeType}"></span>
@@ -193,41 +196,77 @@
                     </a>
                 </div>
                 <div class="table-data-details data-cart-details">
-                    <span th:text="'€' + ${product.quantity * product.productPrice}"></span>
+                    <span th:if="${containsCouponCode} != true"
+                          th:text="'€' + ${product.quantity * product.productPrice}"></span>
+                    <div th:if="${containsCouponCode} == true">
+                        <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
+                        <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel-cart-summary">
             <div class="cart-summary">
+                <div class="sale-discount" th:if="${containsCouponCode} == true">You save total € [[${total -
+                    totalSalePrice}]]
+                </div>
                 <h4>Summary</h4>
                 <div class="description-list">
                     <dt>Products price</dt>
-                    <dd>€ [[${total}]]</dd>
+                    <dd th:if="${containsCouponCode} != true">€ [[${total}]]</dd>
+                    <dd th:if="${containsCouponCode} == true">€ [[${totalSalePrice}]]</dd>
                 </div>
                 <div class="description-list">
                     <dt>Delivery</dt>
-                    <dd>FROM € [[${minPriceDelivery.price}]]
+                    <dd>FROM € [[${priceDelivery}]]
                         <i class="fas fa-info-circle" id="table-delivery-zoom"></i>
                     </dd>
                 </div>
                 <hr class="description-list-hr">
                 <div class="description-list">
                     <dt>Total with VAT</dt>
-                    <dd th:text="'€ ' + ${total + minPriceDelivery.price}"></dd>
+                    <dd th:if="${containsCouponCode} != true" th:text="'€ ' + ${total + priceDelivery}"></dd>
+                    <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePrice + priceDelivery}"></dd>
                 </div>
-                <div>
-                    <form class="add-discount-form">
-                        <h3>I have coupon code</h3>
-                        <div class="add-coupon">
-                            <div class="cart-data-input">
-                                <input type="text" class="add-coupon-input">
-                            </div>
-                            <div class="cart-data-input">
-                                <input type="submit" class="btn-add-coupon" value="Add">
-                            </div>
+                <div class="description-list">
+                    <a href="/checkout/order" th:if="${isEmpty} != true">
+                        <button type="submit" class="btn">Go to checkout</button>
+                    </a>
+                    <button th:if="${isEmpty} == true" type="submit" class="btn" disabled="disabled">Go to
+                        checkout
+                    </button>
+                </div>
+                <h3>I have coupon code</h3>
+                <form th:if="${containsCouponCode} != true" action="#" th:action="@{'/shopping-bag/add-coupon'}"
+                      th:object="${couponCode}" method="get"
+                      class="add-discount-form">
+                    <div class="add-coupon">
+                        <div class="cart-data-input">
+                            <input th:field="*{couponCode}" th:value="${couponCode.couponCode}"
+                                   th:id="${couponCode.couponCode}" th:name="${couponCode.couponCode}" type="text"
+                                   class="add-coupon-input">
                         </div>
-                    </form>
+                        <div class="cart-data-input">
+                            <input type="submit" class="btn-add-coupon" value="Add" th:disabled="${cartIsEmpty}">
+                        </div>
+                    </div>
+                </form>
+                <div th:if="${containsCouponCode} == true" class="add-discount-form">
+                    <div class="add-coupon">
+                        <div class="cart-data-input">
+                            <input th:value="${addCouponCode}" type="text" class="add-coupon-input" disabled>
+                        </div>
+                        <div class="cart-data-input">
+                            <a th:href="'shopping-bag/remove-coupon'">
+                                <button type="submit" class="btn-add-coupon btn-remove-coupon">Remove coupon
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <div th:if="${couponAddSuccessfully} == true">Your coupon were applied successfully</div>
+                <div th:if="${couponInvalid} == true">Discount code is not exists or expired</div>
                 <div class="description-list-footer">
                     <div class="description-list">
                         <dt>Shipments</dt>
@@ -253,8 +292,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="delivery-table" id="delivery-table">
         <div class="delivery-table-cart fade">
             <div class="delivery-container" id="delivery-container">
@@ -269,7 +306,8 @@
                         <div th:text="${deliveries.get(0).timeDelivery}"></div>
                     </div>
                     <div class="delivery-details">
-                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(0).price}]]</strong></div>
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(0).price}]]</strong>
+                        </div>
                         <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
                     </div>
                 </div>
@@ -283,15 +321,14 @@
                         <div th:text="${deliveries.get(1).timeDelivery}"></div>
                     </div>
                     <div class="delivery-details">
-                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(1).price}]]</strong></div>
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(1).price}]]</strong>
+                        </div>
                         <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
 <script>

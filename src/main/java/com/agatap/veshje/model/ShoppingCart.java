@@ -15,8 +15,10 @@ public class ShoppingCart {
     private String productName;
     private String productColor;
     private Double productPrice;
+    private Double productSalePrice;
     private String productImage;
     private SizeType sizeType;
     private Integer quantity;
     private Integer quantityInStock;
+    private String couponCode;
 }
