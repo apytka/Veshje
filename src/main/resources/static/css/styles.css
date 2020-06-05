@@ -2504,6 +2504,33 @@ dd {
     width: 100%;
     background: transparent;
     padding: 10px 0;
-    border: 1px solid #15a819;
-    color: #15a819;
+    border: 1px solid #13a639;
+    color: #13a639;
+}
+
+.fa-times,
+.fa-check {
+    font-size: 1.4rem;
+    color: brown;
+    padding: 0 10px;
+}
+
+.fa-check {
+    color: white;
+}
+
+.alert-coupon-code {
+    width: 98%;
+    border: 1px solid brown;
+    font-weight: 700;
+    color: brown;
+    padding: 5px;
+}
+
+.success-coupon-code {
+    width: 98%;
+    padding: 5px;
+    font-weight: 700;
+    background: #13a639;
+    color: white;
 }

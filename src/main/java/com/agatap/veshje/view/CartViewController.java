@@ -118,14 +118,11 @@ public class CartViewController {
     public ModelAndView addCouponToShoppingBag(@ModelAttribute(name = "couponCode") ChangeCouponCodeDTO changeCouponCodeDTO)
             throws CouponCodeInvalidDataException, CouponCodeNotFoundException {
 
-        // todo
-//        ModelAndView modelAndView = new ModelAndView("cart");
-//        if (!couponCodeService.checkIfCouponExists(changeCouponCodeDTO.getCouponCode())) {
-//            modelAndView.addObject("couponInvalid", true);
-//        } else {
-//            modelAndView.addObject("couponAddSuccessfully", true);
-//            shoppingCartService.addCouponCodeToShoppingCart(changeCouponCodeDTO);
-//        }
+        ModelAndView modelAndView = new ModelAndView("cart");
+        if (!couponCodeService.checkIfCouponExists(changeCouponCodeDTO.getCouponCode())) {
+            modelAndView.addObject("message", "Discount code is not exists or expired");
+            return new ModelAndView("redirect:/shopping-bag?error");
+        }
         shoppingCartService.addCouponCodeToShoppingCart(changeCouponCodeDTO);
         return new ModelAndView("redirect:/shopping-bag");
     }

@@ -264,9 +264,14 @@
                         </div>
                     </div>
                 </div>
-
-                <div th:if="${couponAddSuccessfully} == true">Your coupon were applied successfully</div>
-                <div th:if="${couponInvalid} == true">Discount code is not exists or expired</div>
+                <div class="alert-container" th:fragment="error-info">
+                    <div th:if="${param.error}" class="alert-coupon-code">
+                        <i class="fas fa-times"></i>Discount code is not exists or expired
+                    </div>
+                    <div th:if="${containsCouponCode} == true" class="success-coupon-code">
+                        <i class="fas fa-check"></i>Your coupon were applied successfully!
+                    </div>
+                </div>
                 <div class="description-list-footer">
                     <div class="description-list">
                         <dt>Shipments</dt>
