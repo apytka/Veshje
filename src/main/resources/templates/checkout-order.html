@@ -129,80 +129,96 @@
 <main>
     <div class="panels-cart">
         <div class="panel-cart">
-            <div class="heading-h1">
-                <h1>Cart</h1>
-                <span class="quantity">[[${quantityProduct}]] QTY</span>
+            <div class="back-to">
+                <a href="/shopping-bag">&#10094; Back to cart</a>
             </div>
-            <div th:if="${isEmpty} != true">
-                <i class="fas fa-info-circle"></i>
-                <span>Do not delay with the purchase, adding items to the cart does not mean their reservation.</span>
-            </div>
-            <div class="cart-empty" th:if="${isEmpty} == true">
-                <h2>- Your cart is empty -</h2>
-                <h3>Continue shopping</h3>
-                <div class="contain-cart">
-                    <div class="three-columns-cart" th:each="product: ${map}">
-                        <a th:href="@{'/products/' + ${product.value}}">
-                            <img class="a-image-cart" th:src="|data:image/png;base64,${product.key}|" style="width:100%"
-                                 alt="">
-                            <div class="btn btn-empty-cart">[[${product.value}]]</div>
+            <div class="order-container">
+                <form class="hand-order-form">
+                    <h1>Shipping method</h1>
+                    <div class="order-shipping-container">
+                        <div class="order-shipping-radio">
+                            <input type="radio" name="delivery" th:value="${deliveries.get(0).id}"
+                                   th:id="${deliveries.get(0).name}"
+                                   class="order-shipping-input" required>
+                            <label th:for="${deliveries.get(0).name}" class="order-shipping-label">
+                                <i class="fas fa-home"></i>
+                                <span class="order-shipping-span">[[${deliveries.get(0).name}]]<br/>
+                                    <span>[[${deliveries.get(0).timeDelivery}]]</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="order-shipping-radio">
+                            <input type="radio" name="delivery" th:value="${deliveries.get(1).id}"
+                                   th:id="${deliveries.get(1).name}"
+                                   class="order-shipping-input" required>
+                            <label th:for="${deliveries.get(1).name}" class="order-shipping-label">
+                                <i class="fas fa-truck"></i>
+                                <span class="order-shipping-span">[[${deliveries.get(1).name}]]<br/>
+                                    <span>[[${deliveries.get(1).timeDelivery}]]</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <h1>Shipping address</h1>
+                    <div class="order-shipping-container">
+                        <div class="order-shipping-radio" th:each="address: ${addresses}">
+                            <input type="radio" name="address" th:value="${address.id}"
+                                   th:id="${address.street}"
+                                   class="order-shipping-input" required>
+                            <label th:for="${address.street}" class="order-shipping-label">
+                                <span class="order-shipping-span">[[${address.firstName}]] [[${address.lastName}]]<br/>
+                                    <span>[[${address.street}]] [[${address.no}]]<br/>[[${address.postalCode}]] [[${address.city}]]</span>
+                                    <span>[[${address.phoneNumber}]]</span>
+                                </span>
+                            </label>
+                        </div>
+                        <a href="/add-address">
+                            <div class="order-shipping-radio order-shipping-radio-add">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
                         </a>
                     </div>
-                </div>
-            </div>
-            <div class="table-shopping-cart" th:each="product: ${shoppingCart}">
-                <div class="table-favourites-img">
-                    <div class="product-display-img">
-                        <a th:href="'/products/dress-details/' + ${product.productId}">
-                            <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
-                        </a>
+                    <h1>Payment method</h1>
+                    <div class="order-shipping-container">
+                        <div class="order-shipping-radio">
+                            <input type="radio" name="payment" th:value="${payments.get(0).id}"
+                                   th:id="${payments.get(0).name}"
+                                   class="order-shipping-input" required>
+                            <label th:for="${payments.get(0).name}" class="order-shipping-label">
+                                <span class="order-shipping-span">
+                                    <img class="img-icon-color" src="/img/orders/przelewy24_color.png" alt="Przelewy24">
+                                </span>
+                            </label>
+                        </div>
+                        <div class="order-shipping-radio">
+                            <input type="radio" name="payment" th:value="${payments.get(1).id}"
+                                   th:id="${payments.get(1).name}"
+                                   class="order-shipping-input" required>
+                            <label th:for="${payments.get(1).name}" class="order-shipping-label">
+                                <span class="order-shipping-span">
+                                    <img class="img-icon-color" src="/img/orders/payu_color.png" alt="PayU">
+                                </span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="table-data">
-                    <div class="table-data-details data-cart-details">
-                        <span th:text="${product.productName}"></span>
+                    <div class="order-shipping-container-submit">
+                        <button th:if="${isEmpty} != true" type="submit" class="btn btn-order">
+                            <span class="btn-order-span">Shop and pay</span>
+                            <span th:if="${containsCouponCode} != true">total <span class="btn-order-span">
+                                € [[${totalPriceWithDelivery}]]</span> with VAT</span>
+                            <span th:if="${containsCouponCode} == true">total <span class="btn-order-span">
+                                € [[${totalSalePriceWithDelivery}]]</span> with VAT</span>
+                        </button>
+                        <button th:if="${isEmpty} == true" class="btn btn-order" disabled>
+                            <span class="btn-order-span">Shop and pay</span>
+                        </button>
+                        <div>
+                            When you click Shop and Pay you will create your order. When you order at
+                            <strong>Veshje</strong>,
+                            you agree to our <a href="/terms-and-conditions">Terms & Conditions</a>.
+                        </div>
                     </div>
-                    <div class="table-data-details">
-                        <span th:text="'INDEX: ' + ${product.productId}"></span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:text="'COLOR: ' + ${product.productColor}"></span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:if="${containsCouponCode} != true"
-                              th:text="'PRICE: € ' + ${product.productPrice}"></span>
-                        <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
-                            <span class="product-sale-price">€[[${product.productSalePrice}]]</span>
-                        </span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:text="'SIZE: ' + ${product.sizeType}"></span>
-                    </div>
-                    <div class="table-data-details data-cart-details">
-                        <form action="#" th:action="@{'/shopping-bag/update/' + ${product.id}}"
-                              th:object="${updateShoppingCart}">
-                            <input type="hidden" th:name="sizeType" th:id="sizeType" th:value="${product.sizeType}">
-                            <span class='number-wrapper'>
-                            <input type="number" th:name="quantity" th:id="quantity" th:value="${product.quantity}"
-                                   min="1" th:max="${product.quantityInStock}"/>
-                            </span>
-                            <input type="submit" class="btn-small" value="Convert">
-                        </form>
-                    </div>
-                </div>
-                <div class="table-data-delete">
-                    <a th:href="'shopping-bag/delete-product?id=' + ${product.id}">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-                <div class="table-data-details data-cart-details">
-                    <span th:if="${containsCouponCode} != true"
-                          th:text="'€' + ${product.quantity * product.productPrice}"></span>
-                    <div th:if="${containsCouponCode} == true">
-                        <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
-                        <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="panel-cart-summary">
@@ -229,16 +245,9 @@
                     <dd th:if="${containsCouponCode} != true" th:text="'€ ' + ${totalPriceWithDelivery}"></dd>
                     <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePriceWithDelivery}"></dd>
                 </div>
-                <div class="description-list">
-                    <a href="/checkout/order" th:if="${isEmpty} != true">
-                        <button type="submit" class="btn">Go to checkout</button>
-                    </a>
-                    <button th:if="${isEmpty} == true" type="submit" class="btn" disabled="disabled">Go to
-                        checkout
-                    </button>
-                </div>
+
                 <h3>I have coupon code</h3>
-                <form th:if="${containsCouponCode} != true" action="#" th:action="@{'/shopping-bag/add-coupon'}"
+                <form th:if="${containsCouponCode} != true" action="#" th:action="@{'/checkout/order/add-coupon'}"
                       th:object="${couponCode}" method="get"
                       class="add-discount-form">
                     <div class="add-coupon">
@@ -258,7 +267,7 @@
                             <input th:value="${addCouponCode}" type="text" class="add-coupon-input" disabled>
                         </div>
                         <div class="cart-data-input">
-                            <a th:href="'shopping-bag/remove-coupon'">
+                            <a th:href="'/checkout/order/remove-coupon'">
                                 <button type="submit" class="btn-add-coupon btn-remove-coupon">Remove coupon
                                 </button>
                             </a>
@@ -272,6 +281,40 @@
                     <div th:if="${containsCouponCode} == true" class="success-coupon-code">
                         <i class="fas fa-check"></i>Your coupon were applied successfully!
                     </div>
+                </div>
+                <div class="products-summary" id="products-summary-id">
+                    <span class="product-summary-desc">Your order</span>
+                    <span class="product-summary-quantity">[[${quantityProduct}]] QTY</span>
+                </div>
+                <div class="products-summary-panel" id="products-summary-panel-id">
+
+
+                    <div class="table-shopping-cart table-order-summary" th:each="product: ${shoppingCart}">
+                        <div class="table-shopping-cart-img table-shopping-cart-img-summary">
+                            <div class="product-display-img product-display-img-summary">
+                                <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 200px">
+                            </div>
+                        </div>
+                        <div class="table-data table-data-summary">
+                            <div class="table-data-details data-cart-details">
+                                <span th:text="${product.productName}"></span>
+                            </div>
+                            <div class="table-data-details">
+                                <span th:text="'INDEX: ' + ${product.productId}"></span>
+                            </div>
+                            <div class="table-data-details">
+                                <span th:text="'SIZE: ' + ${product.sizeType}"></span>
+                            </div>
+                        </div>
+                    <span th:if="${containsCouponCode} != true"
+                          th:text="'€' + ${product.quantity * product.productPrice}"></span>
+                            <div th:if="${containsCouponCode} == true">
+                                <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
+                                <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
+                            </div>
+                    </div>
+
+
                 </div>
                 <div class="description-list-footer">
                     <div class="description-list">
@@ -340,7 +383,7 @@
     </div>
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
-<script>
+<script type="text/javascript">
     var deliveryTable = document.getElementById("delivery-table");
     var deliveryContainer = document.getElementById("delivery-container");
     const tableDeliveryZoom = document.getElementById("table-delivery-zoom");
@@ -354,6 +397,19 @@
     closeDeliveryTable.onclick = function () {
         deliveryTable.style.display = "none";
     }
+</script>
+<script type="text/javascript">
+    var productsSummary = document.getElementById("products-summary-id");
+
+    productsSummary.addEventListener("click", function () {
+        this.classList.toggle("active-product-summary");
+        var panelSummary = document.getElementById("products-summary-panel-id");
+        if (panelSummary.style.maxHeight) {
+            panelSummary.style.maxHeight = null;
+        } else {
+            panelSummary.style.maxHeight = panelSummary.scrollHeight + "px";
+        }
+    });
 </script>
 </body>
 </html>

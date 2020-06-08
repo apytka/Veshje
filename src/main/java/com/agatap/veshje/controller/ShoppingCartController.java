@@ -72,7 +72,27 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/total-sale-price")
-    public Double getTotalSalePrice() throws ProductNotFoundException {
+    public Double getTotalSalePrice() {
         return shoppingCartService.getTotalSalePrice();
+    }
+
+    @GetMapping("/delivery-price")
+    public Double getDeliveryPrice() throws ProductNotFoundException {
+        return shoppingCartService.getDeliveryPrice();
+    }
+
+    @GetMapping("/total-price/delivery")
+    public Double getTotalPriceWithDelivery() throws ProductNotFoundException {
+        return shoppingCartService.getTotalPriceWithDelivery();
+    }
+
+    @GetMapping("/total-sale-price/delivery")
+    public Double getTotalSalePriceWithDelivery() throws ProductNotFoundException {
+        return shoppingCartService.getTotalSalePriceWithDelivery();
+    }
+
+    @GetMapping("/total-sale-price/discount")
+    public Double getTotalDiscount() throws ProductNotFoundException {
+        return shoppingCartService.getTotalDiscount();
     }
 }

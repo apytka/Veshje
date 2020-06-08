@@ -6,6 +6,7 @@ import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,24 +34,7 @@ public class CartViewController {
         ModelAndView modelAndView = new ModelAndView("cart");
         List<ShoppingCartDTO> shoppingCart = shoppingCartService.getAllProductsInCart();
 
-        List<CategoryDTO> allCategory = categoryService.getAllCategory();
-        Map<String, String> map = new HashMap<>();
-        for (CategoryDTO category : allCategory) {
-            List<ProductDTO> productDTOList = productService.randomProductsInCategory(1, category.getName());
-            for (ProductDTO product : productDTOList) {
-                List<ImageDTO> images = productService.findImageByProductId(product.getId());
-                String base64Encoded = null;
-                for (ImageDTO image : images) {
-                    byte[] encodeBase64 = Base64.encodeBase64(image.getData());
-                    base64Encoded = new String(encodeBase64, "UTF-8");
-                }
-                map.put(base64Encoded, category.getName());
-            }
-        }
-
-        Double total = shoppingCartService.getTotalPrice();
-        Double totalSalePrice = shoppingCartService.getTotalSalePrice();
-        List<DeliveryDTO> deliveries = deliveryService.getAllDelivery();
+        Map<String, String> map = getProductWithImageAfterCategory();
 
         for (ShoppingCartDTO shoppingCartDTO : shoppingCartService.getAllProductsInCart()) {
             String couponCode = shoppingCartDTO.getCouponCode();
@@ -69,26 +53,19 @@ public class CartViewController {
             }
         }
 
-        Double priceDelivery;
-        if (totalSalePrice != 0 && totalSalePrice >= 100) {
-            priceDelivery = 0.0;
-        } else if (total >= 100 && totalSalePrice == 0) {
-            priceDelivery = 0.0;
-        } else {
-            priceDelivery = deliveryService.findMinPriceDeliveryDTO().getPrice().doubleValue();
-        }
-
-
-        modelAndView.addObject("priceDelivery", priceDelivery);
+        modelAndView.addObject("totalDiscount", shoppingCartService.getTotalDiscount());
+        modelAndView.addObject("totalPriceWithDelivery", shoppingCartService.getTotalPriceWithDelivery());
+        modelAndView.addObject("totalSalePriceWithDelivery", shoppingCartService.getTotalSalePriceWithDelivery());
+        modelAndView.addObject("priceDelivery", shoppingCartService.getDeliveryPrice());
         modelAndView.addObject("cartIsEmpty", shoppingCartService.getAllProductsInCart().isEmpty());
-        modelAndView.addObject("deliveries", deliveries);
+        modelAndView.addObject("deliveries", deliveryService.getAllDelivery());
         modelAndView.addObject("map", map);
         modelAndView.addObject("updateShoppingCart", new ShoppingCart());
         modelAndView.addObject("couponCode", new ChangeCouponCodeDTO());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("isEmpty", shoppingCartService.shoppingCartIsEmpty());
-        modelAndView.addObject("total", total);
-        modelAndView.addObject("totalSalePrice", totalSalePrice);
+        modelAndView.addObject("total", shoppingCartService.getTotalPrice());
+        modelAndView.addObject("totalSalePrice", shoppingCartService.getTotalSalePrice());
         modelAndView.addObject("shoppingCart", shoppingCart);
         return modelAndView;
     }
@@ -116,14 +93,18 @@ public class CartViewController {
 
     @GetMapping("/shopping-bag/add-coupon")
     public ModelAndView addCouponToShoppingBag(@ModelAttribute(name = "couponCode") ChangeCouponCodeDTO changeCouponCodeDTO)
-            throws CouponCodeInvalidDataException, CouponCodeNotFoundException {
+            throws CouponCodeNotFoundException {
 
         ModelAndView modelAndView = new ModelAndView("cart");
         if (!couponCodeService.checkIfCouponExists(changeCouponCodeDTO.getCouponCode())) {
             modelAndView.addObject("message", "Discount code is not exists or expired");
             return new ModelAndView("redirect:/shopping-bag?error");
         }
-        shoppingCartService.addCouponCodeToShoppingCart(changeCouponCodeDTO);
+        try {
+            shoppingCartService.addCouponCodeToShoppingCart(changeCouponCodeDTO);
+        } catch (CouponCodeInvalidDataException e) {
+            return new ModelAndView("redirect:/shopping-bag?error");
+        }
         return new ModelAndView("redirect:/shopping-bag");
     }
 
@@ -131,5 +112,24 @@ public class CartViewController {
     public ModelAndView removeCouponCode() {
         shoppingCartService.removeCouponCodeWithShoppingCart();
         return new ModelAndView("redirect:/shopping-bag");
+    }
+
+    @NotNull
+    private Map<String, String> getProductWithImageAfterCategory() throws ProductNotFoundException, UnsupportedEncodingException {
+        List<CategoryDTO> allCategory = categoryService.getAllCategory();
+        Map<String, String> map = new HashMap<>();
+        for (CategoryDTO category : allCategory) {
+            List<ProductDTO> productDTOList = productService.randomProductsInCategory(1, category.getName());
+            for (ProductDTO product : productDTOList) {
+                List<ImageDTO> images = productService.findImageByProductId(product.getId());
+                String base64Encoded = null;
+                for (ImageDTO image : images) {
+                    byte[] encodeBase64 = Base64.encodeBase64(image.getData());
+                    base64Encoded = new String(encodeBase64, "UTF-8");
+                }
+                map.put(base64Encoded, category.getName());
+            }
+        }
+        return map;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,7 +37,8 @@ public class ShoppingCartService {
     private CouponCodeRepository couponCodeRepository;
     @Autowired
     private CouponCodeService couponCodeService;
-
+    @Autowired
+    private DeliveryService deliveryService;
 
     public List<ShoppingCartDTO> getAllProductsInCart() {
         return products.stream()
@@ -159,7 +161,11 @@ public class ShoppingCartService {
     public List<ShoppingCartDTO> addCouponCodeToShoppingCart(ChangeCouponCodeDTO changeCouponCodeDTO)
             throws CouponCodeNotFoundException, CouponCodeInvalidDataException {
 
-        if (!couponCodeRepository.existsByCode(changeCouponCodeDTO.getCouponCode()) || products.isEmpty()) {
+        CouponCodeDTO couponCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode());
+        if (!couponCodeRepository.existsByCode(changeCouponCodeDTO.getCouponCode())
+                || products.isEmpty()
+                || OffsetDateTime.now().isBefore(couponCode.getStartDiscount())
+                || OffsetDateTime.now().isAfter(couponCode.getExpireDiscount())) {
             throw new CouponCodeInvalidDataException();
         } else {
             CouponCodeDTO couponCodeDTOByCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode());
@@ -194,12 +200,36 @@ public class ShoppingCartService {
     public Double getTotalSalePrice() {
         Double totalAmount = 0.0;
         if (!products.isEmpty()) {
-            if(products.get(0).getCouponCode() != null) {
+            if (products.get(0).getCouponCode() != null) {
                 for (ShoppingCart product : products) {
                     totalAmount += (product.getProductSalePrice() * product.getQuantity());
                 }
             }
         }
         return totalAmount;
+    }
+
+    public Double getDeliveryPrice() throws ProductNotFoundException {
+        Double priceDelivery;
+        if (getTotalSalePrice() != 0 && getTotalSalePrice() >= 100) {
+            priceDelivery = 0.0;
+        } else if (getTotalPrice() >= 100 && getTotalSalePrice() == 0) {
+            priceDelivery = 0.0;
+        } else {
+            priceDelivery = deliveryService.findMinPriceDeliveryDTO().getPrice().doubleValue();
+        }
+        return priceDelivery;
+    }
+
+    public Double getTotalPriceWithDelivery() throws ProductNotFoundException {
+        return getTotalPrice() + getDeliveryPrice();
+    }
+
+    public Double getTotalSalePriceWithDelivery() throws ProductNotFoundException {
+        return getTotalSalePrice() + getDeliveryPrice();
+    }
+
+    public Double getTotalDiscount() throws ProductNotFoundException {
+        return getTotalPriceWithDelivery() - getTotalSalePriceWithDelivery();
     }
 }
