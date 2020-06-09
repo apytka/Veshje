@@ -894,9 +894,15 @@ header {
     color: #f4f3f1;
 }
 
-.btn-data-account {
+.btn-data-account,
+.btn-data-account-order {
     width: 300px;
     margin: 20px 0 20px 0;
+}
+
+.btn-data-account-order {
+    position: relative;
+    right: 20px;
 }
 
 .account-input {
@@ -1308,6 +1314,11 @@ table.general-table tr {
     flex-wrap: wrap;
 }
 
+.account-data-address-container {
+    background: #f4f3f1;
+    padding: 15px;
+}
+
 /*ALERT INFORMATION*/
 
 .alert-information {
@@ -1440,7 +1451,8 @@ table.general-table tr {
 .modal,
 .product-table-size,
 .product-review-cart,
-.delivery-table {
+.delivery-table,
+.order-add-address-table {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -1690,7 +1702,8 @@ table.general-table tr {
 }
 
 .product-table-cart,
-.delivery-table-cart {
+.delivery-table-cart,
+.order-add-address-table-cart {
     background: white;
     bottom: auto;
     right: auto;
@@ -1706,7 +1719,12 @@ table.general-table tr {
     padding: 0 10px 10px 10px;
 }
 
-.delivery-table-cart {
+.order-add-address-table-cart {
+    padding: 0;
+}
+
+.delivery-table-cart,
+.order-add-address-table-cart {
     height: auto;
 }
 
@@ -2476,6 +2494,10 @@ dd {
     padding: 5px;
 }
 
+.order-add-address-container {
+  padding: 0;
+}
+
 .delivery-table-details {
     display: flex;
     flex-wrap: wrap;
@@ -2657,6 +2679,7 @@ dd {
     justify-content: center;
     align-items: center;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 .order-shipping-radio-add:hover {
@@ -2667,9 +2690,10 @@ dd {
     font-size: 3.5rem;
 }
 
-.order-shipping-container > a {
-    text-decoration: none;
+.order-information-term > a {
     color: black;
+    font-weight: 500;
+    font-size: 1.5rem;
 }
 
 .img-icon-color {

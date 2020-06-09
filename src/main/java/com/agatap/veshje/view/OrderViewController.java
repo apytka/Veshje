@@ -2,27 +2,31 @@ package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.ChangeCouponCodeDTO;
 import com.agatap.veshje.controller.DTO.CouponCodeDTO;
+import com.agatap.veshje.controller.DTO.CreateUpdateAddressDataDTO;
 import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
-import com.agatap.veshje.model.ShoppingCart;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.service.*;
-import com.agatap.veshje.service.exception.CouponCodeInvalidDataException;
-import com.agatap.veshje.service.exception.CouponCodeNotFoundException;
-import com.agatap.veshje.service.exception.ProductNotFoundException;
-import com.agatap.veshje.service.exception.UserNotFoundException;
+import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
+
 
 @AllArgsConstructor
 @Controller
 public class OrderViewController {
+
+    private final Logger LOG = LoggerFactory.getLogger(OrderViewController.class);
 
     private UserService userService;
     private AddressDataService addressDataService;
@@ -69,6 +73,7 @@ public class OrderViewController {
         modelAndView.addObject("total", shoppingCartService.getTotalPrice());
         modelAndView.addObject("totalSalePrice", shoppingCartService.getTotalSalePrice());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
+        modelAndView.addObject("createAddress", new CreateUpdateAddressDataDTO());
         return modelAndView;
     }
 
@@ -93,5 +98,20 @@ public class OrderViewController {
     public ModelAndView removeCouponCode() {
         shoppingCartService.removeCouponCodeWithShoppingCart();
         return new ModelAndView("redirect:/checkout/order");
+    }
+
+    @PostMapping("/checkout/order/add-address")
+    public ModelAndView addAddressInOrder(@Valid @ModelAttribute(name = "createAddress") CreateUpdateAddressDataDTO createAddressDataDTO,
+                                          BindingResult bindingResult, Authentication authentication)
+            throws AddressDataInvalidException, UserNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("checkout-order");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the add user address");
+            return new ModelAndView("redirect:/checkout/order?error");
+        }
+        User user = userService.findUserByEmail(authentication.getName());
+        addressDataService.createAddressFromUser(createAddressDataDTO, user.getId());
+        return new ModelAndView("redirect:/checkout/order?success");
     }
 }

@@ -172,11 +172,9 @@
                                 </span>
                             </label>
                         </div>
-                        <a href="/add-address">
-                            <div class="order-shipping-radio order-shipping-radio-add">
-                                <i class="fas fa-plus-circle"></i>
-                            </div>
-                        </a>
+                        <div class="order-shipping-radio order-shipping-radio-add" id="order-shipping-radio-add">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
                     </div>
                     <h1>Payment method</h1>
                     <div class="order-shipping-container">
@@ -212,7 +210,7 @@
                         <button th:if="${isEmpty} == true" class="btn btn-order" disabled>
                             <span class="btn-order-span">Shop and pay</span>
                         </button>
-                        <div>
+                        <div class="order-information-term">
                             When you click Shop and Pay you will create your order. When you order at
                             <strong>Veshje</strong>,
                             you agree to our <a href="/terms-and-conditions">Terms & Conditions</a>.
@@ -306,12 +304,12 @@
                                 <span th:text="'SIZE: ' + ${product.sizeType}"></span>
                             </div>
                         </div>
-                    <span th:if="${containsCouponCode} != true"
-                          th:text="'€' + ${product.quantity * product.productPrice}"></span>
-                            <div th:if="${containsCouponCode} == true">
-                                <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
-                                <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
-                            </div>
+                        <span th:if="${containsCouponCode} != true"
+                              th:text="'€' + ${product.quantity * product.productPrice}"></span>
+                        <div th:if="${containsCouponCode} == true">
+                            <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
+                            <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
+                        </div>
                     </div>
 
 
@@ -381,8 +379,116 @@
             </div>
         </div>
     </div>
+
+
+    <div class="order-add-address-table" id="order-add-address-table">
+        <div class="order-add-address-table-cart fade">
+            <div class="order-add-address-container" id="order-add-address-container">
+                <span class="close-zoom-table">&times;</span>
+                <form action="#" th:action="@{/checkout/order/add-address}" th:object="${createAddress}" method="post"
+                      class="account-data-container" id="account-data-form">
+                    <div class="account-data-address-container">
+                    <div class="account-text">
+                        <h4>My data</h4>
+                        <span>* required fields </span>
+                    </div>
+                        <div class="account-address-container">
+                            <div class="account-data-input">
+                                <h3>First name*</h3>
+                                <input type="text" id="address-first-name" th:field="*{firstName}"
+                                       class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                            <div class="account-data-input">
+                                <h3>Last name*</h3>
+                                <input type="text" id="address-last-name" th:field="*{lastName}" class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                        <div class="account-address-container">
+                            <div class="account-data-input">
+                                <h3>Phone number*</h3>
+                                <input type="text" id="address-phone-number" th:field="*{phoneNumber}"
+                                       class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                        <div class="account-address-container">
+                            <div class="account-data-input">
+                                <h3>Street*</h3>
+                                <input type="text" id="address-street" th:field="*{street}" class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                            <div class="account-data-input">
+                                <h3>Number*</h3>
+                                <input type="text" id="address-number" th:field="*{no}"
+                                       class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                        <div class="account-address-container">
+                            <div class="account-data-input">
+                                <h3>Postal code*</h3>
+                                <input type="text" id="address-postal-code" th:field="*{postalCode}"
+                                       class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                            <div class="account-data-input">
+                                <h3>City*</h3>
+                                <input type="text" id="address-city" th:field="*{city}" class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                        <div class="account-address-container">
+                            <div class="account-data-input">
+                                <h3>Information</h3>
+                                <input type="text" id="address-information" th:field="*{information}"
+                                       class="account-input">
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-to-right">
+                        <input type="submit" class="btn btn-data-account-order" value="Add address">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
+<script type="text/javascript" src="/js/validate-form.js"></script>
+<script type="text/javascript">
+    var orderAddAddressTable = document.getElementById("order-add-address-table");
+    var orderAddAddressContainer = document.getElementById("order-add-address-container");
+    const orderShippingRadioAdd = document.getElementById("order-shipping-radio-add");
+
+    orderShippingRadioAdd.onclick = function () {
+        orderAddAddressTable.style.display = "block";
+        orderAddAddressContainer.src = this.src;
+    }
+
+    var closeOrderAddAddress = document.getElementsByClassName("close-zoom-table")[1];
+    closeOrderAddAddress.onclick = function () {
+        orderAddAddressTable.style.display = "none";
+    }
+</script>
 <script type="text/javascript">
     var deliveryTable = document.getElementById("delivery-table");
     var deliveryContainer = document.getElementById("delivery-container");
