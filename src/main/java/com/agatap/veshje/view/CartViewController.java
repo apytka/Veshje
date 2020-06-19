@@ -37,6 +37,7 @@ public class CartViewController {
         Map<String, String> map = getProductWithImageAfterCategory();
 
         for (ShoppingCartDTO shoppingCartDTO : shoppingCartService.getAllProductsInCart()) {
+            modelAndView.addObject("test", shoppingCartDTO.getId());
             String couponCode = shoppingCartDTO.getCouponCode();
             if (couponCode != null) {
                 modelAndView.addObject("addCouponCode", couponCode);

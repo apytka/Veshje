@@ -299,4 +299,34 @@ public class ControllerConfig {
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleCouponCodeAlreadyExist() {
     }
+
+    @ExceptionHandler(ContactDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleContactBadRequest() {
+    }
+
+    @ExceptionHandler(ContactNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleContactNotFoundException() {
+    }
+
+    @ExceptionHandler(ContactAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleContactAlreadyExist() {
+    }
+
+    @ExceptionHandler(ContactTopicDataInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleContactTopicBadRequest() {
+    }
+
+    @ExceptionHandler(ContactTopicNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleContactTopicNotFoundException() {
+    }
+
+    @ExceptionHandler(ContactTopicAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleContactTopicAlreadyExist() {
+    }
 }

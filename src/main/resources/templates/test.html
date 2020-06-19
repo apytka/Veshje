@@ -8,6 +8,31 @@
 </head>
 <body>
 
-
+Select your car make:
+<select id='sel1' onchange="checkAndSubmit()">
+    <option value="0">Select...</option>
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="mercedes">Mercedes</option>
+    <option value="audi">Audi</option>
+</select>
+<br/><br/>
+Select your gender:
+<select id='sel2' onchange="checkAndSubmit()">
+    <option value="0">Select...</option>
+    <option value="Male">Volvo</option>
+    <option value="Female">Saab</option>
+</select>
+<script type="text/javascript">
+    function checkAndSubmit()
+    {
+        if (document.getElementById('sel1').selectedIndex > 0
+            && document.getElementById('sel2').selectedIndex > 0)
+        {
+            //document.getElementById('formID').submit();
+            alert('both have been selected!');
+        }
+    }
+</script>
 </body>
 </html>

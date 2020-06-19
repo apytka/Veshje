@@ -231,8 +231,7 @@
                 </div>
                 <div class="description-list">
                     <dt>Delivery</dt>
-                    <dd th:if="${priceDelivery} > 0">FROM € [[${priceDelivery}]]
-                        <i class="fas fa-info-circle" id="table-delivery-zoom"></i>
+                    <dd th:if="${priceDelivery} > 0">€ [[${priceDelivery}]]
                     </dd>
                     <dd th:if="${priceDelivery} == 0" class="delivery-strong-free">Free
                     </dd>
@@ -289,7 +288,7 @@
 
                     <div class="table-shopping-cart table-order-summary" th:each="product: ${shoppingCart}">
                         <div class="table-shopping-cart-img table-shopping-cart-img-summary">
-                            <div class="product-display-img product-display-img-summary">
+                            <div class="product-display-img-summary">
                                 <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 200px">
                             </div>
                         </div>
@@ -303,6 +302,15 @@
                             <div class="table-data-details">
                                 <span th:text="'SIZE: ' + ${product.sizeType}"></span>
                             </div>
+                            <div class="table-data-details">
+                                <span th:if="${containsCouponCode} != true" th:text="'PRICE: € ' + ${product.productPrice}"></span>
+                                <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
+                            <span class="product-sale-price product-sale-price-summary">€[[${product.productSalePrice}]]</span>
+                        </span>
+                            </div>
+                            <div class="table-data-details">
+                                <span th:text="'QTY: ' + ${product.quantity}"></span>
+                            </div>
                         </div>
                         <span th:if="${containsCouponCode} != true"
                               th:text="'€' + ${product.quantity * product.productPrice}"></span>
@@ -311,8 +319,6 @@
                             <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="description-list-footer">
                     <div class="description-list">
@@ -342,45 +348,6 @@
             </div>
         </div>
     </div>
-    <div class="delivery-table" id="delivery-table">
-        <div class="delivery-table-cart fade">
-            <div class="delivery-container" id="delivery-container">
-                <span class="close-zoom-table">&times;</span>
-                <h2>Time and cost of delivery</h2>
-                <div class="delivery-table-details">
-                    <div class="delivery-details">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div class="delivery-details">
-                        <div th:text="${deliveries.get(0).name}"></div>
-                        <div th:text="${deliveries.get(0).timeDelivery}"></div>
-                    </div>
-                    <div class="delivery-details">
-                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(0).price}]]</strong>
-                        </div>
-                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
-                    </div>
-                </div>
-                <hr class="description-list-hr">
-                <div class="delivery-table-details">
-                    <div class="delivery-details">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="delivery-details">
-                        <div th:text="${deliveries.get(1).name}"></div>
-                        <div th:text="${deliveries.get(1).timeDelivery}"></div>
-                    </div>
-                    <div class="delivery-details">
-                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(1).price}]]</strong>
-                        </div>
-                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div class="order-add-address-table" id="order-add-address-table">
         <div class="order-add-address-table-cart fade">
             <div class="order-add-address-container" id="order-add-address-container">
@@ -484,24 +451,9 @@
         orderAddAddressContainer.src = this.src;
     }
 
-    var closeOrderAddAddress = document.getElementsByClassName("close-zoom-table")[1];
+    var closeOrderAddAddress = document.getElementsByClassName("close-zoom-table")[0];
     closeOrderAddAddress.onclick = function () {
         orderAddAddressTable.style.display = "none";
-    }
-</script>
-<script type="text/javascript">
-    var deliveryTable = document.getElementById("delivery-table");
-    var deliveryContainer = document.getElementById("delivery-container");
-    const tableDeliveryZoom = document.getElementById("table-delivery-zoom");
-
-    tableDeliveryZoom.onclick = function () {
-        deliveryTable.style.display = "block";
-        deliveryContainer.src = this.src;
-    }
-
-    var closeDeliveryTable = document.getElementsByClassName("close-zoom-table")[0];
-    closeDeliveryTable.onclick = function () {
-        deliveryTable.style.display = "none";
     }
 </script>
 <script type="text/javascript">

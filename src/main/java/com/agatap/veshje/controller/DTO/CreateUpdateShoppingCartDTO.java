@@ -13,4 +13,7 @@ public class CreateUpdateShoppingCartDTO {
     private String productId;
     private SizeType sizeType;
     private Integer quantity;
+    private Integer deliveryId;
+    private Integer addressId;
+    private Integer paymentId;
 }

@@ -151,56 +151,59 @@
                 </div>
             </div>
             <div class="table-shopping-cart" th:each="product: ${shoppingCart}">
-                <div class="table-favourites-img">
-                    <div class="product-display-img">
-                        <a th:href="'/products/dress-details/' + ${product.productId}">
-                            <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
-                        </a>
+                <div class="table-data-media">
+                    <div class="table-favourites-img">
+                        <div class="product-display-img">
+                            <a th:href="'/products/dress-details/' + ${product.productId}">
+                                <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="table-data">
-                    <div class="table-data-details data-cart-details">
-                        <span th:text="${product.productName}"></span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:text="'INDEX: ' + ${product.productId}"></span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:text="'COLOR: ' + ${product.productColor}"></span>
-                    </div>
-                    <div class="table-data-details">
+                <div class="table-data-media table-data-media-details">
+                    <div class="table-data">
+                        <div class="table-data-details data-cart-details">
+                            <span th:text="${product.productName}"></span>
+                        </div>
+                        <div class="table-data-details">
+                            <span th:text="'INDEX: ' + ${product.productId}"></span>
+                        </div>
+                        <div class="table-data-details">
+                            <span th:text="'COLOR: ' + ${product.productColor}"></span>
+                        </div>
+                        <div class="table-data-details">
                         <span th:if="${containsCouponCode} != true"
                               th:text="'PRICE: € ' + ${product.productPrice}"></span>
-                        <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
+                            <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
                             <span class="product-sale-price">€[[${product.productSalePrice}]]</span>
                         </span>
-                    </div>
-                    <div class="table-data-details">
-                        <span th:text="'SIZE: ' + ${product.sizeType}"></span>
-                    </div>
-                    <div class="table-data-details data-cart-details">
-                        <form action="#" th:action="@{'/shopping-bag/update/' + ${product.id}}"
-                              th:object="${updateShoppingCart}">
-                            <input type="hidden" th:name="sizeType" th:id="sizeType" th:value="${product.sizeType}">
-                            <span class='number-wrapper'>
+                        </div>
+                        <div class="table-data-details">
+                            <span th:text="'SIZE: ' + ${product.sizeType}"></span>
+                        </div>
+                        <div class="table-data-details data-cart-details">
+                            <form action="#" th:action="@{'/shopping-bag/update/' + ${product.id}}"
+                                  th:object="${updateShoppingCart}" id="form-change-quantity">
+                                <input type="hidden" th:name="sizeType" th:id="sizeType" th:value="${product.sizeType}">
+                                <span class="number-wrapper">
                             <input type="number" th:name="quantity" th:id="quantity" th:value="${product.quantity}"
-                                   min="1" th:max="${product.quantityInStock}"/>
+                                   min="1" th:max="${product.quantityInStock}" onmouseup="this.form.submit()"/>
                             </span>
-                            <input type="submit" class="btn-small" value="Convert">
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="table-data-delete">
-                    <a th:href="'shopping-bag/delete-product?id=' + ${product.id}">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-                <div class="table-data-details data-cart-details">
+                    <div class="table-data-delete">
+                        <a th:href="'shopping-bag/delete-product?id=' + ${product.id}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                    <div class="table-data-details data-cart-details data-cart-details-media">
                     <span th:if="${containsCouponCode} != true"
                           th:text="'€' + ${product.quantity * product.productPrice}"></span>
-                    <div th:if="${containsCouponCode} == true">
-                        <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
-                        <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
+                        <div th:if="${containsCouponCode} == true">
+                            <s>€ [[${product.quantity * product.productPrice}]]</s><br/>
+                            <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
+    <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>VESHJE</title>
+</head>
+<body>
+<header class="header">
+    <nav class="navbar">
+    <span class="open-slide">
+        <a href="#" onclick="openSlideMenu()">
+            <svg width="30" height="30">
+            <path d="M0,5 30,5" stroke="#000000" stroke-width="1.5"/>
+            <path d="M0,14 30,14" stroke="#000000" stroke-width="1.5"/>
+            <path d="M0,23 30,23" stroke="#000000" stroke-width="1.5"/>
+        </svg>
+        </a>
+    </span>
+        <a href="/" class="image-logo" title="Veshje - go to homepage">
+            <img src="/img/veshje-logo.svg" alt="Veshje online shop - logo">
+        </a>
+        <ul class="navbar-nav">
+            <li>
+                <form action="/search" method="get" class="search-form">
+                    <div class="input-div one">
+                        <div class="i">
+                            <a href="/search">
+                                <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
+		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
+		        S11.383,6,18,6z"/>
+                </g>
+            </svg>
+                            </a>
+                        </div>
+                        <div>
+                            <h5>Search</h5>
+                            <input class="input" type="text">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <a href="/account" title="User account" class="navbar-nav-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M29.089,24.747C32.6,22.909,35,19.238,35,15c0-6.075-4.925-11-11-11S13,8.925,13,15c0,4.238,2.4,7.909,5.911,9.747
+		        C10.89,27.09,5,34.809,5,44h38C43,34.809,37.11,27.09,29.089,24.747z M15,15c0-4.963,4.037-9,9-9s9,4.037,9,9c0,4.963-4.037,9-9,9
+		        S15,19.963,15,15z M24,26c8.735,0,15.953,7.013,16.896,16H7.104C8.047,33.013,15.265,26,24,26z"/></g>
+            </svg>
+                </a>
+            </li>
+            <li>
+                <a href="/favourites" title="Favourites product" class="navbar-nav-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M8.444,27L24,42l15.556-15c2.7-2.033,4.444-5.256,4.444-8.889C44,11.978,39.022,7,32.889,7
+		        C29.256,7,26.022,8.756,24,11.456C21.978,8.756,18.744,7,15.111,7C8.978,7,4,11.978,4,18.111C4,21.744,5.744,24.967,8.444,27z
+		         M15.111,9c2.85,0,5.574,1.366,7.288,3.654L24,14.792l1.601-2.137C27.315,10.366,30.039,9,32.889,9C37.913,9,42,13.087,42,18.111
+		        c0,2.888-1.329,5.546-3.648,7.291l-0.097,0.073l-0.088,0.085L24,39.222L9.833,25.56l-0.088-0.085l-0.097-0.073
+		        C7.33,23.657,6,20.999,6,18.111C6,13.087,10.087,9,15.111,9z"/>
+                </g>
+                </svg>
+                </a>
+            </li>
+            <li>
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                    <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M4,40c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4l0-26h-9.191C33.865,8.888,29.382,5,24,5s-9.865,3.888-10.809,9H4L4,40z M24,7
+		        c4.275,0,7.855,2.998,8.768,7H15.232C16.145,9.998,19.725,7,24,7z M13,16v6h2v-6h18v6h2v-6h7l0,24c0,1.103-0.897,2-2,2H8
+		        c-1.103,0-2-0.897-2-2l0-24H13z"/>
+                </g>
+                </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="side-menu" class="side-nav">
+        <a href="" class="btn-close" onclick="closeSlideMenu()">&times;</a>
+        <div class="side-nav-search">
+            <form action="/search" method="get" class="side-nav-search-form">
+                <input type="text" placeholder="Search" class="side-nav-search-input">
+                <button type="submit">
+                    <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
+		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
+		        S11.383,6,18,6z"/>
+                </g>
+            </svg>
+                </button>
+            </form>
+        </div>
+        <h1>Collection</h1>
+        <ul>
+            <li><a href="/products/new" title="New collection">New in</a></li>
+            <li><a href="/products/mini" title="Mini dresses">Mini</a></li>
+            <li><a href="/products/midi" title="Midi dresses">Midi</a></li>
+            <li><a href="/products/long" title="Long dresses">Long</a></li>
+            <li><a href="/products/sale" title="Sale dresses">Sale</a></li>
+        </ul>
+    </div>
+</header>
+<main>
+    <div class="alert-container" th:insert="/index.html :: error-info"></div>
+    <div class="panels-account-header">
+        <h5>Help and information</h5>
+    </div>
+    <div class="panels-account">
+        <div class="panel-account panel-help-links">
+            <ul id="help-links">
+                <li><a href="/contact" class="a-help-links active" title="Contact">Contact</a></li>
+                <li><a href="/shop-at-veshje" class="a-help-links" title="Shop at Veshje">Shop at Veshje</a></li>
+                <li><a href="/about-product" class="a-help-links" title="Products info">Products info</a></li>
+                <li><a href="/gift-cards" class="a-help-links" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" class="a-help-links" title="Payments">Payments</a></li>
+                <li><a href="/shipping" class="a-help-links" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" class="a-help-links" title="Exchange and returns">Exchange and
+                    returns</a></li>
+                <li><a href="/shops-and-company" class="a-help-links" title="Shops and company">Shops and company</a>
+                </li>
+                <li><a href="/about" class="a-help-links" title="About">About</a></li>
+                <li><a href="/career" class="a-help-links" title="Career">Career</a></li>
+                <li><a href="/privacy-policy" class="a-help-links" title="Privacy policy">Privacy policy</a></li>
+                <li><a href="/terms-and-conditional" class="a-help-links" title="Terms and conditional">Terms and
+                    conditional</a></li>
+            </ul>
+        </div>
+        <div class="panel-account panel-account-data">
+            <div class="help-data">
+                <div class="contact-text">
+                    <h4>Contact</h4>
+                </div>
+                <div class="help-contact">
+                    <div class="help-contact-tile help-contact-tile-one" id="help-contact-tile-one">
+                        <i class="far fa-envelope"></i>
+                        <span class="help-tile-text">Write us</span>
+                    </div>
+                    <a href="tel:0048 800800888">
+                        <div class="help-contact-tile help-contact-tile-two">
+                            <div class="help-contact-tile-number">
+                                <i class="fas fa-headset"></i>
+                                <span class="help-tile-text">Phone us</span>
+                            </div>
+                            <div class="help-contact-tile-number help-contact-tile-number-two">
+                                <span class="help-tile-text">Customer Service Helpline</span>
+                                <span class="help-tile-text">0048-800-800-888</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="help-contact-form" id="help-contact-form">
+                    <form action="#" th:action="@{contact}" th:object="${createUpdateContact}" method="post"
+                          class="account-data-container" id="contact-data-form">
+                        <div class="contact-help-container">
+                            <div class="contact-text">
+                                <h5>Let us help you</h5>
+                                <span>* required fields </span>
+                            </div>
+                            <div class="contact-container">
+                                <input type="hidden" id="status" th:field="*{status}" class="contact-input">
+                                <div class="account-data-input">
+                                    <h3>First name*</h3>
+                                    <input type="text" id="contact-first-name" th:field="*{firstName}" class="contact-input">
+                                    <i class="fas fa-check-square"></i>
+                                    <i class="fas fa-minus-square"></i>
+                                    <small>Error message</small>
+                                </div>
+                                <div class="account-data-input">
+                                    <h3>Last name*</h3>
+                                    <input type="text" id="contact-last-name" th:field="*{lastName}" class="contact-input">
+                                    <i class="fas fa-check-square"></i>
+                                    <i class="fas fa-minus-square"></i>
+                                    <small>Error message</small>
+                                </div>
+                            </div>
+                            <div class="account-address-container">
+                                <div class="account-data-input">
+                                    <h3>Phone number*</h3>
+                                    <input type="text" id="contact-phone-number" th:field="*{phoneNumber}" class="contact-input">
+                                    <i class="fas fa-check-square"></i>
+                                    <i class="fas fa-minus-square"></i>
+                                    <small>Error message</small>
+                                </div>
+                                <div class="account-data-input">
+                                    <h3>Email*</h3>
+                                    <input type="text" id="contact-email" th:field="*{email}" class="contact-input">
+                                    <i class="fas fa-check-square"></i>
+                                    <i class="fas fa-minus-square"></i>
+                                    <small>Error message</small>
+                                </div>
+                            </div>
+                            <div class="account-address-container">
+                                <div class="account-data-input">
+                                    <h3>Order numbers</h3>
+                                    <input type="text" id="contact-order-no" th:field="*{orderNumber}" class="contact-input">
+                                </div>
+                            </div>
+                            <div class="help-container-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    In the case of online orders, providing your order number will speed up processing
+                                    of your enquiry.
+                            </div>
+                            <div class="contact-text">
+                                <h5>Topic</h5>
+                            </div>
+                            <div class="account-data-input" style="width: 100%">
+                                <select th:field="*{contactTopicId}" class="contact-select-topic" required>
+                                    <option value="" hidden="true">Choose topic*</option>
+                                    <option th:each="topic: ${topicsMessage}" th:text="${topic.topic}" name="contactId"
+                                            th:value="${topic.id}" id="contact-topic"></option>
+                                </select>
+                            </div>
+                            <div class="contact-text">
+                                <h5>Message*</h5>
+                            </div>
+                            <div class="account-data-input account-address-container" style="width: 100%">
+                                <textarea id="contact-message" th:field="*{message}" class="textarea-generally"></textarea>
+                                <i class="fas fa-check-square"></i>
+                                <i class="fas fa-minus-square"></i>
+                                <small>Error message</small>
+                            </div>
+                        </div>
+                        <div class="information-term">
+                            By clicking "send" you consent to your data being processed by Veshje for the purpose of answering your contact form message.
+                            Submitting your data is voluntary, however lack of consent will make it impossible for us to contact you.
+                            Read more about your data being processed in our <a href="/privacy-policy">Privacy Policy</a>.
+                        </div>
+                        <div class="btn-to-right">
+                            <input type="submit" class="btn btn-data-account-order" value="Send">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panels-account-footer"></div>
+</main>
+<footer class="footer-container">
+    <div class="accordion-container">
+        <div class="accordion-cart">
+            <h4 class="accordion">Shop</h4>
+            <ul class="panel">
+                <li><a href="/products/new" title="New collection">New in</a></li>
+                <li><a href="/products/mini" title="Mini dresses">Mini</a></li>
+                <li><a href="/products/midi" title="Midi dresses">Midi</a></li>
+                <li><a href="/products/long" title="Long dresses">Long</a></li>
+                <li><a href="/products/sale" title="Sale dresses">Sale</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Help</h4>
+            <ul class="panel">
+                <li><a href="/shop-at-veshje" title="Shop at veshje">Shop at veshje</a></li>
+                <li><a href="/about-product" title="Product">Product</a></li>
+                <li><a href="/gift-cards" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" title="Payment">Payment</a></li>
+                <li><a href="/shipping" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="/account" title="My account">My account</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Corporate info</h4>
+            <ul class="panel">
+                <li><a href="/about" title="About Veshje">About</a></li>
+                <li><a href="/career" title="Career at Veshje">Career</a></li>
+                <li><a href="/shops-and-company" title="Shops and company">Shops and company</a></li>
+                <li><a href="/contact" title="Contact">Contact</a></li>
+                <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
+            </ul>
+        </div>
+
+        <div class="accordion-cart" id="newsletter">
+            <h4 class="accordion">Newsletter</h4>
+            <ul class="panel">
+                <!--                <form action="#" th:action="@{account}" th:object="${addNewsletterAccount}" method="post"-->
+                <!--                      class="newsletter-container">-->
+                <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+                <!--                    <div class="input-div one">-->
+                <!--                        <div class="i">-->
+                <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+                <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+                <!--                                <g id="Shopicon">-->
+                <!--	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+                <!--		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+                <!--		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+                <!--                                </g>-->
+                <!--                            </svg>-->
+                <!--                        </div>-->
+                <!--                        <div>-->
+                <!--                            <h5>Email</h5>-->
+                <!--                            <input type="email" th:field="*{email}" class="input" required>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+                <!--                    <div class="newsletter-checkbox">-->
+                <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+                <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+                <!--                    </div>-->
+                <!--                    <input type="submit" class="btn" value="Send">-->
+                <!--                </form>-->
+            </ul>
+        </div>
+    </div>
+    <div class="footer-container-socials">
+        <div class="socials">
+            <a href="#" title="facebook" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-facebook"></i></a>
+            <a href="#" title="twitter" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-twitter-square"></i></a>
+            <a href="#" title="instagram" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-instagram"></i></a>
+            <a href="#" title="youtube" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="copyright">
+            <p>Veshje © 2020 All rights reserved</p>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="/js/js.js"></script>
+
+<script type="text/javascript">
+    /*SEND MESSAGE - CONTACT*/
+    const formContact = document.getElementById('contact-data-form');
+    const firstNameContact = document.getElementById('contact-first-name');
+    const lastNameContact = document.getElementById('contact-last-name');
+    const phoneNumberContact = document.getElementById('contact-phone-number');
+    const emailContact = document.getElementById('contact-email');
+    const messageContact = document.getElementById('contact-message');
+
+    formContact.addEventListener('submit', e => {
+        if(!checkInputsContact()) {
+            e.preventDefault();
+        }
+    });
+
+    function checkInputsContact() {
+        const firstNameContactValue = firstNameContact.value.trim();
+        const lastNameContactValue = lastNameContact.value.trim();
+        const phoneNumberContactValue = phoneNumberContact.value.trim();
+        const emailContactValue = emailContact.value.trim();
+        const messageContactValue = messageContact.value.trim();
+
+        let inputValidatorContact = true;
+
+        if (firstNameContactValue === '') {
+            setContactErrorFor(firstNameContact, 'First name cannot be blank');
+            inputValidatorContact = false;
+        } else {
+            setContactSuccessFor(firstNameContact);
+        }
+
+        if (lastNameContactValue === '') {
+            setContactErrorFor(lastNameContact, 'Last name cannot be blank');
+            inputValidatorContact = false;
+        } else {
+            setContactSuccessFor(lastNameContact);
+        }
+
+        if (phoneNumberContactValue === '') {
+            setContactErrorFor(phoneNumberContact, 'Phone number cannot be blank');
+            inputValidatorContact = false;
+        } else if (!validatePhoneNumber(phoneNumberContactValue)) {
+            setContactErrorFor(phoneNumberContact, 'Wrong format. Example: +48888111000');
+            inputValidatorContact = false;
+        } else {
+            setContactSuccessFor(phoneNumberContact);
+        }
+
+        if (emailContactValue === '') {
+            setContactErrorFor(emailContact, 'Email cannot be blank');
+            inputValidatorContact = false;
+        } else if(!validateEmail(emailContactValue)) {
+            setContactErrorFor(emailContact, 'Wrong format');
+            inputValidatorContact = false;
+        } else {
+            setContactSuccessFor(emailContact);
+        }
+
+        if (messageContactValue === '') {
+            setContactErrorFor(messageContact, 'Message cannot be blank')
+            inputValidatorContact = false;
+        } else {
+            setContactSuccessFor(messageContact);
+        }
+
+        return inputValidatorContact;
+    }
+
+    function setContactErrorFor(input, message) {
+        const formControl = input.parentElement;
+        const small = formControl.querySelector('small');
+        formControl.className = 'account-data-input error';
+        small.innerText = message;
+    }
+
+    function setContactSuccessFor(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'account-data-input success';
+    }
+
+    function validatePhoneNumber(phoneNumberContact) {
+        return /^\+\d{11}$/.test(phoneNumberContact);
+    }
+
+    function validateEmail(emailContact) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(emailContact);
+    }
+
+    /* FLIP CONTACT */
+    $(document).ready(function () {
+        $("#help-contact-tile-one").click(function () {
+            $("#help-contact-form").slideToggle("slow");
+        });
+    });
+
+    var panel = document.getElementById("help-links");
+    var aAccountLinks = panel.getElementsByClassName("a-help-links");
+    for (var i = 0; i < aAccountLinks.length; i++) {
+        aAccountLinks[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+
+    var acc = document.getElementsByClassName("accordion");
+    var accAccordion;
+
+    for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
+        acc[accAccordion].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>

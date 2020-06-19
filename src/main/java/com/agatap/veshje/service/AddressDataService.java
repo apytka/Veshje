@@ -88,21 +88,6 @@ public class AddressDataService {
         return mapper.mappingToDTO(addressData);
     }
 
-    private void invalidData(CreateUpdateAddressDataDTO createUpdateAddressDataDTO) throws AddressDataInvalidException {
-        String postalCodePattern = "^\\d{2}-\\d{3}$";
-        String phoneNumberPattern = "^\\+\\d{11}$";
-        Pattern patternPostalCode = Pattern.compile(postalCodePattern);
-        Matcher matcherPostalCode = patternPostalCode.matcher(createUpdateAddressDataDTO.getPostalCode());
-        boolean postalCodeCheck = matcherPostalCode.matches();
-        Pattern patternPhoneNumber = Pattern.compile(phoneNumberPattern);
-        Matcher matcherPhoneNumber = patternPhoneNumber.matcher(createUpdateAddressDataDTO.getPhoneNumber());
-        boolean phoneNumberCheck = matcherPhoneNumber.matches();
-
-        if (!postalCodeCheck || !phoneNumberCheck) {
-            throw new AddressDataInvalidException();
-        }
-    }
-
     public List<AddressDataDTO> findAddressesByUserId(Integer id) throws UserNotFoundException {
         User user = userService.findUserById(id);
         return user.getAddressData().stream()
@@ -122,5 +107,20 @@ public class AddressDataService {
 
         AddressData saveAddressData = addressDataRepository.save(addressData);
         return mapper.mappingToDTO(saveAddressData);
+    }
+
+    private void invalidData(CreateUpdateAddressDataDTO createUpdateAddressDataDTO) throws AddressDataInvalidException {
+        String postalCodePattern = "^\\d{2}-\\d{3}$";
+        String phoneNumberPattern = "^\\+\\d{11}$";
+        Pattern patternPostalCode = Pattern.compile(postalCodePattern);
+        Matcher matcherPostalCode = patternPostalCode.matcher(createUpdateAddressDataDTO.getPostalCode());
+        boolean postalCodeCheck = matcherPostalCode.matches();
+        Pattern patternPhoneNumber = Pattern.compile(phoneNumberPattern);
+        Matcher matcherPhoneNumber = patternPhoneNumber.matcher(createUpdateAddressDataDTO.getPhoneNumber());
+        boolean phoneNumberCheck = matcherPhoneNumber.matches();
+
+        if (!postalCodeCheck || !phoneNumberCheck) {
+            throw new AddressDataInvalidException();
+        }
     }
 }

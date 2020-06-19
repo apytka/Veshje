@@ -51,7 +51,7 @@ public class CouponCodeService {
             throws CouponCodeInvalidDataException, CouponCodeAlreadyExistException, CouponCodeNotFoundException {
         invalidCouponCodeData(createUpdateCouponCodeDTO);
         CouponCode couponCodeById = findCouponCodeById(id);
-        couponCodeById.setCode(createUpdateCouponCodeDTO.getCode());
+        couponCodeById.setCode(createUpdateCouponCodeDTO.getCode().toLowerCase());
         couponCodeById.setDescription(createUpdateCouponCodeDTO.getDescription());
         couponCodeById.setPercentDiscount(createUpdateCouponCodeDTO.getPercentDiscount());
         couponCodeById.setStartDiscount(createUpdateCouponCodeDTO.getStartDiscount());
@@ -70,7 +70,7 @@ public class CouponCodeService {
     }
 
     private void invalidCouponCodeData(CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO) throws CouponCodeAlreadyExistException, CouponCodeInvalidDataException {
-        if(couponCodeRepository.existsByCode(createUpdateCouponCodeDTO.getCode())) {
+        if(couponCodeRepository.existsByCode(createUpdateCouponCodeDTO.getCode().toLowerCase())) {
             throw new CouponCodeAlreadyExistException();
         }
 

@@ -111,4 +111,3 @@ function validatePostalCode(postalCode) {
     return /^\d{2}-\d{3}$/.test(postalCode);
 }
 
-/*ADD NEWSLETTER*/

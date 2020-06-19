@@ -162,15 +162,15 @@ public class ShoppingCartService {
             throws CouponCodeNotFoundException, CouponCodeInvalidDataException {
 
         CouponCodeDTO couponCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode());
-        if (!couponCodeRepository.existsByCode(changeCouponCodeDTO.getCouponCode())
+        if (!couponCodeRepository.existsByCode(changeCouponCodeDTO.getCouponCode().toLowerCase())
                 || products.isEmpty()
                 || OffsetDateTime.now().isBefore(couponCode.getStartDiscount())
                 || OffsetDateTime.now().isAfter(couponCode.getExpireDiscount())) {
             throw new CouponCodeInvalidDataException();
         } else {
-            CouponCodeDTO couponCodeDTOByCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode());
+            CouponCodeDTO couponCodeDTOByCode = couponCodeService.findCouponCodeDTOByCode(changeCouponCodeDTO.getCouponCode().toLowerCase());
             for (ShoppingCart product : products) {
-                product.setCouponCode(changeCouponCodeDTO.getCouponCode());
+                product.setCouponCode(changeCouponCodeDTO.getCouponCode().toLowerCase());
                 product.setProductSalePrice(product.getProductPrice() * (1 - couponCodeDTOByCode.getPercentDiscount() / 100));
             }
         }

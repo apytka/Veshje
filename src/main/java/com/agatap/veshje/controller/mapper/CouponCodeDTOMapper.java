@@ -30,7 +30,7 @@ public class CouponCodeDTOMapper {
 
     public CouponCode mappingToModel(CreateUpdateCouponCodeDTO createUpdateCouponCodeDTO) {
         return CouponCode.builder()
-                .code(createUpdateCouponCodeDTO.getCode())
+                .code(createUpdateCouponCodeDTO.getCode().toLowerCase())
                 .percentDiscount(createUpdateCouponCodeDTO.getPercentDiscount())
                 .description(createUpdateCouponCodeDTO.getDescription())
                 .startDiscount(createUpdateCouponCodeDTO.getStartDiscount())
