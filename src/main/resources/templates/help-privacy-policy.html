@@ -131,7 +131,7 @@
     <div class="panels-account">
         <div class="panel-account panel-help-links">
             <ul id="help-links">
-                <li><a href="/contact" class="a-help-links active" title="Contact">Contact</a></li>
+                <li><a href="/contact" class="a-help-links" title="Contact">Contact</a></li>
                 <li><a href="/shop-at-veshje" class="a-help-links" title="Shop at Veshje">Shop at Veshje</a></li>
                 <li><a href="/about-product" class="a-help-links" title="Products info">Products info</a></li>
                 <li><a href="/gift-cards" class="a-help-links" title="Gift cards">Gift cards</a></li>
@@ -141,116 +141,175 @@
                     returns</a></li>
                 <li><a href="/about" class="a-help-links" title="About">About</a></li>
                 <li><a href="/career" class="a-help-links" title="Career">Career</a></li>
-                <li><a href="/privacy-policy" class="a-help-links" title="Privacy policy">Privacy policy</a></li>
+                <li><a href="/privacy-policy" class="a-help-links active" title="Privacy policy">Privacy policy</a></li>
                 <li><a href="/terms-and-conditional" class="a-help-links" title="Terms and conditional">Terms and
                     conditional</a></li>
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <div class="help-data">
+            <div class="help-contact-info">
                 <div class="contact-text">
-                    <h4>Contact</h4>
+                    <h4>Privacy Policy</h4>
                 </div>
-                <div class="help-contact">
-                    <div class="help-contact-tile help-contact-tile-one" id="help-contact-tile-one">
-                        <i class="far fa-envelope"></i>
-                        <span class="help-tile-text">Write us</span>
-                    </div>
-                    <a href="tel:0048 800800888">
-                        <div class="help-contact-tile help-contact-tile-two">
-                            <div class="help-contact-tile-number">
-                                <i class="fas fa-headset"></i>
-                                <span class="help-tile-text">Phone us</span>
-                            </div>
-                            <div class="help-contact-tile-number help-contact-tile-number-two">
-                                <span class="help-tile-text">Customer Service Helpline</span>
-                                <span class="help-tile-text">0048-800-800-888</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="help-contact-form" id="help-contact-form">
-                    <form action="#" th:action="@{contact}" th:object="${createUpdateContact}" method="post"
-                          class="account-data-container" id="contact-data-form">
-                        <div class="contact-help-container">
-                            <div class="contact-text">
-                                <h5>Let us help you</h5>
-                                <span>* required fields </span>
-                            </div>
-                            <div class="contact-container">
-                                <input type="hidden" id="status" th:field="*{status}" class="contact-input">
-                                <div class="account-data-input">
-                                    <h3>First name*</h3>
-                                    <input type="text" id="contact-first-name" th:field="*{firstName}" class="contact-input">
-                                    <i class="fas fa-check-square"></i>
-                                    <i class="fas fa-minus-square"></i>
-                                    <small>Error message</small>
-                                </div>
-                                <div class="account-data-input">
-                                    <h3>Last name*</h3>
-                                    <input type="text" id="contact-last-name" th:field="*{lastName}" class="contact-input">
-                                    <i class="fas fa-check-square"></i>
-                                    <i class="fas fa-minus-square"></i>
-                                    <small>Error message</small>
-                                </div>
-                            </div>
-                            <div class="account-address-container">
-                                <div class="account-data-input">
-                                    <h3>Phone number*</h3>
-                                    <input type="text" id="contact-phone-number" th:field="*{phoneNumber}" class="contact-input">
-                                    <i class="fas fa-check-square"></i>
-                                    <i class="fas fa-minus-square"></i>
-                                    <small>Error message</small>
-                                </div>
-                                <div class="account-data-input">
-                                    <h3>Email*</h3>
-                                    <input type="text" id="contact-email" th:field="*{email}" class="contact-input">
-                                    <i class="fas fa-check-square"></i>
-                                    <i class="fas fa-minus-square"></i>
-                                    <small>Error message</small>
-                                </div>
-                            </div>
-                            <div class="account-address-container">
-                                <div class="account-data-input">
-                                    <h3>Order numbers</h3>
-                                    <input type="text" id="contact-order-no" th:field="*{orderNumber}" class="contact-input">
-                                </div>
-                            </div>
-                            <div class="help-container-info">
-                                    <i class="fas fa-info-circle"></i>
-                                    In the case of online orders, providing your order number will speed up processing
-                                    of your enquiry.
-                            </div>
-                            <div class="contact-text">
-                                <h5>Topic</h5>
-                            </div>
-                            <div class="account-data-input">
-                                <select th:field="*{contactTopicId}" class="contact-select-topic" required>
-                                    <option value="" hidden="true">Choose topic*</option>
-                                    <option th:each="topic: ${topicsMessage}" th:text="${topic.topic}" name="contactId"
-                                            th:value="${topic.id}" id="contact-topic"></option>
-                                </select>
-                            </div>
-                            <div class="contact-text">
-                                <h5>Message*</h5>
-                            </div>
-                            <div class="account-data-input account-address-container">
-                                <textarea id="contact-message" th:field="*{message}" class="textarea-generally"></textarea>
-                                <i class="fas fa-check-square"></i>
-                                <i class="fas fa-minus-square"></i>
-                                <small class="small-textarea">Error message</small>
-                            </div>
-                        </div>
-                        <div class="information-term">
-                            By clicking "send" you consent to your data being processed by Veshje for the purpose of answering your contact form message.
-                            Submitting your data is voluntary, however lack of consent will make it impossible for us to contact you.
-                            Read more about your data being processed in our <a href="/privacy-policy">Privacy Policy</a>.
-                        </div>
-                        <div class="btn-to-right">
-                            <input type="submit" class="btn btn-data-account-order" value="Send">
-                        </div>
-                    </form>
-                </div>
+                <p>We consider the protection of the information concerning the Users of our Website a matter of utmost
+                    importance so we make every effort to help you feel safe as you give us your data while using our
+                    websites. This Privacy Policy explains the rules and the scope of our processing of your personal
+                    data, your rights and our responsibilities as the data controller.</p>
+                <p>We apply state-of-the-art technical and organisational measures to ensure high level of protection of
+                    the processed personal data and to secure them against unauthorised access.</p>
+                <dl>
+                    <dt class="term-name">Data controller:</dt>
+                    <dd class="term-describes">Veshje, Pawłowicka, 51-250 Wroclaw</dd>
+                    <dt class="term-name">Purpose of the processing</dt>
+                    <dd class="term-describes">Veshje processes the personal data of the Website Users to properly perform
+                        the contracts concluded within the online shop through the www.reserved.com website (hereinafter
+                        the “Website”). This means that such data are needed in particular for:
+                        <ul class="help-list">
+                            <li> registration on the Website</li>
+                            <li> conclusion of the contract</li>
+                            <li> settlements</li>
+                            <li> shipping of the goods ordered by the User</li>
+                            <li> the User to exercise any consumer rights they may have (e.g. contract rescission,
+                                statutory warranty)
+                            </li>
+                        </ul>
+                        <p>If you have agreed to receive information about new products and special offers, Veshje
+                            processes your data in order to send you its own commercial information about e.g. current
+                            fashion trends, special offers or clearance sale.</p>
+                    </dd>
+
+                    <dt class="term-name">Type of data</dt>
+                    <dd class="term-describes">Veshje processes the following personal data, which you need to:
+                        <ol class="help-list">
+                            <li>Log in to the Website:
+                            <ul class="help-list">
+                                <li> first and last name</li>
+                                <li> e-mail address</li>
+                            </ul></li>
+                            <li>Shop on the Website:
+                            <ul class="help-list">
+                                <li> first and last name</li>
+                                <li> shipping address</li>
+                                <li> telephone number</li>
+                                <li> e-mail address</li>
+                            </ul></li>
+                            <li>Data provided by the User optionally:
+                            <ul class="help-list">
+                                <li> date of birth</li>
+                            </ul></li>
+                            If you rescind the contract or we acknowledge your complaint and the refund is to be paid
+                            directly to your bank account, please specify the bank account number so that we can make
+                            the refund.
+                        </ol>
+                    </dd>
+
+                    <dt class="term-name">Legal grounds for the processing</dt>
+                    <dd class="term-describes">
+                    <p>Personal data are processed in accordance with Regulation 2016/679 of the European Parliament and
+                        of the Council (EU) of 27 April 2016.</p>
+                    <p>We process your personal data with your consent, expressed at the moment of registering on the
+                        Website and at the moment of confirming a transaction made on the Website.</p>
+                    <p>Your consent to the processing of your personal data is completely voluntary but failure to give
+                        the consent makes it impossible to register on and shop through the Website.</p>
+                    <p>In connection with our processing of your personal data, you have the following rights:</p>
+                    <p>You can withdraw your consent at any time without stating the reason. The request may pertain
+                        either to a selected purpose of processing, e.g. withdrawal of the consent to receive commercial
+                        information, or to all purposes of processing. If you withdraw the consent to all purposes of
+                        processing, your User Account on the Website will be deleted and your data will no longer be
+                        processed by us. Withdrawal of the consent will not affect any activities performed before
+                        that.</p>
+                    <p>You may at any time require that we erase your data without stating the reason. A request to
+                        erase the data will not affect any activities performed before that. Data erasure means that
+                        your User Account on the Website will be deleted and your data will no longer be processed by
+                        us.</p>
+                    <p>You may at any time object to the processing of your personal data, whether completely or in
+                        respect of a selected purpose. Such objection will not affect any activities performed before
+                        that. The objection means that your User Account on the Website will be deleted and your data
+                        will no longer be processed by us.</p>
+                    <p>You may require us to limit the processing of your personal data in terms of either time or scope
+                        – we will proceed as you wish. Such a request will not affect any activities performed before
+                        that.</p>
+                    <p>You may at any time require us to correct or rectify you personal data. You can also do this on
+                        your own, once you have logged in, using the Website tab: MY DATA.</p>
+                    <p>You may require us to transfer any of your data that we have to anther party. To this end,
+                        contact us through the contact form, specifying the name and address of the entity to which we
+                        are to transfer your data and the scope of the data – i.e. specify which of your data we are to
+                        transfer. The transfer will take place electronically once you confirm the request. The request
+                        confirmation is required for us to ensure the security of your data and to make sure that the
+                        request comes from an authorised person.</p>
+                    <p>You may at any time request us to provide information on the scope of our processing of your
+                        personal data.</p>
+                    <p>We are under the obligation to inform you not later than within a month of receiving each of your
+                        requests about the actions we have taken.</p>
+                    </dd>
+
+                    <dt class="term-name">Personal data retention period</dt>
+                    <dd class="term-describes">
+                        <p>We retain your data until the User Account on the Website is deleted. The User Account may be
+                            deleted at your request but also if you withdraw the consent to the processing of your data,
+                            object to the processing of your personal data or require that they be erased.</p>
+                        <p>Our systems will only retain such archival information about your transactions where data
+                            retention is related e.g. to any claims you may have, for instance under statutory warranty
+                            or in connection with the legislation binding upon us.</p>
+                    </dd>
+
+
+                    <dt class="term-name">Communications related to personal data</dt>
+                    <dd class="term-describes">You can send us any notices or requests related to personal data using a
+                        channel of your choice:
+                        <ul class="help-list">
+                            <li>E-mail to: veshje.shop@gmail.com</li>
+                            <li>Phone call to: 0048 800 800 888</li>
+                            <li>Contact form available on the Website</li>
+                            <li>By post to: Veshje, Pawłowicka, 51-250 Wroclaw</li>
+                        </ul>
+                    </dd>
+
+                    <dt class="term-name">Entrusting of data processing</dt>
+                    <dd class="term-describes">Veshje may entrust personal data processing to Veshje’s business partners
+                        insofar as necessary to effect transactions, for instance in order to prepare the goods you have
+                        ordered and to ship goods or communicate the commercial information coming from Veshje (the latter
+                        applies to those Users who have agreed to receive commercial information).
+                    </dd>
+
+                    <dt class="term-name">Entrusting your personal data</dt>
+                    <dd class="term-describes">
+                        <p>In accordance with the law, Veshje will only use your personal data where Veshje has a lawful basis
+                            to do so. Veshje may entrust personal data processing […] to receive commercial
+                            information).</p>
+                        <p>Users’ personal data will not be in any way communicated to third parties otherwise than for
+                            the purposes specified in this Privacy Policy, which in particular means that they will not
+                            be shared with other entities for the purpose of transmission of third-party marketing
+                            materials.</p>
+                        <p>The Website Users’ personal data are not transferred outside of the European Union.</p>
+                    </dd>
+
+                    <dt class="term-name">Commercial Information – Newsletter</dt>
+                    <dd class="term-describes">You may subscribe to our newsletter by giving your e-mail address and
+                        agreeing to the processing of your personal data for the purpose of receiving commercial and
+                        marketing information. We use the newsletter to inform you about the latest offers (e.g. new
+                        products, special offers or clearance sale). You may unsubscribe from the newsletter at any time
+                        by clicking the link included in a newsletter or sending an e-mail to: veshje.shop@gmail.com
+                        with title: privacy.
+                    </dd>
+
+                    <dt class="term-name">Notification on product availability</dt>
+                    <dd class="term-describes">At your request, Veshje notifies you about the availability of your selected
+                        products through electronic means of communication. Such notification can only be sent provided
+                        that you have agreed to receive commercial information about the products of the online shop to
+                        the specified e-mail address and to the processing of personal data by Veshje. You provide your
+                        data on a voluntary basis but failure to consent to the processing of personal data makes it
+                        impossible for us to notify you about product availability.
+                    </dd>
+
+                    <dt class="term-name">Cookies</dt>
+                    <dd class="term-describes">The Website uses cookies. Cookies are small files that allow the devices
+                        used to browse the Web (e.g. computer, smartphone) to store specific information regarding the
+                        device used. The information recorded in cookies is used e.g. for advertising and statistical
+                        purposes and to adapt our websites to your individual needs. You can change cookie settings in
+                        your web browser. If the settings remain unchanged, cookies will be saved on the device.
+                        Changing the cookie settings may limit the functionality of the Website.
+                    </dd>
             </div>
         </div>
     </div>
@@ -293,7 +352,7 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{/contact/newsletter}" th:object="${contactAddNewsletter}" method="post"
+                <form action="#" th:action="@{/privacy-policy/newsletter}" th:object="${privacyPolicyAddNewsletter}" method="post"
                       class="newsletter-container">
                                     <p>Do you want to receive the newest trends and special offers? Sign up.</p>
                                     <div class="input-div one">
@@ -340,16 +399,7 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
-<script type="text/javascript" src="/js/validate-contact-form.js"></script>
 <script type="text/javascript">
-
-    /* FLIP CONTACT */
-    $(document).ready(function () {
-        $("#help-contact-tile-one").click(function () {
-            $("#help-contact-form").slideToggle("slow");
-        });
-    });
-
     var panel = document.getElementById("help-links");
     var aAccountLinks = panel.getElementsByClassName("a-help-links");
     for (var i = 0; i < aAccountLinks.length; i++) {

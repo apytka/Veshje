@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
+    <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>VESHJE</title>
+</head>
+<body>
+<header class="header">
+    <nav class="navbar">
+    <span class="open-slide">
+        <a href="#" onclick="openSlideMenu()">
+            <svg width="30" height="30">
+            <path d="M0,5 30,5" stroke="#000000" stroke-width="1.5"/>
+            <path d="M0,14 30,14" stroke="#000000" stroke-width="1.5"/>
+            <path d="M0,23 30,23" stroke="#000000" stroke-width="1.5"/>
+        </svg>
+        </a>
+    </span>
+        <a href="/" class="image-logo" title="Veshje - go to homepage">
+            <img src="/img/veshje-logo.svg" alt="Veshje online shop - logo">
+        </a>
+        <ul class="navbar-nav">
+            <li>
+                <form action="/search" method="get" class="search-form">
+                    <div class="input-div one">
+                        <div class="i">
+                            <a href="/search">
+                                <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
+		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
+		        S11.383,6,18,6z"/>
+                </g>
+            </svg>
+                            </a>
+                        </div>
+                        <div>
+                            <h5>Search</h5>
+                            <input class="input" type="text">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <a href="/account" title="User account" class="navbar-nav-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M29.089,24.747C32.6,22.909,35,19.238,35,15c0-6.075-4.925-11-11-11S13,8.925,13,15c0,4.238,2.4,7.909,5.911,9.747
+		        C10.89,27.09,5,34.809,5,44h38C43,34.809,37.11,27.09,29.089,24.747z M15,15c0-4.963,4.037-9,9-9s9,4.037,9,9c0,4.963-4.037,9-9,9
+		        S15,19.963,15,15z M24,26c8.735,0,15.953,7.013,16.896,16H7.104C8.047,33.013,15.265,26,24,26z"/></g>
+            </svg>
+                </a>
+            </li>
+            <li>
+                <a href="/favourites" title="Favourites product" class="navbar-nav-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M8.444,27L24,42l15.556-15c2.7-2.033,4.444-5.256,4.444-8.889C44,11.978,39.022,7,32.889,7
+		        C29.256,7,26.022,8.756,24,11.456C21.978,8.756,18.744,7,15.111,7C8.978,7,4,11.978,4,18.111C4,21.744,5.744,24.967,8.444,27z
+		         M15.111,9c2.85,0,5.574,1.366,7.288,3.654L24,14.792l1.601-2.137C27.315,10.366,30.039,9,32.889,9C37.913,9,42,13.087,42,18.111
+		        c0,2.888-1.329,5.546-3.648,7.291l-0.097,0.073l-0.088,0.085L24,39.222L9.833,25.56l-0.088-0.085l-0.097-0.073
+		        C7.33,23.657,6,20.999,6,18.111C6,13.087,10.087,9,15.111,9z"/>
+                </g>
+                </svg>
+                </a>
+            </li>
+            <li>
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                    <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M4,40c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4l0-26h-9.191C33.865,8.888,29.382,5,24,5s-9.865,3.888-10.809,9H4L4,40z M24,7
+		        c4.275,0,7.855,2.998,8.768,7H15.232C16.145,9.998,19.725,7,24,7z M13,16v6h2v-6h18v6h2v-6h7l0,24c0,1.103-0.897,2-2,2H8
+		        c-1.103,0-2-0.897-2-2l0-24H13z"/>
+                </g>
+                </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="side-menu" class="side-nav">
+        <a href="" class="btn-close" onclick="closeSlideMenu()">&times;</a>
+        <div class="side-nav-search">
+            <form action="/search" method="get" class="side-nav-search-form">
+                <input type="text" placeholder="Search" class="side-nav-search-input">
+                <button type="submit">
+                    <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
+		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
+		        S11.383,6,18,6z"/>
+                </g>
+            </svg>
+                </button>
+            </form>
+        </div>
+        <h1>Collection</h1>
+        <ul>
+            <li><a href="/products/new" title="New collection">New in</a></li>
+            <li><a href="/products/mini" title="Mini dresses">Mini</a></li>
+            <li><a href="/products/midi" title="Midi dresses">Midi</a></li>
+            <li><a href="/products/long" title="Long dresses">Long</a></li>
+            <li><a href="/products/sale" title="Sale dresses">Sale</a></li>
+        </ul>
+    </div>
+</header>
+<main>
+    <div class="alert-container" th:insert="/index.html :: error-info"></div>
+    <div class="panels-account-header">
+        <h5>Help and information</h5>
+    </div>
+    <div class="panels-account">
+        <div class="panel-account panel-help-links">
+            <ul id="help-links">
+                <li><a href="/contact" class="a-help-links" title="Contact">Contact</a></li>
+                <li><a href="/shop-at-veshje" class="a-help-links" title="Shop at Veshje">Shop at Veshje</a></li>
+                <li><a href="/about-product" class="a-help-links" title="Products info">Products info</a></li>
+                <li><a href="/gift-cards" class="a-help-links" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" class="a-help-links" title="Payments">Payments</a></li>
+                <li><a href="/shipping" class="a-help-links" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" class="a-help-links" title="Exchange and returns">Exchange and
+                    returns</a></li>
+                <li><a href="/about" class="a-help-links" title="About">About</a></li>
+                <li><a href="/career" class="a-help-links" title="Career">Career</a></li>
+                <li><a href="/privacy-policy" class="a-help-links" title="Privacy policy">Privacy policy</a></li>
+                <li><a href="/terms-and-conditional" class="a-help-links active" title="Terms and conditional">Terms and
+                    conditional</a></li>
+            </ul>
+        </div>
+        <div class="panel-account panel-account-data">
+            <div class="help-contact-info">
+                <div class="contact-text">
+                    <h4>Online Shop Terms & Conditions</h4>
+                </div>
+                <ol class="help-list">
+                    <li>Company, contact
+                        <ol class="help-list">
+                            <li>The online shop operating on the Internet at Veshje is run by Veshje, Pawłowicka, 51-250
+                                Wrocław
+                            </li>
+                            <li>The Customer may contact the entity running the online shop as follows:
+                                <ul class="help-list">
+                                    <li> at Veshje, Pawłowicka, 51-250 Wrocław</li>
+                                    <li> through a helpline for landline and mobile phones: +0048 800 800 888</li>
+                                    <li> by e-mail to: veshje.shop@gmail.com</li>
+                                    <li> through the contact form on the website of the online shop.</li>
+                                </ul>
+                        </ol>
+                    </li>
+                    </li>
+                    <li>General rules of using the Veshje online shop
+                        <ol class="help-list">
+                            <li>The online shop may be used only by persons who are at least 18 years old.</li>
+                            <li>Anyone under 18 may use the online shop only with the consent of their parents or legal
+                                guardians.
+                            </li>
+                            <li>Anyone who registers and shops in the online shop gives their personal data and agrees
+                                to their processing by Veshje on the terms as defined in the Privacy Policy .
+                            </li>
+                            <li>To confirm the correctness of the data given during the registration in the online shop,
+                                the Customer receives an e-mail with a request to confirm their data.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Order placement
+                        <ol class="help-list">
+                            <li>Orders are accepted through Veshje</li>
+                            <li>The products in the online shop are specifically marked. The website includes
+                                information about the features of the products, their prices, materials of which they
+                                are made, and approximate availability in physical shops.
+                            </li>
+                            <li>While ordering a product, the Customer selects it in a manner specific for that product,
+                                defining in particular its size, colour, and, if necessary, providing other specific
+                                information and the quantity of the ordered products.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>How to buy in the online shop – a detailed guide
+                        <ol class="help-list">
+                            <li>Once the Customer chooses a product, the “Add to basket” icon should be clicked.
+                            <li>The product is moved to basket that becomes visible after clicking the basket icon in
+                                the upper right corner of the site. The Customer can go to basket by clicking the
+                                “Checkout” button, which activates a page displaying all the products in basket.
+                            </li>
+                            <li>Selecting the “Order” option will launch a page where the Customer should enter data
+                                required for the transaction and shipment of the ordered products.
+                            </li>
+                            <li>After logging in to the online shop, the Customer gains access to additional options in
+                                the Customer panel, such as: order history, a possibility to view the status of the most
+                                recent order, saving shipping addresses, a possibility of receiving the latest product
+                                information from the shop.
+                            </li>
+                            <li>Having selected the shipping method (with shipping to the specified address or to a
+                                selected Veshje point of sale) and entered all the required details (including billing
+                                details, if necessary), the payment method should be chosen.
+                                <ol class="help-list">
+                                    <li>The Customer may choose online payment Przelewy24, transfer through PayPal; or,
+                                        if available,
+                                    </li>
+                                </ol>
+                            </li>
+                            <li>The Client places the order by clicking the “Order and Pay” button.</li>
+                            <li>After clicking the “Order and Pay” button, and if the Customer has selected online
+                                payment – after making the payment through PayPal, the Customer is redirected to a page
+                                confirming the order; from that page, they can either continue shopping or go to order
+                                summary.
+                            </li>
+                            <li>If online payment is chosen as the payment method (card payment or transfer through
+                                PayPal), the payment must be made immediately after the order was placed. If Veshje or
+                                the entities participating in the transaction (PayPal or Cybersource) do not receive the
+                                payment, the order is considered to have been placed incorrectly, which means that there
+                                is no contract and the order will not be processed. If this is the case, the Customer
+                                will have to place another order.
+                            </li>
+                            <li>At any stage of the order placement, until the payment is made, the Customer can cancel
+                                the order by discontinuing the ordering process and leaving the ordering website. An
+                                order the placement of which has not been completed will not be processed.
+                            </li>
+                            <li>Promptly after an order is placed, the Customer will receive an order confirmation
+                                e-mail to the address they have specified in the login details. The e-mail will include
+                                an individual order number that can be used e.g. to check order status.
+                            </li>
+                            <li>Veshje may contact the Customer at the e-mail address or the indicated phone number to
+                                clarify any doubt, confirm the order placement or in any other matters connected with
+                                order processing.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Prices
+                        <ol class="help-list">
+                            <li>The prices in the online shop stated in British pounds are gross prices, inclusive of
+                                the VAT.
+                            </li>
+                            <li>The price of the product is increased by the shipping cost, which depends on the
+                                selected shipping and payment method.
+                            </li>
+                            <li>The price specified on the site at the moment of placing the order is the final price,
+                                binding both upon the Customer and Veshje. Once the order is placed, the price will not
+                                change, notwithstanding any price adjustments made by Veshje and regardless of any
+                                special offers or clearance sale campaigns.
+                            </li>
+                            <li>Veshje reserves the right to change the prices of the products available in the online
+                                shop, launch new products, launch and cancel special offers on the shop’s websites or
+                                change them in line with the Civil Code and other applicable laws.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Availability of the ordered products
+                        <ol class="help-list">
+                            <li>All the products offered in the online shop are in stock.</li>
+                            <li>In special cases, e.g. if many Customers order the same product simultaneously, the
+                                product may not be available. If this is the case, the Customer will be informed that
+                                the order cannot be processed.
+                            </li>
+                            <li>The product data sheet includes full information about the size range – currently
+                                unavailable sizes are also listed but are clearly marked with a colour other than the
+                                one used for available sizes and they are crossed out. A product in an unavailable size
+                                cannot be added to basket but can be added to the wishlist.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Inability to process an order
+                        <p>If a product is out of stock or the order cannot be processed for any other reason, the
+                            Customer will be notified via e-mail or phone about any order processing issues and possible
+                            solutions.</p>
+                    </li>
+                    <li>Shipping method and order lead time
+                        <ol class="help-list">
+                            <li>Goods are only shipped within the Poland.</li>
+                            <li>If the Customer uses an online payment method (PayPal or card), the order processing
+                                commences after Veshje’s account is confirmed to have been credited (through PayPal or
+                                card - Cybersource).
+                            </li>
+                            <li>If the selected products are unavailable, and the Customer has chosen shipment to a
+                                specified address or point of sale, the shipping time is 3 to 8 working days following
+                                successful order placement. The shipping time can be longer during clearance sales or
+                                special campaigns.
+                            </li>
+                            <li>PLEASE NOTE: If the Customer chooses online payment (PayPal or card) as the payment
+                                method, order processing commences after the account of Veshje or the intermediary
+                                entities is credited with 100% of the amount due for the order, and this is when the
+                                time limit for shipping the products to the Customer starts to run.
+                            </li>
+                            <li>Orders are delivered by a courier service chosen by Veshje.</li>
+                        </ol>
+                    </li>
+                    <li>Order payment methods
+                        <ol class="help-list">
+                            <li>Bank transfer: Veshje accepts quick transfers made through Cybersource (card payment) or
+                                online transfers through PayPal. The payment operation takes place between the Customer
+                                and the selected payment operator.
+                            </li>
+                            <li>Veshje does not accept traditional transfers, so the Customer will not receive any
+                                account number to which they can transfer the money e.g. at a post office.
+                            </li>
+                            <li>Payment card: The Customer must have a card that allows them to make online payments.
+                                Payment by card is made through PayPal or Cybersource. The payment operation is made
+                                between the Customer and the operator of the Customer's card.
+                            </li>
+                            <li>Please note! The Online Shop will never send the Customer a notice stating that the
+                                account for the payment has changed and that a traditional transfer needs to be made. If
+                                the Customer receives such an e-mail – they should not make the payment or respond to
+                                the e-mail, but forward the e-mail in an unchanged form to Veshje to
+                                veshje.shop@gmail.com.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Sales contract
+                        <ol class="help-list">
+                            <li>The information available on www.Veshje.com does not constitute an offer within the
+                                meaning of the Civil Code.
+                            </li>
+                            <li>The Contract is entered into in English.</li>
+                        </ol>
+                    </li>
+                    <li>Contract performance – deadline
+                        <p>Depending on the shipping method selected by the Customer (standard or pickup in a point of
+                            sale), Veshje undertakes to have the goods delivered to the Customer within 8 working days
+                            (for standard shipping or for order pickup in a specified point of sale) of the correct
+                            order placement. If the product is out of stock or the order cannot be processed for any
+                            other reason, Veshje shall promptly contact the Customer, suggesting possible solutions.
+                            Working days are days from Monday through Friday, except for public holidays.</p>
+                    </li>
+                    <li>Shipping cost
+                        <ol class="help-list">
+                            <li>Goods are only shipped within the Poland.</li>
+                            <li>The gross shipping cost depends on the shipping and payment method and it is:
+                                <ul class="help-list">
+                                    <li>for shipping to a selected point of sale and online payment – EUR 0.00;</li>
+                                    <li>for standard shipping by a courier service and online payment over EUR 100 – EUR
+                                        0.00;
+                                    </li>
+                                    <li>for standard shipping by a courier service and online payment under EUR 100 –
+                                        EUR 2.10;
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Contract rescission
+                        <ol class="help-list">
+                            <li>The Customer has the right to rescind the sales contract within 30 days without cause.
+                            <li>The right of rescission expires 30 days of the day on which the Customer came into
+                                possession of the products or a third party specified by the Customer and other than the
+                                carrier came into possession of the product.
+                            </li>
+                            <li>To exercise the right of rescission, the Customer must submit a clear notice of
+                                rescission to Veshje using one of the following channels:
+                            </li>
+                            <ul class="help-list">
+                                <li>by post to: Veshje, ul. Pawłowicka, 51-250 Wroclaw</li>
+                                <li>by e-mail to: veshje.shop@gmail.com</li>
+                                <li>by printing, filling in and sending the contract rescission form available on the
+                                    online shop website in the “Shopping guide” / “Withdrawal Form” tab; however, this
+                                    is not a mandatory method.
+                                </li>
+                                <li>by filling in and submitting the online form available in the Customer panel for
+                                    every order; if the form is used, the Customer will receive a prompt confirmation
+                                    that Veshje has received their notice of rescission.
+                                </li>
+                                <p>Please note! Each of the notice submission methods is admissible and they are all
+                                    equally
+                                    effective. Veshje recommends the online form available in the Customer panel only
+                                    because it is an easy and quick method.</p>
+                            </ul>
+                            <li>To make sure that the rescission deadline is adhered to, it is enough for the Customer
+                                to send the notice on exercising their right to rescind the contract before the expiry
+                                of the rescission deadline.
+                            </li>
+                            <li>In the event of sales contract rescission, Veshje refunds all the received payments to
+                                the Customer, including the costs of delivering a product without undue delay, and in no
+                                case later than 14 days after the date when Veshje received the Customer’s notice on
+                                exercising their right to rescind the sales contract.
+                            </li>
+                            <li>The refund shall be made using the same payment channel as was used by the Customer in
+                                the original transaction, unless the Customer has explicitly agreed to another solution.
+                                In any case, the Customer will bear no charges connected with that refund.
+                            </li>
+                            <li>Veshje may withhold the refund until it receives the product back or until the Customer
+                                provides a proof of sending the product back, whichever takes place first.
+                            </li>
+                            <li>Products shall be sent to the following address: Veshje, ul. Pawłowicka, 51-250 Wroclaw
+                                without undue delay, and in no case later than 14 days after the date when the Customer
+                                informed Veshje about exercising their right to rescind the sales contract. The deadline
+                                is met if the Customer sends the products before the expiry of the 14-day time limit.
+                            </li>
+                            <li>The product may be returned at the Customer's option at their own cost or through the
+                                Royal Mail at Veshje’s cost. To use free shipping through the Royal Mail, the Customer
+                                must fill in the contract rescission form available for every order in the Customer
+                                panel.
+                            </li>
+                            <li>The Customer will be liable for diminished value of the product resulting from its
+                                being used otherwise than as necessary to determine the nature, features and functioning
+                                of the product.
+                            </li>
+                        </ol>
+                    </li>
+                    <li> Complaints
+                        <ol class="help-list">
+                            <li>The sales involves new products free of defects. If the products have any defects,
+                                Veshje shall be liable for the defects.
+                            </li>
+                            <li>Any product bought in the Veshje online shop can be complained about under the
+                                applicable statutory warranty provisions of the British Civil Code if a defect was found
+                                in the product within two years of its acquisition by the Customer, where the defect
+                                makes the product inconsistent with the contract.
+                            </li>
+                            <li>A complaint can be filed in every point of sale operating under the Veshje or
+                                Veshje Kids brand (except for a clearance sale outlet) or by post.
+                            </li>
+                            <li>Complaints submitted by post must specify the causes of the complaint and the
+                                information required to identify the order. A complaint can be filed using the
+                                “Complaint” form (available on the website, in the Customer panel, next to every order),
+                                which can be filled in online or printed, and the products can be sent back to: Veshje,
+                                ul. Pawłowicka, 51-250 Wroclaw.
+                            </li>
+                            <li>Veshje makes it possible for the Customers who file a complaint to send back
+                                defective products by Royal Mail at Veshje’s cost. To this end, the Customer must fill
+                                in the electronic complaint form (available in the Customer panel).
+                            </li>
+                            <li>Veshje shall examine the complaint within 14 days and shall inform the Customer
+                                about the outcome.
+                            </li>
+                            <li>If the outcome of the complaint is positive, the Customer will be reimbursed for
+                                any reasonable costs of shipping the defective products to the online shop.
+                            </li>
+                            <li>If the outcome of the complaint is negative, the goods will be shipped back to the
+                                Customer with a notice explaining that the complaint was deemed unfounded.
+                            </li>
+                        </ol>
+                    <li> Order termination
+                        <ol class="help-list">
+                            <li>The Client may resign from the order.</li>
+                            <li>The Customer may cancel an order on their own within 15 minutes of placing the
+                                order in the Customer panel in the “My orders” tab, by clicking “Cancel order” next to
+                                the order.
+                            </li>
+                            <li>The Customer may cancel the order by contacting the Customer Service and through
+                                the contact form available on the website.
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Miscellaneous
+                        <ol class="help-list">
+                            <p>A proof of purchase is enclosed with every purchased item. The Client may download the
+                                invoice in the Customer panel. Veshje shall not be liable if the Customer provides
+                                incorrect data.</p>
+                            <ol class="help-list">
+                                <li>Personal data processing
+                                    <p>The Customer's consent to Veshje’s processing of personal data is voluntary but
+                                        failure to grant the consent to the personal data processing makes it impossible
+                                        to register and shop in the online shop. Any information about personal data
+                                        processing is available in the Privacy Policy.</p>
+                                </li>
+                                <li>Personal data processing for marketing purposes
+                                    <p>The Customer may agree to the processing of their personal data and entrusting of
+                                        the data to a third party to receive commercial information from Veshje e.g.
+                                        about special offers.</p>
+                                </li>
+                            </ol>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="panels-account-footer"></div>
+</main>
+<footer class="footer-container">
+    <div class="accordion-container">
+        <div class="accordion-cart">
+            <h4 class="accordion">Shop</h4>
+            <ul class="panel">
+                <li><a href="/products/new" title="New collection">New in</a></li>
+                <li><a href="/products/mini" title="Mini dresses">Mini</a></li>
+                <li><a href="/products/midi" title="Midi dresses">Midi</a></li>
+                <li><a href="/products/long" title="Long dresses">Long</a></li>
+                <li><a href="/products/sale" title="Sale dresses">Sale</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Help</h4>
+            <ul class="panel">
+                <li><a href="/shop-at-veshje" title="Shop at veshje">Shop at veshje</a></li>
+                <li><a href="/about-product" title="Product">Product</a></li>
+                <li><a href="/gift-cards" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" title="Payment">Payment</a></li>
+                <li><a href="/shipping" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" title="Exchange and returns">Exchange and returns</a></li>
+                <li><a href="/account" title="My account">My account</a></li>
+            </ul>
+        </div>
+        <div class="accordion-cart">
+            <h4 class="accordion">Corporate info</h4>
+            <ul class="panel">
+                <li><a href="/about" title="About Veshje">About</a></li>
+                <li><a href="/career" title="Career at Veshje">Career</a></li>
+                <li><a href="/contact" title="Contact">Contact</a></li>
+                <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
+            </ul>
+        </div>
+
+        <div class="accordion-cart" id="newsletter">
+            <h4 class="accordion">Newsletter</h4>
+            <ul class="panel">
+                <form action="#" th:action="@{/terms-and-conditional/newsletter}" th:object="${termsAndConditionalAddNewsletter}" method="post"
+                      class="newsletter-container">
+                                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                                    <div class="input-div one">
+                                        <div class="i">
+                                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                                <g id="Shopicon">
+                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5>Email</h5>
+                                            <input type="email" th:field="*{email}" class="input" required>
+                                        </div>
+                                    </div>
+                                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    <div class="newsletter-checkbox">
+                                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                                        I accept <a href="/privacy-policy">newsletter terms</a>
+                                    </div>
+                                    <input type="submit" class="btn" value="Send">
+                                </form>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-container-socials">
+        <div class="socials">
+            <a href="#" title="facebook" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-facebook"></i></a>
+            <a href="#" title="twitter" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-twitter-square"></i></a>
+            <a href="#" title="instagram" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-instagram"></i></a>
+            <a href="#" title="youtube" class="socials-icon-deep" target="_blank">
+                <i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="copyright">
+            <p>Veshje © 2020 All rights reserved</p>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript" src="/js/js.js"></script>
+<script type="text/javascript">
+    var panel = document.getElementById("help-links");
+    var aAccountLinks = panel.getElementsByClassName("a-help-links");
+    for (var i = 0; i < aAccountLinks.length; i++) {
+        aAccountLinks[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+
+    var acc = document.getElementsByClassName("accordion");
+    var accAccordion;
+
+    for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
+        acc[accAccordion].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+</body>
+</html>

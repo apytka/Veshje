@@ -1,12 +1,15 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>VESHJE</title>
 </head>
 <body>
@@ -76,7 +79,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
                     <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -121,40 +125,75 @@
 </header>
 <main>
     <div class="alert-container" th:insert="/index.html :: error-info"></div>
-    <div class="alert-information-container" th:fragment="error-info">
-        <div th:if="${param.errorForgotPassword}" class="alert-information">
-            <div class="alert-information-error">
-                <h5>Error!</h5>
-                <span>The email account that you tried to reach does not exist or your account is not activated.</span>
-                <button type="submit" class="btn" onclick="closeButtonInformation()">Accept</button>
-            </div>
-        </div>
-        <div th:if="${param.successForgotPassword}" class="alert-information">
-            <div class="alert-information-error">
-                <h5>Request successfully made!</h5>
-                <span>You will shortly receive a mail with instructions to follow in order to complete the process.</span>
-                <a href="/login">
-                    <button type="submit" class="btn">Accept</button>
-                </a>
-            </div>
-        </div>
+    <div class="panels-account-header">
+        <h5>Help and information</h5>
     </div>
-    <div class="panels-general">
-        <div class="panel-general">
-            <h5>Have you forgotten your password?</h5>
-            <span>If you've forgotten your password, enter your e-mail address and we'll send you an e-mail telling you how to recover it.</span>
-            <form method="post" action="/login/forgot-password" th:action="@{/login/forgot-password}"
-                  th:object="${forgotPasswordDTO}" id="account-container1" class="form-forgot-password">
-                <div class="input-div two">
-                    <div>
-                        <h5>Email</h5>
-                        <input th:field="*{email}" type="email" class="input" required autofocus>
-                    </div>
+    <div class="panels-account">
+        <div class="panel-account panel-help-links">
+            <ul id="help-links">
+                <li><a href="/contact" class="a-help-links" title="Contact">Contact</a></li>
+                <li><a href="/shop-at-veshje" class="a-help-links" title="Shop at Veshje">Shop at Veshje</a></li>
+                <li><a href="/about-product" class="a-help-links" title="Products info">Products info</a></li>
+                <li><a href="/gift-cards" class="a-help-links" title="Gift cards">Gift cards</a></li>
+                <li><a href="/payment" class="a-help-links" title="Payments">Payments</a></li>
+                <li><a href="/shipping" class="a-help-links" title="Shipping">Shipping</a></li>
+                <li><a href="/exchange-and-returns" class="a-help-links active" title="Exchange and returns">Exchange and
+                    returns</a></li>
+                <li><a href="/about" class="a-help-links" title="About">About</a></li>
+                <li><a href="/career" class="a-help-links" title="Career">Career</a></li>
+                <li><a href="/privacy-policy" class="a-help-links" title="Privacy policy">Privacy policy</a></li>
+                <li><a href="/terms-and-conditional" class="a-help-links" title="Terms and conditional">Terms and
+                    conditional</a></li>
+            </ul>
+        </div>
+        <div class="panel-account panel-account-data">
+            <div class="help-contact-info">
+                <div class="contact-text">
+                    <h4>Returns & Exchanges</h4>
                 </div>
-                <input type="submit" class="btn" value="Retrieve password">
-            </form>
+                <p>If products are not what you expected you may return them within 30 days of receipt of delivery.</p>
+                <p>In addition to the statutory right of withdrawal, we grant you a voluntary right to return goods
+                    purchased for 30 days from receipt of delivery. Thanks to this, customers can also cancel the
+                    contract
+                    after the statutory 14-day period. Additional terms apply only after the 14-day cancellation period
+                    expired. After the 14-day cancellation period returned goods should have all original labels and
+                    hangtags.</p>
+
+                <dl>
+                    <dt class="term-name">To Veshje Stationary Shop</dt>
+                    <dd class="term-describes">You can take the items you’re returning to our Reserved Store in London.
+                        Prepare your items and information which will allow us to confirm your purchase – ex. receipt,
+                        invoice or order confirmation.
+                    </dd>
+
+                    <dt class="term-name">By DPD courier</dt>
+                    <dd class="term-describes">
+                        <ul class="help-list">
+                            <li> complete online return form available in your account or print and complete the
+                                contract withdrawal form available on the website
+                            </li>
+                            <li> pack the products – you may use the same package you received the goods in originally.
+                                You may attach the receipt as well, it will make the money return process easier and faster
+                            </li>
+                            <li> the courier will arrive with a prepaid label to collect your package; on the day of the
+                                collection DPD will contact you via email to confirm your one hour time slot
+                            </li>
+                        </ul>
+                        <p>You will receive the refund within few days after we receive your package (to the card or
+                            account you used while placing the order)</p>
+                        <p>In a few days after we receive the package you will receive the funds in the same way you have
+                            paid for your order (card or PayPal).</p>
+                    </dd>
+                </dl>
+                <dt class="term-name">Exchange</dt>
+                <dd class="term-describes">If you wish to exchange the goods through the online shop you need to follow
+                    the return procedure - send the items back to us (or return them at our store in London) and place a
+                    new order.
+                </dd>
+            </div>
         </div>
     </div>
+    <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">
@@ -193,34 +232,33 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{/login/forgot-password-newsletter}" th:object="${addNewsletterForgotPassword}"
-                      method="post"
+                <form action="#" th:action="@{/exchange-and-returns/newsletter}" th:object="${exchangeAndReturnsCardsAddNewsletter}" method="post"
                       class="newsletter-container">
-                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                    <div class="input-div one">
-                        <div class="i">
-                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                                    <div class="input-div one">
+                                        <div class="i">
+                                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
                                                 <g id="Shopicon">
                 	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
                 		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
                 		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
                                                 </g>
                                             </svg>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <input type="email" th:field="*{email}" class="input" required>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                        I accept <a href="/privacy-policy">newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Send">
-                </form>
+                                        </div>
+                                        <div>
+                                            <h5>Email</h5>
+                                            <input type="email" th:field="*{email}" class="input" required>
+                                        </div>
+                                    </div>
+                                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    <div class="newsletter-checkbox">
+                                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                                        I accept <a href="/privacy-policy">newsletter terms</a>
+                                    </div>
+                                    <input type="submit" class="btn" value="Send">
+                                </form>
             </ul>
         </div>
     </div>
@@ -241,7 +279,17 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
-<script>
+<script type="text/javascript">
+    var panel = document.getElementById("help-links");
+    var aAccountLinks = panel.getElementsByClassName("a-help-links");
+    for (var i = 0; i < aAccountLinks.length; i++) {
+        aAccountLinks[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;
 

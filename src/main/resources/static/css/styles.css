@@ -3010,7 +3010,7 @@ select.contact-select-topic :-moz-focusring {
     color: black;
     line-height: 1.5em;
     padding: 0.5em 3.5em 1em 1em;
-    margin: 0;
+    margin: 0 0 5px 0;
     font-size: 1.3rem;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -3032,4 +3032,57 @@ select.contact-select-topic :-moz-focusring {
 .contact-help-container {
     background: #f4f3f1;
     padding: 15px 0;
+}
+
+.small-textarea {
+    top: 300px;
+}
+
+.help-contact-info {
+    width: 80%;
+}
+
+.help-contact-info > p {
+    line-height: 1.5;
+    padding: 7px 20px;
+}
+
+.term-describes > p {
+    line-height: 1.5;
+    padding: 7px 0px;
+}
+
+.term-name {
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 15px 10px 15px;
+}
+
+.term-describes {
+    line-height: 1.5;
+    padding: 2px 20px;
+    text-transform: none;
+    float: none;
+    width: 100%;
+    text-align: left;
+}
+
+.help-list {
+    line-height: 1.5;
+    padding: 5px 40px;
+}
+
+.help-list {
+    counter-reset: item;
+}
+.help-list li {
+    display: block;
+    position: relative;
+}
+.help-list li:before {
+    content: counters(item, ".")".";
+    counter-increment: item;
+    position: absolute;
+    margin-right: 100%;
+    right: 10px;
 }
