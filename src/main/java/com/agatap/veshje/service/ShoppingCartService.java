@@ -2,7 +2,6 @@ package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.controller.mapper.ShoppingCartDTOMapper;
-import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.ShoppingCart;
 import com.agatap.veshje.model.SizeType;
 import com.agatap.veshje.repository.CouponCodeRepository;
@@ -14,12 +13,10 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -209,7 +206,7 @@ public class ShoppingCartService {
         return totalAmount;
     }
 
-    public Double getDeliveryPrice() throws ProductNotFoundException {
+    public Double getMinDeliveryPrice() throws ProductNotFoundException {
         Double priceDelivery;
         if (getTotalSalePrice() != 0 && getTotalSalePrice() >= 100) {
             priceDelivery = 0.0;
@@ -221,15 +218,35 @@ public class ShoppingCartService {
         return priceDelivery;
     }
 
-    public Double getTotalPriceWithDelivery() throws ProductNotFoundException {
-        return getTotalPrice() + getDeliveryPrice();
+    public Double checkDeliveryPrice(Integer id) throws ProductNotFoundException, DeliveryNotFoundException {
+        Double priceDelivery;
+        if (getTotalSalePrice() != 0 && getTotalSalePrice() >= 100) {
+            priceDelivery = 0.0;
+        } else if (getTotalPrice() >= 100 && getTotalSalePrice() == 0) {
+            priceDelivery = 0.0;
+        } else {
+            priceDelivery = deliveryService.findPriceDeliveryById(id);
+        }
+        return priceDelivery;
     }
 
-    public Double getTotalSalePriceWithDelivery() throws ProductNotFoundException {
-        return getTotalSalePrice() + getDeliveryPrice();
+    public Double getTotalPriceWithMinDelivery() throws ProductNotFoundException {
+        return getTotalPrice() + getMinDeliveryPrice();
+    }
+
+    public Double getTotalSalePriceWithMinDelivery() throws ProductNotFoundException {
+        return getTotalSalePrice() + getMinDeliveryPrice();
     }
 
     public Double getTotalDiscount() throws ProductNotFoundException {
-        return getTotalPriceWithDelivery() - getTotalSalePriceWithDelivery();
+        return getTotalPriceWithMinDelivery() - getTotalSalePriceWithMinDelivery();
+    }
+
+    public Double getTotalPriceWithDelivery(Integer id) throws ProductNotFoundException, DeliveryNotFoundException {
+        return getTotalPrice() + checkDeliveryPrice(id);
+    }
+
+    public Double getTotalSalePriceWithDelivery(Integer id) throws DeliveryNotFoundException, ProductNotFoundException {
+        return getTotalSalePrice() + checkDeliveryPrice(id);
     }
 }

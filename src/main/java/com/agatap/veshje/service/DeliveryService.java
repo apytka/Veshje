@@ -80,5 +80,19 @@ public class DeliveryService {
                 .min(Comparator.comparing(deliveryDTO -> deliveryDTO.getPrice()))
                 .orElse(null);
     }
+
+
+    public Double findPriceDeliveryByName(String name) throws DeliveryNotFoundException {
+        return deliveryRepository.findByName(name)
+                .map(nameDelivery -> nameDelivery.getPrice().doubleValue())
+                .orElseThrow(() -> new DeliveryNotFoundException());
+    }
+
+    public Double findPriceDeliveryById(Integer id) throws DeliveryNotFoundException {
+        return deliveryRepository.findById(id)
+                .map(nameDelivery -> nameDelivery.getPrice().doubleValue())
+                .orElseThrow(() -> new DeliveryNotFoundException());
+    }
+
 }
 

@@ -48,4 +48,14 @@ public class DeliveryController {
     public DeliveryDTO findMinPriceDeliveryDTO() {
         return deliveryService.findMinPriceDeliveryDTO();
     }
+
+    @GetMapping("/delivery-price-by-name/{name}")
+    public Double findPriceDeliveryByName(@PathVariable String name) throws DeliveryNotFoundException {
+        return deliveryService.findPriceDeliveryByName(name);
+    }
+
+    @GetMapping("/delivery-price-by-id/{id}")
+    public Double findPriceDeliveryById(@PathVariable Integer id) throws DeliveryNotFoundException {
+        return deliveryService.findPriceDeliveryById(id);
+    }
 }

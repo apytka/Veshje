@@ -55,9 +55,9 @@ public class CartViewController {
         }
 
         modelAndView.addObject("totalDiscount", shoppingCartService.getTotalDiscount());
-        modelAndView.addObject("totalPriceWithDelivery", shoppingCartService.getTotalPriceWithDelivery());
-        modelAndView.addObject("totalSalePriceWithDelivery", shoppingCartService.getTotalSalePriceWithDelivery());
-        modelAndView.addObject("priceDelivery", shoppingCartService.getDeliveryPrice());
+        modelAndView.addObject("totalPriceWithMinDelivery", shoppingCartService.getTotalPriceWithMinDelivery());
+        modelAndView.addObject("totalSalePriceWithMinDelivery", shoppingCartService.getTotalSalePriceWithMinDelivery());
+        modelAndView.addObject("priceDelivery", shoppingCartService.getMinDeliveryPrice());
         modelAndView.addObject("cartIsEmpty", shoppingCartService.getAllProductsInCart().isEmpty());
         modelAndView.addObject("deliveries", deliveryService.getAllDelivery());
         modelAndView.addObject("map", map);

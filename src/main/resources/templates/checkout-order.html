@@ -133,32 +133,37 @@
                 <a href="/shopping-bag">&#10094; Back to cart</a>
             </div>
             <div class="order-container">
-                <form class="hand-order-form">
+                <form th:action="@{'/checkout/order/deliveries'}" th:object="${orderCheckoutDetailsDelivery}"
+                      method="post" id="order-delivery-form">
                     <h1>Shipping method</h1>
                     <div class="order-shipping-container">
                         <div class="order-shipping-radio">
-                            <input type="radio" name="delivery" th:value="${deliveries.get(0).id}"
-                                   th:id="${deliveries.get(0).name}"
-                                   class="order-shipping-input" required>
-                            <label th:for="${deliveries.get(0).name}" class="order-shipping-label">
+                            <input th:field="*{deliveryId}" type="radio" th:value="${deliveries.get(0).id}"
+                                   th:id="${deliveries.get(0).id}" class="order-shipping-input"
+                                   onclick="submitDelivery()">
+                            <input th:if="${deliveries.get(0).id == deliveryIdOrderCheckoutDetails}" type="radio" class="order-shipping-input" checked>
+                            <label th:for="${deliveries.get(0).id}" class="order-shipping-label">
                                 <i class="fas fa-home"></i>
                                 <span class="order-shipping-span">[[${deliveries.get(0).name}]]<br/>
-                                    <span>[[${deliveries.get(0).timeDelivery}]]</span>
-                                </span>
+                                                            <span>[[${deliveries.get(0).timeDelivery}]]</span>
+                                                        </span>
                             </label>
                         </div>
                         <div class="order-shipping-radio">
-                            <input type="radio" name="delivery" th:value="${deliveries.get(1).id}"
-                                   th:id="${deliveries.get(1).name}"
-                                   class="order-shipping-input" required>
-                            <label th:for="${deliveries.get(1).name}" class="order-shipping-label">
+                            <input th:field="*{deliveryId}" type="radio" th:name="deliveryId" th:value="${deliveries.get(1).id}"
+                                   th:id="${deliveries.get(1).id}" class="order-shipping-input"
+                                   onclick="submitDelivery()">
+                            <input th:if="${deliveries.get(1).id == deliveryIdOrderCheckoutDetails}" type="radio" class="order-shipping-input" checked>
+                            <label th:for="${deliveries.get(1).id}" class="order-shipping-label">
                                 <i class="fas fa-truck"></i>
                                 <span class="order-shipping-span">[[${deliveries.get(1).name}]]<br/>
-                                    <span>[[${deliveries.get(1).timeDelivery}]]</span>
-                                </span>
+                                                            <span>[[${deliveries.get(1).timeDelivery}]]</span>
+                                                        </span>
                             </label>
                         </div>
                     </div>
+                </form>
+                <form action="#">
                     <h1>Shipping address</h1>
                     <div class="order-shipping-container">
                         <div class="order-shipping-radio" th:each="address: ${addresses}">
@@ -221,8 +226,6 @@
         </div>
         <div class="panel-cart-summary">
             <div class="cart-summary">
-                <div class="sale-discount" th:if="${containsCouponCode} == true">You save total € [[${totalDiscount}]]
-                </div>
                 <h4>Summary</h4>
                 <div class="description-list">
                     <dt>Products price</dt>
@@ -231,16 +234,21 @@
                 </div>
                 <div class="description-list">
                     <dt>Delivery</dt>
-                    <dd th:if="${priceDelivery} > 0">€ [[${priceDelivery}]]
+                    <dd th:if="${priceDeliveryById} == null">FROM € [[${priceDelivery}]]
+                        <i class="fas fa-info-circle" id="table-delivery-zoom"></i>
                     </dd>
-                    <dd th:if="${priceDelivery} == 0" class="delivery-strong-free">Free
+                    <dd th:if="${priceDeliveryById > 0 && priceDeliveryById != null}">€ [[${priceDeliveryById}]]
+                    </dd>
+                    <dd th:if="${priceDeliveryById == 0 && priceDeliveryById != null}" class="delivery-strong-free">Free
                     </dd>
                 </div>
                 <hr class="description-list-hr">
                 <div class="description-list">
                     <dt>Total with VAT</dt>
-                    <dd th:if="${containsCouponCode} != true" th:text="'€ ' + ${totalPriceWithDelivery}"></dd>
-                    <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePriceWithDelivery}"></dd>
+                    <dd th:if="${totalPriceWithDelivery == null || totalSalePriceWithDelivery == null}">FROM € [[${priceDelivery}]]
+                    </dd>
+                    <dd th:if="${containsCouponCode != true && totalPriceWithDelivery != null}" th:text="'€ ' + ${totalPriceWithDelivery}"></dd>
+                    <dd th:if="${containsCouponCode == true && totalPriceWithDelivery != null}" th:text="'€ ' + ${totalSalePriceWithDelivery}"></dd>
                 </div>
 
                 <h3>I have coupon code</h3>
@@ -303,7 +311,8 @@
                                 <span th:text="'SIZE: ' + ${product.sizeType}"></span>
                             </div>
                             <div class="table-data-details">
-                                <span th:if="${containsCouponCode} != true" th:text="'PRICE: € ' + ${product.productPrice}"></span>
+                                <span th:if="${containsCouponCode} != true"
+                                      th:text="'PRICE: € ' + ${product.productPrice}"></span>
                                 <span th:if="${containsCouponCode} == true">PRICE: <s>€ [[${product.productPrice}]]</s>
                             <span class="product-sale-price product-sale-price-summary">€[[${product.productSalePrice}]]</span>
                         </span>
@@ -355,10 +364,10 @@
                 <form action="#" th:action="@{/checkout/order/add-address}" th:object="${createAddress}" method="post"
                       class="account-data-container" id="account-data-form">
                     <div class="account-data-address-container">
-                    <div class="account-text">
-                        <h4>My data</h4>
-                        <span>* required fields </span>
-                    </div>
+                        <div class="account-text">
+                            <h4>My data</h4>
+                            <span>* required fields </span>
+                        </div>
                         <div class="account-address-container">
                             <div class="account-data-input">
                                 <h3>First name*</h3>
@@ -438,9 +447,51 @@
             </div>
         </div>
     </div>
+    <div class="delivery-table" id="delivery-table">
+        <div class="delivery-table-cart fade">
+            <div class="delivery-container" id="delivery-container">
+                <span class="close-zoom-table">&times;</span>
+                <h2>Time and cost of delivery</h2>
+                <div class="delivery-table-details">
+                    <div class="delivery-details">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div th:text="${deliveries.get(0).name}"></div>
+                        <div th:text="${deliveries.get(0).timeDelivery}"></div>
+                    </div>
+                    <div class="delivery-details">
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(0).price}]]</strong>
+                        </div>
+                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
+                    </div>
+                </div>
+                <hr class="description-list-hr">
+                <div class="delivery-table-details">
+                    <div class="delivery-details">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div th:text="${deliveries.get(1).name}"></div>
+                        <div th:text="${deliveries.get(1).timeDelivery}"></div>
+                    </div>
+                    <div class="delivery-details">
+                        <div>For orders under €100 - <strong class="delivery-strong-price">€[[${deliveries.get(1).price}]]</strong>
+                        </div>
+                        <div>Over €100 <strong class="delivery-strong-free">free delivery</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
 <script type="text/javascript" src="/js/validate-form.js"></script>
+<script type="text/javascript">
+    function submitDelivery() {
+        document.getElementById("order-delivery-form").submit();
+    }
+</script>
 <script type="text/javascript">
     var orderAddAddressTable = document.getElementById("order-add-address-table");
     var orderAddAddressContainer = document.getElementById("order-add-address-container");
@@ -468,6 +519,21 @@
             panelSummary.style.maxHeight = panelSummary.scrollHeight + "px";
         }
     });
+</script>
+<script>
+    var deliveryTable = document.getElementById("delivery-table");
+    var deliveryContainer = document.getElementById("delivery-container");
+    const tableDeliveryZoom = document.getElementById("table-delivery-zoom");
+
+    tableDeliveryZoom.onclick = function () {
+        deliveryTable.style.display = "block";
+        deliveryContainer.src = this.src;
+    }
+
+    var closeDeliveryTable = document.getElementsByClassName("close-zoom-table")[1];
+    closeDeliveryTable.onclick = function () {
+        deliveryTable.style.display = "none";
+    }
 </script>
 </body>
 </html>

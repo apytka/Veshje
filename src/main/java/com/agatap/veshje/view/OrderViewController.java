@@ -1,9 +1,6 @@
 package com.agatap.veshje.view;
 
-import com.agatap.veshje.controller.DTO.ChangeCouponCodeDTO;
-import com.agatap.veshje.controller.DTO.CouponCodeDTO;
-import com.agatap.veshje.controller.DTO.CreateUpdateAddressDataDTO;
-import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
+import com.agatap.veshje.controller.DTO.*;
 import com.agatap.veshje.model.User;
 import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;
@@ -16,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -35,9 +31,10 @@ public class OrderViewController {
     private DeliveryService deliveryService;
     private ProductService productService;
     private CouponCodeService couponCodeService;
+    private OrderCheckoutDetailsService orderCheckoutDetailsService;
 
     @GetMapping("/checkout/order")
-    public ModelAndView displayCheckout(Authentication authentication) throws ProductNotFoundException, UserNotFoundException {
+    public ModelAndView displayCheckout(Authentication authentication) throws ProductNotFoundException, UserNotFoundException, DeliveryNotFoundException {
         ModelAndView modelAndView = new ModelAndView("checkout-order");
 
         User user = userService.findUserByEmail(authentication.getName());
@@ -59,14 +56,22 @@ public class OrderViewController {
             }
         }
 
+        if(orderCheckoutDetailsService.getOrderCheckoutDetails().getDeliveryId() != null) {
+            Double priceDeliveryById = shoppingCartService.checkDeliveryPrice(orderCheckoutDetailsService.getOrderCheckoutDetails().getDeliveryId());
+            modelAndView.addObject("priceDeliveryById", priceDeliveryById);
+            modelAndView.addObject("totalPriceWithDelivery", shoppingCartService.getTotalPriceWithDelivery(orderCheckoutDetailsService.getOrderCheckoutDetails().getDeliveryId()));
+            modelAndView.addObject("totalSalePriceWithDelivery", shoppingCartService.getTotalSalePriceWithDelivery(orderCheckoutDetailsService.getOrderCheckoutDetails().getDeliveryId()));
+        }
+
+
+
+        modelAndView.addObject("deliveryIdOrderCheckoutDetails", orderCheckoutDetailsService.getOrderCheckoutDetails().getDeliveryId());
         modelAndView.addObject("shoppingCart", shoppingCartService.getAllProductsInCart());
         modelAndView.addObject("deliveries", deliveryService.getAllDelivery());
         modelAndView.addObject("addresses", addressDataService.findAddressesByUserId(user.getId()));
         modelAndView.addObject("payments", paymentsTypeService.getAllPaymentsTypes());
         modelAndView.addObject("totalDiscount", shoppingCartService.getTotalDiscount());
-        modelAndView.addObject("totalPriceWithDelivery", shoppingCartService.getTotalPriceWithDelivery());
-        modelAndView.addObject("totalSalePriceWithDelivery", shoppingCartService.getTotalSalePriceWithDelivery());
-        modelAndView.addObject("priceDelivery", shoppingCartService.getDeliveryPrice());
+        modelAndView.addObject("priceDelivery", shoppingCartService.getMinDeliveryPrice());
         modelAndView.addObject("cartIsEmpty", shoppingCartService.getAllProductsInCart().isEmpty());
         modelAndView.addObject("couponCode", new ChangeCouponCodeDTO());
         modelAndView.addObject("isEmpty", shoppingCartService.shoppingCartIsEmpty());
@@ -74,6 +79,7 @@ public class OrderViewController {
         modelAndView.addObject("totalSalePrice", shoppingCartService.getTotalSalePrice());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("createAddress", new CreateUpdateAddressDataDTO());
+        modelAndView.addObject("orderCheckoutDetailsDelivery", new UpdateOrderCheckoutDetailsDeliveryDTO());
         return modelAndView;
     }
 
@@ -112,6 +118,13 @@ public class OrderViewController {
         }
         User user = userService.findUserByEmail(authentication.getName());
         addressDataService.createAddressFromUser(createAddressDataDTO, user.getId());
+        return new ModelAndView("redirect:/checkout/order?success");
+    }
+
+    @PostMapping("/checkout/order/deliveries")
+    public ModelAndView updateProductInCart(@ModelAttribute(name = "orderCheckoutDetails")
+                                                    UpdateOrderCheckoutDetailsDeliveryDTO updateOrderCheckoutDetailsDeliveryDTO) {
+        orderCheckoutDetailsService.updateOrderCheckoutDetailsDelivery(updateOrderCheckoutDetailsDeliveryDTO);
         return new ModelAndView("redirect:/checkout/order?success");
     }
 }

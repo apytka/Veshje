@@ -210,7 +210,8 @@
         </div>
         <div class="panel-cart-summary">
             <div class="cart-summary">
-                <div class="sale-discount" th:if="${containsCouponCode} == true">You save total € [[${totalDiscount}]]
+                <div class="sale-discount" th:if="${containsCouponCode} == true">
+                    You save total € [[${#numbers.formatDecimal(totalDiscount, 0, 'DEFAULT', 2, 'DEFAULT')}]]
                 </div>
                 <h4>Summary</h4>
                 <div class="description-list">
@@ -229,8 +230,8 @@
                 <hr class="description-list-hr">
                 <div class="description-list">
                     <dt>Total with VAT</dt>
-                    <dd th:if="${containsCouponCode} != true" th:text="'€ ' + ${totalPriceWithDelivery}"></dd>
-                    <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePriceWithDelivery}"></dd>
+                    <dd th:if="${containsCouponCode} != true" th:text="'€ ' + ${totalPriceWithMinDelivery}"></dd>
+                    <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePriceWithMinDelivery}"></dd>
                 </div>
                 <div class="description-list">
                     <a href="/checkout/order" th:if="${isEmpty} != true">

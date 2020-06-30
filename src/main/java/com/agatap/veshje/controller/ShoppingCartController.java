@@ -76,19 +76,34 @@ public class ShoppingCartController {
         return shoppingCartService.getTotalSalePrice();
     }
 
-    @GetMapping("/delivery-price")
-    public Double getDeliveryPrice() throws ProductNotFoundException {
-        return shoppingCartService.getDeliveryPrice();
+    @GetMapping("/min-delivery-price")
+    public Double getMinDeliveryPrice() throws ProductNotFoundException {
+        return shoppingCartService.getMinDeliveryPrice();
     }
 
-    @GetMapping("/total-price/delivery")
-    public Double getTotalPriceWithDelivery() throws ProductNotFoundException {
-        return shoppingCartService.getTotalPriceWithDelivery();
+    @GetMapping("/check-delivery-price/{id}")
+    public Double checkDeliveryPrice(@PathVariable Integer id) throws ProductNotFoundException, DeliveryNotFoundException {
+        return shoppingCartService.checkDeliveryPrice(id);
     }
 
-    @GetMapping("/total-sale-price/delivery")
-    public Double getTotalSalePriceWithDelivery() throws ProductNotFoundException {
-        return shoppingCartService.getTotalSalePriceWithDelivery();
+    @GetMapping("/total-price/delivery/{id}")
+    public Double getTotalPriceWithDelivery(@PathVariable Integer id) throws ProductNotFoundException, DeliveryNotFoundException {
+        return shoppingCartService.getTotalPriceWithDelivery(id);
+    }
+
+    @GetMapping("/total-sale-price/delivery/{id}")
+    public Double getTotalSalePriceWithDelivery(@PathVariable Integer id) throws ProductNotFoundException, DeliveryNotFoundException {
+        return shoppingCartService.getTotalSalePriceWithDelivery(id);
+    }
+
+    @GetMapping("/total-price/min-delivery")
+    public Double getTotalPriceWithMinDelivery() throws ProductNotFoundException {
+        return shoppingCartService.getTotalPriceWithMinDelivery();
+    }
+
+    @GetMapping("/total-sale-price/min-delivery")
+    public Double getTotalSalePriceWithMinDelivery() throws ProductNotFoundException {
+        return shoppingCartService.getTotalSalePriceWithMinDelivery();
     }
 
     @GetMapping("/total-sale-price/discount")

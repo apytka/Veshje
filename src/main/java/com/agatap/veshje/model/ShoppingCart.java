@@ -22,7 +22,7 @@ public class ShoppingCart {
     private Integer quantityInStock;
     private String couponCode;
 
-    private Integer deliveryId;
-    private Integer addressId;
-    private Integer paymentId;
+//    private Integer deliveryId;
+////    private Integer addressId;
+////    private Integer paymentId;
 }
