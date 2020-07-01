@@ -2,9 +2,9 @@ package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateOrdersDTO;
 import com.agatap.veshje.controller.DTO.OrdersDTO;
+import com.agatap.veshje.model.User;
 import com.agatap.veshje.service.OrdersService;
-import com.agatap.veshje.service.exception.OrdersDataInvalidException;
-import com.agatap.veshje.service.exception.OrdersNotFoundException;
+import com.agatap.veshje.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +26,15 @@ public class OrdersController {
         return ordersService.findOrdersDTOById(id);
     }
 
-    @PostMapping
-    public OrdersDTO createOrdersDTO(@RequestBody CreateUpdateOrdersDTO createOrdersDTO) throws OrdersDataInvalidException {
-        return ordersService.createOrdersDTO(createOrdersDTO);
+    @PostMapping("/{userId}")
+    public OrdersDTO createOrdersDTO(@PathVariable Integer userId) throws DeliveryNotFoundException, ProductNotFoundException, PaymentsTypeNotFoundException,
+            UserNotFoundException, PaymentsNotFoundException, CouponCodeNotFoundException, AddressNotFoundException, PaymentsDataInvalidException {
+        return ordersService.createOrdersDTO(userId);
     }
 
     @PutMapping("/{id}")
-    public OrdersDTO updateOrdersDTO(@RequestBody CreateUpdateOrdersDTO updateOrdersDTO, @PathVariable Integer id) throws OrdersNotFoundException {
+    public OrdersDTO updateOrdersDTO(@RequestBody CreateUpdateOrdersDTO updateOrdersDTO, @PathVariable Integer id)
+            throws OrdersNotFoundException {
         return ordersService.updateOrdersDTO(updateOrdersDTO, id);
     }
 

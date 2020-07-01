@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/privacy-policy/*").permitAll()
                 .antMatchers("/terms-and-conditional/*").permitAll()
                 .antMatchers("/checkout/order/deliveries").permitAll()
+                .antMatchers("/checkout/order/placeOrder").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

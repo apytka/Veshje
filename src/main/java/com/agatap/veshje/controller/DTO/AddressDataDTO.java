@@ -38,4 +38,5 @@ public class AddressDataDTO {
     private OffsetDateTime updateDate;
 
     private Integer userId;
+    private Integer ordersId;
 }

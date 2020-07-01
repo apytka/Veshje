@@ -17,12 +17,12 @@ public class CreateUpdateOrdersDTO {
     private OrderStatus orderStatus;
     private Double totalAmount;
 
-    private Integer paymentIds;
+    private Integer paymentId;
     private String paymentType;
-    private Integer deliveryIds;
+    private Integer deliveryId;
     private String deliveryType;
     private Double deliveryPrice;
-    private Integer userOrdersIds;
+    private Integer userId;
     private List<String> productIds;
     private List<Integer> orderItemIds;
     private Integer orderAddressDataId;

@@ -32,6 +32,7 @@ public class OrderViewController {
     private ProductService productService;
     private CouponCodeService couponCodeService;
     private OrderCheckoutDetailsService orderCheckoutDetailsService;
+    private OrdersService ordersService;
 
     @GetMapping("/checkout/order")
     public ModelAndView displayCheckout(Authentication authentication) throws ProductNotFoundException, UserNotFoundException, DeliveryNotFoundException {
@@ -80,6 +81,7 @@ public class OrderViewController {
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("createAddress", new CreateUpdateAddressDataDTO());
         modelAndView.addObject("orderCheckoutDetailsDelivery", new UpdateOrderCheckoutDetailsDeliveryDTO());
+        modelAndView.addObject("orderCheckoutDetails", new UpdateOrderCheckoutDetailsDTO());
         return modelAndView;
     }
 
@@ -122,9 +124,19 @@ public class OrderViewController {
     }
 
     @PostMapping("/checkout/order/deliveries")
-    public ModelAndView updateProductInCart(@ModelAttribute(name = "orderCheckoutDetails")
+    public ModelAndView updateProductInCart(@ModelAttribute(name = "orderCheckoutDetailsDelivery")
                                                     UpdateOrderCheckoutDetailsDeliveryDTO updateOrderCheckoutDetailsDeliveryDTO) {
         orderCheckoutDetailsService.updateOrderCheckoutDetailsDelivery(updateOrderCheckoutDetailsDeliveryDTO);
-        return new ModelAndView("redirect:/checkout/order?success");
+        return new ModelAndView("redirect:/checkout/order");
+    }
+
+    @PostMapping("/checkout/order/placeOrder")
+    public ModelAndView placeOrder(@ModelAttribute(name = "orderCheckoutDetails") UpdateOrderCheckoutDetailsDTO updateOrderCheckoutDetailsDTO,
+                                   Authentication authentication)
+            throws DeliveryNotFoundException, ProductNotFoundException, PaymentsTypeNotFoundException, UserNotFoundException, PaymentsNotFoundException, CouponCodeNotFoundException, AddressNotFoundException, PaymentsDataInvalidException {
+        orderCheckoutDetailsService.updateOrderCheckoutDetails(updateOrderCheckoutDetailsDTO);
+        User user = userService.findUserByEmail(authentication.getName());
+        ordersService.createOrdersDTO(user.getId());
+        return new ModelAndView("redirect:?success");
     }
 }

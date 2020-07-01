@@ -33,7 +33,7 @@ public class Orders {
     private String deliveryType;
     private Double deliveryPrice;
     @ManyToOne
-    private User userOrders;
+    private User user;
     @ManyToMany
     @Builder.Default
     private List<Product> products = new ArrayList<>();

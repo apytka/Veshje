@@ -35,7 +35,7 @@ public class DeliveryService {
                 .orElseThrow(() -> new DeliveryNotFoundException());
     }
 
-    public Delivery findDeliveryOById(Integer id) throws DeliveryNotFoundException {
+    public Delivery findDeliveryById(Integer id) throws DeliveryNotFoundException {
         return deliveryRepository.findById(id)
                 .orElseThrow(() -> new DeliveryNotFoundException());
     }
@@ -57,7 +57,7 @@ public class DeliveryService {
     }
 
     public DeliveryDTO updateDeliveryDTO(CreateUpdateDeliveryDTO updateDeliveryDTO, Integer id) throws DeliveryNotFoundException {
-        Delivery delivery = findDeliveryOById(id);
+        Delivery delivery = findDeliveryById(id);
         delivery.setName(updateDeliveryDTO.getName());
         delivery.setPrice(delivery.getPrice());
         delivery.setUpdateDate(OffsetDateTime.now());
@@ -69,7 +69,7 @@ public class DeliveryService {
     }
 
     public DeliveryDTO deleteDeliveryDTO(Integer id) throws DeliveryNotFoundException {
-        Delivery delivery = findDeliveryOById(id);
+        Delivery delivery = findDeliveryById(id);
         deliveryRepository.delete(delivery);
         return mapper.mappingToDTO(delivery);
     }

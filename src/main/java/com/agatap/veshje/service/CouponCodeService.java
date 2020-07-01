@@ -92,6 +92,12 @@ public class CouponCodeService {
                 .orElseThrow(() -> new CouponCodeNotFoundException());
     }
 
+    public CouponCode findCouponCodeByCode(String code) throws CouponCodeNotFoundException {
+        return couponCodeRepository.findByCode(code)
+                .orElseThrow(() -> new CouponCodeNotFoundException());
+    }
+
+
     public boolean checkIfCouponExists(String coupon) {
         return couponCodeRepository.existsByCode(coupon);
     }

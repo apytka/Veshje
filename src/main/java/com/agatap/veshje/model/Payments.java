@@ -25,7 +25,7 @@ public class Payments {
     private OffsetDateTime updateDate;
     @ManyToOne
     private PaymentsType typePayment;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Orders orders;
     @ManyToOne
     private User users;

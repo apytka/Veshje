@@ -3,7 +3,10 @@ package com.agatap.veshje.service;
 import com.agatap.veshje.controller.DTO.CreateUpdateOrderAddressDataDTO;
 import com.agatap.veshje.controller.DTO.OrderAddressDataDTO;
 import com.agatap.veshje.controller.mapper.OrderAddressDataMapper;
+import com.agatap.veshje.model.AddressData;
 import com.agatap.veshje.model.OrderAddressData;
+import com.agatap.veshje.model.OrderCheckoutDetails;
+import com.agatap.veshje.repository.AddressRepository;
 import com.agatap.veshje.repository.OrderAddressDataRepository;
 import com.agatap.veshje.service.exception.AddressDataInvalidException;
 import com.agatap.veshje.service.exception.AddressNotFoundException;
@@ -22,6 +25,8 @@ public class OrderAddressDataService {
 
     private OrderAddressDataRepository orderAddressDataRepository;
     private OrderAddressDataMapper mapper;
+    private OrderCheckoutDetailsService orderCheckoutDetailsService;
+    private AddressDataService addressDataService;
 
     public List<OrderAddressDataDTO> getAllOrderAddressData() {
         return orderAddressDataRepository.findAll().stream()
@@ -47,6 +52,22 @@ public class OrderAddressDataService {
         //todo bind to foreign tables
         OrderAddressData newOrderAddressData = orderAddressDataRepository.save(orderAddressData);
         return mapper.mappingToDTO(newOrderAddressData);
+    }
+
+        public OrderAddressData createOrderAddress() throws AddressNotFoundException {
+            OrderAddressData orderAddressData = new OrderAddressData();
+            OrderCheckoutDetails orderCheckoutDetails = orderCheckoutDetailsService.getOrderCheckoutDetails();
+            AddressData addressData = addressDataService.findAddressDataById(orderCheckoutDetails.getAddressId());
+            orderAddressData.setFirstName(addressData.getFirstName());
+            orderAddressData.setLastName(addressData.getLastName());
+            orderAddressData.setStreet(addressData.getStreet());
+            orderAddressData.setNo(addressData.getNo());
+            orderAddressData.setCity(addressData.getCity());
+            orderAddressData.setPostalCode(addressData.getPostalCode());
+            orderAddressData.setPhoneNumber(addressData.getPhoneNumber());
+            orderAddressData.setCreateDate(OffsetDateTime.now());
+
+            return orderAddressDataRepository.save(orderAddressData);
     }
 
     public OrderAddressDataDTO updateOrderAddressDTO(CreateUpdateOrderAddressDataDTO createUpdateOrderAddressDataDTO, Integer id)

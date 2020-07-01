@@ -163,11 +163,11 @@
                         </div>
                     </div>
                 </form>
-                <form action="#">
+                <form action="#" th:action="@{'/checkout/order/placeOrder'}" th:object="${orderCheckoutDetails}" method="post">
                     <h1>Shipping address</h1>
                     <div class="order-shipping-container">
                         <div class="order-shipping-radio" th:each="address: ${addresses}">
-                            <input type="radio" name="address" th:value="${address.id}"
+                            <input th:field="*{addressId}" type="radio" th:name="addressId" th:value="${address.id}"
                                    th:id="${address.street}"
                                    class="order-shipping-input" required>
                             <label th:for="${address.street}" class="order-shipping-label">
@@ -184,7 +184,7 @@
                     <h1>Payment method</h1>
                     <div class="order-shipping-container">
                         <div class="order-shipping-radio">
-                            <input type="radio" name="payment" th:value="${payments.get(0).id}"
+                            <input th:field="*{paymentId}" type="radio" th:name="paymentId" th:value="${payments.get(0).id}"
                                    th:id="${payments.get(0).name}"
                                    class="order-shipping-input" required>
                             <label th:for="${payments.get(0).name}" class="order-shipping-label">
@@ -194,7 +194,7 @@
                             </label>
                         </div>
                         <div class="order-shipping-radio">
-                            <input type="radio" name="payment" th:value="${payments.get(1).id}"
+                            <input th:field="*{paymentId}" type="radio" th:name="paymentId" th:value="${payments.get(1).id}"
                                    th:id="${payments.get(1).name}"
                                    class="order-shipping-input" required>
                             <label th:for="${payments.get(1).name}" class="order-shipping-label">

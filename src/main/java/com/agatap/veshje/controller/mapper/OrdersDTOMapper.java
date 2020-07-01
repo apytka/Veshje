@@ -16,7 +16,7 @@ public class OrdersDTOMapper {
                 .map(payment -> payment.getId()).orElse(null);
         Integer deliveryId = Optional.ofNullable(orders.getDelivery())
                 .map(delivery -> delivery.getId()).orElse(null);
-        Integer userId = Optional.ofNullable(orders.getUserOrders())
+        Integer userId = Optional.ofNullable(orders.getUser())
                 .map(user -> user.getId()).orElse(null);
         List<String> productsId = orders.getProducts().stream()
                 .map(product -> product.getId())
@@ -24,7 +24,7 @@ public class OrdersDTOMapper {
         List<Integer> orderItemsId = orders.getOrderItem().stream()
                 .map(orderItem -> orderItem.getId())
                 .collect(Collectors.toList());
-        Integer addressDataId = Optional.ofNullable(orders.getOrderAddressData())
+        Integer orderAddressDataId = Optional.ofNullable(orders.getOrderAddressData())
                 .map(orderAddressData -> orderAddressData.getId()).orElse(null);
         Integer couponCodeId = Optional.ofNullable(orders.getCouponsCode())
                 .map(coupon -> coupon.getId()).orElse(null);
@@ -32,15 +32,15 @@ public class OrdersDTOMapper {
                 .id(orders.getId())
                 .orderStatus(orders.getOrderStatus())
                 .totalAmount(orders.getTotalAmount())
-                .paymentIds(paymentId)
+                .paymentId(paymentId)
                 .paymentType(orders.getPaymentType())
-                .deliveryIds(deliveryId)
+                .deliveryId(deliveryId)
                 .deliveryType(orders.getDeliveryType())
                 .deliveryPrice(orders.getDeliveryPrice())
-                .userOrdersIds(userId)
+                .userId(userId)
                 .productIds(productsId)
                 .orderItemIds(orderItemsId)
-                .orderAddressDataId(addressDataId)
+                .orderAddressDataId(orderAddressDataId)
                 .couponCodeId(couponCodeId)
                 .createDate(orders.getCreateDate())
                 .updateDate(orders.getCreateDate())

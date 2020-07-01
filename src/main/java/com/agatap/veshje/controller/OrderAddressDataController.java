@@ -2,6 +2,7 @@ package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateOrderAddressDataDTO;
 import com.agatap.veshje.controller.DTO.OrderAddressDataDTO;
+import com.agatap.veshje.model.OrderAddressData;
 import com.agatap.veshje.service.OrderAddressDataService;
 import com.agatap.veshje.service.exception.AddressDataInvalidException;
 import com.agatap.veshje.service.exception.AddressNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -30,13 +32,14 @@ public class OrderAddressDataController {
 
     @PostMapping
     public OrderAddressDataDTO createOrderAddressDTO(@Valid @RequestBody CreateUpdateOrderAddressDataDTO createUpdateOrderAddressDataDTO)
-            throws AddressDataInvalidException, UserNotFoundException {
+            throws AddressDataInvalidException {
         return orderAddressDataService.createOrderAddressDTO(createUpdateOrderAddressDataDTO);
     }
 
+
     @PutMapping("/{id}")
     public OrderAddressDataDTO updateOrderAddressDTO(@Valid @RequestBody CreateUpdateOrderAddressDataDTO createUpdateOrderAddressDataDTO, @PathVariable Integer id)
-            throws AddressNotFoundException, AddressDataInvalidException, UserNotFoundException {
+            throws AddressNotFoundException, AddressDataInvalidException {
         return orderAddressDataService.updateOrderAddressDTO(createUpdateOrderAddressDataDTO, id);
     }
 
