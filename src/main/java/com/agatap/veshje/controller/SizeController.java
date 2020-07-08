@@ -2,6 +2,7 @@ package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateSizeDTO;
 import com.agatap.veshje.controller.DTO.SizeDTO;
+import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.SizeType;
 import com.agatap.veshje.service.SizeService;
 import com.agatap.veshje.service.exception.ProductNotFoundException;
@@ -49,5 +50,16 @@ public class SizeController {
     public Integer findQuantityBySizeTypeAndProductId(@PathVariable SizeType sizeType, @PathVariable String id)
             throws ProductNotFoundException, SizeNotFoundException {
         return sizeService.getQuantityBySizeTypeAndProductId(sizeType, id);
+    }
+
+    @GetMapping("/size-by-products/{id}")
+    public List<SizeDTO> findSizesByProductId(@PathVariable String id) {
+        return sizeService.findSizesByProductId(id);
+    }
+
+    @GetMapping("/size/{id}/{sizeType}")
+    public SizeDTO findSizeByProductIdAndSizeType(@PathVariable SizeType sizeType, @PathVariable String id)
+            throws ProductNotFoundException, SizeNotFoundException {
+        return sizeService.findSizeByProductIdAndSizeType(sizeType, id);
     }
 }

@@ -116,13 +116,21 @@ public class ShoppingCartService {
         return mapper.mappingToDTO(shoppingCart);
     }
 
-    public void checkoutStock(ShoppingCart shoppingCart) throws ProductNotFoundException, SizeNotFoundException, NotEnoughProductsInStockException {
-        for (ShoppingCart product : products) {
+    public boolean checkoutStock(ShoppingCartDTO shoppingCart) throws ProductNotFoundException, SizeNotFoundException {
+        return sizeService.getQuantityBySizeTypeAndProductId(shoppingCart.getSizeType(), shoppingCart.getProductId()) >= shoppingCart.getQuantity();
+    }
+
+    public boolean checkoutProductStock(CreateUpdateShoppingCartDTO shoppingCart) throws ProductNotFoundException, SizeNotFoundException,
+            NotEnoughProductsInStockException {
+        if(filterByProductIdAndSizeTypeDTO(shoppingCart.getProductId(), shoppingCart.getSizeType()) != null
+                && filterByProductIdAndSizeTypeDTO(shoppingCart.getProductId(), shoppingCart.getSizeType()).getQuantity() != null) {
             if (sizeService.getQuantityBySizeTypeAndProductId(shoppingCart.getSizeType(), shoppingCart.getProductId())
-                    < product.getQuantity()) {
+                    < filterByProductIdAndSizeTypeDTO(shoppingCart.getProductId(), shoppingCart.getSizeType()).getQuantity() + 1) {
                 throw new NotEnoughProductsInStockException();
             }
+            return false;
         }
+        return true;
     }
 
     public ShoppingCartDTO filterByProductIdAndSizeTypeDTO(String id, SizeType sizeType) {
@@ -248,5 +256,10 @@ public class ShoppingCartService {
 
     public Double getTotalSalePriceWithDelivery(Integer id) throws DeliveryNotFoundException, ProductNotFoundException {
         return getTotalSalePrice() + checkDeliveryPrice(id);
+    }
+
+
+    public void clearShoppingCart() {
+        products.clear();
     }
 }

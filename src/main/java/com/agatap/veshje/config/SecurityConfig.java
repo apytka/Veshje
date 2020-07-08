@@ -1,6 +1,5 @@
 package com.agatap.veshje.config;
 
-import com.agatap.veshje.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -75,7 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/privacy-policy/*").permitAll()
                 .antMatchers("/terms-and-conditional/*").permitAll()
                 .antMatchers("/checkout/order/deliveries").permitAll()
-                .antMatchers("/checkout/order/placeOrder").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

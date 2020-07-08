@@ -261,12 +261,12 @@ public class ControllerConfig {
     }
 
     @ExceptionHandler(OrderItemDataInvalidException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleOrderItemDataNotFoundException() {
     }
 
     @ExceptionHandler(OrderItemNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleOrderItemAlreadyExists() {
     }
 

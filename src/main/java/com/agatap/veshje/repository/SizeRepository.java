@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface SizeRepository extends JpaRepository<Size, Integer> {
     List<Size> findAllBySizeType(SizeType sizeType);
-    Integer findQuantityBySizeType(SizeType sizeType);
+    List<Size> findByProductId(String id);
 }

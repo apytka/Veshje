@@ -37,7 +37,7 @@ public class ProductViewController {
     private ReviewService reviewService;
     private NewsletterService newsletterService;
     private ShoppingCartService shoppingCartService;
-    
+
     @GetMapping("/products/{category}")
     public ModelAndView displayProductByMiniDresses(@PathVariable String category)
             throws UnsupportedEncodingException, ProductNotFoundException, CategoryNotFoundException {

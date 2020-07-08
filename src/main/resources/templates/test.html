@@ -1,38 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
     <style>
+        .progressbar {
+            margin: 50px 0 50px 0;
+            counter-reset: step;
+        }
+        .progressbar li {
+            list-style-type: none;
+            width: 25%;
+            float: left;
+            font-size: 12px;
+            position: relative;
+            text-align: center;
+            text-transform: uppercase;
+            color: #7d7d7d;
+        }
+        .progressbar li:before {
+            width: 15px;
+            height: 15px;
+            content: '';
+            line-height: 30px;
+            border: 2px solid #7d7d7d;
+            background-color: #7d7d7d;
+            display: block;
+            text-align: center;
+            margin: 0 auto 10px auto;
+            border-radius: 50%;
+            transition: all .8s;
+        }
+        .progressbar li:after {
+            width: 100%;
+            height: 2px;
+            content: '';
+            position: absolute;
+            background-color: #7d7d7d;
+            top: 7px;
+            left: -50%;
+            z-index: -1;
+            transition: all .8s;
+        }
+        .progressbar li:first-child:after {
+            content: none;
+        }
+        .progressbar li.active:before {
+            border-color: #55b776;
+            background-color: #55b776;
+            transition: all .8s;
+        }
+        .progressbar li.active:after {
+            background-color: #55b776;
+            transition: all .8s;
+        }
 
+        .btn {
+            background-color: #55b776;
+            margin: 5px;
+            width: 75px;
+            color: white;
+        }
+        .btn:hover {
+            color: white;
+        }
+        .btn:focus {
+            color: white;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: absolute;
+            padding-top: 50px;
+        }
+        body {
+            background-color: #333333;
+        }
     </style>
 </head>
 <body>
-
-Select your car make:
-<select id='sel1' onchange="checkAndSubmit()">
-    <option value="0">Select...</option>
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="mercedes">Mercedes</option>
-    <option value="audi">Audi</option>
-</select>
-<br/><br/>
-Select your gender:
-<select id='sel2' onchange="checkAndSubmit()">
-    <option value="0">Select...</option>
-    <option value="Male">Volvo</option>
-    <option value="Female">Saab</option>
-</select>
-<script type="text/javascript">
-    function checkAndSubmit()
-    {
-        if (document.getElementById('sel1').selectedIndex > 0
-            && document.getElementById('sel2').selectedIndex > 0)
-        {
-            //document.getElementById('formID').submit();
-            alert('both have been selected!');
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <ul id="progress-bar" class="progressbar">
+                <li class="active">Details</li>
+                <li>Address</li>
+                <li>add friends</li>
+                <li>Confirm</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="btn-container">
+    <button class="btn" id="Back">Back</button>
+    <button class="btn" id="Next">Next</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var progressBar = {
+        Bar : $('#progress-bar'),
+        Next: function(){
+            $('#progress-bar li:not(.active):first').addClass('active');
+        },
+        Back: function(){
+            $('#progress-bar li.active:last').removeClass('active');
         }
     }
+
+    ////
+    $("#Next").on('click', function(){
+        progressBar.Next();
+    })
+    $("#Back").on('click', function(){
+        progressBar.Back();
+    })
 </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +29,26 @@ public class CartViewController {
     private ProductService productService;
     private CategoryService categoryService;
     private CouponCodeService couponCodeService;
+    private SizeService sizeService;
 
     @GetMapping("/shopping-bag")
-    public ModelAndView displayCart() throws ProductNotFoundException, UnsupportedEncodingException {
+    public ModelAndView displayCart() throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, NotEnoughProductsInStockException {
         ModelAndView modelAndView = new ModelAndView("cart");
-        List<ShoppingCartDTO> shoppingCart = shoppingCartService.getAllProductsInCart();
-
-        Map<String, String> map = getProductWithImageAfterCategory();
+        List<ShoppingCartDTO> shoppingCart = new ArrayList<>();
 
         for (ShoppingCartDTO shoppingCartDTO : shoppingCartService.getAllProductsInCart()) {
-            modelAndView.addObject("test", shoppingCartDTO.getId());
+            shoppingCart.add(shoppingCartDTO);
+            Integer quantityBySizeTypeAndProductId = sizeService.getQuantityBySizeTypeAndProductId(shoppingCartDTO.getSizeType(), shoppingCartDTO.getProductId());
+            shoppingCartDTO.setQuantityInStock(quantityBySizeTypeAndProductId);
+            modelAndView.addObject("shoppingCart", shoppingCart);
+            if (!(shoppingCartDTO.getQuantity() > shoppingCartDTO.getQuantityInStock())
+                    ||!(shoppingCartDTO.getQuantityInStock() == 0)) {
+                modelAndView.addObject("buttonDisabled", true);
+            }
+        }
+
+        Map<String, String> map = getProductWithImageAfterCategory();
+        for (ShoppingCartDTO shoppingCartDTO : shoppingCartService.getAllProductsInCart()) {
             String couponCode = shoppingCartDTO.getCouponCode();
             if (couponCode != null) {
                 modelAndView.addObject("addCouponCode", couponCode);
@@ -58,22 +69,25 @@ public class CartViewController {
         modelAndView.addObject("totalPriceWithMinDelivery", shoppingCartService.getTotalPriceWithMinDelivery());
         modelAndView.addObject("totalSalePriceWithMinDelivery", shoppingCartService.getTotalSalePriceWithMinDelivery());
         modelAndView.addObject("priceDelivery", shoppingCartService.getMinDeliveryPrice());
-        modelAndView.addObject("cartIsEmpty", shoppingCartService.getAllProductsInCart().isEmpty());
         modelAndView.addObject("deliveries", deliveryService.getAllDelivery());
         modelAndView.addObject("map", map);
         modelAndView.addObject("updateShoppingCart", new ShoppingCart());
         modelAndView.addObject("couponCode", new ChangeCouponCodeDTO());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
-        modelAndView.addObject("isEmpty", shoppingCartService.shoppingCartIsEmpty());
         modelAndView.addObject("total", shoppingCartService.getTotalPrice());
         modelAndView.addObject("totalSalePrice", shoppingCartService.getTotalSalePrice());
-        modelAndView.addObject("shoppingCart", shoppingCart);
+        modelAndView.addObject("isEmpty", shoppingCartService.shoppingCartIsEmpty());
         return modelAndView;
     }
 
     @GetMapping("/shopping-bag/add/{id}")
     public ModelAndView addProductToCart(@PathVariable String id, @ModelAttribute(name = "shoppingCart") CreateUpdateShoppingCartDTO shoppingCart)
             throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, CouponCodeNotFoundException {
+        try {
+            shoppingCartService.checkoutProductStock(shoppingCart);
+        } catch (NotEnoughProductsInStockException e) {
+            return new ModelAndView("redirect:/products/dress-details/" + id + "?errorStock");
+        }
         shoppingCartService.addProductToShoppingCart(shoppingCart);
         return new ModelAndView("redirect:/products/dress-details/" + id + "?confirmation");
     }
@@ -123,11 +137,8 @@ public class CartViewController {
             List<ProductDTO> productDTOList = productService.randomProductsInCategory(1, category.getName());
             for (ProductDTO product : productDTOList) {
                 List<ImageDTO> images = productService.findImageByProductId(product.getId());
-                String base64Encoded = null;
-                for (ImageDTO image : images) {
-                    byte[] encodeBase64 = Base64.encodeBase64(image.getData());
-                    base64Encoded = new String(encodeBase64, "UTF-8");
-                }
+                byte[] encodeBase64 = Base64.encodeBase64(images.get(0).getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
                 map.put(base64Encoded, category.getName());
             }
         }

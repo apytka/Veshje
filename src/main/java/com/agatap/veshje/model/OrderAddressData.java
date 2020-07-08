@@ -28,6 +28,6 @@ public class OrderAddressData {
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Orders order;
 }

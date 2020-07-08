@@ -53,4 +53,10 @@ public class OrderCheckoutDetailsService {
         updateOrderCheckoutDetails.setDeliveryId(updateOrderCheckoutDetailsDeliveryDTO.getDeliveryId());
         return mappingToDTO(updateOrderCheckoutDetails);
     }
+
+    public void clearOrderCheckoutDetails() {
+        orderCheckoutDetails.setAddressId(null);
+        orderCheckoutDetails.setPaymentId(null);
+        orderCheckoutDetails.setDeliveryId(null);
+    }
 }

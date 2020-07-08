@@ -23,6 +23,8 @@ public class Orders {
     private OrderStatus orderStatus;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+    private Double totalProducts;
+    private Double discount;
     private Double totalAmount;
 
     @OneToOne(mappedBy = "orders")

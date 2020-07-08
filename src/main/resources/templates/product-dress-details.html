@@ -233,6 +233,18 @@
                                 <input type="submit" class="btn" value="Add to bag" id="add-to-bag-disabled"
                                        disabled="disabled">
                             </form>
+                            <div class="alert-information-container" th:fragment="error-info">
+                                <div th:if="${param.errorStock}" class="alert-information" id="out-of-stock-information">
+                                    <div class="alert-information-error-stock">
+                                        <div class="alert-information-error-stock-details">
+                                        <span class="span-error-stock">Size out of stock!</span>
+                                        <div class="button-error-stock">
+                                            <a th:href="'/products/dress-details/' + ${product.id}" class="btn">Back to product</a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <ul>
                                 <li class="product-composition-and-care">
                                     <h3 id="flip-care">Composition</h3>
@@ -502,6 +514,10 @@
 <script type="text/javascript" src="/js/js.js"></script>
 <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
 <script src='https://npmcdn.com/flickity@2/dist/flickity.pkgd.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#out-of-stock-information').delay(1500).fadeOut('linear');
+</script>
 <script>
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;

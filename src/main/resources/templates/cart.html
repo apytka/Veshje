@@ -154,8 +154,11 @@
                 <div class="table-data-media">
                     <div class="table-favourites-img">
                         <div class="product-display-img">
+                            <hr th:if="${product.quantityInStock <= 0}" class="cross"/>
                             <a th:href="'/products/dress-details/' + ${product.productId}">
-                                <img th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
+                                <img th:if="${product.quantityInStock > 0}" th:src="|data:image/png;base64,${product.productImage}|" style="height: 250px">
+                                <img th:if="${product.quantityInStock <= 0}" th:src="|data:image/png;base64,${product.productImage}|"
+                                     style="height: 250px; opacity: 0.3">
                             </a>
                         </div>
                     </div>
@@ -205,6 +208,13 @@
                             <span class="product-sale-price">€[[${product.quantity * product.productSalePrice}]]</span>
                         </div>
                     </div>
+                    <div class="div-flex-break"></div>
+                    <div th:if="${product.quantityInStock < product.quantity && product.quantityInStock > 0}" class="div-unavailable">
+                        We do not have [[${product.quantity}]] of this item in stock
+                    </div>
+                    <div th:if="${product.quantityInStock <= 0}" class="div-unavailable">
+                        Product out of stock
+                    </div>
                 </div>
             </div>
         </div>
@@ -234,10 +244,10 @@
                     <dd th:if="${containsCouponCode} == true" th:text="'€ ' + ${totalSalePriceWithMinDelivery}"></dd>
                 </div>
                 <div class="description-list">
-                    <a href="/checkout/order" th:if="${isEmpty} != true">
+                    <a href="/checkout/order" th:if="${isEmpty != true}">
                         <button type="submit" class="btn">Go to checkout</button>
                     </a>
-                    <button th:if="${isEmpty} == true" type="submit" class="btn" disabled="disabled">Go to
+                    <button th:if="${isEmpty == true} " class="btn" disabled="disabled">Go to
                         checkout
                     </button>
                 </div>
@@ -252,7 +262,7 @@
                                    class="add-coupon-input">
                         </div>
                         <div class="cart-data-input">
-                            <input type="submit" class="btn-add-coupon" value="Add" th:disabled="${cartIsEmpty}">
+                            <input type="submit" class="btn-add-coupon" value="Add" th:disabled="${isEmpty}">
                         </div>
                     </div>
                 </form>

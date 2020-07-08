@@ -48,4 +48,9 @@ public class OrderAddressDataController {
         return orderAddressDataService.deleteOrderAddressDTO(id);
     }
 
+    @GetMapping("/address-by-orderId/{orderId}")
+    public OrderAddressDataDTO findOrderAddressDataByOrderId(@PathVariable Integer orderId) throws AddressNotFoundException {
+        return orderAddressDataService.findOrderAddressDataByOrderId(orderId);
+    }
+
 }

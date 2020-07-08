@@ -23,6 +23,8 @@ public class OrdersDTO {
     private OrderStatus orderStatus;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
+    private Double totalProducts;
+    private Double discount;
     private Double totalAmount;
 
     private Integer paymentId;

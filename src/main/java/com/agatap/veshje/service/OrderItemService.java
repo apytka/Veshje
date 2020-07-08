@@ -2,6 +2,7 @@ package com.agatap.veshje.service;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateOrderItemDTO;
 import com.agatap.veshje.controller.DTO.OrderItemDTO;
+import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
 import com.agatap.veshje.controller.mapper.OrderItemMapper;
 import com.agatap.veshje.model.OrderItem;
 import com.agatap.veshje.repository.OrderItemRepository;
@@ -50,6 +51,22 @@ public class OrderItemService {
         return mapper.mappingToDTO(newOrderItem);
     }
 
+    public OrderItem createOrderItem(ShoppingCartDTO shoppingCartDTO) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProductId(shoppingCartDTO.getProductId());
+        orderItem.setProductName(shoppingCartDTO.getProductName());
+        if (shoppingCartDTO.getCouponCode() == null) {
+            orderItem.setProductPrice(shoppingCartDTO.getProductPrice());
+        } else {
+            orderItem.setProductPrice(shoppingCartDTO.getProductSalePrice());
+        }
+        orderItem.setSizeType(shoppingCartDTO.getSizeType());
+        orderItem.setQuantity(shoppingCartDTO.getQuantity());
+        orderItem.setCreateDate(OffsetDateTime.now());
+        orderItemRepository.save(orderItem);
+        return orderItem;
+    }
+
     public OrderItemDTO updateOrderItemDTO(CreateUpdateOrderItemDTO updateOrderItemDTO, Integer id)
             throws OrderItemDataInvalidException, OrderItemNotFoundException {
         if (updateOrderItemDTO.getProductPrice() == null || updateOrderItemDTO.getProductPrice() <= 0 ||
@@ -60,7 +77,7 @@ public class OrderItemService {
         orderItem.setProductId(updateOrderItemDTO.getProductId());
         orderItem.setProductName(updateOrderItemDTO.getProductName());
         orderItem.setProductPrice(updateOrderItemDTO.getProductPrice());
-        orderItem.setSize(updateOrderItemDTO.getSize());
+        orderItem.setSizeType(updateOrderItemDTO.getSizeType());
         orderItem.setQuantity(updateOrderItemDTO.getQuantity());
         orderItem.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
@@ -72,5 +89,13 @@ public class OrderItemService {
         OrderItem orderItem = findOrderItemById(id);
         orderItemRepository.delete(orderItem);
         return mapper.mappingToDTO(orderItem);
+    }
+
+    public List<OrderItemDTO> findOrderItemByOrderId(Integer orderId) throws OrderItemNotFoundException {
+        return orderItemRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new OrderItemNotFoundException())
+                .stream()
+                .map(orderItem -> mapper.mappingToDTO(orderItem))
+                .collect(Collectors.toList());
     }
 }

@@ -41,4 +41,9 @@ public class OrderItemController {
     public OrderItemDTO deleteOrderItemDTO(@PathVariable Integer id) throws OrderItemNotFoundException {
         return orderItemService.deleteOrderItemDTO(id);
     }
+
+    @GetMapping("/order-item-by-orderId/{orderId}")
+    public List<OrderItemDTO> findOrderItemByOrderId(@PathVariable Integer orderId) throws OrderItemNotFoundException {
+        return orderItemService.findOrderItemByOrderId(orderId);
+    }
 }

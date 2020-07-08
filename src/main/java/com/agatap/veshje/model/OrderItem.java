@@ -20,7 +20,7 @@ public class OrderItem {
     private String productId;
     private String productName;
     private Double productPrice;
-    private String size;
+    private SizeType sizeType;
     private Integer quantity;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

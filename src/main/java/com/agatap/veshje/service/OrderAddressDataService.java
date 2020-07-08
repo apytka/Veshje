@@ -95,6 +95,12 @@ public class OrderAddressDataService {
         return mapper.mappingToDTO(orderAddressData);
     }
 
+    public OrderAddressDataDTO findOrderAddressDataByOrderId(Integer orderId) throws AddressNotFoundException {
+        return orderAddressDataRepository.findByOrderId(orderId)
+                .map(orderAddressData -> mapper.mappingToDTO(orderAddressData))
+                .orElseThrow(() -> new AddressNotFoundException());
+    }
+
     private void invalidData(CreateUpdateOrderAddressDataDTO createUpdateOrderAddressDataDTO) throws AddressDataInvalidException {
         String postalCodePattern = "^\\d{2}-\\d{3}$";
         String phoneNumberPattern = "^\\+\\d{11}$";

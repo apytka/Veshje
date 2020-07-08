@@ -127,9 +127,21 @@
     </div>
 </header>
 <main>
+    <div class="alert-information-container" th:fragment="error-info">
+        <div th:if="${param.errorStock}" class="alert-information" id="out-of-stock-information">
+            <div class="alert-information-error-stock">
+                <div class="alert-information-error-stock-details">
+                    <span class="span-error-stock">At least one product is currently out of stock and unavailable!</span>
+                    <div class="button-error-stock">
+                        <a href="/shopping-bag" class="btn">Back to shopping bag</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="panels-cart">
         <div class="panel-cart">
-            <div class="back-to">
+            <div class="back-to-cart">
                 <a href="/shopping-bag">&#10094; Back to cart</a>
             </div>
             <div class="order-container">
@@ -487,6 +499,7 @@
 </main>
 <script type="text/javascript" src="/js/js.js"></script>
 <script type="text/javascript" src="/js/validate-form.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">
     function submitDelivery() {
         document.getElementById("order-delivery-form").submit();

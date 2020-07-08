@@ -31,6 +31,8 @@ public class OrdersDTOMapper {
         return OrdersDTO.builder()
                 .id(orders.getId())
                 .orderStatus(orders.getOrderStatus())
+                .totalProducts(orders.getTotalProducts())
+                .discount(orders.getDiscount())
                 .totalAmount(orders.getTotalAmount())
                 .paymentId(paymentId)
                 .paymentType(orders.getPaymentType())

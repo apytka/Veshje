@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.SizeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class OrderItemDTO {
     private String productId;
     private String productName;
     private Double productPrice;
-    private String size;
+    private SizeType sizeType;
     private Integer quantity;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;

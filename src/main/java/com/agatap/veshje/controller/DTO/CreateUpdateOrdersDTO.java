@@ -15,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateUpdateOrdersDTO {
     private OrderStatus orderStatus;
+    private Double totalProducts;
+    private Double discount;
     private Double totalAmount;
 
     private Integer paymentId;

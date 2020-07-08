@@ -17,7 +17,7 @@ public class OrderItemMapper {
                 .productId(orderItem.getProductId())
                 .productName(orderItem.getProductName())
                 .productPrice(orderItem.getProductPrice())
-                .size(orderItem.getSize())
+                .sizeType(orderItem.getSizeType())
                 .quantity(orderItem.getQuantity())
                 .orderId(orderId)
                 .createDate(orderItem.getCreateDate())
@@ -30,7 +30,7 @@ public class OrderItemMapper {
                 .productId(createUpdateOrderItemDTO.getProductId())
                 .productName(createUpdateOrderItemDTO.getProductName())
                 .productPrice(createUpdateOrderItemDTO.getProductPrice())
-                .size(createUpdateOrderItemDTO.getSize())
+                .sizeType(createUpdateOrderItemDTO.getSizeType())
                 .quantity(createUpdateOrderItemDTO.getQuantity())
                 .build();
     }
