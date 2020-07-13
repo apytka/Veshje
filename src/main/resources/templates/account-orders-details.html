@@ -136,54 +136,146 @@
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <div class="account-data account-data-addresses">
-                <div class="account-data-container">
-                    <div class="account-text account-text-small">
-                        <h4>Orders</h4>
-                        <span class="account-description" th:if="${shortageOrders != true}">Check the status and information regarding your online orders.</span>
+            <div class="panel-nav-order-confirm">
+                <div class="back-to">
+                    <a href="/orders">&#10094; Back to orders</a>
+                </div>
+            </div>
 
-                        <div class="account-container-button" th:if="${shortageOrders == true}">
-                            <span class="account-description">You have placed no orders yet.</span>
-                            <a href="/index">
-                                <button class="btn btn-data-account">Back to shopping</button>
-                            </a>
+            <div class="order-details-header">
+                <h2>Order details</h2>
+                <h3>The details of your order are shown below.</h3>
+            </div>
+
+            <div class="progress-bar-container">
+                <ul th:if="${active != 4}" class="progressbar">
+                    <li class="li-progress-bar active-progress-bar">Bought</li>
+                    <li th:if="${active < 1}" class="li-progress-bar">Send</li>
+                    <li th:if="${active >= 1}" class="li-progress-bar active-progress-bar">Send</li>
+                    <li th:if="${active < 2}" class="li-progress-bar">Collected by courier</li>
+                    <li th:if="${active >= 2}" class="li-progress-bar active-progress-bar">Collected by courier</li>
+                    <li th:if="${active < 3}" class="li-progress-bar">Delivered to customer</li>
+                    <li th:if="${active >= 3}" class="li-progress-bar active-progress-bar">elivered to customer</li>
+                </ul>
+                <ul th:if="${active == 4}" class="progressbar">
+                    <li class="li-progress-bar active-progress-bar">Cancel</li>
+                    <li class="li-progress-bar">Send</li>
+                    <li class="li-progress-bar">Collected by courier</li>
+                    <li class="li-progress-bar">Delivered to customer</li>
+                </ul>
+
+            </div>
+            <div class="order-details-method-container">
+                <div>
+                    <span class="span-a-grey">Order number: </span><span>[[${order.id}]]</span>
+                </div>
+                <div>
+                    <span class="span-a-grey">Order date: </span>
+                    <span th:text="${order.createDate.getDayOfMonth()}"></span>
+                    <span th:text="${order.createDate.getMonth()}"></span>
+                    <span th:text="${order.createDate.getYear()}"></span>
+                </div>
+                <div>
+                    <span class="span-a-grey">Shipping method: </span><span>[[${order.deliveryType}]]</span>
+                </div>
+                <div>
+                    <span class="span-a-grey">Payment method: </span><span>[[${order.paymentType}]]</span>
+                </div>
+            </div>
+
+            <div class="order-details-container">
+                <div class="order-details-container-panel">
+                    <div class="order-confirm-details">
+                        <h3>Dispatch</h3>
+                    </div>
+                    <div class="order-confirm-details">
+                        <div>
+                            <span>[[${addressData.firstName}]] [[${addressData.lastName}]]</span>
+                        </div>
+                        <div>
+                            <span>[[${addressData.street}]] [[${addressData.no}]]</span>
+                        </div>
+                        <div>
+                            <span>[[${addressData.postalCode}]] [[${addressData.city}]]</span>
+                        </div>
+                        <div>
+                            <span th:text="${addressData.phoneNumber}"></span>
                         </div>
                     </div>
-                    <table class="general-table general-table-cart">
-                        <tbody class="general-tbody">
-                        <tr class="general-row" th:each="order: ${orders}">
-                            <td class="general-column">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <span><strong>Order No. [[${order.id}]]</strong></span>
-                                            <span> - [[${order.orderStatus}]]</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span>Ordered on [[${order.createDate.getDayOfMonth()}]]/
-                                                [[${order.createDate.getMonthValue()}]]/
-                                            [[${order.createDate.getYear()}]]</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td th:text="'Price € ' + ${order.totalAmount}" style="font-size: 1.3rem"></td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td class="general-column">
-                                <div class="general-table-btn-container">
-                                    <div class="general-table-btn">
-                                        <a th:href="'orders/' + ${order.userId} + '/' + ${order.id}">
-                                            <button class="btn-general btn-general-modify">See details</button>
-                                        </a>
-                                    </div>
+                </div>
+                <div class="order-details-container-panel">
+                    <div class="order-confirm-details">
+                        <h3>Details</h3>
+                    </div>
+                    <div class="table-order-details-container" th:each="product: ${products}">
+                        <div class="table-data-media">
+                            <div class="table-data-details">
+                                <img th:src="|data:image/png;base64,${product.value}|"
+                                     style="height: 200px; padding: 10px">
+                            </div>
+                        </div>
+                        <div class="table-data-media table-data-media-details">
+                            <div class="table-data">
+                                <div class="table-data-details data-cart-details">
+                                    <span th:text="${product.key.productName}"></span>
                                 </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                <div class="table-data-details">
+                                    <span th:text="'INDEX: ' + ${product.key.productId}"></span>
+                                </div>
+                                <div class="table-data-details">
+                                    <span th:text="'SIZE: ' + ${product.key.sizeType}"></span>
+                                </div>
+                                <div class="table-data-details">
+                                    <div class="table-data-details-black"
+                                         th:text="'€ ' + ${product.key.productPrice}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-data-media">
+                            <div class="table-data-details">
+                                <strong th:text="'x ' + ${product.key.quantity}"></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-confirm-details-summary">
+                        <div class="order-confirm-container-price">
+                            <div class="order-confirm-details-left">
+                                <h4>Total products</h4>
+                            </div>
+                            <div class="order-confirm-details-right">
+                                <span th:text="'€ ' + ${order.totalProducts}"></span>
+                            </div>
+                        </div>
+                        <div class="order-confirm-container-price">
+                            <div class="order-confirm-details-left">
+                                <h4>Shipping costs</h4>
+                            </div>
+                            <div class="order-confirm-details-right">
+                                <span th:text="'€ ' + ${order.deliveryPrice}"></span>
+                            </div>
+                        </div>
+                        <div class="order-confirm-container-price">
+                            <div class="order-confirm-details-left">
+                                <h4>Discount</h4>
+                            </div>
+                            <div class="order-confirm-details-right">
+                                <span th:text="'€ ' + ${order.discount}"></span>
+                            </div>
+                        </div>
+                        <div class="order-confirm-container-price">
+                            <div class="order-confirm-details-left">
+                                <h4>Total</h4>
+                            </div>
+                            <div class="order-confirm-details-right">
+                                <strong th:text="'€ ' + ${order.totalAmount}"></strong>
+                            </div>
+                        </div>
+                        <div class="order-confirm-container-price">
+                            <div class="order-confirm-details-right">
+                                <span>*including VAT</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -226,7 +318,8 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{/orders/add-newsletter}" th:object="${ordersNewsletter}" method="post"
+                <form action="#" th:action="@{'/orders/' + ${userId} + '/' + ${orderId} + '/add-newsletter'}"
+                      th:object="${orderDetailsNewsletter}" method="post"
                       class="newsletter-container">
                     <p>Do you want to receive the newest trends and special offers? Sign up.</p>
                     <div class="input-div one">
@@ -234,12 +327,12 @@
                             <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                        <g id="Shopicon">
-        	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-        		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-        		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                        </g>
-                                    </svg>
+                                                        <g id="Shopicon">
+                        	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+                        		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+                        		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                                        </g>
+                                                    </svg>
                         </div>
                         <div>
                             <h5>Email</h5>

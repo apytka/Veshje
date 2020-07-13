@@ -12,6 +12,7 @@ import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class OrdersService {
     private CouponCodeService couponCodeService;
     private OrderAddressDataService orderAddressDataService;
     private OrderItemService orderItemService;
+    private MailSenderService mailSenderService;
 
     public List<OrdersDTO> getAllOrders() {
         return ordersRepository.findAll().stream()
@@ -52,7 +54,7 @@ public class OrdersService {
 
     public OrdersDTO createOrdersDTO(Integer userId) throws DeliveryNotFoundException, ProductNotFoundException,
             PaymentsTypeNotFoundException, UserNotFoundException, CouponCodeNotFoundException, AddressNotFoundException,
-            PaymentsDataInvalidException {
+            PaymentsDataInvalidException, MessagingException {
         Orders orders = new Orders();
         OrderCheckoutDetails orderCheckoutDetails = orderCheckoutDetailsService.getOrderCheckoutDetails();
         Delivery deliveryById = deliveryService.findDeliveryById(orderCheckoutDetails.getDeliveryId());
@@ -108,6 +110,9 @@ public class OrdersService {
         Orders saveOrder = ordersRepository.save(orders);
         orderCheckoutDetailsService.clearOrderCheckoutDetails();
         shoppingCartService.clearShoppingCart();
+
+//        mailSenderService.sendMail(user.getEmail(), "Veshje shop - order confirmation", null, true,
+//                "order-mail-confirmation");
         return mapper.mappingToDTO(saveOrder);
     }
 

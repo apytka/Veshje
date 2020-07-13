@@ -1,11 +1,15 @@
 package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.*;
+import com.agatap.veshje.model.OrderStatus;
+import com.agatap.veshje.model.Orders;
 import com.agatap.veshje.model.User;
+import com.agatap.veshje.model.utils.Utils;
 import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -16,11 +20,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -42,6 +48,8 @@ public class OrderViewController {
     private OrderAddressDataService orderAddressDataService;
     private OrderItemService orderItemService;
     private NewsletterService newsletterService;
+    private MailSenderService mailSenderService;
+    private TemplateEngine templateEngine;
 
     @GetMapping("/checkout/order")
     public ModelAndView displayCheckout(Authentication authentication) throws ProductNotFoundException, UserNotFoundException, DeliveryNotFoundException {
@@ -141,7 +149,7 @@ public class OrderViewController {
     public ModelAndView placeOrder(@ModelAttribute(name = "orderCheckoutDetails") UpdateOrderCheckoutDetailsDTO updateOrderCheckoutDetailsDTO,
                                    Authentication authentication)
             throws DeliveryNotFoundException, ProductNotFoundException, PaymentsTypeNotFoundException, UserNotFoundException,
-            CouponCodeNotFoundException, AddressNotFoundException, PaymentsDataInvalidException, SizeNotFoundException {
+            CouponCodeNotFoundException, AddressNotFoundException, PaymentsDataInvalidException, SizeNotFoundException, MessagingException, UnsupportedEncodingException, OrderItemNotFoundException {
         ModelAndView modelAndView = new ModelAndView("checkout-order");
         orderCheckoutDetailsService.updateOrderCheckoutDetails(updateOrderCheckoutDetailsDTO);
         for (ShoppingCartDTO shoppingCartDTO : shoppingCartService.getAllProductsInCart()) {
@@ -155,7 +163,36 @@ public class OrderViewController {
         User user = userService.findUserByEmail(authentication.getName());
         OrdersDTO ordersDTO = ordersService.createOrdersDTO(user.getId());
         Integer orderId = ordersDTO.getId();
+
+
+        Context context = new Context();
+        context.setVariable("order", ordersDTO);
+        context.setVariable("addressData", orderAddressDataService.findOrderAddressDataByOrderId(orderId));
+        List<OrderItemDTO> orderItemByOrderId = orderItemService.findOrderItemByOrderId(orderId);
+        Map<OrderItemDTO, String> products = getProductFromOrder(orderItemByOrderId);
+        context.setVariable("products", products);
+        int quantityProduct = 0;
+        for(OrderItemDTO orderItemDTO : orderItemService.findOrderItemByOrderId(orderId)) {
+            quantityProduct += orderItemDTO.getQuantity();
+        }
+        context.setVariable("quantityProduct", quantityProduct);
+        String body = templateEngine.process("order-mail-confirmation", context);
+        mailSenderService.sendMailOrderConfirmation(user.getEmail(), "Veshje shop - order confirmation", body);
+
+
         return new ModelAndView("redirect:/checkout/order/" + user.getId() + "/" + orderId + "/confirmation");
+    }
+
+    @NotNull
+    private Map<OrderItemDTO, String> getProductFromOrder(List<OrderItemDTO> orderItemByOrderId) throws ProductNotFoundException, UnsupportedEncodingException {
+        Map<OrderItemDTO, String> products = new HashMap<>();
+        for (OrderItemDTO order : orderItemByOrderId) {
+            List<ImageDTO> imageByProductId = productService.findImageByProductId(order.getProductId());
+            byte[] encodeBase64 = Base64.encodeBase64(imageByProductId.get(0).getData());
+            String base64Encoded = new String(encodeBase64, "UTF-8");
+            products.put(order, base64Encoded);
+        }
+        return products;
     }
 
     @GetMapping("/checkout/order/{userId}/{orderId}/confirmation")
@@ -206,7 +243,17 @@ public class OrderViewController {
     public ModelAndView displayOrders(Authentication authentication) throws UserNotFoundException {
         ModelAndView modelAndView = new ModelAndView("account-orders");
         User userId = userService.findUserByEmail(authentication.getName());
-        modelAndView.addObject("orders", ordersService.findOrdersByUserId(userId.getId()));
+        List<OrdersDTO> ordersByUserId = ordersService.findOrdersByUserId(userId.getId());
+        Comparator<OrdersDTO> sortOrders = new Comparator<OrdersDTO>() {
+            @Override
+            public int compare(OrdersDTO order1, OrdersDTO order2) {
+                return order2.getId() - order1.getId();
+            }
+        };
+
+        Utils.sortCompare(ordersByUserId, sortOrders);
+        modelAndView.addObject("orders", ordersByUserId);
+
         if (ordersService.findOrdersByUserId(userId.getId()).isEmpty()) {
             modelAndView.addObject("shortageOrders", true);
         }
@@ -233,4 +280,60 @@ public class OrderViewController {
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
         return new ModelAndView("redirect:/orders?success");
     }
+
+    @GetMapping("/orders/{userId}/{orderId}")
+    public ModelAndView displayOrderDetails(@PathVariable Integer userId, @PathVariable Integer orderId, Authentication authentication) throws OrdersNotFoundException, AddressNotFoundException, UserNotFoundException, OrderItemNotFoundException, ProductNotFoundException, UnsupportedEncodingException {
+        ModelAndView modelAndView = new ModelAndView("account-orders-details");
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
+
+        User user = userService.findUserByEmail(authentication.getName());
+        if (!user.getId().equals(userId)) {
+            return new ModelAndView("redirect:/index");
+        }
+
+        List<OrderItemDTO> orderItemByOrderId = orderItemService.findOrderItemByOrderId(orderId);
+        Map<OrderItemDTO, String> products = getProductFromOrder(orderItemByOrderId);
+
+        List<OrderStatus> orderStatus = Arrays.asList(OrderStatus.values());
+        for (int i = 0; i < orderStatus.size(); i++) {
+            Orders ordersOById = ordersService.findOrdersOById(orderId);
+            if(orderStatus.get(i).equals(ordersOById.getOrderStatus())) {
+                modelAndView.addObject("active", i);
+            }
+        }
+
+        modelAndView.addObject("orderStatus", orderStatus);
+        modelAndView.addObject("products", products);
+        modelAndView.addObject("order", ordersService.findOrdersOById(orderId));
+        modelAndView.addObject("addressData", orderAddressDataService.findOrderAddressDataByOrderId(orderId));
+        modelAndView.addObject("orderDetailsNewsletter", new CreateUpdateNewsletterDTO());
+        return modelAndView;
+    }
+
+    @PostMapping("/orders/{userId}/{orderId}/add-newsletter")
+    public ModelAndView addNewsletterToOrderDetails(@Valid @ModelAttribute(name = "orderDetailsNewsletter")
+                                                      CreateUpdateNewsletterDTO createUpdateNewsletterDTO,
+                                                    @PathVariable Integer userId, @PathVariable Integer orderId, BindingResult bindingResult)
+            throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("account-orders-details");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:/orders/" + userId + "/" + orderId + "?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:/orders/" + userId + "/" + orderId + "?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:/orders/" + userId + "/" + orderId + "?success");
+    }
+
+//    @GetMapping("/orders/mail-confirmation")
+//    public ModelAndView displayMailConfirmation(Authentication authentication) {
+//        ModelAndView modelAndView = new ModelAndView("order-mail-confirmation");
+//
+//        return modelAndView;
+//    }
 }

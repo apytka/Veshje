@@ -22,9 +22,6 @@ public class StringPrefixedSequenceIdGenerator extends SequenceStyleGenerator {
     public static final String NUMBER_FORMAT_DEFAULT = "%d";
     private String numberFormat;
 
-    public static final String VALUE_FORMAT = "numberFormat";
-    public static final String VALUE_FORMAT_DEFAULT = "";
-
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         return valuePrefix + String.format(numberFormat, super.generate(session, object));

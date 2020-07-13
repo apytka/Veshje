@@ -2,14 +2,13 @@ package com.agatap.veshje.controller;
 
 import com.agatap.veshje.controller.DTO.CreateUpdateOrdersDTO;
 import com.agatap.veshje.controller.DTO.OrdersDTO;
-import com.agatap.veshje.model.User;
 import com.agatap.veshje.service.OrdersService;
 import com.agatap.veshje.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -28,10 +27,9 @@ public class OrdersController {
     }
 
     @PostMapping("/{userId}")
-    public OrdersDTO createOrdersDTO(@PathVariable Integer userId) throws DeliveryNotFoundException,
-            ProductNotFoundException, PaymentsTypeNotFoundException, UserNotFoundException, PaymentsNotFoundException,
-            CouponCodeNotFoundException, AddressNotFoundException, PaymentsDataInvalidException, SizeNotFoundException,
-            NotEnoughProductsInStockException {
+    public OrdersDTO createOrdersDTO(@PathVariable Integer userId) throws DeliveryNotFoundException, ProductNotFoundException,
+            PaymentsTypeNotFoundException, UserNotFoundException, CouponCodeNotFoundException, AddressNotFoundException,
+            PaymentsDataInvalidException, MessagingException {
         return ordersService.createOrdersDTO(userId);
     }
 
