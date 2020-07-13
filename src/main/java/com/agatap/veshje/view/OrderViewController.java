@@ -164,7 +164,13 @@ public class OrderViewController {
         OrdersDTO ordersDTO = ordersService.createOrdersDTO(user.getId());
         Integer orderId = ordersDTO.getId();
 
+        String body = addContextToMailConfirmation(ordersDTO, orderId);
+        mailSenderService.sendMailOrderConfirmation(user.getEmail(), "Veshje shop - order confirmation", body);
 
+        return new ModelAndView("redirect:/checkout/order/" + user.getId() + "/" + orderId + "/confirmation");
+    }
+
+    private String addContextToMailConfirmation(OrdersDTO ordersDTO, Integer orderId) throws AddressNotFoundException, OrderItemNotFoundException, ProductNotFoundException, UnsupportedEncodingException {
         Context context = new Context();
         context.setVariable("order", ordersDTO);
         context.setVariable("addressData", orderAddressDataService.findOrderAddressDataByOrderId(orderId));
@@ -172,15 +178,11 @@ public class OrderViewController {
         Map<OrderItemDTO, String> products = getProductFromOrder(orderItemByOrderId);
         context.setVariable("products", products);
         int quantityProduct = 0;
-        for(OrderItemDTO orderItemDTO : orderItemService.findOrderItemByOrderId(orderId)) {
+        for (OrderItemDTO orderItemDTO : orderItemService.findOrderItemByOrderId(orderId)) {
             quantityProduct += orderItemDTO.getQuantity();
         }
         context.setVariable("quantityProduct", quantityProduct);
-        String body = templateEngine.process("order-mail-confirmation", context);
-        mailSenderService.sendMailOrderConfirmation(user.getEmail(), "Veshje shop - order confirmation", body);
-
-
-        return new ModelAndView("redirect:/checkout/order/" + user.getId() + "/" + orderId + "/confirmation");
+        return templateEngine.process("order-mail-confirmation", context);
     }
 
     @NotNull
@@ -329,11 +331,4 @@ public class OrderViewController {
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
         return new ModelAndView("redirect:/orders/" + userId + "/" + orderId + "?success");
     }
-
-//    @GetMapping("/orders/mail-confirmation")
-//    public ModelAndView displayMailConfirmation(Authentication authentication) {
-//        ModelAndView modelAndView = new ModelAndView("order-mail-confirmation");
-//
-//        return modelAndView;
-//    }
 }
