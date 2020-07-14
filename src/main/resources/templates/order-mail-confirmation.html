@@ -36,11 +36,11 @@
             margin-top: 30px;
         }
 
-        .expectation img {
-            width: 30px;
-            float: left;
-            margin-left: 100px;
-        }
+        /*.expectation img {*/
+        /*    width: 30px;*/
+        /*    float: left;*/
+        /*    margin-left: 100px;*/
+        /*}*/
 
         .expectation .description {
             display: block;
@@ -145,12 +145,12 @@
         <span th:text="${quantityProduct}"></span> items
     </h4>
     <div class="expectation" style="margin-top: 30px;">
-        <div style="display: flex; flex-direction:row; text-align: center;" th:each="product: ${products}">
+        <div style="display: flex; flex-direction:column; text-align: center;" th:each="product: ${products}">
             <div>
                 <img th:src="|data:image/png;base64,${product.value}|"
                      style="height: 300px; width: 200px;padding: 10px;">
             </div>
-            <div style="width: 400px">
+            <div style="width: 100%">
                 <div style="text-align: center; font-size: 1.2em;font-weight: 600;letter-spacing: .5px;
                 text-transform: uppercase;padding: 5px">
                     [[${product.key.productName}]]
