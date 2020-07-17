@@ -19,6 +19,7 @@ public class OrderItemMapper {
                 .productPrice(orderItem.getProductPrice())
                 .sizeType(orderItem.getSizeType())
                 .quantity(orderItem.getQuantity())
+                .addReview(orderItem.isAddReview())
                 .orderId(orderId)
                 .createDate(orderItem.getCreateDate())
                 .updateDate(orderItem.getUpdateDate())
@@ -32,6 +33,7 @@ public class OrderItemMapper {
                 .productPrice(createUpdateOrderItemDTO.getProductPrice())
                 .sizeType(createUpdateOrderItemDTO.getSizeType())
                 .quantity(createUpdateOrderItemDTO.getQuantity())
+                .addReview(createUpdateOrderItemDTO.isAddReview())
                 .build();
     }
 }

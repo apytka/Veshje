@@ -18,6 +18,7 @@ public class OrderItemDTO {
     private Double productPrice;
     private SizeType sizeType;
     private Integer quantity;
+    private boolean addReview;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

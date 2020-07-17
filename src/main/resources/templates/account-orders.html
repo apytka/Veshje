@@ -130,6 +130,8 @@
         <div class="panel-account panel-account-links">
             <ul id="account-links">
                 <li><a href="/orders" class="a-account-links active" title="User orders">My orders</a></li>
+                <li><a href="/reviews" class="a-account-links" title="Reviews">Reviews</a></li>
+                <li><a href="/invoices" class="a-account-links" title="Invoices">Invoices</a></li>
                 <li><a href="/account" class="a-account-links" title="My data">My data</a></li>
                 <li><a href="/addresses" class="a-account-links" title="My address">My address</a></li>
                 <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
@@ -157,7 +159,8 @@
                                     <tr>
                                         <td>
                                             <span><strong>Order No. [[${order.id}]]</strong></span>
-                                            <span> - [[${order.orderStatus}]]</span>
+                                            <span> - </span>
+                                            <span th:utext="${#strings.replace(order.orderStatus, '_', ' ')}"></span>
                                         </td>
                                     </tr>
                                     <tr>

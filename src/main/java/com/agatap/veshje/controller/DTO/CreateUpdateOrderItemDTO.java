@@ -18,6 +18,7 @@ public class CreateUpdateOrderItemDTO {
     private Double productPrice;
     private SizeType sizeType;
     private Integer quantity;
+    private boolean addReview;
 
     private Integer orderId;
 }

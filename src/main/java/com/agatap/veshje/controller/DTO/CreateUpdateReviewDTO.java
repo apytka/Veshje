@@ -1,5 +1,6 @@
 package com.agatap.veshje.controller.DTO;
 
+import com.agatap.veshje.model.SizeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class CreateUpdateReviewDTO {
     private Integer rate;
     private int rateSize;
     private int rateLength;
+    private SizeType sizeType;
 
     private String productId;
     private Integer userId;

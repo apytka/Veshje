@@ -45,7 +45,7 @@ public class ReviewService {
     }
 
     public ReviewDTO createReviewDTO(CreateUpdateReviewDTO createReviewDTO) throws ReviewDataInvalidException, UserNotFoundException, ProductNotFoundException {
-        if (createReviewDTO.getRate() == null || createReviewDTO.getRate() < 0 || createReviewDTO.getRate() > 4) {
+        if (createReviewDTO.getRate() == null || createReviewDTO.getRate() < 0 || createReviewDTO.getRate() > 5) {
             throw new ReviewDataInvalidException();
         }
         Review review = mapper.mappingToModel(createReviewDTO);
@@ -74,6 +74,7 @@ public class ReviewService {
         review.setRate(updateReviewDTO.getRate());
         review.setRateSize(updateReviewDTO.getRateSize());
         review.setRateLength(updateReviewDTO.getRateLength());
+        review.setSizeType(updateReviewDTO.getSizeType());
         review.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
         Review updateReview = reviewRepository.save(review);

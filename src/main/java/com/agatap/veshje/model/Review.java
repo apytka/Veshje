@@ -23,6 +23,7 @@ public class Review {
     private int rate;
     private int rateSize;
     private int rateLength;
+    private SizeType sizeType;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

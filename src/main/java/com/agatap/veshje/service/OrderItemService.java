@@ -6,6 +6,7 @@ import com.agatap.veshje.controller.DTO.ShoppingCartDTO;
 import com.agatap.veshje.controller.mapper.OrderItemMapper;
 import com.agatap.veshje.model.OrderItem;
 import com.agatap.veshje.repository.OrderItemRepository;
+import com.agatap.veshje.repository.OrdersRepository;
 import com.agatap.veshje.service.exception.OrderItemDataInvalidException;
 import com.agatap.veshje.service.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class OrderItemService {
 
     private OrderItemRepository orderItemRepository;
     private OrderItemMapper mapper;
+    private OrdersRepository ordersRepository;
 
     public List<OrderItemDTO> getAllOrderItem() {
         return orderItemRepository.findAll().stream()
@@ -63,6 +65,7 @@ public class OrderItemService {
         orderItem.setSizeType(shoppingCartDTO.getSizeType());
         orderItem.setQuantity(shoppingCartDTO.getQuantity());
         orderItem.setCreateDate(OffsetDateTime.now());
+        orderItem.setAddReview(false);
         orderItemRepository.save(orderItem);
         return orderItem;
     }
@@ -85,6 +88,13 @@ public class OrderItemService {
         return mapper.mappingToDTO(updateOrderItem);
     }
 
+    public OrderItemDTO updateAddReview(Integer id) throws OrderItemNotFoundException {
+        OrderItem orderItem = findOrderItemById(id);
+        orderItem.setAddReview(true);
+        OrderItem updateOrderItem = orderItemRepository.save(orderItem);
+        return mapper.mappingToDTO(updateOrderItem);
+    }
+
     public OrderItemDTO deleteOrderItemDTO(Integer id) throws OrderItemNotFoundException {
         OrderItem orderItem = findOrderItemById(id);
         orderItemRepository.delete(orderItem);
@@ -95,6 +105,14 @@ public class OrderItemService {
         return orderItemRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new OrderItemNotFoundException())
                 .stream()
+                .map(orderItem -> mapper.mappingToDTO(orderItem))
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderItemDTO> findOrderItemForUser(Integer userId) {
+        return ordersRepository.findByUserId(userId)
+                .stream()
+                .flatMap(orders -> orders.getOrderItem().stream())
                 .map(orderItem -> mapper.mappingToDTO(orderItem))
                 .collect(Collectors.toList());
     }

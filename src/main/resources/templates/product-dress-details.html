@@ -337,8 +337,9 @@
                 <div class="review-user" th:each="review: ${reviews}">
                     <div class="stars"
                          th:style="'--rating:'+ ${review.rate} +';'">
-                                                    <span class="review-user-details" th:text="${review.createDate.getDayOfMonth()} + ' '
+                          <span class="review-user-details" th:text="${review.createDate.getDayOfMonth()} + ' '
                                                 + ${review.createDate.getMonth()} + ' ' + ${review.createDate.getYear()} "></span>
+                        <p class="review-user-details" th:text="'Size: ' + ${review.sizeType}"></p>
                     </div>
                     <div class="review-user-details" th:text="${review.comment}"></div>
                     <div class="review-answer">

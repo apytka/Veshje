@@ -3067,6 +3067,12 @@ select.contact-select-topic :-moz-focusring {
     -moz-appearance: none;
 }
 
+.textarea-review {
+    padding-top: 10px;
+    width: 60%;
+    min-width: 300px;
+}
+
 .information-term {
     width: 50%;
     min-width: 300px;
@@ -3261,6 +3267,13 @@ select.contact-select-topic :-moz-focusring {
     font-weight: 600;
 }
 
+.table-data-details-upper {
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    color: black;
+    font-weight: 600;
+}
+
 .order-details-method-container {
     padding: 20px 30px;
 }
@@ -3342,4 +3355,59 @@ select.contact-select-topic :-moz-focusring {
 .progressbar .li-progress-bar.active-progress-bar:after {
     background-color: #000000;
     transition: all .8s;
+}
+
+.review-container-form {
+    width: 80%;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.review-container-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.review-rating-stars {
+    border: none;
+    float: left;
+}
+
+.review-rating-stars > label {
+    color: #e5e5e6;
+    float: right;
+}
+
+.review-rating-stars > label:before {
+    margin: 5px;
+    font-size: 3.5rem;
+    font-family: FontAwesome;
+    content: "\2605";
+    display: inline-block;
+}
+
+.review-rating-stars > input {
+    display: none;
+}
+
+.review-rating-stars > input:checked ~ label,
+.review-rating-stars:not(:checked) > label:hover,
+.review-rating-stars:not(:checked) > label:hover ~ label {
+    color: #2f2d29;
+}
+
+.review-rating-stars > input:checked + label:hover,
+.review-rating-stars > input:checked ~ label:hover,
+.review-rating-stars > label:hover ~ input:checked ~ label,
+.review-rating-stars > input:checked ~ label:hover ~ label {
+    color: #2f2d29;
+}
+
+.review-size-cut {
+    width: 60%;
+    min-width: 300px;
+}
+
+.review-h3 {
+    padding: 20px 0 10px 0;
 }

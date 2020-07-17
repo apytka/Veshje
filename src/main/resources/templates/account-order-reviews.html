@@ -77,7 +77,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
                     <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -129,94 +130,93 @@
         <div class="panel-account panel-account-links">
             <ul id="account-links">
                 <li><a href="/orders" class="a-account-links" title="User orders">My orders</a></li>
-                <li><a href="/reviews" class="a-account-links" title="Reviews">Reviews</a></li>
+                <li><a href="/reviews" class="a-account-links active" title="Reviews">Reviews</a></li>
                 <li><a href="/invoices" class="a-account-links" title="Invoices">Invoices</a></li>
                 <li><a href="/account" class="a-account-links" title="My data">My data</a></li>
-                <li><a href="/addresses" class="a-account-links active" title="My address">My address</a></li>
+                <li><a href="/addresses" class="a-account-links" title="My address">My address</a></li>
                 <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
             </ul>
         </div>
         <div class="panel-account panel-account-data">
-            <div class="account-data">
-                <form action="#" th:action="@{'/modify-address/' + ${id}}" th:object="${updateAddress}" method="post"
-                      class="account-data-container" id="account-data-form">
-                    <div class="account-text">
-                        <h4>My data</h4>
-                        <span>* required fields </span>
-                    </div>
-                    <div class="account-address-container">
-                        <div class="account-data-input">
-                            <h3>First name*</h3>
-                            <input type="text" id="address-first-name" th:field="*{firstName}"
-                                   class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
+            <div class="account-text account-text-small">
+                <h4>Reviews</h4>
+                <span class="account-description">Your opinion is very important for us</span>
+            </div>
+            <div class="review-container-form" th:each="product: ${products}">
+                <form action="#" th:action="@{'reviews/add-review/' + ${product.key.id}}" th:object="${createReview}" method="post">
+                    <div class="review-container-flex">
+                        <div class="review-container-img">
+                            <img th:src="|data:image/png;base64,${product.value}|"
+                                 style="height: 300px; padding: 10px">
                         </div>
-                        <div class="account-data-input">
-                            <h3>Last name*</h3>
-                            <input type="text" id="address-last-name" th:field="*{lastName}" class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
-                        </div>
-                    </div>
-                    <div class="account-address-container">
-                        <div class="account-data-input">
-                            <h3>Phone number*</h3>
-                            <input type="text" id="address-phone-number" th:field="*{phoneNumber}"
-                                   class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
-                        </div>
-                    </div>
-                    <div class="account-address-container">
-                        <div class="account-data-input">
-                            <h3>Street*</h3>
-                            <input type="text" id="address-street" th:field="*{street}" class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
-                        </div>
-                        <div class="account-data-input">
-                            <h3>Number*</h3>
-                            <input type="text" id="address-number" th:field="*{no}"
-                                   class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
+                        <div class="review-container-stars">
+                            <div class="table-data-details-upper" th:text="${product.key.productName}"></div>
+                            <div class="table-data-details">Index: [[${product.key.productId}]]</div>
+                            <div class="table-data-details">Size [[${product.key.sizeType}]]</div>
+                            <input type="hidden" th:name="productId" th:value="${product.key.productId}">
+                            <input type="hidden" th:name="sizeType" th:value="${product.key.sizeType}">
+                            <input type="hidden" th:name="userId" th:value="${userId}">
+                            <div class="review-rating-stars">
+                                <input th:field="*{rate}" type="radio" th:id="'star5-' + ${product.key.productId}"
+                                       th:value="5"/>
+                                <label class="star" th:for="'star5-' + ${product.key.productId}"
+                                       title="Awesome"></label>
+                                <input th:field="*{rate}" type="radio" th:id="'star4-' + ${product.key.productId}"
+                                       th:value="4"/>
+                                <label class="star" th:for="'star4-' + ${product.key.productId}" title="Great"></label>
+                                <input th:field="*{rate}" type="radio" th:id="'star3-' + ${product.key.productId}"
+                                       th:value="3"/>
+                                <label class="star" th:for="'star3-' + ${product.key.productId}" title="Good"></label>
+                                <input th:field="*{rate}" type="radio" th:id="'star2-' + ${product.key.productId}"
+                                       th:value="2"/>
+                                <label class="star" th:for="'star2-' + ${product.key.productId}" title="Poor"></label>
+                                <input th:field="*{rate}" type="radio" th:id="'star1-' + ${product.key.productId}"
+                                       th:value="1"/>
+                                <label class="star" th:for="'star1-' + ${product.key.productId}" title="Bad"></label>
+                            </div>
                         </div>
                     </div>
-                    <div class="account-address-container">
-                        <div class="account-data-input">
-                            <h3>Postal code*</h3>
-                            <input type="text" id="address-postal-code" th:field="*{postalCode}"
-                                   class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
+                    <div class="review-container-block">
+                        <div class="review-size-cut">
+                            <h3 class="review-h3">Size and cut</h3>
+                            <div>
+                                <div class="review-answer">
+                                    <h3 class="sub-sub-heading">True to size</h3>
+                                    <input th:field="*{rateSize}" th:name="rateSize" type="radio" th:value="0"
+                                           class="review-average-score" style="left: 0">
+                                    <input th:field="*{rateSize}" th:name="rateSize" type="radio" th:value="50"
+                                           class="review-average-score" style="left: 50%">
+                                    <input th:field="*{rateSize}" th:name="rateSize" type="radio" th:value="100"
+                                           class="review-average-score" style="left: 100%">
+                                    <ul class="review-average-scale">
+                                        <li>Small</li>
+                                        <li>Spot on</li>
+                                        <li>Large</li>
+                                    </ul>
+                                </div>
+                                <div class="review-answer">
+                                    <h3 class="sub-sub-heading">Length</h3>
+                                    <input th:field="*{rateLength}" th:name="rateLength" type="radio" th:value="0"
+                                           class="review-average-score" style="left: 0">
+                                    <input th:field="*{rateLength}" th:name="rateLength" type="radio" th:value="50"
+                                           class="review-average-score" style="left: 50%">
+                                    <input th:field="*{rateLength}" th:name="rateLength" type="radio" th:value="100"
+                                           class="review-average-score" style="left: 100%">
+                                    <ul class="review-average-scale">
+                                        <li>Short</li>
+                                        <li>Spot on</li>
+                                        <li>Long</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="account-data-input">
-                            <h3>City*</h3>
-                            <input type="text" id="address-city" th:field="*{city}" class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
+                        <div>
+                            <h3 class="review-h3">Comment</h3>
+                            <div class="account-description">What do you think about this product</div>
+                            <textarea id="contact-message" th:field="*{comment}" class="textarea-generally textarea-review"></textarea>
+                            <input type="submit" class="btn btn-data-account" value="Send my review">
                         </div>
-                    </div>
-                    <div class="account-address-container">
-                        <div class="account-data-input">
-                            <h3>Information</h3>
-                            <input type="text" id="address-information" th:field="*{information}"
-                                   class="account-input">
-                            <i class="fas fa-check-square"></i>
-                            <i class="fas fa-minus-square"></i>
-                            <small>Error message</small>
-                        </div>
-                    </div>
-                    <div class="btn-to-right">
-                        <input type="submit" class="btn btn-data-account" value="Add address">
+
                     </div>
                 </form>
             </div>
@@ -260,34 +260,34 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{'/modify-address-newsletter/' + ${id}}" th:object="${addNewsletterModifyAddress}"
-                      method="post"
-                      class="newsletter-container">
-                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                    <div class="input-div one">
-                        <div class="i">
-                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                <g id="Shopicon">
-	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <input type="email" th:field="*{email}" class="input" required>
-                        </div>
-                    </div>
-                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                    <div class="newsletter-checkbox">
-                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                        I accept <a href="/privacy-policy">newsletter terms</a>
-                    </div>
-                    <input type="submit" class="btn" value="Send">
-                </form>
+                <!--                <form action="#" th:action="@{'/orders/' + ${userId} + '/' + ${orderId} + '/add-newsletter'}"-->
+                <!--                      th:object="${orderDetailsNewsletter}" method="post"-->
+                <!--                      class="newsletter-container">-->
+                <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+                <!--                    <div class="input-div one">-->
+                <!--                        <div class="i">-->
+                <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+                <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+                <!--                                                        <g id="Shopicon">-->
+                <!--                        	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+                <!--                        		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+                <!--                        		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+                <!--                                                        </g>-->
+                <!--                                                    </svg>-->
+                <!--                        </div>-->
+                <!--                        <div>-->
+                <!--                            <h5>Email</h5>-->
+                <!--                            <input type="email" th:field="*{email}" class="input" required>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+                <!--                    <div class="newsletter-checkbox">-->
+                <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+                <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+                <!--                    </div>-->
+                <!--                    <input type="submit" class="btn" value="Send">-->
+                <!--                </form>-->
             </ul>
         </div>
     </div>
@@ -308,7 +308,6 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
-<script type="text/javascript" src="/js/validate-form.js"></script>
 <script type="text/javascript">
     var panel = document.getElementById("account-links");
     var aAccountLinks = panel.getElementsByClassName("a-account-links");
@@ -317,6 +316,21 @@
             var current = document.getElementsByClassName("active");
             current[0].className = current[0].className.replace(" active", "");
             this.className += " active";
+        });
+    }
+
+    var acc = document.getElementsByClassName("accordion");
+    var accAccordion;
+
+    for (accAccordion = 0; accAccordion < acc.length; accAccordion++) {
+        acc[accAccordion].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
         });
     }
 </script>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/order-item")
@@ -42,8 +43,13 @@ public class OrderItemController {
         return orderItemService.deleteOrderItemDTO(id);
     }
 
-    @GetMapping("/order-item-by-orderId/{orderId}")
+    @GetMapping("/order-item-by-order-id/{orderId}")
     public List<OrderItemDTO> findOrderItemByOrderId(@PathVariable Integer orderId) throws OrderItemNotFoundException {
         return orderItemService.findOrderItemByOrderId(orderId);
+    }
+
+    @GetMapping("/order-item-by-user-id/{userId}")
+    public List<OrderItemDTO> findOrderItemForUser(@PathVariable Integer userId) throws OrderItemNotFoundException {
+        return orderItemService.findOrderItemForUser(userId);
     }
 }

@@ -129,6 +129,8 @@
         <div class="panel-account panel-account-links">
             <ul id="account-links">
                 <li><a href="/orders" class="a-account-links" title="User orders">My orders</a></li>
+                <li><a href="/reviews" class="a-account-links" title="Reviews">Reviews</a></li>
+                <li><a href="/invoices" class="a-account-links" title="Invoices">Invoices</a></li>
                 <li><a href="/account" class="a-account-links" title="My data">My data</a></li>
                 <li><a href="/addresses" class="a-account-links active" title="My address">My address</a></li>
                 <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
@@ -260,8 +262,7 @@
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
                 <form action="#" th:action="@{add-address-newsletter}" th:object="${addNewsletterAddAddress}"
-                      method="post"
-                      class="newsletter-container">
+                      method="post" class="newsletter-container">
                     <p>Do you want to receive the newest trends and special offers? Sign up.</p>
                     <div class="input-div one">
                         <div class="i">
