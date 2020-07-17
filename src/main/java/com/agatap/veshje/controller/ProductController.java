@@ -3,9 +3,7 @@ package com.agatap.veshje.controller;
 import com.agatap.veshje.controller.DTO.CreateUpdateProductDTO;
 import com.agatap.veshje.controller.DTO.ImageDTO;
 import com.agatap.veshje.controller.DTO.ProductDTO;
-import com.agatap.veshje.model.Category;
 import com.agatap.veshje.model.SizeType;
-import com.agatap.veshje.model.TypeCollection;
 import com.agatap.veshje.service.ProductService;
 import com.agatap.veshje.service.exception.ProductAlreadyExistException;
 import com.agatap.veshje.service.exception.ProductDataInvalidException;
@@ -13,7 +11,6 @@ import com.agatap.veshje.service.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -65,11 +62,6 @@ public class ProductController {
     @GetMapping(value = "/price", params = {"minPrice", "maxPrice"})
     public List<ProductDTO> findProductsByPrice(@RequestParam(required = false) Double minPrice, Double maxPrice) {
         return productService.findProductsByPrice(minPrice, maxPrice);
-    }
-
-    @GetMapping(value = "/type", params = {"type"})
-    public List<ProductDTO> findProductsByTypeCollection(@RequestParam(required = false) TypeCollection type) {
-        return productService.findProductsByTypeCollection(type);
     }
 
     @GetMapping(value = "/size", params = {"sizeType"})

@@ -42,7 +42,6 @@ public class ProductDTOMapper {
                 .color(product.getColor())
                 .description(product.getDescription())
                 .complementDescription(product.getComplementDescription())
-                .typeCollection(product.getTypeCollection())
                 .orderIds(ordersId)
                 .compositionIds(compositionsId)
                 .categoriesIds(categoriesId)
@@ -63,7 +62,6 @@ public class ProductDTOMapper {
                 .color(createProductDTO.getColor())
                 .description(createProductDTO.getDescription())
                 .complementDescription(createProductDTO.getComplementDescription())
-                .typeCollection(createProductDTO.getTypeCollection())
                 .build();
     }
 }

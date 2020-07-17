@@ -1,9 +1,7 @@
 package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.*;
-import com.agatap.veshje.controller.mapper.ImageDTOMapper;
 import com.agatap.veshje.model.*;
-import com.agatap.veshje.repository.ProductRepository;
 import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;
 import lombok.AllArgsConstructor;
@@ -39,27 +37,14 @@ public class ProductViewController {
     private ShoppingCartService shoppingCartService;
 
     @GetMapping("/products/{category}")
-    public ModelAndView displayProductByMiniDresses(@PathVariable String category)
+    public ModelAndView displayProductByCategory(@PathVariable String category)
             throws UnsupportedEncodingException, ProductNotFoundException, CategoryNotFoundException {
         ModelAndView modelAndView = new ModelAndView("product-display-all");
 
         CategoryDTO categoryByName = categoryService.findCategoryByName(category);
         List<Product> productByCategory = productService.findProductsByCategoryNameProduct(categoryByName.getName());
 
-        Map<List<String>, Product> map = new HashMap<>();
-        for (Product product : productByCategory) {
-            List<String> byteImageList = new ArrayList<>();
-            List<ImageDTO> images = productService.findImageByProductId(product.getId());
-            for (ImageDTO image : images) {
-                byte[] encodeBase64 = Base64.encodeBase64(image.getData());
-                String base64Encoded = new String(encodeBase64, "UTF-8");
-                byteImageList.add(base64Encoded);
-            }
-            map.put(byteImageList, product);
-        }
-
-        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
-        modelAndView.addObject("map", map);
+        getProductsToDisplay(modelAndView, productByCategory);
         return modelAndView;
     }
 
@@ -171,6 +156,23 @@ public class ProductViewController {
         }
         newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
         return new ModelAndView("redirect:/products/dress-details/" + id + "?success");
+    }
+
+    private void getProductsToDisplay(ModelAndView modelAndView, List<Product> products) throws ProductNotFoundException, UnsupportedEncodingException {
+        Map<List<String>, Product> map = new HashMap<>();
+        for (Product product : products) {
+            List<String> byteImageList = new ArrayList<>();
+            List<ImageDTO> images = productService.findImageByProductId(product.getId());
+            for (ImageDTO image : images) {
+                byte[] encodeBase64 = Base64.encodeBase64(image.getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                byteImageList.add(base64Encoded);
+            }
+            map.put(byteImageList, product);
+        }
+
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
+        modelAndView.addObject("map", map);
     }
 
 }

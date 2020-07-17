@@ -74,4 +74,5 @@ public class CategoryService {
                 .map(category -> mapper.mappingToDTO(category))
                 .orElseThrow(() -> new CategoryNotFoundException());
     }
+
 }

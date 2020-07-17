@@ -57,7 +57,6 @@ public class ProductService {
         }
         Product product = mapper.mappingToModel(createProductDTO);
         product.setCreateDate(OffsetDateTime.now());
-        product.setTypeCollection(TypeCollection.NEW);
         //todo bind to foreign tables
         Product newProduct = productRepository.save(product);
         return mapper.mappingToDTO(newProduct);
@@ -70,7 +69,6 @@ public class ProductService {
         product.setDescription(updateProductDTO.getDescription());
         product.setComplementDescription(updateProductDTO.getComplementDescription());
         product.setColor(updateProductDTO.getColor());
-        product.setTypeCollection(updateProductDTO.getTypeCollection());
         product.setUpdateDate(OffsetDateTime.now());
         //todo bind to foreign tables
         Product updateProduct = productRepository.save(product);
@@ -89,12 +87,6 @@ public class ProductService {
 
         return collectBySizeType.stream()
                 .map(product -> product.getProduct())
-                .map(product -> mapper.mappingToDTO(product))
-                .collect(Collectors.toList());
-    }
-
-    public List<ProductDTO> findProductsByTypeCollection(TypeCollection type) {
-        return productRepository.findByTypeCollection(type).stream()
                 .map(product -> mapper.mappingToDTO(product))
                 .collect(Collectors.toList());
     }

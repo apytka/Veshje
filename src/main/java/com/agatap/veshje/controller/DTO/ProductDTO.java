@@ -1,12 +1,10 @@
 package com.agatap.veshje.controller.DTO;
 
-import com.agatap.veshje.model.TypeCollection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -21,7 +19,6 @@ public class ProductDTO {
     private String color;
     private String description;
     private String complementDescription;
-    private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 

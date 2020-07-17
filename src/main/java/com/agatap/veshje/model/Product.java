@@ -37,7 +37,6 @@ public class Product {
     private String color;
     private String description;
     private String complementDescription;
-    private TypeCollection typeCollection;
     private OffsetDateTime createDate;
     private OffsetDateTime updateDate;
 
