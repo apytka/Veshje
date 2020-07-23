@@ -32,7 +32,7 @@ public class CartViewController {
     private SizeService sizeService;
 
     @GetMapping("/shopping-bag")
-    public ModelAndView displayCart() throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, NotEnoughProductsInStockException {
+    public ModelAndView displayCart() throws ProductNotFoundException, UnsupportedEncodingException, SizeNotFoundException, NotEnoughProductsInStockException, CategoryNotFoundException {
         ModelAndView modelAndView = new ModelAndView("cart");
         List<ShoppingCartDTO> shoppingCart = new ArrayList<>();
 
@@ -130,8 +130,11 @@ public class CartViewController {
     }
 
     @NotNull
-    private Map<String, String> getProductWithImageAfterCategory() throws ProductNotFoundException, UnsupportedEncodingException {
-        List<CategoryDTO> allCategory = categoryService.getAllCategory();
+    private Map<String, String> getProductWithImageAfterCategory() throws ProductNotFoundException, UnsupportedEncodingException, CategoryNotFoundException {
+        List<CategoryDTO> allCategory = new ArrayList<>();
+        allCategory.add(categoryService.findCategoryByName("mini"));
+        allCategory.add(categoryService.findCategoryByName("midi"));
+        allCategory.add(categoryService.findCategoryByName("long"));
         Map<String, String> map = new HashMap<>();
         for (CategoryDTO category : allCategory) {
             List<ProductDTO> productDTOList = productService.randomProductsInCategory(1, category.getName());

@@ -9,6 +9,7 @@ import com.agatap.veshje.repository.OrderItemRepository;
 import com.agatap.veshje.repository.OrdersRepository;
 import com.agatap.veshje.service.exception.OrderItemDataInvalidException;
 import com.agatap.veshje.service.exception.OrderItemNotFoundException;
+import com.agatap.veshje.service.exception.ProductNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class OrderItemService {
     private OrderItemRepository orderItemRepository;
     private OrderItemMapper mapper;
     private OrdersRepository ordersRepository;
+    private ProductService productService;
 
     public List<OrderItemDTO> getAllOrderItem() {
         return orderItemRepository.findAll().stream()
@@ -53,10 +55,11 @@ public class OrderItemService {
         return mapper.mappingToDTO(newOrderItem);
     }
 
-    public OrderItem createOrderItem(ShoppingCartDTO shoppingCartDTO) {
+    public OrderItem createOrderItem(ShoppingCartDTO shoppingCartDTO) throws ProductNotFoundException {
         OrderItem orderItem = new OrderItem();
         orderItem.setProductId(shoppingCartDTO.getProductId());
         orderItem.setProductName(shoppingCartDTO.getProductName());
+        orderItem.setProductColor(productService.findProductById(shoppingCartDTO.getProductId()).getColor());
         if (shoppingCartDTO.getCouponCode() == null) {
             orderItem.setProductPrice(shoppingCartDTO.getProductPrice());
         } else {
@@ -79,6 +82,7 @@ public class OrderItemService {
         OrderItem orderItem = findOrderItemById(id);
         orderItem.setProductId(updateOrderItemDTO.getProductId());
         orderItem.setProductName(updateOrderItemDTO.getProductName());
+        orderItem.setProductColor(updateOrderItemDTO.getProductColor());
         orderItem.setProductPrice(updateOrderItemDTO.getProductPrice());
         orderItem.setSizeType(updateOrderItemDTO.getSizeType());
         orderItem.setQuantity(updateOrderItemDTO.getQuantity());

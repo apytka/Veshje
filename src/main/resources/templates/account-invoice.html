@@ -77,7 +77,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
                     <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -121,75 +122,76 @@
     </div>
 </header>
 <main>
-    <div class="alert-container" th:fragment="error-info">
-        <div th:if="${param.error}" class="alert">
-            <strong>Error! Wrong data</strong>
-            <div th:text="${message}"></div>
-            <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
-        </div>
-        <div th:if="${param.success}" class="alert" style="background-color: #71b068">
-            <strong>Success!</strong>
-            <div th:text="${message}"></div>
-            <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
-        </div>
-        <div th:if="${message}" class="alert">
-            <strong>Error! Wrong data</strong>
-            <div th:text="${message}"></div>
-            <a href="#" class="alert-close" onclick="closeAlert()">&times;</a>
-        </div>
+    <div class="alert-container" th:insert="/index.html :: error-info"></div>
+    <div class="panels-account-header">
+        <h5>My account</h5>
     </div>
-    <div class="slideshow-container">
-        <div class="slides fade">
-            <a href="/products/mini" class="a-button-slides">Mini dresses</a>
-            <img src="/img/slideshow/monki-slideshow-mini.jpg">
+    <div class="panels-account">
+        <div class="panel-account panel-account-links">
+            <ul id="account-links">
+                <li><a href="/orders" class="a-account-links" title="User orders">My orders</a></li>
+                <li><a href="/reviews" class="a-account-links" title="Reviews">Reviews</a></li>
+                <li><a href="/invoices" class="a-account-links active" title="Invoices">Invoices</a></li>
+                <li><a href="/account" class="a-account-links" title="My data">My data</a></li>
+                <li><a href="/addresses" class="a-account-links" title="My address">My address</a></li>
+                <li><a href="/logout" class="a-account-links" title="Sign out">Sign out</a></li>
+            </ul>
         </div>
-        <div class="slides fade">
-            <a href="/products/long" class="a-button-slides">Long dresses</a>
-            <img src="/img/slideshow/monki-slideshow-maxi.jpg">
-        </div>
-        <div class="slides fade">
-            <a href="/products/midi" class="a-button-slides">Midi dresses</a>
-            <img src="/img/slideshow/monki-slideshow-midi.jpg">
-        </div>
-        <div class="switch-slide">
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-        <div class="slideshow-dots">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
-    </div>
-    <div class="contain">
-        <div class="threeColumns">
-            <img class="a-image" src="/img/monki-1.jpg" style="width:100%" alt="">
-            <div class="text-content">
-                <h2 class="a-heading">New arrivals</h2>
-                <a href="/products/new" class="a-button-shop">
-                    <span>Shop now</span>
-                </a>
+        <div class="panel-account panel-account-data">
+            <div class="account-data account-data-addresses">
+                <div class="account-data-container">
+                    <div class="account-text account-text-small">
+                        <h4>Invoices</h4>
+                        <span class="account-description" th:if="${shortageOrders != true}">Download the invoices for your purchases in pdf format.</span>
+
+                        <div class="account-container-button" th:if="${shortageOrders == true}">
+                            <span class="account-description">You have placed no orders yet.</span>
+                            <a href="/index">
+                                <button class="btn btn-data-account">Back to shopping</button>
+                            </a>
+                        </div>
+                    </div>
+                    <table class="general-table general-table-cart">
+                        <tbody class="general-tbody">
+                        <tr class="general-row" th:each="order: ${orders}">
+                            <td class="general-column">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span><strong>Order No. [[${order.id}]]</strong></span>
+                                            <span> - </span>
+                                            <span th:utext="${#strings.replace(order.orderStatus, '_', ' ')}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Ordered on [[${order.createDate.getDayOfMonth()}]]/
+                                                [[${order.createDate.getMonthValue()}]]/
+                                            [[${order.createDate.getYear()}]]</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="'Price € ' + ${order.totalAmount}" style="font-size: 1.3rem"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="general-column">
+                                <div class="general-table-btn-container">
+                                    <div class="general-table-btn">
+                                            <a th:href="'invoices/orders/' + ${order.userId} + '/downloadInvoice/' + ${order.id}" target="_blank">
+                                            <button class="btn-general btn-general-modify">Download</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="threeColumns">
-            <img class="a-image" src="/img/monki-2.jpg" style="width:100%" alt="">
-            <div class="text-content">
-                <h2 class="a-heading">Sale</h2>
-                <a href="/products/sale" class="a-button-shop">
-                    <span>Shop now</span>
-                </a>
-            </div>
-        </div>
-        <div class="threeColumns">
-            <img class="a-image" src="/img/monki-3.jpg" style="width:100%" alt="">
-            <div class="text-content">
-                <h2 class="a-heading">Limited Edition</h2>
-                <a href="/products/limited-dresses" class="a-button-shop">
-                    <span>Shop now</span>
-                </a>
-            </div>
-        </div>
     </div>
+    <div class="panels-account-footer"></div>
 </main>
 <footer class="footer-container">
     <div class="accordion-container">
@@ -224,11 +226,10 @@
                 <li><a href="/privacy-policy" title="Legal and privacy">Legal and privacy</a></li>
             </ul>
         </div>
-
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <form action="#" th:action="@{index}" th:object="${addNewsletter}" method="post"
+                <form action="#" th:action="@{/invoices/add-newsletter}" th:object="${invoicesNewsletter}" method="post"
                       class="newsletter-container">
                     <p>Do you want to receive the newest trends and special offers? Sign up.</p>
                     <div class="input-div one">
@@ -236,12 +237,12 @@
                             <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                <g id="Shopicon">
-	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                </g>
-                            </svg>
+                                        <g id="Shopicon">
+        	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+        		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+        		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                        </g>
+                                    </svg>
                         </div>
                         <div>
                             <h5>Email</h5>
@@ -276,6 +277,16 @@
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
 <script type="text/javascript">
+    var panel = document.getElementById("account-links");
+    var aAccountLinks = panel.getElementsByClassName("a-account-links");
+    for (var i = 0; i < aAccountLinks.length; i++) {
+        aAccountLinks[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;
 
@@ -291,43 +302,6 @@
         });
     }
 </script>
-<script type="text/javascript">
-    // SLIDESHOW
-    var slideIndex = 1;
-    showSlides(slideIndex);
 
-    function plusSlides(n) {
-        showSlides(slideIndex += n)
-    }
-
-    function currentSlide(n) {
-        showSlides(slideIndex = n)
-    }
-
-    function showSlides(n) {
-        var i;
-        var slides = document.getElementsByClassName("slides");
-        var dots = document.getElementsByClassName("dot");
-
-        if (n == undefined) {
-            n = ++slideIndex
-        }
-        if (n > slides.length) {
-            slideIndex = 1
-        }
-        if (n < 1) {
-            slideIndex = slides.length
-        }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
-        setTimeout(showSlides, 8000);
-    }
-</script>
 </body>
 </html>

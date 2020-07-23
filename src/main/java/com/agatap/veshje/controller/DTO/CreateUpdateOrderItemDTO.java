@@ -15,6 +15,7 @@ import java.time.OffsetDateTime;
 public class CreateUpdateOrderItemDTO {
     private String productId;
     private String productName;
+    private String productColor;
     private Double productPrice;
     private SizeType sizeType;
     private Integer quantity;

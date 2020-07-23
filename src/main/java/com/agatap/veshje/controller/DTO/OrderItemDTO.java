@@ -15,6 +15,7 @@ public class OrderItemDTO {
     private Integer id;
     private String productId;
     private String productName;
+    private String productColor;
     private Double productPrice;
     private SizeType sizeType;
     private Integer quantity;
