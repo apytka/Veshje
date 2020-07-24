@@ -26,10 +26,10 @@
         </a>
         <ul class="navbar-nav">
             <li>
-                <form action="/search" method="get" class="search-form">
+                <form th:action="@{/search}" method="get" class="search-form" id="search-form">
                     <div class="input-div one">
                         <div class="i">
-                            <a href="/search">
+                            <a href="javascript:;" onclick="document.getElementById('search-form').submit()">
                                 <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                      viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;"
@@ -44,7 +44,7 @@
                         </div>
                         <div>
                             <h5>Search</h5>
-                            <input class="input" type="text">
+                            <input class="input" type="text" name="keyword" required>
                         </div>
                     </div>
                 </form>
@@ -95,8 +95,8 @@
     <div id="side-menu" class="side-nav">
         <a href="" class="btn-close" onclick="closeSlideMenu()">&times;</a>
         <div class="side-nav-search">
-            <form action="/search" method="get" class="side-nav-search-form">
-                <input type="text" placeholder="Search" class="side-nav-search-input">
+            <form th:action="@{/search}" method="get" class="side-nav-search-form">
+                <input type="text" name="keyword" placeholder="Search" class="side-nav-search-input" required> required>
                 <button type="submit">
                     <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -210,34 +210,34 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                <!--                <form action="#" th:action="@{'/login/reset-password-newsletter?token=' + ${token}}" th:object="${addNewsletterResetPassword}"-->
-                <!--                      method="post"-->
-                <!--                      class="newsletter-container">-->
-                <!--                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
-                <!--                    <div class="input-div one">-->
-                <!--                        <div class="i">-->
-                <!--                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
-                <!--                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
-                <!--                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
-                <!--                                                <g id="Shopicon">-->
-                <!--                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
-                <!--                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
-                <!--                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
-                <!--                                                </g>-->
-                <!--                                            </svg>-->
-                <!--                        </div>-->
-                <!--                        <div>-->
-                <!--                            <h5>Email</h5>-->
-                <!--                            <input type="email" th:field="*{email}" class="input" required>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
-                <!--                    <div class="newsletter-checkbox">-->
-                <!--                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
-                <!--                        I accept <a href="/privacy-policy">newsletter terms</a>-->
-                <!--                    </div>-->
-                <!--                    <input type="submit" class="btn" value="Send">-->
-                <!--                </form>-->
+                                <form action="#" th:action="@{'/products/' + ${category} + '/addNewsletter'}" th:object="${productsNewsletter}"
+                                      method="post"
+                                      class="newsletter-container">
+                                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
+                                    <div class="input-div one">
+                                        <div class="i">
+                                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+                                                                <g id="Shopicon">
+                                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
+                                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
+                                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
+                                                                </g>
+                                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5>Email</h5>
+                                            <input type="email" th:field="*{email}" class="input" required>
+                                        </div>
+                                    </div>
+                                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    <div class="newsletter-checkbox">
+                                        <input type="checkbox" name="accept-newsletter-checkbox" required>
+                                        I accept <a href="/privacy-policy">newsletter terms</a>
+                                    </div>
+                                    <input type="submit" class="btn" value="Send">
+                                </form>
             </ul>
         </div>
     </div>

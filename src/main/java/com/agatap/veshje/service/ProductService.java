@@ -82,6 +82,16 @@ public class ProductService {
         return mapper.mappingToDTO(product);
     }
 
+    public List<ProductDTO> findProductsDTOByKeyword(String keyword) {
+        return productRepository.findAll(keyword).stream()
+                .map(product -> mapper.mappingToDTO(product))
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> findProductsByKeyword(String keyword) {
+        return productRepository.findAll(keyword);
+    }
+
     public List<ProductDTO> findProductsBySize(SizeType sizeType) {
         List<Size> collectBySizeType = sizeRepository.findAllBySizeType(sizeType);
 

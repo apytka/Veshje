@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -42,6 +43,11 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ProductDTO deleteProductDTO(@PathVariable String id) throws ProductNotFoundException {
         return productService.deleteProductDTO(id);
+    }
+
+    @GetMapping("/search/{keyword}")
+    public List<ProductDTO> findProductsDTOByKeyword(@PathVariable String keyword) {
+        return productService.findProductsDTOByKeyword(keyword);
     }
 
     @GetMapping("/random-products")

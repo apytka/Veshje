@@ -38,10 +38,10 @@
         </a>
         <ul class="navbar-nav">
             <li>
-                <form action="/search" method="get" class="search-form">
+                <form th:action="@{/search}" method="get" class="search-form" id="search-form">
                     <div class="input-div one">
                         <div class="i">
-                            <a href="/search">
+                            <a href="javascript:;" onclick="document.getElementById('search-form').submit()">
                                 <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                      viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;"
@@ -56,7 +56,7 @@
                         </div>
                         <div>
                             <h5>Search</h5>
-                            <input class="input" type="text">
+                            <input class="input" type="text" name="keyword" required>
                         </div>
                     </div>
                 </form>
@@ -108,8 +108,8 @@
     <div id="side-menu" class="side-nav">
         <a href="" class="btn-close" onclick="closeSlideMenu()">&times;</a>
         <div class="side-nav-search">
-            <form action="/search" method="get" class="side-nav-search-form">
-                <input type="text" placeholder="Search" class="side-nav-search-input">
+            <form th:action="@{/search}" method="get" class="side-nav-search-form">
+                <input type="text" name="keyword" placeholder="Search" class="side-nav-search-input" required>
                 <button type="submit">
                     <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

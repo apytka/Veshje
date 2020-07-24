@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,8 @@ public class ProductViewController {
         List<Product> productByCategory = productService.findProductsByCategoryNameProduct(categoryByName.getName());
 
         getProductsToDisplay(modelAndView, productByCategory);
+        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
+        modelAndView.addObject("productsNewsletter", new CreateUpdateNewsletterDTO());
         return modelAndView;
     }
 
@@ -140,8 +143,26 @@ public class ProductViewController {
         return modelAndView;
     }
 
+    @PostMapping("/products/{category}/addNewsletter")
+    public ModelAndView addNewsletterToProducts(@PathVariable String category, @Valid @ModelAttribute(name = "productsNewsletter")
+            CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
+        ModelAndView modelAndView = new ModelAndView("product-display-all");
+        if (bindingResult.hasErrors()) {
+            LOG.warn("Binding results has errors!");
+            modelAndView.addObject("message", "Incorrectly entered data in the save newsletter");
+            return new ModelAndView("redirect:/products/" + category + "?error");
+        }
+        if (newsletterService.isNewsletterEmailExists(createUpdateNewsletterDTO.getEmail())) {
+            LOG.warn("Newsletter about the email: " + createUpdateNewsletterDTO.getEmail() + " already exists in data base");
+            modelAndView.addObject("message", "There is already a newsletter registered with the email provided");
+            return new ModelAndView("redirect:/products/" + category + "?error");
+        }
+        newsletterService.createNewsletterDTO(createUpdateNewsletterDTO);
+        return new ModelAndView("redirect:/products/" + category + "?success");
+    }
+
     @PostMapping("/products/dress-details-newsletter/{id}")
-    public ModelAndView updateAddressNewsletter(@PathVariable String id, @Valid @ModelAttribute(name = "productDetailsNewsletter")
+    public ModelAndView addNewsletterToProductDetails(@PathVariable String id, @Valid @ModelAttribute(name = "productDetailsNewsletter")
             CreateUpdateNewsletterDTO createUpdateNewsletterDTO, BindingResult bindingResult) throws NewsletterAlreadyExistsException, NewsletterDataInvalidException {
         ModelAndView modelAndView = new ModelAndView("account-modify-address");
         if (bindingResult.hasErrors()) {
@@ -170,9 +191,16 @@ public class ProductViewController {
             }
             map.put(byteImageList, product);
         }
-
-        modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("map", map);
+    }
+
+    @GetMapping("/search")
+    public ModelAndView displaySearchProduct(@Param("keyword") String keyword)
+            throws UnsupportedEncodingException, ProductNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("product-display-all");
+        List<Product> productsByKeyword = productService.findProductsByKeyword(keyword);
+        getProductsToDisplay(modelAndView, productsByKeyword);
+        return modelAndView;
     }
 
 }
