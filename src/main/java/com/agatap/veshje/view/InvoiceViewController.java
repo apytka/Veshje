@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
@@ -59,15 +61,15 @@ public class InvoiceViewController {
     }
 
     @GetMapping("/invoices/orders/{userId}/downloadInvoice/{orderId}")
-    public ModelAndView displayInvoices(@PathVariable Integer userId, @PathVariable Integer orderId, Authentication authentication)
-            throws AddressNotFoundException, OrdersNotFoundException, ProductNotFoundException, OrderItemNotFoundException,
-            FileNotFoundException, UserNotFoundException, DeliveryNotFoundException, JRException {
+    public void displayInvoices(@PathVariable Integer userId, @PathVariable Integer orderId, HttpServletResponse response,
+                                Authentication authentication)
+            throws AddressNotFoundException, OrdersNotFoundException, OrderItemNotFoundException,
+            IOException, UserNotFoundException, DeliveryNotFoundException, JRException {
         User user = userService.findUserByEmail(authentication.getName());
         if (!user.getId().equals(userId)) {
-            return new ModelAndView("redirect:/invoices");
+            new ModelAndView("redirect:/invoices");
         }
-        invoiceService.generateInvoice(orderId);
-        return new ModelAndView("redirect:/invoices");
+        invoiceService.openInvoice(orderId, response);
     }
 
     @PostMapping("/invoices/add-newsletter")

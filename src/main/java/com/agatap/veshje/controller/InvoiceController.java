@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -35,11 +38,18 @@ public class InvoiceController {
 
     private InvoiceService invoiceService;
 
-    @GetMapping("/invoice/{id}")
-    public void generateInvoice(@PathVariable Integer id)
+    @GetMapping("/open-report/{id}")
+    public void openInvoice(@PathVariable Integer id, HttpServletResponse response) throws IOException, JRException,
+            OrderItemNotFoundException, AddressNotFoundException, OrdersNotFoundException, UserNotFoundException,
+            DeliveryNotFoundException {
+        invoiceService.openInvoice(id, response);
+    }
+
+    @GetMapping("/save-report/{id}")
+    public void saveInvoiceInDownloadsPath(@PathVariable Integer id)
             throws FileNotFoundException, JRException, OrderItemNotFoundException, AddressNotFoundException,
             ProductNotFoundException, OrdersNotFoundException, UserNotFoundException, DeliveryNotFoundException {
-        invoiceService.generateInvoice(id);
+        invoiceService.saveInvoiceInDownloadsPath(id);
     }
 
 }
