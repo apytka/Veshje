@@ -21,8 +21,4 @@ public class ShoppingCart {
     private Integer quantity;
     private Integer quantityInStock;
     private String couponCode;
-
-//    private Integer deliveryId;
-////    private Integer addressId;
-////    private Integer paymentId;
 }

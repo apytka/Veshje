@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,10 +42,10 @@ public class CategoryService {
 
     public CategoryDTO createCategoryDTO(CreateUpdateCategoryDTO createCategoryDTO)
             throws CategoryDataInvalidException, CategoryAlreadyExistsException {
-        if(categoryRepository.existsByName(createCategoryDTO.getName())) {
+        if (categoryRepository.existsByName(createCategoryDTO.getName())) {
             throw new CategoryAlreadyExistsException();
         }
-        if(createCategoryDTO.getName() == null || createCategoryDTO.getName().length() < 2) {
+        if (createCategoryDTO.getName() == null || createCategoryDTO.getName().length() < 2) {
             throw new CategoryDataInvalidException();
         }
         Category category = mapper.mappingToModel(createCategoryDTO);
@@ -71,8 +72,7 @@ public class CategoryService {
 
     public CategoryDTO findCategoryByName(String name) throws CategoryNotFoundException {
         return categoryRepository.findByName(name)
-                .map(category -> mapper.mappingToDTO(category))
+                .map(product -> mapper.mappingToDTO(product))
                 .orElseThrow(() -> new CategoryNotFoundException());
     }
-
 }

@@ -1,6 +1,5 @@
 package com.agatap.veshje.repository;
 
-import com.agatap.veshje.model.Product;
 import com.agatap.veshje.model.Size;
 import com.agatap.veshje.model.SizeType;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -12,22 +12,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class ProductViewController {
 
     private final Logger LOG = LoggerFactory.getLogger(AddressViewController.class);
-
     private ProductService productService;
     private DimensionService dimensionService;
     private CompositionProductService compositionProductService;
@@ -36,6 +33,7 @@ public class ProductViewController {
     private ReviewService reviewService;
     private NewsletterService newsletterService;
     private ShoppingCartService shoppingCartService;
+    private FilterDataService filterDataService;
 
     @GetMapping("/products/{category}")
     public ModelAndView displayProductByCategory(@PathVariable String category)
@@ -45,9 +43,15 @@ public class ProductViewController {
         CategoryDTO categoryByName = categoryService.findCategoryByName(category);
         List<Product> productByCategory = productService.findProductsByCategoryNameProduct(categoryByName.getName());
 
-        getProductsToDisplay(modelAndView, productByCategory);
+
+        Map<List<String>, Product> map = new HashMap<>();
+        getProductsToDisplay(map, modelAndView, productByCategory);
+        modelAndView.addObject("dataCounter", productByCategory.size());
         modelAndView.addObject("quantityProduct", shoppingCartService.quantityProductInShoppingCart());
         modelAndView.addObject("productsNewsletter", new CreateUpdateNewsletterDTO());
+        modelAndView.addObject("category", categoryByName.getName());
+        modelAndView.addObject("sizeTypes", Arrays.asList(SizeType.values()));
+        modelAndView.addObject("filterData", new FilterData());
         return modelAndView;
     }
 
@@ -100,7 +104,7 @@ public class ProductViewController {
         Product product = productService.findProductById(id);
         List<Review> reviews = product.getReviews();
 
-        if(reviews.size() == 0) {
+        if (reviews.size() == 0) {
             modelAndView.addObject("existReview", true);
         }
 
@@ -110,17 +114,8 @@ public class ProductViewController {
         double rateLengthAverage = reviewService.rateLengthAverage(id);
 
         List<ProductDTO> recommendedProduct = productService.randomProducts(9);
-        Map<List<String>,ProductDTO> recommendedMap = new HashMap<>();
-        for(ProductDTO productRandom : recommendedProduct) {
-            List<String> byteImageRecommendedProduct = new ArrayList<>();
-            List<ImageDTO> imagesRecommendedProduct = productService.findImageByProductId(productRandom.getId());
-            for(ImageDTO imageDTO : imagesRecommendedProduct) {
-                byte[] encodeBase64 = Base64.encodeBase64(imageDTO.getData());
-                String base64Encoded = new String(encodeBase64, "UTF-8");
-                byteImageRecommendedProduct.add(base64Encoded);
-            }
-            recommendedMap.put(byteImageRecommendedProduct, productRandom);
-        }
+        Map<List<String>, ProductDTO> recommendedMap = new HashMap<>();
+        getProductsDTOToDisplay(recommendedMap, modelAndView, recommendedProduct);
 
         List<Size> sizes = product.getSizes();
         shoppingCartService.findProductInShoppingCart(id);
@@ -179,28 +174,100 @@ public class ProductViewController {
         return new ModelAndView("redirect:/products/dress-details/" + id + "?success");
     }
 
-    private void getProductsToDisplay(ModelAndView modelAndView, List<Product> products) throws ProductNotFoundException, UnsupportedEncodingException {
-        Map<List<String>, Product> map = new HashMap<>();
-        for (Product product : products) {
+//    @GetMapping("/products/{category}/search")
+//    public ModelAndView displaySearchProduct(@PathVariable String category, @Param("keyword") String keyword)
+//            throws UnsupportedEncodingException, ProductNotFoundException, CategoryNotFoundException {
+//        ModelAndView modelAndView = new ModelAndView("product-display-all");
+//        categoryService.findCategoryByName(category);
+//        List<ProductDTO> productsByKeyword = productService.findProductsByKeyword(keyword);
+//        Map<List<String>, ProductDTO> map = new HashMap<>();
+//        getProductsDTOToDisplay(map, modelAndView, productsByKeyword);
+//        modelAndView.addObject("filterData", new FilterData());
+//        return modelAndView;
+//    }
+
+    @PostMapping("/products/{category}/filter")
+    public ModelAndView saveFilterData(@PathVariable String category, @ModelAttribute(name = "filterData") FilterData filterData) {
+        filterDataService.addFilterToList(filterData);
+        return new ModelAndView("redirect:/products/" + category + "/filter");
+    }
+
+    @GetMapping("/products/{category}/filter")
+    public ModelAndView displayProductFilterByCategory(@PathVariable String category) throws ProductNotFoundException, UnsupportedEncodingException {
+        ModelAndView modelAndView = new ModelAndView("product-display-all");
+        FilterData filterData = filterDataService.getFilterData();
+        List<ProductDTO> products = productService.filterData(category, filterData.getName(), filterData.getSearch(), filterData.getColor(), filterData.getSizeType(),
+                filterData.getMinPrice(), filterData.getMaxPrice());
+        LinkedHashMap<List<String>, ProductDTO> map = new LinkedHashMap<>();
+        LinkedHashMap<List<String>, ProductDTO> collect = new LinkedHashMap<>();
+        int filterDataCounter = 0;
+        for (ProductDTO product : products) {
             List<String> byteImageList = new ArrayList<>();
             List<ImageDTO> images = productService.findImageByProductId(product.getId());
-            for (ImageDTO image : images) {
-                byte[] encodeBase64 = Base64.encodeBase64(image.getData());
+            for (int i = 0; i < 2; i++) {
+                byte[] encodeBase64 = Base64.encodeBase64(images.get(i).getData());
                 String base64Encoded = new String(encodeBase64, "UTF-8");
                 byteImageList.add(base64Encoded);
             }
             map.put(byteImageList, product);
+            collect = map.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(
+                            (product1, product2) -> productService.sort(product1, product2,
+                                    filterData.getSort())))
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            Map.Entry::getValue,
+                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+            filterDataCounter++;
+        }
+        modelAndView.addObject("map", collect);
+        if(filterData.getSearch() != null || filterData.getName() != null || filterData.getColor() != null
+                || filterData.getSizeType() != null || filterData.getMinPrice() != null
+                || filterData.getMaxPrice() != null || filterData.getSort() != null) {
+            modelAndView.addObject("clearFilterData", true);
+        }
+        modelAndView.addObject("dataCounter", filterDataCounter);
+        modelAndView.addObject("filterData", filterData);
+        return modelAndView;
+    }
+
+    private void getProductsDTOToDisplay(Map<List<String>, ProductDTO> map, ModelAndView modelAndView, List<ProductDTO> products)
+            throws ProductNotFoundException, UnsupportedEncodingException {
+        for (ProductDTO product : products) {
+            List<String> byteImageList = new ArrayList<>();
+            List<ImageDTO> images = productService.findImageByProductId(product.getId());
+            for (int i = 0; i < 2; i++) {
+                byte[] encodeBase64 = Base64.encodeBase64(images.get(i).getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                byteImageList.add(base64Encoded);
+            }
+            map.put(byteImageList, product);
+
         }
         modelAndView.addObject("map", map);
     }
 
-    @GetMapping("/search")
-    public ModelAndView displaySearchProduct(@Param("keyword") String keyword)
-            throws UnsupportedEncodingException, ProductNotFoundException {
-        ModelAndView modelAndView = new ModelAndView("product-display-all");
-        List<Product> productsByKeyword = productService.findProductsByKeyword(keyword);
-        getProductsToDisplay(modelAndView, productsByKeyword);
-        return modelAndView;
+    private void getProductsToDisplay(Map<List<String>, Product> map, ModelAndView modelAndView, List<Product> products)
+            throws ProductNotFoundException, UnsupportedEncodingException {
+        for (Product product : products) {
+            List<String> byteImageList = new ArrayList<>();
+            List<ImageDTO> images = productService.findImageByProductId(product.getId());
+            for (int i = 0; i < 2; i++) {
+                byte[] encodeBase64 = Base64.encodeBase64(images.get(i).getData());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                byteImageList.add(base64Encoded);
+            }
+            map.put(byteImageList, product);
+
+        }
+        modelAndView.addObject("map", map);
+    }
+
+    @GetMapping("/products/{category}/filter/clear")
+    public ModelAndView clearFilterData(@PathVariable String category) throws CategoryNotFoundException {
+        categoryService.findCategoryByName(category);
+        filterDataService.clearFilter();
+        return new ModelAndView("redirect:/products/" + category);
     }
 
 }

@@ -5,6 +5,7 @@
     <link href="/img/veshje-icon.png" rel="icon" type="image/png"/>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VESHJE</title>
@@ -26,7 +27,8 @@
         </a>
         <ul class="navbar-nav">
             <li>
-                <form th:action="@{/search}" method="get" class="search-form" id="search-form">
+                <form th:action="@{/products/all/filter}" method="post" th:object="${filterData}" class="search-form"
+                      id="search-form">
                     <div class="input-div one">
                         <div class="i">
                             <a href="javascript:;" onclick="document.getElementById('search-form').submit()">
@@ -44,7 +46,7 @@
                         </div>
                         <div>
                             <h5>Search</h5>
-                            <input class="input" type="text" name="keyword" required>
+                            <input class="input" th:field="*{search}" type="text" required>
                         </div>
                     </div>
                 </form>
@@ -77,7 +79,8 @@
                 </a>
             </li>
             <li>
-                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon" th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
+                <a href="/shopping-bag" title="User shopping bag" class="navbar-nav-icon"
+                   th:style="${quantityProduct > 0} ? 'fill: #2b6044' ">
                     <div th:if="${quantityProduct > 0}" class="quantity-shopping-bag">[[${quantityProduct}]]</div>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -95,8 +98,9 @@
     <div id="side-menu" class="side-nav">
         <a href="" class="btn-close" onclick="closeSlideMenu()">&times;</a>
         <div class="side-nav-search">
-            <form th:action="@{/search}" method="get" class="side-nav-search-form">
-                <input type="text" name="keyword" placeholder="Search" class="side-nav-search-input" required> required>
+            <form th:action="@{/products/all/filter}" method="post" th:object="${filterData}"
+                  class="side-nav-search-form">
+                <input type="text" th:field="*{search}" placeholder="Search" class="side-nav-search-input" required>
                 <button type="submit">
                     <svg width="25" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -150,25 +154,336 @@
         </div>
     </div>
     <div class="panels-general">
-        <div class="panel-general">
-            <div class="products-dress-container">
-                <div class="product-dress-container" th:each="product: ${map}">
-                    <div class="product-display-img">
-                        <a th:href="'/products/dress-details/' + ${product.value.id}">
-                            <img th:src="|data:image/png;base64,${product.key.get(0)}|">
-                            <img th:src="|data:image/png;base64,${product.key.get(1)}|"
-                                 class="product-container-img-top">
-                        </a>
-                    </div>
-                    <div class="product-display-name">
-                        <a th:href="'/products/dress-details/' + ${product.value.id}">
-                            <span th:text="${product.value.name}"></span>
-                        </a>
-                    </div>
-                    <div class="product-display-price">
-                        <span th:text="'€ '+ ${product.value.price}"></span>
-                    </div>
+        <div class="panel-general panel-general-filter">
+            <div class="filter-data-container filter-data-slider">
+                <div class="filter-data-slider-left" id="filter-data-slider-left">
+                    <img class="img-slider"
+                         src="https://img.icons8.com/ios-glyphs/30/000000/vertical-settings-mixer.png"/>
+                    <span>Filters</span>
                 </div>
+                <div class="filter-data-slider-right">
+                    <span>[[${dataCounter}]] products</span>
+                </div>
+            </div>
+            <div class="filter-data-container filter-data-body" id="filter-data-body">
+                <form class="filter-data-form" th:action="@{'/products/' + ${category} + '/filter'}"
+                      method="post" th:object="${filterData}">
+                    <div class="filter-data-block">
+                        <header>
+                            <h2 class="accordion-filter">Size</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-angle-down"></i></figure>
+                        </header>
+                        <div class="panel-filter panel-filter-mobile">
+                            <div class="panel-filter-border">
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="XXS">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">XXS</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="XS">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">XS</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="S">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">S</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="M">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">M</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="L">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">L</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="XL">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">XL</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{sizeType}" value="XXL">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">XXL</span>
+                                    </label>
+                                </div>
+                                <input type="submit" value="Filter" class="btn">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form class="filter-data-form" th:action="@{'/products/' + ${category} + '/filter'}"
+                      method="post"
+                      th:object="${filterData}">
+                    <div class="filter-data-block">
+                        <header>
+                            <h2 class="accordion-filter">Color</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-angle-down"></i></figure>
+                        </header>
+                        <div class="panel-filter">
+                            <div class="panel-filter-border">
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="black">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">black</span>
+
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="white">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">white</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="beige">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">beige</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="multicolor">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">multicolor</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="pink">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">pink</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="purple">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">purple</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="red">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">red</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="green">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">green</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="blue">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">blue</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="navy">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">navy</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="grey">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">navy</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="orange">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">orange</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="yellow">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">yellow</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" th:field="*{color}" value="brown">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">brown</span>
+                                    </label>
+                                </div>
+                                <input type="submit" value="Filter" class="btn">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form class="filter-data-form" th:action="@{'/products/' + ${category} + '/filter'}"
+                      method="post"
+                      th:object="${filterData}">
+                    <div class="filter-data-block">
+                        <header>
+                            <h2 class="accordion-filter">Price</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-angle-down"></i></figure>
+                        </header>
+                        <div class="panel-filter">
+                            <div class="panel-filter-border">
+                                <div class="input-div two">
+                                    <div>
+                                        <input type="number" th:field="*{minPrice}" class="input input-number"
+                                               placeholder="price from" required>
+                                    </div>
+                                </div>
+                                <div class="input-div two">
+                                    <div>
+                                        <input type="number" th:field="*{maxPrice}" class="input input-number"
+                                               placeholder="price to" required>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Filter" class="btn">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form class="filter-data-form" id="filter-data-form"
+                      th:action="@{'/products/' + ${category} + '/filter'}" method="post"
+                      th:object="${filterData}">
+                    <div class="filter-data-block">
+                        <header>
+                            <h2 class="accordion-filter">Name</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-angle-down"></i></figure>
+                        </header>
+                        <div class="panel-filter">
+                            <div class="panel-filter-border">
+                                <div class="input-div one">
+                                    <div class="i">
+                                        <a href="javascript:;"
+                                           onclick="document.getElementById('filter-data-form').submit()">
+                                            <svg width="25" height="25" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;"
+                                                 xml:space="preserve">
+                <g id="Shopicon">
+	            <path d="M18,32c3.506,0,6.703-1.298,9.159-3.427L40,41.414L41.414,40L28.573,27.159C30.702,24.703,32,21.506,32,18
+		        c0-7.732-6.268-14-14-14S4,10.268,4,18S10.268,32,18,32z M18,6c6.617,0,12,5.383,12,12s-5.383,12-12,12S6,24.617,6,18
+		        S11.383,6,18,6z"/>
+                </g>
+            </svg>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <input class="input" th:field="*{name}" type="text" required>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Filter" class="btn">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form class="filter-data-form" th:action="@{'/products/' + ${category} + '/filter'}"
+                      method="post"
+                      th:object="${filterData}">
+                    <div class="filter-data-block">
+                        <header>
+                            <h2 class="accordion-filter">Sort by</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-angle-down"></i></figure>
+                        </header>
+                        <div class="panel-filter">
+                            <div class="panel-filter-border">
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="radio" th:field="*{sort}" value="price-asc">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">price ascending</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="radio" th:field="*{sort}" value="price-desc">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">price descending</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="radio" th:field="*{sort}" value="name-asc">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">name A-Z</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="radio" th:field="*{sort}" value="name-desc">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">name Z-A</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-filter">
+                                    <label class="checkbox-container">
+                                        <input type="radio" th:field="*{sort}" value="date-desc">
+                                        <span class="checkmark"></span>
+                                        <span class="checkmark-description">newest</span>
+                                    </label>
+                                </div>
+                                <input type="submit" value="Filter" class="btn">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div th:if="${clearFilterData}" class="filter-data-block filter-data-block-clear">
+                    <header>
+                        <a th:href="@{'/products/' + ${category} + '/filter/clear'}">
+                            <h2 class="accordion-filter">Clear</h2>
+                            <figure class="accordion-filter-angle"><i class="fas fa-times fa-times-filter"></i>
+                            </figure>
+                        </a>
+                    </header>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="products-dress-container">
+        <div class="product-dress-container" th:each="product: ${map}">
+            <div class="product-display-img">
+                <a th:href="'/products/dress-details/' + ${product.value.id}">
+                    <img th:src="|data:image/png;base64,${product.key.get(0)}|">
+                    <img th:src="|data:image/png;base64,${product.key.get(1)}|"
+                         class="product-container-img-top">
+                </a>
+            </div>
+            <div class="product-display-name">
+                <a th:href="'/products/dress-details/' + ${product.value.id}">
+                    <span th:text="${product.value.name}"></span>
+                </a>
+            </div>
+            <div class="product-display-price">
+                <span th:text="'€ '+ ${product.value.price}"></span>
             </div>
         </div>
     </div>
@@ -210,34 +525,34 @@
         <div class="accordion-cart" id="newsletter">
             <h4 class="accordion">Newsletter</h4>
             <ul class="panel">
-                                <form action="#" th:action="@{'/products/' + ${category} + '/addNewsletter'}" th:object="${productsNewsletter}"
-                                      method="post"
-                                      class="newsletter-container">
-                                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>
-                                    <div class="input-div one">
-                                        <div class="i">
-                                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                                                <g id="Shopicon">
-                                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32
-                                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18
-                                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>
-                                                                </g>
-                                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h5>Email</h5>
-                                            <input type="email" th:field="*{email}" class="input" required>
-                                        </div>
-                                    </div>
-                                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                                    <div class="newsletter-checkbox">
-                                        <input type="checkbox" name="accept-newsletter-checkbox" required>
-                                        I accept <a href="/privacy-policy">newsletter terms</a>
-                                    </div>
-                                    <input type="submit" class="btn" value="Send">
-                                </form>
+                <!--                                <form action="#" th:action="@{'/products/' + ${category} + '/addNewsletter'}" th:object="${productsNewsletter}"-->
+                <!--                                      method="post"-->
+                <!--                                      class="newsletter-container">-->
+                <!--                                    <p>Do you want to receive the newest trends and special offers? Sign up.</p>-->
+                <!--                                    <div class="input-div one">-->
+                <!--                                        <div class="i">-->
+                <!--                                            <svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+                <!--                                                 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">-->
+                <!--                                                                <g id="Shopicon">-->
+                <!--                                	                            <path d="M40,8H8c-2.2,0-4,1.8-4,4v24c0,2.2,1.8,4,4,4h32c2.2,0,4-1.8,4-4V12C44,9.8,42.2,8,40,8z M8,10h32-->
+                <!--                                		                        c0.701,0,1.317,0.364,1.674,0.912L24,28.586L6.326,10.912C6.683,10.364,7.299,10,8,10z M40,38H8c-1.103,0-2-0.897-2-2V13.414l18,18-->
+                <!--                                		                        l18-18V36C42,37.103,41.103,38,40,38z"/>-->
+                <!--                                                                </g>-->
+                <!--                                                            </svg>-->
+                <!--                                        </div>-->
+                <!--                                        <div>-->
+                <!--                                            <h5>Email</h5>-->
+                <!--                                            <input type="email" th:field="*{email}" class="input" required>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    <span class="error-info" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+                <!--                                    <div class="newsletter-checkbox">-->
+                <!--                                        <input type="checkbox" name="accept-newsletter-checkbox" required>-->
+                <!--                                        I accept <a href="/privacy-policy">newsletter terms</a>-->
+                <!--                                    </div>-->
+                <!--                                    <input type="submit" class="btn" value="Send">-->
+                <!--                                </form>-->
             </ul>
         </div>
     </div>
@@ -258,6 +573,33 @@
     </div>
 </footer>
 <script type="text/javascript" src="/js/js.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#filter-data-slider-left").click(function () {
+            $("#filter-data-body").slideToggle("slow");
+        });
+    });
+
+    var headers = document.querySelectorAll('.filter-data-block header');
+
+    for (var i = 0; i < headers.length; i++) {
+        headers[i].addEventListener('click', function () {
+            for (var i = 0; i < headers.length; i++) {
+                var parent = headers[i].parentElement;
+                var article = headers[i].nextElementSibling;
+
+                if (this === headers[i] && !parent.classList.contains('active-filter')) {
+                    parent.classList.add('active-filter');
+                    article.style.maxHeight = article.scrollHeight + 'px';
+                } else {
+                    parent.classList.remove('active-filter');
+                    article.style.maxHeight = '0px';
+                }
+            }
+        });
+    }
+</script>
 <script>
     var acc = document.getElementsByClassName("accordion");
     var accAccordion;
@@ -273,8 +615,6 @@
             }
         });
     }
-
-
 </script>
 </body>
 </html>

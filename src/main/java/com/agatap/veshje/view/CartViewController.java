@@ -1,6 +1,7 @@
 package com.agatap.veshje.view;
 
 import com.agatap.veshje.controller.DTO.*;
+import com.agatap.veshje.model.Category;
 import com.agatap.veshje.model.ShoppingCart;
 import com.agatap.veshje.service.*;
 import com.agatap.veshje.service.exception.*;

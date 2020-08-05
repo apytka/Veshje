@@ -87,6 +87,7 @@ public class SizeService {
 //                quantity = size.getQuantity();
 //            }
 //        }
+//        return quantity;
         return product.getSizes().stream()
                 .filter(size -> size.getSizeType().equals(sizeType))
                 .map(size -> size.getQuantity())
@@ -116,5 +117,6 @@ public class SizeService {
         size.setUpdateDate(OffsetDateTime.now());
         sizeRepository.save(size);
     }
+
 }
 

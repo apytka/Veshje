@@ -1,6 +1,7 @@
 package com.agatap.veshje.repository;
 
 import com.agatap.veshje.model.Product;
+import com.agatap.veshje.model.SizeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByOrderByPriceAsc();
     List<Product> findByOrderByPriceDesc();
     Optional<Product> findById(String id);
+
 
     @Query("SELECT p FROM Product p where p.name LIKE %?1% " +
             "OR p.description LIKE %?1% " +
