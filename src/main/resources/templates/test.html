@@ -1,194 +1,398 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-
-        .clearfix:after {
-            visibility: hidden;
-            display: block;
-            font-size: 0;
-            content: " ";
-            clear: both;
-            height: 0;
-        }
-
-        body {
-            margin: 1rem;
-            background-color: honeydew;
-            font-family: Helvetica, Arial, sans-serif;
-            color: #888;
-        }
-
-        .dotless {
-            list-style: none;
-        }
-
-        .page-title {
-            text-align: center;
-            margin: 2rem;
-        }
-
-        .filter-data-block {
-            max-width: 800px;
-            min-width: 300px;
-            margin: 1rem auto;
-            border: 1px solid #ccc;
-            background-color: white;
-            color: #888;
-            overflow: hidden;
-        }
-
-        .filter-data-block {
-            background-color: white;
-        }
-
-        .filter-data-block header {
-            cursor: pointer;
-            font-size: 0.6rem;
-            padding: 1rem;
-            background-color: mediumspringgreen;
-            color: white;
-            transition: background-color 350ms ease-in-out;
-        }
-
-        .filter-data-block.open header {
-            background-color: springgreen;
-        }
-
-        .filter-data-block h1 {
-            float: left;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        .filter-data-block .expand {
-            float: right;
-            transform: rotate(0);
-            font-size: 1.8em;
-            transition: transform 350ms ease-in-out;
-        }
-
-        .filter-data-block.open .expand{
-            transform: rotate(180deg);
-        }
-
-
-        .filter-data-block article {
-            max-height: 0px;
-            overflow: hidden;
-            line-height: 1.6;
-            transition: max-height 350ms ease-in-out;
-        }
-
-        /* padding can't be on article element because it won't collapse properly, add wrapper around contents */
-        .filter-data-block .article-inner {
-            padding: 1rem;
-        }
-
-
-
-    </style>
+    <title>apytka - project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Oswald:wght@300;400;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
-<h1 class="page-title">FAQs</h1>
-
-<div class="filter-data-block">
-    <header class="clearfix">
-        <h1>Question 1</h1>
-        <figure class="expand"><i class="fas fa-angle-down"></i></figure>
-    </header>
-    <article>
-        <div class="article-inner">
-            <ul class="dotless">
-                <li>The</li>
-                <li>Quick</li>
-                <li>Brown</li>
-                <li>Fox</li>
-                <li>Lorem</li>
-                <li>Ipsum</li>
-            </ul>
+<div class="navbar navbar-expand-md navbar-light bg-primary ap-header">
+    <div class="container">
+        <div class="navbar-left">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sliderMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="sliderMenu">
+                <ul class="navbar-nav text-uppercase">
+                    <li class="nav-item ap-header-item-active">
+                        <a href="index.html" class="nav-link ap-header-item-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="realizations.html" class="nav-link text-white ap-header-item-link">Realizations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="service.html" class="nav-link text-white ap-header-item-link">Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="newsa.html" class="nav-link text-white ap-header-item-link">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="shop.html" class="nav-link text-white ap-header-item-link">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about-is.html" class="nav-link text-white ap-header-item-link">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="cntact.html" class="nav-link text-white ap-header-item-link">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </article>
+        <div class="navbar-right justify-content-end align-self-start">
+            <a href="#" class="navbar-brand text-white ap-header-item-i">
+                <i class="fas fa-search"></i>
+            </a>
+            <a href="#" class="navbar-brand text-white ap-header-item-i">
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="jumbotron jumbotron-fluid text-center ap-hero">
+    <div class="container ap-hero-content">
+        <h1 class="text-uppercase text-white ap-hero-header">Veshje design</h1>
+        <img class="img-fluid ap-hero-subheader" src="images/design-subheader.png" alt="Design your space">
+    </div>
 </div>
 
-<div class="filter-data-block">
-    <header class="clearfix">
-        <h1>Question 2</h1>
-        <figure class="expand"><i class="fas fa-angle-down"></i></figure>
-    </header>
-    <article>
-        <div class="article-inner">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis expedita quia at delectus, quo necessitatibus iste vel deserunt velit magnam alias dicta similique. Eum doloribus voluptatum placeat magnam architecto laboriosam, eius mollitia pariatur tempore iure, earum labore dolore quis sequi ex ullam, facere modi perspiciatis fuga quaerat ipsam. Sit accusamus, iusto commodi, hic dolorum totam sed pariatur debitis in nam rerum. Minus impedit assumenda ipsam magni facere culpa optio quam saepe voluptate ducimus excepturi facilis dolore omnis quaerat, labore non, molestias amet nostrum cumque qui fuga nihil unde commodi. Unde ullam iusto magnam cumque repellendus architecto cupiditate vitae necessitatibus, amet aspernatur ipsum illo itaque fugiat commodi voluptatibus, aperiam molestiae laborum a quibusdam distinctio accusamus deleniti voluptates maxime eligendi. Molestiae, explicabo? Atque, at, iusto? Officia libero dignissimos quod minus sit soluta explicabo quae nesciunt tempora omnis, expedita dolorem maxime unde quia nam, sed quidem iure eius! Voluptates aliquam error, voluptas praesentium.</p>
+<section class="ap-front-page-welcome">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-3 mb-lg-0">
+                <span class="text-muted text-uppercase ap-text-small ap-page-intro-subheader">Welcome!</span>
+                <h2 class="text-uppercase ap-page-intro-header">
+                    Welcome to <span class="text-primary">Veshje</span>
+                </h2>
+                <div class="ap-hr ap-page-intro-rule"></div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="d-none d-md-flex align-items-center text-uppercase ap-services-group ap-text-small">
+                    <div class="ap-services-item ap-services-item-active">
+                        <a href="#">
+                            <img class="d-block mx-auto" src="images/projekt-wnetrz-ikona.png" alt="Spatial design">
+                            <span class="d-block ap-services-item-title">Spatial design</span>
+                        </a>
+                    </div>
+                    <div class="ap-services-item">
+                        <a href="#">
+                            <img class="d-block mx-auto" src="images/projekt-mebli-ikona.png" alt="Furniture design">
+                            <span class="d-block ap-services-item-title">Furniture design</span>
+                        </a>
+                    </div>
+                    <div class="ap-services-item">
+                        <a href="#">
+                            <img class="d-block mx-auto" src="images/projekt-zielen-ikona.png" alt="Green design">
+                            <span class="d-block ap-services-item-title">Green design</span>
+                        </a>
+                    </div>
+                    <div class="ap-services-item">
+                        <a href="#">
+                            <img class="d-block mx-auto" src="images/projekt-lokale-ikona.png"
+                                 alt="Business establishments">
+                            <span class="d-block ap-services-item-title">Business establishments</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 pl-5">
+                <img class="img-fluid" src="images/pages/front-page-welcome.png" alt="Welcome">
+            </div>
         </div>
-    </article>
+    </div>
+</section>
+
+<section class="ap-front-page-portfolio ap-alternate-bg">
+    <div class="container">
+        <div class="ap-section-header">
+            <h2 class="text-uppercase">Our realization</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, dolor?</p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="ap-portfolio-box featured">
+                    <div class="ap-portfolio-box-img ap-portfolio-img-overlay">
+                        <img class="img-fluid" src="images/portfolio/realizacja-1.jpg" alt="Realization 1">
+                    </div>
+                    <div class="text-center text-white ap-portfolio-box-text">
+                        <h3 class="text-uppercase ap-portfolio-box-title">New project</h3>
+                        <p class="d-none d-md-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt,
+                            rem?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-none d-xl-block">
+                <div class="d-flex justify-content-center flex-xl-wrap">
+                    <img class="img-fluid" src="images/portfolio/realizacje-intro-1.jpg" alt="Realization">
+                    <img class="img-fluid" src="images/portfolio/realizacje-intro-2.jpg" alt="Realization">
+                    <img class="img-fluid" src="images/portfolio/realizacje-intro-3.jpg" alt="Realization">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ap-front-page-services">
+    <div class="container">
+        <div class="ap-section-header">
+            <h2 class="text-uppercase">Services</h2>
+            <p>We listen deeply to the requirements of each client and spend time defining the style and creative
+                direction for their home. We start by carefully thinking through all the details of our projects to
+                ensure the final design is delivered in a timely, cost-efficient manner. We work with you in stages from
+                the design concept, presented in the form of mood boards, to detailed drawings, specifications and
+                finally, installation. </p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-1.jpg" alt="Service 1">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Consultancy</span>
+                            <span class="d-block text-muted ap-text-small">- consultancy</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">First, we will visit you in your home and discuss the space, the way
+                            you want to use it, your style and your wishlist. We can then make a recommendation report
+                            focusing on style, colours, fabrics, layout, furnishings and accessories.
+                            We will advise you on how to design a room and the recommended schedule of works if building
+                            work is needed. Giving you the tools and confidence to do the rest.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-2.jpg" alt="Service 2">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Individual project</span>
+                            <span class="d-block text-muted ap-text-small">- individual project</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">Each step of our design process is framed around you, not your
+                            designer.
+                            Unlike other interior design companies who pair you with a portfolio, all of our designers
+                            are trained to cater to your style and needs.
+                            The result? You’ll always get the look you want and never feel pressured into buying things
+                            you don’t.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-1.jpg" alt="Service 1">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Concept Design</span>
+                            <span class="d-block text-muted ap-text-small">- concept design</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">We develop a design brief and work with you to form the vision of your
+                            future home. Deliverables at this stage include a clear design vision, furniture layout as
+                            well as an outline budget and schedule of works.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-2.jpg" alt="Service 2">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Detailed design</span>
+                            <span class="d-block text-muted ap-text-small">- detailed design</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">This phase is all about the details: technical drawings, specification
+                            of the furniture and finishes, design and estimation of bespoke and made to measure items.
+                            At the end of this stage, you will get full specification and transparent budget for your
+                            confirmation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-3.jpg" alt="Service 3">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Sourcing</span>
+                            <span class="d-block text-muted ap-text-small">- sourcing</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">We use our extensive contacts within the interiors world to source the
+                            best furniture and fittings. We then proceed to placing and managing all orders with
+                            suppliers and oversee manufacturing of bespoke items (e.g. furniture, joinery, kitchens).
+                            All items can be consolidated in our warehouse and be prepared for white-glove delivery and
+                            installation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sk-services-box">
+                    <div class="d-flex ap-services-box-top">
+                        <div class="sk-services-box-shadow"></div>
+                        <div class="d-flex ap-services-box-img">
+                            <img src="images/service-3.jpg" alt="Service 3">
+                        </div>
+                        <div class="text-uppercase ap-services-box-title">
+                            <span class="d-block ap-services-box-header">Installation and Dressing</span>
+                            <span class="d-block text-muted ap-text-small">- installation and dressing</span>
+                        </div>
+                    </div>
+                    <div class="d-block ap-services-box-text">
+                        <p class="ap-text-small">When the design work is completed and all items are installed, we
+                            review the overall visual styling and source decorative objects, textiles, houseplants and
+                            curate the artwork. These final touches will pull the interior together and complete the
+                            overall look. We will then arrange a photoshoot for our portfolio and for your memories.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<div class="ap-footer-top">
+    <div class="container ap-footer-top-content">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-5">
+                <h4 class="text-uppercase text-white mb-3">About us</h4>
+                <p class="ap-footer-text ap-footer-p">Veshje Design was founded in 2020 we have been committed to
+                    delivering exceptional, comfortable and individual homes that give enduring pleasure. Linda will
+                    lead your project from a planning and creative point of view, supported by her team to assist with
+                    drawings, budget and project management. Our creative team's attention to detail and meticulous
+                    care, result in luxurious bespoke interiors that often exceed our clients' dreams. We truly believe
+                    that good quality design is life enhancing and deliver it in every project we undertake. Each
+                    project is seamlessly executed and beautifully finished, no matter how large or small.</p>
+            </div>
+            <div class="col-md-6 col-lg-2 mb-5">
+                <h4 class="text-uppercase text-white mb-3">Navigation</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <a class="ap-footer-text" href="#">Terms</a>
+                    </li>
+                    <li>
+                        <a class="ap-footer-text" href="#">Log in</a>
+                    </li>
+                    <li>
+                        <a class="ap-footer-text" href="#">Help</a>
+                    </li>
+                    <li>
+                        <a class="ap-footer-text" href="#">FAQ</a>
+                    </li>
+                    <li>
+                        <a class="ap-footer-text" href="#">Career</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-5">
+                <h4 class="text-uppercase text-white mb-3">Contact</h4>
+                <ul class="list-unstyled ap-footer-text ap-footer-contact-list">
+                    <li class="ap-footer-contact-item">
+								<span class="mr-2">
+									<i class="fas fa-map-marker-alt"></i>
+								</span>
+                        ul. Pawłowicka 88
+                    </li>
+                    <li class="ap-footer-contact-item">
+								<span class="mr-2">
+									<i class="fas fa-phone"></i>
+								</span>
+                        +48 888 888 800
+                    </li>
+                    <li class="ap-footer-contact-item">
+								<span class="mr-2">
+									<i class="fas fa-envelope"></i>
+								</span>
+                        veshje.shop@gmail.com
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-between w-75">
+							<span class="bg-primary text-center ap-social-box">
+								<a href="#">
+									<i class="fab fa-facebook-f ap-social-icon"></i>
+								</a>
+							</span>
+                    <span class="bg-primary text-center ap-social-box">
+								<a href="#">
+									<i class="fab fa-pinterest-p ap-social-icon"></i>
+								</a>
+							</span>
+                    <span class="bg-primary text-center ap-social-box">
+								<a href="#">
+									<i class="fab fa-instagram ap-social-icon"></i>
+								</a>
+							</span>
+                    <span class="bg-primary text-center ap-social-box">
+								<a href="#">
+									<i class="fab fa-google ap-social-icon"></i>
+								</a>
+							</span>
+                    <span class="bg-primary text-center ap-social-box">
+								<a href="#">
+									<i class="fab fa-twitter ap-social-icon"></i>
+								</a>
+							</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-5">
+                <h4 class="text-uppercase text-white mb-3">Newsletter</h4>
+                <form action="">
+                    <div class="form-group ap-newsletter-form-group">
+                        <label class="ap-footer-text" for="email">
+                            Do you want to receive the newest trends and special offers?
+                        </label>
+                        <input class="form-control form-control-sm w-75 ap-newsletter-form-control" type="email"
+                               id="email" placeholder="Email">
+                    </div>
+                    <button class="btn btn-primary text-white text-uppercase ap-newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-<script>
-    var headers = document.querySelectorAll('.filter-data-block header');
-
-    for(var i = 0; i < headers.length; i++) {
-        headers[i].addEventListener('click', function openCurrAccordion(e) {
-            for(var i = 0; i < headers.length; i++) {
-                var parent = headers[i].parentElement;
-                var article = headers[i].nextElementSibling;
-
-                if (this === headers[i] && !parent.classList.contains('open')) {
-                    parent.classList.add('open');
-                    article.style.maxHeight = article.scrollHeight + 'px';
-                } else {
-                    parent.classList.remove('open');
-                    article.style.maxHeight = '0px';
-                }
-            }
-        });
-    }
-
-    //Use this as the callback if you would like multiple dropdowns to be open
-    function openAccordion(e) {
-        var parent = this.parentElement;
-        var article = this.nextElementSibling;
-
-        if (!parent.classList.contains('open')) {
-            parent.classList.add('open');
-            article.style.maxHeight = article.scrollHeight + 'px';
-        } else {
-            parent.classList.remove('open');
-            article.style.maxHeight = '0px';
-        }
-    }
-
-    //Use this as the callback if you would like no more than one dropdown to be open
-
-
-    //Notes:
-    /* Adding the 'open' class to the dropdown allows us to create
-     * easier stylings for the different components of the dropdown.
-     * It basically acts as a way to style based on the state (open/closed).
-     * The maxHeight style transition is the base functionality.
-     *
-     * Change the callback in line 4 to either openCurrAccordion or openAccordion
-     * to see the two different behaviors commented above each function
-     */
-
-
-    //More Advanced Notes:
-    /* If you had a nav menu with defined heights you could use the checkbox trick
-     * common with mobile nav menus. However, height cannot be transitioned so we
-     * use max-height. In addition, transitioning max-height to a percentage doesn't
-     * function properly, we need to use javascript to find the height and set it as
-     * a pixel value. If you have a pre-determined height for your dropdowns, you
-     * could implement a version without javascript. Javascript does allow us a
-     * little more flexibility in this instance.
-     */
-</script>
-
+<div class="ap-copy">
+    <div class="container text-center">
+        <span class="d-block">&copy; Copyright 2020 Veshje</span>
+    </div>
+    <div class="container text-center">
+        <span class="d-block ap-copy-second">Design by Agata Pytka</span>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/a81368914c.js"></script>
 </body>
 </html>
-

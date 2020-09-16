@@ -26,8 +26,8 @@
             <img src="/img/veshje-logo.svg" alt="Veshje online shop - logo">
         </a>
         <ul class="navbar-nav">
-            <li>th:action="@{/products/all/filter}"
-                <form  method="get" class="search-form" id="search-form">
+            <li>
+                <form th:action="@{/products/all/filter}" method="get" class="search-form" id="search-form">
                     <div class="input-div one">
                         <div class="i">
                             <a href="javascript:;" onclick="document.getElementById('search-form').submit()">
